@@ -1,0 +1,5 @@
+#!/bin/bash
+rsync -av ../* tools:tools
+ssh tools <<<'ENDSSH'
+become hay
+ENDSSH
