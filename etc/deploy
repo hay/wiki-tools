@@ -1,5 +1,5 @@
 #!/bin/bash
-rsync -av ../* tools:tools
-ssh tools <<<'ENDSSH'
-become hay
+rsync --exclude .git --exclude config.php -av ../* tools:tools
+ssh tools <<'ENDSSH'
+cp -rv tools/* /data/project/hay/
 ENDSSH

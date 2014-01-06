@@ -1,47 +1,19 @@
 <?php
+require 'config.php';
+
 class Hay {
     const DEFAULT_TITLE = "Hay's tools";
 
     public static function header(array $opts = array()) {
         $title = isset($opts['title']) ? $opts['title'] : self::DEFAULT_TITLE;
-
+        $root = ROOT;
         $html = <<<HTML
 <!doctype html>
 <html>
 <head>
     <meta charset="utf-8" />
     <title>$title</title>
-    <style>
-        * {
-            font-family: Helvetica, Arial, sans-serif;
-            box-sizing: border-box;
-            color: #333;
-        }
-
-        #wrapper {
-            margin: 0 auto;
-            max-width: 640px;
-            padding: 0 20px;
-        }
-
-        h1 {
-            font-size: 2em;
-        }
-
-        h2 {
-            font-size: 1.5em;
-            font-weight: normal;
-        }
-
-        header {
-            border-bottom: 5px solid navy;
-        }
-
-        header a {
-            text-decoration: none;
-            padding: 0 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="{$root}/style.css" />
 </head>
 <body>
     <div id="wrapper">
