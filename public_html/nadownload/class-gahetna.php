@@ -1,4 +1,6 @@
 <?php
+require 'vendor/autoload.php';
+
 use \Httpful\Request as Request;
 
 class Gahetna {
@@ -75,5 +77,26 @@ class Gahetna {
         $item = $xml->channel->item[0];
 
         return $this->parseItem($item);
+    }
+
+    public function getDownloadscriptFromUrl($url) {
+        preg_match("/eadid\/([\d.]*)/", $url, $matches);
+        $eadid = $matches[1];
+        preg_match("/inventarisnr\/([\d.]*)/", $url, $matches);
+        $inr = $matches[1];
+
+        $q = $eadid . "_" . $inr;
+        $res = $this->query($q);
+
+        $lines = array();
+
+        foreach ($res['photos'] as $photo) {
+            $url = $photo['imageurl'];
+            $filename = $res['title'] . "_" . $photo['PhotoName'] . ".jpg";
+            $filename = str_replace(" ", "_", $filename);
+            $lines[] = "wget \"$url\" -O \"$filename\"";
+        }
+
+        return implode("\n", $lines);
     }
 }
