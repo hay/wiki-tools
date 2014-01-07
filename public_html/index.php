@@ -14,6 +14,7 @@
 
         <ul>
             <li><a href="kbpermalink/">KB Permalink</a> - A bookmarklet to generate a permalink for the catalogue of the Dutch National Library (Koninklijke Bibliotheek)</li>
+            <li><a href="nadownload/">NA Download</a> - A small tool to download all images from a Dutch National Archive inventory</li>
         </ul>
 
         <h2>Misc.</h2>

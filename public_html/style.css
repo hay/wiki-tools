@@ -52,3 +52,9 @@ header a {
 .textbutton:hover {
     color: white;
 }
+
+.urlform input[type=text] {
+    width: 100%;
+    font-size: 18px;
+    font-family: Courier, monospace;
+}

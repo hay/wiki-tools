@@ -31,6 +31,10 @@ class Gahetna {
     }
 
     private function parseItem($item) {
+        if (!is_object($item)) {
+            return false;
+        }
+
         $data = array(
             "title" => (string) $item->title,
             "link" => (string) $item->link,
@@ -69,6 +73,12 @@ class Gahetna {
         return $data;
     }
 
+    private function getUrlParam($param, $url) {
+        $regex = "/$param\/([^\/]*)/";
+        preg_match($regex, $url, $matches);
+        return $matches[1];
+    }
+
     public function query($q) {
         $xml = $this->request($q);
 
@@ -80,13 +90,15 @@ class Gahetna {
     }
 
     public function getDownloadscriptFromUrl($url) {
-        preg_match("/eadid\/([\d.]*)/", $url, $matches);
-        $eadid = $matches[1];
-        preg_match("/inventarisnr\/([\d.]*)/", $url, $matches);
-        $inr = $matches[1];
+        $eadid = $this->getUrlParam("eadid", $url);
+        $inr = $this->getUrlParam("inventarisnr", $url);
 
         $q = $eadid . "_" . $inr;
         $res = $this->query($q);
+
+        if (!$res) {
+            return "NO RESULTS FOUND OR ERROR";
+        }
 
         $lines = array();
 

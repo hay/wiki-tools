@@ -12,9 +12,9 @@
             if (empty($_POST['url'])) {
         ?>
 
-        <form method="post" action="index.php">
-            <input type="text" id="url" name="url" placeholder="URL" />
-            <button id="go">Download!</button>
+        <form method="post" action="index.php" class="urlform">
+            <input type="text" id="url" name="url" placeholder="URL" style="width:100%" />
+            <input type="submit" value="Download!" />
         </form>
 
         <?php
@@ -25,6 +25,8 @@
         ?>
 
             <textarea cols="80" rows="10"><?php echo $text; ?></textarea>
+
+            <a href="index.php">Try again!</a>
         <?php
             }
         ?>
