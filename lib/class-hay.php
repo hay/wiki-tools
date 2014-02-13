@@ -38,6 +38,8 @@ HTML;
     }
 
     public static function footer() {
+        $root = ROOT;
+
         echo <<<HTML
 
         </main>
@@ -48,6 +50,9 @@ HTML;
             <p><small>Unless stated otherwise all code on these pages is under the <a href="http://opensource.org/licenses/MIT">MIT license</a> and all text and other media is under the <a href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-Sharealike (BY-SA) license</a>.</small></p>
         </footer>
     </div> <!-- .container -->
+
+    <script src="${root}/vendor/jquery/jquery.js"></script>
+    <script src="${root}/vendor/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
 HTML;

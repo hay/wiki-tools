@@ -17,27 +17,71 @@
             <div class="input-group">
                 <input type="text" id="url" name="url" placeholder="URL" class="form-control" />
                 <div class="input-group-btn">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-download"></span>
-                        Download
+                        Download as <span class="caret"></span>
                     </button>
+
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <button type="submit" class="btn btn-link" id="dlwget" name="dlwget">wget script</button>
+                        </li>
+                        <li>
+                            <button type="submit" class="btn btn-link" id="dlhtml" name="dlhtml">HTML links</button>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </form>
 
+        <h3>Some examples</h3>
+
+        <ul id="examples">
+            <li><a href="http://gahetna.nl/collectie/archief/inventaris/gahetnascans/eadid/1.11.01.01/inventarisnr/121/level/file">Abel Tasman's travel journeys (1.11.01.01 / 121)</a></li>
+        </ul>
+
         <?php
             } else {
                 $url = $_POST['url'];
+                $method = isset($_POST['dlwget']) ? 'wget' : 'html';
                 $api = new Gahetna();
-                $text = $api->getDownloadscriptFromUrl($url);
+
+                if ($method == 'wget') {
+                    $text = $api->getDownloadscriptFromUrl($url);
+
+        ?>
+                <textarea class="form-control" rows="10"><?php echo $text; ?></textarea>
+        <?php
+                }
+
+                if ($method == 'html') {
+                    $html = $api->getDownloadHtmlFromUrl($url);
+                    echo $html;
+                }
         ?>
 
-            <textarea cols="80" rows="10"><?php echo $text; ?></textarea>
+            <hr />
 
-            <a href="index.php">Try again!</a>
+            <a class="btn btn-large btn-primary" href="index.php">Try again</a>
         <?php
             }
         ?>
+
+        <script>
+            (function() {
+                var examples = document.getElementById('examples');
+                var url = document.getElementById('url');
+
+                if (!examples) {
+                    return;
+                }
+
+                examples.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    url.value = e.target.href;
+                });
+            })();
+        </script>
 <?php
     Hay::footer();
 ?>

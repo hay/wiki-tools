@@ -79,6 +79,33 @@ class Gahetna {
         return $matches[1];
     }
 
+    private function getUrlList($url) {
+        $eadid = $this->getUrlParam("eadid", $url);
+        $inr = $this->getUrlParam("inventarisnr", $url);
+
+        $q = $eadid . "_" . $inr;
+        $res = $this->query($q);
+
+        if (!$res) {
+            return false;
+        }
+
+        $lines = array();
+
+        foreach ($res['photos'] as $photo) {
+            $url = $photo['imageurl'];
+            $filename = $res['title'] . "_" . $photo['PhotoName'] . ".jpg";
+            $filename = str_replace(" ", "_", $filename);
+
+            $lines[] = array(
+                "url" => $url,
+                "filename" => $filename
+            );
+        }
+
+        return $lines;
+    }
+
     public function query($q) {
         $xml = $this->request($q);
 
@@ -89,25 +116,32 @@ class Gahetna {
         return $this->parseItem($item);
     }
 
+    public function getDownloadHtmlFromUrl($url) {
+        $files = $this->getUrlList($url);
+
+        if (!$files) {
+            return "Invalid URL or no files :(";
+        }
+
+        $lines = array_map(function($file) {
+            extract($file);
+            return "<li><a href=\"$url\" download=\"aapjes.jpg\">$filename</a></li>";
+        }, $files);
+
+        return "<ul>" . implode("\n", $lines) . "</ul>";
+    }
+
     public function getDownloadscriptFromUrl($url) {
-        $eadid = $this->getUrlParam("eadid", $url);
-        $inr = $this->getUrlParam("inventarisnr", $url);
+        $files = $this->getUrlList($url);
 
-        $q = $eadid . "_" . $inr;
-        $res = $this->query($q);
-
-        if (!$res) {
-            return "NO RESULTS FOUND OR ERROR";
+        if (!$files) {
+            return "Invalid URL or no files :(";
         }
 
-        $lines = array();
-
-        foreach ($res['photos'] as $photo) {
-            $url = $photo['imageurl'];
-            $filename = $res['title'] . "_" . $photo['PhotoName'] . ".jpg";
-            $filename = str_replace(" ", "_", $filename);
-            $lines[] = "wget \"$url\" -O \"$filename\"";
-        }
+        $lines = array_map(function($file) {
+            extract($file);
+            return "wget \"$url\" -O \"$filename\"";
+        }, $files);
 
         return implode("\n", $lines);
     }
