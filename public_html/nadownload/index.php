@@ -4,7 +4,8 @@
     Hay::header();
 ?>
         <h1>NA Download</h1>
-        <h2>A small tool to download all images from a <a href="http://www.gahetna.nl">Dutch National Archive</a> inventory</h2>
+
+        <p class="lead">A small tool to download all images from a <a href="http://www.gahetna.nl">Dutch National Archive</a> inventory</p>
 
         <p>Simply copy the inventory URL and press 'download'. You'll get a script that you can use with wget to download all files.</p>
 
@@ -12,9 +13,16 @@
             if (empty($_POST['url'])) {
         ?>
 
-        <form method="post" action="index.php" class="urlform">
-            <input type="text" id="url" name="url" placeholder="URL" style="width:100%" />
-            <input type="submit" value="Download!" />
+        <form method="post" action="index.php" class="form-inline">
+            <div class="input-group">
+                <input type="text" id="url" name="url" placeholder="URL" class="form-control" />
+                <div class="input-group-btn">
+                    <button type="submit" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-download"></span>
+                        Download
+                    </button>
+                </div>
+            </div>
         </form>
 
         <?php

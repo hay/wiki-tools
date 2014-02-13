@@ -12,10 +12,13 @@
 
         <h2>Tools</h2>
 
-        <ul>
-            <li><a href="kbpermalink/">KB Permalink</a> - A bookmarklet to generate a permalink for the catalogue of the Dutch National Library (Koninklijke Bibliotheek)</li>
-            <li><a href="nadownload/">NA Download</a> - A small tool to download all images from a Dutch National Archive inventory</li>
-        </ul>
+        <dl class="dl-horizontal">
+            <dt><a href="kbpermalink/">Pica Permalink</a></dt>
+            <dd>A bookmarklet to generate a permalink for the catalogue of the Dutch National Library (Koninklijke Bibliotheek)</dd>
+
+            <dt><a href="nadownload/">NA Download</a></dt>
+            <dd>A small tool to download all images from a Dutch National Archive inventory</dd>
+        </dl>
 
         <h2>Misc.</h2>
 
