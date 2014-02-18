@@ -17,6 +17,11 @@ class Hay {
     <link rel="stylesheet" href="{$root}/vendor/bootstrap/css/bootstrap.min.css" />
     <style>
         #wrapper { max-width: 700px; }
+
+        .dl-horizontal dd {
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>

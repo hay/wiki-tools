@@ -18,6 +18,9 @@
 
             <dt><a href="nadownload/">NA Download</a></dt>
             <dd>A small tool to download all images from a Dutch National Archive inventory</dd>
+
+            <dt><a href="nasearch/">NA Search</a></dt>
+            <dd>Bulk search the NA image archives</dd>
         </dl>
 
         <h2>Misc.</h2>

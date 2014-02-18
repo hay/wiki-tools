@@ -8,6 +8,11 @@ class Gahetna {
 
     private function request($q) {
         $url = sprintf(self::API_ENDPOINT, urlencode($q), 100, 1);
+
+        if (defined('DEBUG')) {
+            error_log("Calling URL " . $url . "\n");
+        }
+
         $res = Request::get($url)->expectsXml()->send();
 
         return $res->body;
@@ -23,7 +28,11 @@ class Gahetna {
         return str_replace("hdl://", "http://proxy.handle.net/", $handle);
     }
 
-    private function getImageUrl($handle) {
+    private function getImageUrl($handle, $resolution = false) {
+        if (!$resolution) {
+            $resolution = self::DEFAULT_RESOLUTION;
+        }
+
         $id = str_replace("hdl://10648/", "", $handle);
         return sprintf(self::IMG_ENDPOINT, self::DEFAULT_RESOLUTION, $id);
     }
@@ -112,6 +121,18 @@ class Gahetna {
         $item = $xml->channel->item[0];
 
         return $this->parseItem($item);
+    }
+
+    public function searchForImages($terms) {
+        $terms = explode("\n", trim($terms));
+        $self = $this;
+
+        return array_map(function($term) use ($self) {
+            return array(
+                "term" => $term,
+                "result" => $self->query($term . " cc-by-sa")
+            );
+        }, $terms);
     }
 
     public function getDownloadHtmlFromUrl($url) {
