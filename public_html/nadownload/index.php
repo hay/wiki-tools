@@ -1,6 +1,7 @@
 <?php
+    require '../../lib/vendor/autoload.php';
     require '../../lib/class-hay.php';
-    require 'class-gahetna.php';
+    require '../../lib/class-gahetna.php';
     Hay::header();
 ?>
         <h1>NA Download</h1>

@@ -1,6 +1,4 @@
 <?php
-require 'vendor/autoload.php';
-
 use \Httpful\Request as Request;
 
 class Gahetna {

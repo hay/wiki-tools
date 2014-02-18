@@ -1,5 +1,5 @@
 <?php
-require 'vendor/autoload.php';
-require 'class-gahetna.php';
+require '../../lib/vendor/autoload.php';
+require '../../lib/class-gahetna.php';
 
 $api = new Gahetna();
