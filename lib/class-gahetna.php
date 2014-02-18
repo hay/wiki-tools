@@ -5,6 +5,7 @@ class Gahetna {
     const API_ENDPOINT = "http://www.gahetna.nl/beeldbank-api/opensearch/?q=%s&count=%s&startIndex=%s";
     const IMG_ENDPOINT = "http://afbeeldingen.gahetna.nl/naa/thumb/%s/%s.jpg";
     const DEFAULT_RESOLUTION = "3000x3000";
+    const HANDLE_URL_PREFIX = "http://hdl.handle.net/10648/";
 
     private function request($q) {
         $url = sprintf(self::API_ENDPOINT, urlencode($q), 100, 1);
@@ -133,6 +134,12 @@ class Gahetna {
                 "result" => $self->query($term . " cc-by-sa")
             );
         }, $terms);
+    }
+
+    // DOES NOT WORK
+    public function getImageUrlFromGuid($guid, $resolution = false) {
+        $handle = str_replace(self::HANDLE_URL_PREFIX, "", $guid);
+        return $this->getImageUrl($handle, $resolution);
     }
 
     public function getDownloadHtmlFromUrl($url) {
