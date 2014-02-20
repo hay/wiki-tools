@@ -10,7 +10,10 @@ def request(lang, params):
 
     return data
 
-def define(q, lang = "en"):
+def define(args):
+    q = args["q"]
+    lang = args["lang"] if "lang" in args else "en"
+
     data = request(lang, {
         "action" : "query",
         "prop" : "extracts",
@@ -32,7 +35,10 @@ def define(q, lang = "en"):
 
         return page
 
-def suggest(q, lang = "en"):
+def suggest(args):
+    q = args["q"]
+    lang = args["lang"] if "lang" in args else "en'"
+
     data = request(lang, {
         "action" : "opensearch",
         "format" : "json",

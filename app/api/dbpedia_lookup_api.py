@@ -15,7 +15,10 @@ def query(url, params):
     return r.json()
 
 
-def suggest(q, limit = 10):
+def suggest(args):
+    q = args["q"]
+    limit = args["limit"] if "limit" in args else 10
+
     res = query(
         DBPEDIA_LOOKUP_ENDPOINT + "PrefixSearch",
         {
@@ -29,11 +32,13 @@ def suggest(q, limit = 10):
 
 
     return {
-        "query" : q,
+        "query" : params["q"],
         "suggestions" : map(lambda i:i["label"], res["results"])
     }
 
-def define(q):
+def define(args):
+    q = args["q"]
+
     res = query(
         DBPEDIA_LOOKUP_ENDPOINT + "KeywordSearch",
         {

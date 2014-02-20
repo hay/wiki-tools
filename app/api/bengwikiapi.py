@@ -3,7 +3,8 @@ import os, datetime, re, urllib, lxml.etree, requests, json
 urlapi =  "http://beeldengeluidwiki.nl/api.php"
 API_ENDPOINT = urlapi
 
-def get_infobox(page):
+def get_infobox(args):
+    page = args["q"]
     page = get_page(page)
 
     if not page:

@@ -129,16 +129,16 @@ def do_page_request(url):
         # Invalid something
         return False
 
-def get_search(q):
-    url = API_SEARCH + str(q)
+def get_search(args):
+    url = API_SEARCH + str(args["q"])
     return do_page_request(url)
 
-def get_isbn(isbn):
-    url = API_ISBN + str(isbn)
+def get_isbn(args):
+    url = API_ISBN + str(args["isbn"])
     return do_page_request(url)
 
-def get_ppn(ppn):
-    url = API_PPN + str(ppn)
+def get_ppn(args):
+    url = API_PPN + str(args["ppn"])
     return do_page_request(url)
 
 if __name__ == "__main__":
