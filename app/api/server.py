@@ -1,4 +1,4 @@
-import bengwikiapi, dbpedia_lookup_api, kbapi, json
+import wpapi, bengwikiapi, dbpedia_lookup_api, kbapi, json
 from flask import Flask, request, make_response
 app = Flask(__name__)
 
@@ -35,8 +35,8 @@ def item():
     else:
         return error("invalid parameter")
 
-@app.route('/wikipedia/define')
-def define():
+@app.route('/dbpedia/define')
+def dbpedia_define():
     if 'q' in request.args:
         q = request.args.get('q')
         data = dbpedia_lookup_api.define(q)
@@ -44,7 +44,7 @@ def define():
     else:
         return error("no query given")
 
-@app.route("/wikipedia/suggest")
+@app.route("/dbpedia/suggest")
 def suggest():
     if 'q' in request.args:
         q = request.args.get('q')
@@ -61,6 +61,26 @@ def infobox():
         box = bengwikiapi.get_infobox(q)
         return json_response(box) if box else error("no infobox available")
     else :
+        return error("no query given")
+
+@app.route('/wikipedia/define')
+def wikipedia_define():
+    if 'q' in request.args:
+        q = request.args.get('q')
+        lang = request.args.get('lang') if 'lang' in request.args else 'en'
+        data = wpapi.define(q, lang)
+        return json_response(data) if data else error("no definition available")
+    else:
+        return error("no query given")
+
+@app.route('/wikipedia/suggest')
+def wikipedia_suggest():
+    if 'q' in request.args:
+        q = request.args.get('q')
+        lang = request.args.get('lang') if 'lang' in request.args else 'en'
+        data = wpapi.suggest(q, lang)
+        return json_response(data) if data else error("no suggestions available")
+    else:
         return error("no query given")
 
 if __name__ == "__main__":
