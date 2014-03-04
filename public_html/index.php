@@ -21,6 +21,9 @@
 
             <dt><a href="nasearch/">NA Search</a></dt>
             <dd>Bulk search the NA image archives</dd>
+
+            <dt><a href="streetwiki/">Streetwiki</a></dt>
+            <dd>View Wikipedia articles in Google Street View</dd>
         </dl>
 
         <h2>Misc.</h2>
