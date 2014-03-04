@@ -47,6 +47,15 @@
             border: none;
             cursor: pointer;
         }
+
+        #status {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px 0 0 0;
+        }
     </style>
 </head>
 <body>
@@ -55,6 +64,10 @@
     <div id="infobox">
         <button id="close">&times; close</button>
         <div class="content"></div>
+    </div>
+
+    <div id="status">
+        <p>This is one of <a href="../">Hay's Tools</a>. Source available!</p>
     </div>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVjG84SlI1y3T2W94bdqEFGD7SvosqJOc&sensor=false"></script>

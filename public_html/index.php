@@ -23,7 +23,7 @@
             <dd>Bulk search the NA image archives</dd>
 
             <dt><a href="streetwiki/">Streetwiki</a></dt>
-            <dd>View Wikipedia articles in Google Street View</dd>
+            <dd>View Wikipedia articles in Google Maps &amp; Street View</dd>
         </dl>
 
         <h2>Misc.</h2>
