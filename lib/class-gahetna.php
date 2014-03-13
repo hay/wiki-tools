@@ -6,6 +6,7 @@ class Gahetna {
     const IMG_ENDPOINT = "http://afbeeldingen.gahetna.nl/naa/thumb/%s/%s.jpg";
     const DEFAULT_RESOLUTION = "3000x3000";
     const HANDLE_URL_PREFIX = "http://hdl.handle.net/10648/";
+    const MAX_FILENAME_LENGTH = 200;
 
     private function request($q) {
         $url = sprintf(self::API_ENDPOINT, urlencode($q), 100, 1);
@@ -124,8 +125,13 @@ class Gahetna {
 
         foreach ($res['photos'] as $photo) {
             $url = $photo['imageurl'];
-            $filename = $res['title'] . "_" . $photo['PhotoName'] . ".jpg";
+            $filename = $res['title'] . "_" . $photo['PhotoName'];
             $filename = str_replace(" ", "_", $filename);
+
+            // Cap the length of $filename
+            $filename = substr($filename, 0, self::MAX_FILENAME_LENGTH);
+
+            $filename = $filename . ".jpg";
 
             $lines[] = array(
                 "url" => $url,
@@ -148,6 +154,6 @@ class Gahetna {
             return "wget \"$url\" -O \"$filename\"";
         }, $files);
 
-        return implode("\n", $lines);
+        return implode("\r\n", $lines);
     }
 }
