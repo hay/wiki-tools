@@ -14,6 +14,8 @@
             $filename = "download.sh";
         } else {
             $filename = "download.bat";
+            # Stupid line endings
+            $script = str_replace("\n", "\r\n", $script);
         }
 
         header('Content-Type: text/plain');

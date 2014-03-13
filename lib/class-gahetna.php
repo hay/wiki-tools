@@ -157,6 +157,6 @@ class Gahetna {
             return "wget \"$url\" -O \"$filename\"";
         }, $files);
 
-        return implode("\r\n", $lines);
+        return implode("\n", $lines);
     }
 }
