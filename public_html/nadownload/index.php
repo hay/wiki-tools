@@ -65,6 +65,7 @@
         <h3>A little HOWTO</h3>
 
         <h4>On Windows</h4>
+        <p>This is a bit hacky but it works. Get <a href="wget-windows.zip">this version</a> of wget for windows and extract it somewhere. Then use the tool to get the script as a BAT file, save it to the same directory as your extracted wget files. Now doubleclick the BAT file and Bob should be your uncle.</p>
 
         <h4>On Mac OS X / Linux</h4>
         <p>You need a little tool called <code>wget</code>. If it's not available on your system install it using your package manager of choice (e.g. <a href="http://mxcl.github.io/homebrew/">homebrew</a> on Mac OS X). </p>
