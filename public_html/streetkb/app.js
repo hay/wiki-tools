@@ -16,7 +16,7 @@ App.prototype = {
 
     getPanoTile : function(pano) {
         this.pano.setZoom(2);
-        return 'pano2.jpg';
+        return 'pano1.jpg';
     },
 
     initPano : function() {

@@ -2,4 +2,6 @@
 rsync --exclude .git --exclude config.php -av ../* tools:tools
 ssh tools <<'ENDSSH'
 cp -rv tools/* /data/project/hay/
+become hay
+take *
 ENDSSH

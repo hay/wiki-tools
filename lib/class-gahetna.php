@@ -87,33 +87,6 @@ class Gahetna {
         return $matches[1];
     }
 
-    private function getUrlList($url) {
-        $eadid = $this->getUrlParam("eadid", $url);
-        $inr = $this->getUrlParam("inventarisnr", $url);
-
-        $q = $eadid . "_" . $inr;
-        $res = $this->query($q);
-
-        if (!$res) {
-            return false;
-        }
-
-        $lines = array();
-
-        foreach ($res['photos'] as $photo) {
-            $url = $photo['imageurl'];
-            $filename = $res['title'] . "_" . $photo['PhotoName'] . ".jpg";
-            $filename = str_replace(" ", "_", $filename);
-
-            $lines[] = array(
-                "url" => $url,
-                "filename" => $filename
-            );
-        }
-
-        return $lines;
-    }
-
     public function query($q) {
         $xml = $this->request($q);
 
@@ -140,6 +113,33 @@ class Gahetna {
     public function getImageUrlFromGuid($guid, $resolution = false) {
         $handle = str_replace(self::HANDLE_URL_PREFIX, "", $guid);
         return $this->getImageUrl($handle, $resolution);
+    }
+
+    public function getUrlList($url) {
+        $eadid = $this->getUrlParam("eadid", $url);
+        $inr = $this->getUrlParam("inventarisnr", $url);
+
+        $q = $eadid . "_" . $inr;
+        $res = $this->query($q);
+
+        if (!$res) {
+            return false;
+        }
+
+        $lines = array();
+
+        foreach ($res['photos'] as $photo) {
+            $url = $photo['imageurl'];
+            $filename = $res['title'] . "_" . $photo['PhotoName'] . ".jpg";
+            $filename = str_replace(" ", "_", $filename);
+
+            $lines[] = array(
+                "url" => $url,
+                "filename" => $filename
+            );
+        }
+
+        return $lines;
     }
 
     public function getDownloadHtmlFromUrl($url) {
