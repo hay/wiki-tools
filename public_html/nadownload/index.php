@@ -5,8 +5,9 @@
 
     if (isset($_POST['url'])) {
         $url = $_POST['url'];
+        $affix = isset($_POST['affix']) ? $_POST['affix'] : false;
         $api = new Gahetna();
-        $script = $api->getWgetScriptFromUrl($url);
+        $script = $api->getWgetScriptFromUrl($url, $affix);
 
         if (isset($_POST['dl-wget-linux'])) {
             $script = "#!/bin/bash\n$script";
@@ -35,7 +36,7 @@
 
 <?php if (empty($_POST['url'])): ?>
 
-        <form method="post" action="index.php" class="form-inline">
+        <form method="post" action="index.php" role="form">
             <div class="input-group">
                 <input type="text" id="url" name="url" placeholder="URL" class="form-control" />
                 <div class="input-group-btn">
@@ -53,6 +54,14 @@
                         </li>
                     </ul>
                 </div>
+            </div>
+
+            <br />
+
+            <div class="form-group">
+                <label for="affix">Filename affix</label>
+                <input type="text" class="form-control" name="affix" id="affix" />
+                <p class="help-block">This is a custom affix that will be placed <em>after</em> the regular photoname. Note that the total length of the filename will be capped at 200 characters.</p>
             </div>
         </form>
 

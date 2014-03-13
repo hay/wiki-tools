@@ -110,7 +110,7 @@ class Gahetna {
         }, $terms);
     }
 
-    public function getUrlList($url) {
+    public function getUrlList($url, $affix = false) {
         $eadid = $this->getUrlParam("eadid", $url);
         $inr = $this->getUrlParam("inventarisnr", $url);
 
@@ -125,8 +125,11 @@ class Gahetna {
 
         foreach ($res['photos'] as $photo) {
             $url = $photo['imageurl'];
-            $filename = $res['title'] . "_" . $photo['PhotoName'];
-            $filename = str_replace(" ", "_", $filename);
+            $filename = $photo['PhotoName'];
+
+            if ($affix) {
+                $filename = $filename . "_$affix";
+            }
 
             // Cap the length of $filename
             $filename = substr($filename, 0, self::MAX_FILENAME_LENGTH);
@@ -142,8 +145,8 @@ class Gahetna {
         return $lines;
     }
 
-    public function getWgetScriptFromUrl($url) {
-        $files = $this->getUrlList($url);
+    public function getWgetScriptFromUrl($url, $affix = false) {
+        $files = $this->getUrlList($url, $affix);
 
         if (!$files) {
             return "Invalid URL or no files :(";
