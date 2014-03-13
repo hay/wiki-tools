@@ -109,12 +109,6 @@ class Gahetna {
         }, $terms);
     }
 
-    // DOES NOT WORK
-    public function getImageUrlFromGuid($guid, $resolution = false) {
-        $handle = str_replace(self::HANDLE_URL_PREFIX, "", $guid);
-        return $this->getImageUrl($handle, $resolution);
-    }
-
     public function getUrlList($url) {
         $eadid = $this->getUrlParam("eadid", $url);
         $inr = $this->getUrlParam("inventarisnr", $url);
@@ -142,22 +136,7 @@ class Gahetna {
         return $lines;
     }
 
-    public function getDownloadHtmlFromUrl($url) {
-        $files = $this->getUrlList($url);
-
-        if (!$files) {
-            return "Invalid URL or no files :(";
-        }
-
-        $lines = array_map(function($file) {
-            extract($file);
-            return "<li><a href=\"$url\" download=\"aapjes.jpg\">$filename</a></li>";
-        }, $files);
-
-        return "<ul>" . implode("\n", $lines) . "</ul>";
-    }
-
-    public function getDownloadscriptFromUrl($url) {
+    public function getWgetScriptFromUrl($url) {
         $files = $this->getUrlList($url);
 
         if (!$files) {

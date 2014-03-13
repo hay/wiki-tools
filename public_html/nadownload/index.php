@@ -2,7 +2,25 @@
     require '../../lib/vendor/autoload.php';
     require '../../lib/class-hay.php';
     require '../../lib/class-gahetna.php';
-    require '../../lib/class-zipexternal.php';
+
+    if (isset($_POST['url'])) {
+        $url = $_POST['url'];
+        $api = new Gahetna();
+        $script = $api->getWgetScriptFromUrl($url);
+
+        if (isset($_POST['dl-wget-linux'])) {
+            $script = "#!/bin/bash\n$script";
+            $filename = "download.sh";
+        } else {
+            $filename = "download.bat";
+        }
+
+        header('Content-Type: text/plain');
+        header("Content-Disposition: attachment; filename=$filename");
+        echo $script;
+        die();
+    }
+
     Hay::header();
 ?>
         <h1>NA Download</h1>
@@ -15,9 +33,7 @@
             <strong>Note</strong>: the API might be slow, so after hitting 'download' it could take a few minutes to get any resuls. Be patient :)
         </div>
 
-        <?php
-            if (empty($_POST['url'])) {
-        ?>
+<?php if (empty($_POST['url'])): ?>
 
         <form method="post" action="index.php" class="form-inline">
             <div class="input-group">
@@ -30,13 +46,10 @@
 
                     <ul class="dropdown-menu" role="menu">
                         <li>
-                            <button type="submit" class="btn btn-link" id="dlzip" name="dlzip">ZIP file</button>
+                            <button type="submit" class="btn btn-link" id="dl-wget-linux" name="dl-wget-linux">wget script (Mac / Linux)</button>
                         </li>
                         <li>
-                            <button type="submit" class="btn btn-link" id="dlwget" name="dlwget">wget script</button>
-                        </li>
-                        <li>
-                            <button type="submit" class="btn btn-link" id="dlhtml" name="dlhtml">HTML links</button>
+                            <button type="submit" class="btn btn-link" id="dl-wget-windows" name="dl-wget-windows">wget script (Windows)</button>
                         </li>
                     </ul>
                 </div>
@@ -49,51 +62,16 @@
             <li><a href="http://gahetna.nl/collectie/archief/inventaris/gahetnascans/eadid/1.11.01.01/inventarisnr/121/level/file">Abel Tasman's travel journeys (1.11.01.01 / 121)</a></li>
         </ul>
 
-        <?php
-            } else {
-                $url = $_POST['url'];
-                foreach (array("wget", "html", "zip") as $methodname) {
-                    if (isset($_POST['dl' . $methodname])) {
-                        $method = $methodname;
-                    }
-                }
-                $api = new Gahetna();
+        <h3>A little HOWTO</h3>
 
-                if ($method == 'wget') {
-                    $text = $api->getDownloadscriptFromUrl($url);
+        <h4>On Windows</h4>
 
-        ?>
-                <textarea class="form-control" rows="10"><?php echo $text; ?></textarea>
-        <?php
-                }
+        <h4>On Mac OS X / Linux</h4>
+        <p>You need a little tool called <code>wget</code>. If it's not available on your system install it using your package manager of choice (e.g. <a href="http://mxcl.github.io/homebrew/">homebrew</a> on Mac OS X). </p>
 
-                if ($method == 'html') {
-                    $html = $api->getDownloadHtmlFromUrl($url);
-                    echo $html;
-                }
+        <p>Download the file, save it to some directory and open a terminal. Then cd to the directory, make the file executable (<code>chmod +x ./download.sh</code>). Now you can simple execute it (<code>./download.sh</code>) and files should start rolling in!</p>
 
-                if ($method == "zip") {
-                    $zip = new ZipExternal();
-                    $images = $api->getUrlList($url);
-
-                    # For now, we limit the amount of images to 10, otherwise
-                    # memory will fail
-                    $images = array_slice($images, 0, 10);
-
-                    foreach ($images as $image) {
-                        $zip->addUrl($image['url'], $image['filename']);
-                    }
-
-                    $zip->create();
-                }
-        ?>
-
-            <hr />
-
-            <a class="btn btn-large btn-primary" href="index.php">Try again</a>
-        <?php
-            }
-        ?>
+<?php endif; ?>
 
         <script>
             (function() {
