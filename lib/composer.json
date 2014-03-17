@@ -1,5 +1,6 @@
 {
     "require": {
+        "fabpot/goutte" : "~1.0",
         "nategood/httpful": "*",
         "slim/slim": "2.*"
     }

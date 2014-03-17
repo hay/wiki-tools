@@ -85,20 +85,12 @@
 
 <?php endif; ?>
 
+        <script src="../common/jquery.js"></script>
         <script>
-            (function() {
-                var examples = document.getElementById('examples');
-                var url = document.getElementById('url');
-
-                if (!examples) {
-                    return;
-                }
-
-                examples.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    url.value = e.target.href;
-                });
-            })();
+            $("#examples a").on('click', function(e) {
+                e.preventDefault();
+                $("#url").val(e.target.href);
+            });
         </script>
 <?php
     Hay::footer();

@@ -1,5 +1,6 @@
 <?php
 use \Httpful\Request as Request;
+use \Goutte\Client as Client;
 
 class Gahetna {
     const API_ENDPOINT = "http://www.gahetna.nl/beeldbank-api/opensearch/?q=%s&count=%s&startIndex=%s";
@@ -86,6 +87,18 @@ class Gahetna {
         $regex = "/$param\/([^\/]*)/";
         preg_match($regex, $url, $matches);
         return $matches[1];
+    }
+
+    public function getTranscriptForUrl($url) {
+        $client = new Client();
+        $crawler = $client->request('GET', $url);
+        $node = $crawler->filter('#block-na_transcribe-transcription p');
+
+        if ($node && $node->text()) {
+            return $node->text();
+        } else {
+            return "Could not get a transcript...";
+        }
     }
 
     public function query($q) {
