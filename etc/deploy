@@ -1,13 +1,2 @@
 #!/bin/bash
 rsync --exclude .git --exclude config.php -av --del ../* tools:tools
-ssh tools <<'ENDSSH'
-become hay
-rm -rv /data/project/hay/lib/vendor
-rm -rv /data/project/hay/lib/class-*.php
-rm -rv /data/project/hay/lib/*.json
-rm -rv /data/project/hay/public_html
-logout
-cp -rv tools/* /data/project/hay/
-become hay
-take *
-ENDSSH
