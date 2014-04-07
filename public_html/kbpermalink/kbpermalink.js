@@ -1,10 +1,23 @@
 (function(d, loc) {
-    // First check if we're actually on a OCLC PICA site
-    var htmlAttrs = document.querySelector('html').attributes;
+    function isPicaCatalogue() {
+        var htmlAttrs = document.querySelector('html').attributes;
 
-    if ( (!htmlAttrs.length) ||
-         (htmlAttrs[0].nodeValue.indexOf("oclcpica") === -1)
-    ) {
+        // For some weird reason, this only works in Chrome
+        if (htmlAttrs.length && htmlAttrs[0].nodeValue.indexOf("oclcpica") !== -1) {
+            return true;
+        }
+
+        // This is a check for Firefox
+        var copyright = document.querySelector('.copyright');
+
+        if (!!copyright && copyright.textContent.indexOf("OCLC") !== -1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    if (!isPicaCatalogue()) {
         alert("This is not an OCLC PICA catalogue...");
         return;
     }
