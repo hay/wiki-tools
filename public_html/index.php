@@ -13,6 +13,9 @@
         <h2>Tools</h2>
 
         <dl class="dl-horizontal">
+            <dt><a href="gtaa/">GTAA Reasonator</a></dt>
+            <dd>A <a href="http://tools.wmflabs.org/reasonator/">Reasonator</a>-like tool for <a href="https://sites.google.com/a/beeldengeluid.nl/gtaa">GTAA</a> id's.</dd>
+
             <dt><a href="kbpermalink/">Pica Permalink</a></dt>
             <dd>A bookmarklet to generate a permalink for the catalogue of the Dutch National Library (Koninklijke Bibliotheek) or any other Pica/OCLC catalogue</dd>
 
