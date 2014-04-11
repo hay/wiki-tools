@@ -1,0 +1,12 @@
+== {{int:filedesc}} ==
+{{Photograph
+  |description = {{nl|1=<description>}}
+  |source = [<handle_url> Nationaal Archief, nummer toegang <acces_number>, inventarisnummer <inventory_number>]
+  |photographer = {{Creator:<creator>}}
+  |date = <date>
+  |institution = {{Institution:Nationaal Archief}}
+  |accession number = <acces_number>, inventory nr <inventory_number>
+}}
+
+== {{int:license}} ==
+{{Nationaal Archief-license}}
