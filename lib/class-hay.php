@@ -22,6 +22,13 @@ class Hay {
             padding-bottom: 10px;
             margin-bottom: 10px;
         }
+
+        .cell-maximize-length {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: inline-block;
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body>

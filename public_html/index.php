@@ -13,6 +13,9 @@
         <h2>Tools</h2>
 
         <dl class="dl-horizontal">
+            <dt><a href="exturl/">External URL stats</a></dt>
+            <dd>A better <a href="https://meta.wikimedia.org/wiki/Help:Linksearch">External links search</a>. Collates all the links so you can view which pages have the most external links to a pattern.</dd>
+
             <dt><a href="gtaa/">GTAA Reasonator</a></dt>
             <dd>A <a href="http://tools.wmflabs.org/reasonator/">Reasonator</a>-like tool for <a href="https://sites.google.com/a/beeldengeluid.nl/gtaa">GTAA</a> id's.</dd>
 
