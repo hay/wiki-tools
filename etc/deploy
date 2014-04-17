@@ -1,2 +1,7 @@
 #!/bin/bash
 rsync --exclude .git --exclude config.php -av --del ../* tools:tools
+
+# Copy files
+ssh tools <<'ENDSSH'
+cp -rv tools/* /data/project/hay/
+ENDSSH

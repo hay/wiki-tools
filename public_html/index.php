@@ -17,19 +17,21 @@
             <dd>A better <a href="https://meta.wikimedia.org/wiki/Help:Linksearch">External links search</a>. Collates all the links so you can view which pages have the most external links to a pattern.</dd>
 
             <dt><a href="gtaa/">GTAA Reasonator</a></dt>
-            <dd>A <a href="http://tools.wmflabs.org/reasonator/">Reasonator</a>-like tool for <a href="https://sites.google.com/a/beeldengeluid.nl/gtaa">GTAA</a> id's.</dd>
+            <dd>A <a href="http://tools.wmflabs.org/reasonator/">Reasonator</a>-like tool for <a href="https://sites.google.com/a/beeldengeluid.nl/gtaa">GTAA</a> ID's.</dd>
 
             <dt><a href="kbpermalink/">Pica Permalink</a></dt>
             <dd>A bookmarklet to generate a permalink for the catalogue of the Dutch National Library (Koninklijke Bibliotheek) or any other Pica/OCLC catalogue</dd>
 
             <dt><a href="nadownload/">NA Download</a></dt>
-            <dd>A small tool to download all images from a Dutch National Archive inventory</dd>
+            <dd>Download all images from a Dutch National Archive inventory</dd>
 
             <dt><a href="nasearch/">NA Search</a></dt>
             <dd>Bulk search the NA image archives</dd>
 
+            <!-- This tool is really of no use
             <dt><a href="natranscript/">NA Transcript</a></dt>
             <dd>Download transcripts of archive pieces</dd>
+            -->
 
             <dt><a href="streetwiki/">Streetwiki</a></dt>
             <dd>View Wikipedia articles in Google Maps &amp; Street View</dd>

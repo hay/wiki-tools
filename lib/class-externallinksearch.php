@@ -21,7 +21,7 @@ class ExternalLinkSearch {
                 $url = $url . "&euoffset=$continue";
             }
 
-            error_log("Getting $url");
+            // error_log("Getting $url");
 
             $res = Request::get($url)->send();
 
@@ -36,7 +36,6 @@ class ExternalLinkSearch {
     }
 
     public function query($q) {
-        error_log("aap");
         $links = $this->getLinks($q);
         $results = array();
 

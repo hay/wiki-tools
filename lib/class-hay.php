@@ -11,6 +11,16 @@ class Hay {
 <!doctype html>
 <html>
 <head>
+ <!-- __                                    __                   ___
+     /\ \                                  /\ \__               /\_ \
+     \ \ \___      __     __  __    ____   \ \ ,_\   ___     ___\//\ \     ____
+      \ \  _ `\  /'__`\  /\ \/\ \  /',__\   \ \ \/  / __`\  / __`\\ \ \   /',__\
+       \ \ \ \ \/\ \L\.\_\ \ \_\ \/\__, `\   \ \ \_/\ \L\ \/\ \L\ \\_\ \_/\__, `\
+        \ \_\ \_\ \__/.\_\\/`____ \/\____/    \ \__\ \____/\ \____//\____\/\____/
+         \/_/\/_/\/__/\/_/ `/___/> \/___/      \/__/\/___/  \/___/ \/____/\/___/
+                              /\___/
+                              \/__/                                           -->
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>$title</title>
@@ -38,7 +48,7 @@ class Hay {
             <li><a href="../">Home</a></li>
             <li><a href="https://github.com/hay/wiki-tools">Source</a></li>
         </ul>
-        <h3 class="text-muted">Hay's tools</h3>
+        <h3 class="text-muted"><a href="../">Hay's tools</a></h3>
     </header>
 
     <hr />
