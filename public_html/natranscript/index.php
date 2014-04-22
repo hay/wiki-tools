@@ -58,5 +58,5 @@
             });
         </script>
 <?php
-    Hay::footer();
+    $hay->footer();
 ?>

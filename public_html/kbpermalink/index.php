@@ -16,5 +16,5 @@
 
         <a class="btn btn-large btn-primary" href="javascript:var%20s%20%3D%20document.createElement(%27script%27)%3Bs.src%20%3D%20%27http%3A%2F%2Ftools.wmflabs.org%2Fhay%2Fkbpermalink%2Fkbpermalink.js%27%3Bdocument.body.appendChild(s)%3Bvoid(0)%3B">Pica Permalink</a>
 <?php
-    Hay::footer();
+    $hay->footer();
 ?>

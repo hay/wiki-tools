@@ -35,7 +35,7 @@
         <p>Simply copy the inventory URL and press 'download'. You'll get a script that you can use with wget to download all files.</p>
 
         <div class="alert alert-warning">
-            <strong>Note</strong>: the API might be slow, so after hitting 'download' it could take a few minutes to get any resuls. Be patient :)
+            <strong>Note</strong>: the API might be slow, so after hitting 'download' it could take a few minutes to get any results. Be patient :)
         </div>
 
 <?php if (empty($_POST['url'])): ?>
@@ -95,5 +95,5 @@
             });
         </script>
 <?php
-    Hay::footer();
+    $hay->footer();
 ?>

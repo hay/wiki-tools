@@ -38,5 +38,5 @@
 
     <?php endif; ?>
 <?php
-    Hay::footer();
+    $hay->footer();
 ?>
