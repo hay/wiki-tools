@@ -1,12 +1,13 @@
 <?php
     require '../../lib/class-hay.php';
-    Hay::header();
+    $hay = new Hay("gtaa");
+    $hay->header();
 ?>
-    <h1>GTAA Reasonator</h1>
+    <h1><?php $hay->title(); ?></h1>
 
     <?php if (empty($_GET['id'])) : ?>
 
-        <p class="lead">The <a href="tools.wmflabs.org/reasonator/">Reasonator</a> is an awesome tool for viewing <a href="http://www.wikidata.org">Wikidata</a> items. This tool tries to provide the same view for items in the <a href="https://sites.google.com/a/beeldengeluid.nl/gtaa/">GTAA</a>.</p>
+        <p class="lead"><?php $hay->description(); ?></p>
 
         <h3>Examples</h3>
         <ul>

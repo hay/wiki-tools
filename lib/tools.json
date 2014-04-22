@@ -1,0 +1,36 @@
+{
+    "exturl" : {
+        "title" : "External URL stats",
+        "description" : "A better <a href=\"https://meta.wikimedia.org/wiki/Help:Linksearch\">External links search</a>. Collates all the links so you can view which pages have the most external links to a pattern."
+    },
+
+    "gtaa" : {
+        "title" : "GTAA Reasonator",
+        "description" : "The <a href=\"tools.wmflabs.org/reasonator/\">Reasonator</a> is an awesome tool for viewing <a href=\"http://www.wikidata.org\">Wikidata</a> items. This tool tries to provide the same view for items in the <a href=\"https://sites.google.com/a/beeldengeluid.nl/gtaa/\">GTAA</a>."
+    },
+
+    "kbpermalink" : {
+        "title" : "Pica Permalink",
+        "description" : "A small Javascript bookmarklet to generate a permalink to library catalogues that use the <a href=\"https://en.wikipedia.org/wiki/OCLC_PICA\">OCLC PICA</a> software."
+    },
+
+    "nadownload" : {
+        "title" : "NA Download",
+        "description" : "A small tool to download all images from a <a href=\"http://www.gahetna.nl\">Dutch National Archive</a> inventory."
+    },
+
+    "nasearch" : {
+        "title" : "NA Search",
+        "description" : "A tool to do a mass search in the <a href=\"http://www.gahetna.nl\">Dutch National Archive</a> foto collection"
+    },
+
+    "streetwiki" : {
+        "title" : "Streetwiki",
+        "description" : "View Wikipedia articles in Google Maps &amp; Street View."
+    },
+
+    "wdview" : {
+        "title" : "Wikidata View",
+        "description" : "A simple <a href=\"http://tools.wmflabs.org/reasonator/\">Reasonator</a>-like viewer for Wikidata items using the simplified Wikidata Readyonly API"
+    }
+}

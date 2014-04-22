@@ -3,6 +3,8 @@
     require '../../lib/class-hay.php';
     require '../../lib/class-gahetna.php';
 
+    $hay = new Hay("nadownload");
+
     if (isset($_POST['url'])) {
         $url = $_POST['url'];
         $affix = isset($_POST['affix']) ? $_POST['affix'] : false;
@@ -24,11 +26,11 @@
         die();
     }
 
-    Hay::header();
+    $hay->header();
 ?>
-        <h1>NA Download</h1>
+        <h1><?php $hay->title(); ?></h1>
 
-        <p class="lead">A small tool to download all images from a <a href="http://www.gahetna.nl">Dutch National Archive</a> inventory</p>
+        <p class="lead"><?php $hay->description(); ?></p>
 
         <p>Simply copy the inventory URL and press 'download'. You'll get a script that you can use with wget to download all files.</p>
 

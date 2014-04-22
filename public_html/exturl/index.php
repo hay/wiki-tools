@@ -3,6 +3,8 @@
     require '../../lib/class-hay.php';
     require '../../lib/class-externallinksearch.php';
 
+    $hay = new Hay("exturl");
+
     if (!empty($_GET['q'])) {
         $q = $_GET['q'];
         $site = $_GET['site'];
@@ -17,7 +19,7 @@
         }
     }
 
-    Hay::header();
+    $hay->header();
 ?>
     <style>
         #wrapper {
@@ -26,9 +28,9 @@
     </style>
 
     <?php if (empty($_GET['q'])): ?>
-        <h1>External URL stats</h1>
+        <h1><?php $hay->title(); ?></h1>
 
-        <p>A better <a href="https://meta.wikimedia.org/wiki/Help:Linksearch">External links search</a>. Collates all the links so you can view which pages have the most external links to a pattern.</p>
+        <p class="lead"><?php $hay->description(); ?></p>
 
         <form action="index.php" method="GET" role="form">
             <div class="form-group">
@@ -93,5 +95,5 @@
         </table>
     <?php endif; ?>
 <?php
-    Hay::footer();
+    $hay->footer();
 ?>

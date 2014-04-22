@@ -1,6 +1,8 @@
 <?php
     require '../lib/class-hay.php';
-    Hay::header();
+
+    $hay = new Hay();
+    $hay->header();
 ?>
         <h1>Hay's tools</h1>
 
@@ -13,33 +15,27 @@
         <h2>Tools</h2>
 
         <dl class="dl-horizontal">
-            <dt><a href="exturl/">External URL stats</a></dt>
-            <dd>A better <a href="https://meta.wikimedia.org/wiki/Help:Linksearch">External links search</a>. Collates all the links so you can view which pages have the most external links to a pattern.</dd>
+        <?php
+            $tools = $hay->getTools();
 
-            <dt><a href="gtaa/">GTAA Reasonator</a></dt>
-            <dd>A <a href="http://tools.wmflabs.org/reasonator/">Reasonator</a>-like tool for <a href="https://sites.google.com/a/beeldengeluid.nl/gtaa">GTAA</a> ID's.</dd>
-
-            <dt><a href="kbpermalink/">Pica Permalink</a></dt>
-            <dd>A bookmarklet to generate a permalink for the catalogue of the Dutch National Library (Koninklijke Bibliotheek) or any other Pica/OCLC catalogue</dd>
-
-            <dt><a href="nadownload/">NA Download</a></dt>
-            <dd>Download all images from a Dutch National Archive inventory</dd>
-
-            <dt><a href="nasearch/">NA Search</a></dt>
-            <dd>Bulk search the NA image archives</dd>
-
-            <!-- This tool is really of no use
-            <dt><a href="natranscript/">NA Transcript</a></dt>
-            <dd>Download transcripts of archive pieces</dd>
-            -->
-
-            <dt><a href="streetwiki/">Streetwiki</a></dt>
-            <dd>View Wikipedia articles in Google Maps &amp; Street View</dd>
+            foreach ($tools as $tool => $data) :
+            ?>
+                <dt>
+                    <a href="<?php echo $tool; ?>/">
+                        <?php echo $data->title; ?>
+                    </a>
+                </dt>
+                <dd>
+                    <?php echo $data->description; ?>
+                </dd>
+            <?php
+            endforeach;
+            ?>
         </dl>
 
-        <h2>Misc.</h2>
+        <h2>Source</h2>
 
-        <p>Code for all of these tools is on <a href="https://github.com/hay/wiki-tools">Github</a>.</p>
+        <p>Code for all of these tools is on <a href="https://github.com/hay/wiki-tools">Github</a>. Please report any issues there.</p>
 <?php
-    Hay::footer();
+    $hay->footer();
 ?>

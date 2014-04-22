@@ -3,9 +3,37 @@ require 'config.php';
 
 class Hay {
     const DEFAULT_TITLE = "Hay's tools";
+    private $toolname, $tools, $tooldata, $title, $description, $titletag, $path;
 
-    public static function header(array $opts = array()) {
-        $title = isset($opts['title']) ? $opts['title'] : self::DEFAULT_TITLE;
+    public function __construct($toolname = false) {
+        $this->path = realpath(dirname(__FILE__));
+        $toolpath = $this->path . "/tools.json";
+        $this->tools = json_decode(file_get_contents($toolpath));
+
+        if ($toolname) {
+            $this->toolname = $toolname;
+            $this->tooldata = $this->tools->$toolname;
+            $this->title = $this->tooldata->title;
+            $this->description = $this->tooldata->description;
+            $this->titletag = $this->title . " - " . self::DEFAULT_TITLE;
+        } else {
+            $this->titletag = self::DEFAULT_TITLE;
+        }
+    }
+
+    public function getTools() {
+        return $this->tools;
+    }
+
+    public function title() {
+        echo $this->title;
+    }
+
+    public function description() {
+        echo $this->description;
+    }
+
+    public function header(array $opts = array()) {
         $root = ROOT;
         $html = <<<HTML
 <!doctype html>
@@ -23,7 +51,7 @@ class Hay {
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>$title</title>
+    <title>$this->titletag</title>
     <link rel="stylesheet" href="{$root}/vendor/bootstrap/css/bootstrap.min.css" />
     <style>
         #wrapper { max-width: 700px; }
@@ -59,7 +87,7 @@ HTML;
         echo $html;
     }
 
-    public static function footer() {
+    public function footer() {
         $root = ROOT;
 
         echo <<<HTML

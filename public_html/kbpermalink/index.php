@@ -1,10 +1,12 @@
 <?php
     require '../../lib/class-hay.php';
-    Hay::header();
-?>
-        <h1>Pica Permalink</h1>
+    $hay = new Hay("kbpermalink");
 
-        <p class="lead">A small Javascript bookmarklet to generate a permalink to library catalogues that use the <a href="https://en.wikipedia.org/wiki/OCLC_PICA">OCLC PICA</a> software</p>
+    $hay->header();
+?>
+        <h1><?php $hay->title(); ?></h1>
+
+        <p class="lead"><?php $hay->description(); ?></p>
 
         <p>Many libraries use the OCLC PICA software, such as the <a href="http://opc4.kb.nl/">catalogue of the Koninklijke Bibliotheek</a> (Dutch National Library) or the <a href="http://bibliotheek.gahetna.nl">Dutch National Archive</a>. Unfortunately, it's not very user-friendly, and there's no easy way from the interface to generate a permalink to a record. When browsing search results the URL bar doesn't properly change to a permalink, and hitting 'refresh' or opening it in another browser deletes your history. </p>
 

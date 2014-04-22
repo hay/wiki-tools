@@ -2,11 +2,13 @@
     require '../../lib/vendor/autoload.php';
     require '../../lib/class-hay.php';
     require '../../lib/class-gahetna.php';
-    Hay::header();
-?>
-        <h1>NA Search</h1>
 
-        <p class="lead">A tool to do a mass search in the <a href="http://www.gahetna.nl">Dutch National Archive</a> foto collection</p>
+    $hay = new Hay("nasearch");
+    $hay->header();
+?>
+        <h1><?php $hay->title(); ?></h1>
+
+        <p class="lead"><?php $hay->description(); ?></p>
 
         <?php
             if (empty($_POST['terms'])) {
