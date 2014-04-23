@@ -1,24 +1,26 @@
 // TODO: somehow fold this into the tool
 // https://www.wikidata.org/wiki/MediaWiki:Gadget-AuthorityControl.js
-var app = angular.module('app', []);
+//
 
-app.factory('api', function($http, $sce) {
-    var API_ENDPOINT = "http://api.haykranen.nl";
+var conf = {
+    lang : 'en'
+};
 
-    function call(cmd, params, cb) {
-        var req = $http({
-            url : API_ENDPOINT + '/' + cmd,
-            method : 'GET',
-            params : params
-        });
+function Api() {
+    this.endpoint = "http://api.haykranen.nl";
+}
 
-        req.success(function(d) {
-            cb(d);
-        });
-    }
+Api.prototype = {
+    call : function(cmd, params, cb) {
+        $.getJSON(this.endpoint + '/' + cmd, params, cb);
+    },
 
-    function formatClaim(claim) {
+    formatClaim : function(claim) {
         claim.value = claim.values.map(function(val) {
+            if (val.datatype === 'wikibase-item') {
+                return '<a href="?id=' + val.value + '">' + (val.value_labels || val.value) + '</a>';
+            }
+
             if (val.datatype === 'time') {
                 return val.value.time;
             }
@@ -38,70 +40,146 @@ app.factory('api', function($http, $sce) {
             return "???";
         }).join(', ');
 
-        claim.valueHtml = $sce.trustAsHtml(claim.value);
-
         return claim;
-    }
+    },
 
-    function wikidataSearch(q, lang, cb) {
-        call('wikidata', { method : 'search', q : q, language : lang}, cb);
-    }
+    search : function(q, cb) {
+        this.call('wikidata', { method : 'search', q : q, language : conf.lang}, cb);
+    },
 
-    function wikidataEntity(q, lang, cb) {
-        call('wikidata', {
+    entity : function(q, cb) {
+        this.call('wikidata', {
             method : 'entity',
             q : q,
-            language : lang
+            language : conf.lang
         }, function(data) {
             var response = data.response[q];
-            response.claims = response.claims.map(formatClaim);
+            response.claims = response.claims ? response.claims.map(this.formatClaim) : [];
             cb(response);
+        }.bind(this));
+    }
+};
+
+function extend(a, b) {
+    for (var key in b) {
+        a[key] = b[key];
+    }
+}
+
+function View( el ) {
+    this.$el = $(el);
+}
+
+extend(View.prototype, {
+    constructor : View,
+
+    loading : function(bool) {
+        this.$el.find(".loading").toggle(bool);
+    }
+});
+
+function Item() {
+    View.prototype.constructor.apply(this, arguments);
+    this.id = window.WIKIDATA_ID;
+    this.api = new Api();
+    this.loading(true);
+
+    if (this.id[0] !== "Q") {
+        this.id = "Q" + this.id;
+    }
+
+    this.load();
+}
+
+Item.prototype = Object.create(View.prototype);
+
+extend(Item.prototype, {
+    load : function() {
+        this.api.entity(this.id, function(data) {
+            this.label = data.labels;
+            this.id = data.id;
+            this.description = data.descriptions;
+            this.claims = data.claims;
+            this.image = data.claims.filter(function(claim) {
+                return claim.value.indexOf("<img") !== -1 && claim.property_id === 'P18';
+            })[0];
+            this.image = this.image ? this.image.value : '<img src="http://placekitten.com/200/150" />';
+            this.render();
+        }.bind(this));
+    },
+
+    renderClaim : function(claim) {
+        return ''.concat(
+            '<tr>',
+            '<td><strong>' + (claim.property_labels || claim.property_id) + '</strong></td>',
+            '<td>' + claim.value || 'No label' + '</td>',
+            '</tr>'
+        );
+    },
+
+    render : function() {
+        this.loading(false);
+        this.$el.find(".mainlabel").html(this.label);
+        this.$el.find(".description").html(this.description);
+        this.$el.find(".image").html(this.image);
+
+        var claims = this.claims.map(this.renderClaim);
+
+        // Add the Wikidata ID
+        claims.unshift(
+            this.renderClaim({
+                property_labels : 'Wikidata ID',
+                value : '<a target="_blank" href="//wikidata.org/wiki/' + this.id + '">' + this.id + '</a>'
+            })
+        );
+
+        this.$el.find(".itemdata").html(claims);
+    }
+});
+
+function SearchResults() {
+    View.prototype.constructor.apply(this, arguments);
+    this.q = window.WIKIDATA_Q;
+    this.loading(true);
+    this.api = new Api();
+    this.load();
+}
+
+SearchResults.prototype = Object.create(View.prototype);
+
+extend(SearchResults.prototype, {
+    load : function() {
+        this.api.search(this.q, function(data) {
+            this.loading(false);
+            this.results = data.response;
+            this.render();
+        }.bind(this))
+    },
+
+    render : function() {
+        var html = this.results.map(function(r) {
+            var title = r.description ? r.label + ' - ' + r.description : r.label;
+
+            return ''.concat(
+                '<li><a href="index.php?id=' + r.id + '">',
+                title,
+                '</a></li>'
+            );
         });
+
+        this.$el.find("ul").html( html.join('') );
     }
-
-    return {
-        wikidataSearch : wikidataSearch,
-        wikidataEntity : wikidataEntity,
-    };
 });
 
-app.controller('itemCtrl', function($scope, $http, api, $window, $sce) {
-    $scope.id = $window.WIKIDATA_ID;
-    $scope.lang = $window.WIKIDATA_LANG || 'en';
-    $scope.loading = true;
+function App() {
+    $("#lang").on('change', function() {
+        conf.lang = $("#lang").val();
+        this.view.load();
+    }.bind(this));
 
-    if ($scope.id[0] !== "Q") {
-        $scope.id = "Q" + $scope.id;
+    if (window.WIKIDATA_ID) {
+        this.view = new Item("#item");
+    } else if (window.WIKIDATA_Q) {
+        this.view = new SearchResults("#searchresults");
     }
-
-    api.wikidataEntity($scope.id, $scope.lang, function(data) {
-        $scope.loading = false;
-        $scope.label = data.labels;
-        $scope.id = data.id;
-        $scope.description = data.descriptions;
-        $scope.claims = data.claims;
-        $scope.image = data.claims.filter(function(claim) {
-            return claim.value.indexOf("<img") !== -1;
-        })[0].value;
-        $scope.image = $sce.trustAsHtml($scope.image);
-    });
-});
-
-app.controller('searchResultsCtrl', function($scope, api, $window) {
-    $scope.q = $window.WIKIDATA_Q;
-    $scope.lang = $window.WIKIDATA_LANG || 'en';
-    $scope.loading = true;
-
-    api.wikidataSearch($scope.q, $scope.lang, function(data) {
-        $scope.loading = false;
-        $scope.results = data.response;
-    });
-});
-
-app.controller('appCtrl', function($scope) {
-    $scope.lang = 'en';
-
-    $scope.changeLang = function() {
-
-    };
-});
+}

@@ -14,11 +14,23 @@
     }
 </style>
 
-<div ng-app="app">
-    <div class="row" ng-controller="appCtrl">
+<div>
+    <div class="row">
         <div class="col-md-12">
-            <a href="#" ng-click="changeLang" class="pull-right">{{lang}}</a>
+            <select id="lang" class="pull-right">
+                <option value="en">English</option>
+                <option value="nl">Nederlands</option>
+                <option value="de">Deutsch</option>
+                <option value="sv">Svenska</option>
+                <option value="fr">Français</option>
+                <option value="it">Italiano</option>
+                <option value="ru">Русский</option>
+                <option value="es">Español</option>
+                <option value="pl">Polski</option>
+            </select>
         </div>
+
+        <div style="height:30px;"></div>
 
         <div class="col-md-6">
             <h1><a href="index.php"><?php $hay->title(); ?></a></h1>
@@ -46,28 +58,20 @@
             var WIKIDATA_ID = "<?php echo $_GET['id']; ?>";
         </script>
 
-        <div ng-controller="itemCtrl" class="row">
-            <div ng-show="loading">Loading...</div>
+        <div id="item" class="row">
+            <div class="loading">Loading...</div>
 
             <div class="col-md-12">
-                <h1>{{label}}</h1>
-                <h2>{{description}}</h2>
+                <h1 class="mainlabel"></h1>
+                <h2 class="description"></h2>
             </div>
 
             <div class="col-md-6">
-                <div class="image" ng-bind-html="image">{{image}}</div>
+                <div class="image"></div>
             </div>
 
             <div class="col-md-6">
-                <table class="table">
-                    <tr>
-                        <td><strong>Wikidata ID</strong></td>
-                        <td>{{id}}</td>
-                    </tr>
-                    <tr ng-repeat="claim in claims">
-                        <td><strong>{{claim.property_labels}}</strong></td>
-                        <td ng-bind-html="claim.valueHtml">{{claim.valueHtml}}</td>
-                    </tr>
+                <table class="table itemdata">
                 </table>
             </div>
         </div>
@@ -76,21 +80,12 @@
             var WIKIDATA_Q ="<?php echo $_GET['q']; ?>";
         </script>
 
-        <div ng-controller="searchResultsCtrl">
-
+        <div id="searchresults">
             <h3>Search results</h3>
 
-            <div ng-show="loading">Loading...</div>
+            <div class="loading">Loading...</div>
 
-            <div id="searchresults">
-                <ul>
-                    <li ng-repeat="result in results">
-                        <a href="index.php?id={{result.id}}">
-                            {{result.label}} - {{result.description}}
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <ul></ul>
         </div>
     <?php else: ?>
         <p class="lead"><?php $hay->description(); ?></p>
@@ -105,26 +100,10 @@
     <?php endif; ?>
 </div>
 
-    <script src="../common/angular.js"></script>
     <script src="../common/jquery.js"></script>
-    <script src="../common/moment.js"></script>
-    <script src="../common/typeahead.bundle.js"></script>
     <script src="app.js"></script>
     <script>
-        function search(q, cb) {
-            console.log(q);
-            cb(['aap' + q]);
-        }
-
-        $("#qa").typeahead({
-            minLength : 3
-        }, {
-            name : 'wdview',
-            source : function(q, cb) {
-                console.log(q);
-                cb(['aap' + q]);
-            }
-        });
+        this.app = new App();
     </script>
 <?php
     $hay->footer();
