@@ -31,6 +31,6 @@
 
     "wdview" : {
         "title" : "Wikidata View",
-        "description" : "A simple <a href=\"http://tools.wmflabs.org/reasonator/\">Reasonator</a>-like viewer for Wikidata items using the simplified Wikidata Readyonly API"
+        "description" : "A simple <a href=\"http://tools.wmflabs.org/reasonator/\">Reasonator</a>-like viewer for Wikidata items using the simplified Wikidata Readyonly API."
     }
 }

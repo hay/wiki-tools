@@ -1,9 +1,9 @@
+// TODO: somehow fold this into the tool
+// https://www.wikidata.org/wiki/MediaWiki:Gadget-AuthorityControl.js
 var app = angular.module('app', []);
-var LANG = 'nl';
 
 app.factory('api', function($http, $sce) {
     var API_ENDPOINT = "http://api.haykranen.nl";
-    var lang = LANG;
 
     function call(cmd, params, cb) {
         var req = $http({
@@ -40,16 +40,14 @@ app.factory('api', function($http, $sce) {
 
         claim.valueHtml = $sce.trustAsHtml(claim.value);
 
-        console.log(claim);
-
         return claim;
     }
 
-    function wikidataSearch(q, cb) {
+    function wikidataSearch(q, lang, cb) {
         call('wikidata', { method : 'search', q : q, language : lang}, cb);
     }
 
-    function wikidataEntity(q, cb) {
+    function wikidataEntity(q, lang, cb) {
         call('wikidata', {
             method : 'entity',
             q : q,
@@ -67,17 +65,43 @@ app.factory('api', function($http, $sce) {
     };
 });
 
-app.controller('itemCtrl', function($scope, $http, api, $window) {
-    $scope.q = $window.WIKIDATA_Q;
+app.controller('itemCtrl', function($scope, $http, api, $window, $sce) {
+    $scope.id = $window.WIKIDATA_ID;
+    $scope.lang = $window.WIKIDATA_LANG || 'en';
+    $scope.loading = true;
 
-    if ($scope.q[0] !== "Q") {
-        $scope.q = "Q" + $scope.q;
+    if ($scope.id[0] !== "Q") {
+        $scope.id = "Q" + $scope.id;
     }
 
-    api.wikidataEntity($scope.q, function(data) {
+    api.wikidataEntity($scope.id, $scope.lang, function(data) {
+        $scope.loading = false;
         $scope.label = data.labels;
         $scope.id = data.id;
         $scope.description = data.descriptions;
         $scope.claims = data.claims;
+        $scope.image = data.claims.filter(function(claim) {
+            return claim.value.indexOf("<img") !== -1;
+        })[0].value;
+        $scope.image = $sce.trustAsHtml($scope.image);
     });
+});
+
+app.controller('searchResultsCtrl', function($scope, api, $window) {
+    $scope.q = $window.WIKIDATA_Q;
+    $scope.lang = $window.WIKIDATA_LANG || 'en';
+    $scope.loading = true;
+
+    api.wikidataSearch($scope.q, $scope.lang, function(data) {
+        $scope.loading = false;
+        $scope.results = data.response;
+    });
+});
+
+app.controller('appCtrl', function($scope) {
+    $scope.lang = 'en';
+
+    $scope.changeLang = function() {
+
+    };
 });
