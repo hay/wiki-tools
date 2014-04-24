@@ -94,13 +94,15 @@
 
         <h3>Examples</h3>
         <ul>
-            <li><a href="?q=690554">Aart Staartjes</a></li>
-            <li><a href="?q=Q426489">Mies Bouwman</a></li>
+            <li><a href="?id=Q76">Barack Obama</a></li>
+            <li><a href="?id=Q727">Amsterdam</a></li>
+            <li><a href="?id=Q219831">The Nightwatch</a></li>
         </ul>
     <?php endif; ?>
 </div>
 
     <script src="../common/jquery.js"></script>
+    <script src="../common/moment.js"></script>
     <script src="app.js"></script>
     <script>
         this.app = new App();

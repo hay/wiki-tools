@@ -22,11 +22,9 @@ Api.prototype = {
             }
 
             if (val.datatype === 'time') {
-                return val.value.time;
-            }
-
-            if (val.datatype === 'commonsMedia') {
-                return '<img src="' + val.value.thumburl + '" />';
+                // Slice of the + and the 7 zeroes following
+                var time = val.value.time.slice(8);
+                return moment(time).format('D MMMM YYYY');
             }
 
             if (val.value_labels) {
@@ -43,8 +41,29 @@ Api.prototype = {
         return claim;
     },
 
+    getImage : function(claims) {
+        var image = claims.filter(function(claim) {
+            return claim.property_id === 'P18';
+        });
+
+        return image.length ? image[0].value : false;
+    },
+
+    image : function(q, params, cb) {
+        this.call('wmcommons', {
+            method : 'imageinfo',
+            q : q,
+            width : params.width,
+            height : params.height
+        }, cb);
+    },
+
     search : function(q, cb) {
-        this.call('wikidata', { method : 'search', q : q, language : conf.lang}, cb);
+        this.call('wikidata', {
+            method : 'search',
+            q : q,
+            language : conf.lang
+        }, cb);
     },
 
     entity : function(q, cb) {
@@ -54,7 +73,11 @@ Api.prototype = {
             language : conf.lang
         }, function(data) {
             var response = data.response[q];
+
             response.claims = response.claims ? response.claims.map(this.formatClaim) : [];
+
+            response.image = this.getImage( response.claims );
+
             cb(response);
         }.bind(this));
     }
@@ -100,10 +123,20 @@ extend(Item.prototype, {
             this.id = data.id;
             this.description = data.descriptions;
             this.claims = data.claims;
-            this.image = data.claims.filter(function(claim) {
-                return claim.value.indexOf("<img") !== -1 && claim.property_id === 'P18';
-            })[0];
-            this.image = this.image ? this.image.value : '<img src="http://placekitten.com/200/150" />';
+            this.image = data.image;
+
+            if (this.image) {
+                this.api.image(this.image, {
+                    width : 300,
+                    height : 300
+                }, function(image) {
+                    this.image = image.response[0].thumburl;
+                    this.renderImage();
+                }.bind(this));
+            } else {
+                this.image = 'http://placekitten.com/200/150';
+            }
+
             this.render();
         }.bind(this));
     },
@@ -115,6 +148,10 @@ extend(Item.prototype, {
             '<td>' + claim.value || 'No label' + '</td>',
             '</tr>'
         );
+    },
+
+    renderImage : function(image) {
+        this.$el.find(".image").html('<img src="' + this.image + '" />');
     },
 
     render : function() {
