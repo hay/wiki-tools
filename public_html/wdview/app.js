@@ -135,6 +135,7 @@ extend(Item.prototype, {
                 }.bind(this));
             } else {
                 this.image = 'http://placekitten.com/200/150';
+                this.renderImage();
             }
 
             this.render();
@@ -150,7 +151,7 @@ extend(Item.prototype, {
         );
     },
 
-    renderImage : function(image) {
+    renderImage : function() {
         this.$el.find(".image").html('<img src="' + this.image + '" />');
     },
 
@@ -158,7 +159,6 @@ extend(Item.prototype, {
         this.loading(false);
         this.$el.find(".mainlabel").html(this.label);
         this.$el.find(".description").html(this.description);
-        this.$el.find(".image").html(this.image);
 
         var claims = this.claims.map(this.renderClaim);
 
