@@ -7,8 +7,8 @@
 
     if (!empty($_GET['q'])) {
         $q = $_GET['q'];
-        $site = $_GET['site'];
-        $api = new ExternalLinkSearch($site);
+        $sites = $_GET['site'];
+        $api = new ExternalLinkSearch($sites);
         $results = $api->query($q);
 
         if (!empty($_GET['format'])) {
@@ -34,8 +34,15 @@
 
         <form action="index.php" method="GET" role="form">
             <div class="form-group">
-                <label for="site">Website</label>
-                <input type="text" class="form-control" id="site" name="site" placeholder="nl.wikipedia.org" />
+                <label for="site">Project</label>
+
+                <span class="help-block">For multiple projects, separate by comma.</span>
+
+                <div class="input-group">
+                    <span class="input-group-addon">http://</span>
+                    <input type="text" class="form-control" id="site" name="site" placeholder="nl.wikipedia" />
+                    <span class="input-group-addon">.org</span>
+                </div>
             </div>
 
             <div class="form-group">
@@ -54,7 +61,7 @@
             <a href="index.php" class="pull-right btn btn-primary">Do another search</a>
         </h1>
 
-        <h2>I've got <?php echo count($results['links']); ?> pages with <?php echo $results['count']; ?> links</h2>
+        <h2>For <?php echo $results['sitecount']; ?> site(s) i found <?php echo $results['pagecount']; ?> pages with <?php echo $results['linkcount']; ?> links</h2>
 
         <div class="pull-right">
             <a class="btn btn-default" href="index.php?<?php echo $_SERVER['QUERY_STRING']; ?>&format=json">
@@ -62,37 +69,42 @@
             </a>
         </div>
 
-        <table class="table table-condensed table-hover table-striped">
-            <thead>
-                <tr>
-                    <th>Page</th>
-                    <th>Link</th>
-                    <th>Count</th>
-                </tr>
-            </thead>
+        <?php foreach ($results['sites'] as $site => $result) : ?>
+            <h2><a href="#<?php echo $site; ?>"><?php echo $site; ?></a></h2>
+            <h3>For this site i've got <?php echo $result['pagecount']; ?> pages with <?php echo $result['linkcount']; ?> links</h3>
 
-            <?php foreach ($results['links'] as $row) : ?>
-                <tr>
-                    <td>
-                        <a href="<?php echo $row['pagelink']; ?>">
-                            <?php echo $row['page']; ?>
-                        </a>
-                    </td>
+            <table class="table table-condensed table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>Page</th>
+                        <th>Link</th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
 
-                    <td class="cell-maximize-length" style="width:500px;">
-                        <?php foreach ($row["links"] as $link): ?>
-                            <a href="<?php echo $link; ?>" title="<?php echo $link; ?>">
-                                <?php echo str_replace("http://", "", $link); ?>
-                            </a><br />
-                        <?php endforeach; ?>
-                    </td>
+                <?php foreach ($result['links'] as $row) : ?>
+                    <tr>
+                        <td>
+                            <a href="<?php echo $row['pagelink']; ?>">
+                                <?php echo $row['page']; ?>
+                            </a>
+                        </td>
 
-                    <td>
-                        <?php echo $row['count']; ?>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </table>
+                        <td class="cell-maximize-length" style="width:500px;">
+                            <?php foreach ($row["links"] as $link): ?>
+                                <a href="<?php echo $link; ?>" title="<?php echo $link; ?>">
+                                    <?php echo str_replace("http://", "", $link); ?>
+                                </a><br />
+                            <?php endforeach; ?>
+                        </td>
+
+                        <td>
+                            <?php echo $row['count']; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        <?php endforeach; ?>
     <?php endif; ?>
 <?php
     $hay->footer();

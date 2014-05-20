@@ -3,25 +3,30 @@ use \Httpful\Request as Request;
 
 class ExternalLinkSearch {
     const QUERY = "?action=query&list=exturlusage&euquery=%s&format=json&eulimit=500";
-    private $endpoint, $site;
+    private $sites = array();
 
-    function __construct($site) {
-        $this->site = $site;
-        $this->endpoint = "http://$site/w/api.php";
+    function __construct($sites) {
+        $sites = explode(",",$sites);
+
+        foreach ($sites as $site) {
+            # Make sure .org is cut off from the site to make old urls work
+            $this->sites[] = trim(str_replace(".org", "", $site));
+        }
     }
 
-    public function getLinks($q) {
+    private function getLinks($q, $site) {
+        $endpoint = sprintf("http://%s.org/w/api.php", $site);
         $results = array();
         $continue = false;
 
         do {
-            $url = $this->endpoint . sprintf(self::QUERY, urlencode($q));
+            $url = $endpoint . sprintf(self::QUERY, urlencode($q));
 
             if ($continue) {
                 $url = $url . "&euoffset=$continue";
             }
 
-            // error_log("Getting $url");
+            error_log("Getting $url");
 
             $res = Request::get($url)->send();
 
@@ -35,14 +40,14 @@ class ExternalLinkSearch {
         return $results;
     }
 
-    public function query($q) {
-        $links = $this->getLinks($q);
+    private function formatLinks($q, $site) {
+        $links = $this->getLinks($q, $site);
         $results = array();
 
         foreach ($links as $item) {
             $pageid = $item->pageid;
             $page = $item->title;
-            $pagelink = sprintf("http://%s/wiki/%s", $this->site, $item->title);
+            $pagelink = sprintf("http://%s.org/wiki/%s", $site, $item->title);
             $externallink = $item->url;
 
             if (empty($results[$pageid])) {
@@ -63,8 +68,28 @@ class ExternalLinkSearch {
         });
 
         return array(
-            "count" => count($links),
+            "linkcount" => count($links),
+            "pagecount" => count($results),
             "links" => $results
         );
+    }
+
+    public function query($q) {
+        $results = array(
+            "linkcount" => 0,
+            "pagecount" => 0,
+            "sites" => array()
+        );
+
+        foreach ($this->sites as $site) {
+            $links = $this->formatLinks($q, $site);
+            $results["sites"][$site] = $links;
+            $results['linkcount'] += $links['linkcount'];
+            $results['pagecount'] += $links['pagecount'];
+        }
+
+        $results['sitecount'] = count($results['sites']);
+
+        return $results;
     }
 }
