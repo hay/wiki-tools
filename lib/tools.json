@@ -1,7 +1,18 @@
 {
     "exturl" : {
         "title" : "External URL stats",
-        "description" : "A better <a href=\"https://meta.wikimedia.org/wiki/Help:Linksearch\">External links search</a>. Collates all the links so you can view which pages have the most external links to a pattern."
+        "description" : "A better <a href=\"https://meta.wikimedia.org/wiki/Help:Linksearch\">External links search</a>. Collates all the links so you can view which Wikipedia pages have the most external links to a pattern."
+    },
+
+    "langstat" : {
+        "title" : "Multilingual stats",
+        "description" : "Shows the page views for a Wikipedia article in all available languages.",
+        "hidden" : true
+    },
+
+    "wdview" : {
+        "title" : "Wikidata View",
+        "description" : "A simple <a href=\"http://tools.wmflabs.org/reasonator/\">Reasonator</a>-like viewer for Wikidata items using the simplified Wikidata Readyonly API."
     },
 
     "gtaa" : {
@@ -29,8 +40,8 @@
         "description" : "View Wikipedia articles in Google Maps &amp; Street View."
     },
 
-    "wdview" : {
-        "title" : "Wikidata View",
-        "description" : "A simple <a href=\"http://tools.wmflabs.org/reasonator/\">Reasonator</a>-like viewer for Wikidata items using the simplified Wikidata Readyonly API."
+    "sgdtransform" : {
+        "title" : "SGD Transform",
+        "description" : "Add a source URL to XML files provided by the <a href=\"http://www.statengeneraaldigitaal.nl/\">Staten Generaal Digitaal</a> API."
     }
 }

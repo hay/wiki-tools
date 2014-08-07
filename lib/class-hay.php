@@ -22,7 +22,16 @@ class Hay {
     }
 
     public function getTools() {
-        return $this->tools;
+        // Remove all 'hidden' tools
+        $tools = array();
+
+        foreach ($this->tools as $tool => $data) {
+            if (empty($data->hidden)) {
+                $tools[$tool] = $data;
+            }
+        }
+
+        return $tools;
     }
 
     public function title() {
