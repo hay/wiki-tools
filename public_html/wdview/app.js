@@ -126,11 +126,13 @@ extend(Item.prototype, {
             this.image = data.image;
 
             if (this.image) {
+                var imageTitle = this.image;
+
                 this.api.image(this.image, {
                     width : 300,
                     height : 300
                 }, function(image) {
-                    this.image = image.response[0].thumburl;
+                    this.image = image.response[imageTitle].thumburl;
                     this.renderImage();
                 }.bind(this));
             } else {
