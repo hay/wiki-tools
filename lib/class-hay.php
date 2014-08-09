@@ -46,7 +46,7 @@ class Hay {
         $root = ROOT;
         $html = <<<HTML
 <!doctype html>
-<html>
+<html ng-app="app">
 <head>
  <!-- __                                    __                   ___
      /\ \                                  /\ \__               /\_ \

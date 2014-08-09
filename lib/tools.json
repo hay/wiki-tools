@@ -1,4 +1,10 @@
 {
+    "wdpainting" : {
+        "title" : "The Wikidata Painting Browser",
+        "description" : "See all the paintings that are on Wikidata, and help us to get <a href=\"https://www.wikidata.org/wiki/Wikidata:WikiProject_sum_of_all_paintings\">the sum of them</a>.",
+        "hidden" : true
+    },
+
     "exturl" : {
         "title" : "External URL stats",
         "description" : "A better <a href=\"https://meta.wikimedia.org/wiki/Help:Linksearch\">External links search</a>. Collates all the links so you can view which Wikipedia pages have the most external links to a pattern."
