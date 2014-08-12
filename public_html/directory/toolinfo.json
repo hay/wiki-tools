@@ -1,0 +1,7 @@
+{
+    "name" : "Tools Directory",
+    "description" : "A way to easily discover Wikimedia-related tools.",
+    "url" : "http://tools.wmflabs.org/hay/directory",
+    "keywords" : ["tools", "recursion", "discoverability"],
+    "author" : "Hay Kranen"
+}

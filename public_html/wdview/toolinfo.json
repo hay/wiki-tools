@@ -1,5 +1,5 @@
 {
-    "title" : "Wikidata View",
+    "name" : "Wikidata View",
     "description" : "A simple Reasonator-like viewer for Wikidata items using the simplified Wikidata Readyonly API.",
     "url" : "http://tools.wmflabs.org/hay/wdview",
     "keywords" : ["wikidata", "reasonator", "api", "visual", "reuse"],

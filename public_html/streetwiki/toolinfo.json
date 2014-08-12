@@ -1,5 +1,5 @@
 {
-    "title" : "Streetwiki",
+    "name" : "Streetwiki",
     "description" : "View Wikipedia articles in Google Maps &amp; Street View.",
     "url" : "http://tools.wmflabs.org/hay/streetwiki",
     "keywords" : ["wikipedia", "google maps", "maps", "visual", "reuse", "streetview"],

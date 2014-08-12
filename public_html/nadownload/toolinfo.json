@@ -1,5 +1,5 @@
 {
-    "title" : "NA Download",
+    "name" : "NA Download",
     "description" : "A small tool to download all images from a Dutch National Archive inventory.",
     "url" : "http://tools.wmflabs.org/hay/nadownload",
     "keywords" : ["na", "nationaal archief", "download", "glam", "inventory"],
