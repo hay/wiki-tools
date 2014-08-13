@@ -1,5 +1,5 @@
 <?php
-ORM::configure('mysql:host=localhost;dbname=' . DB_TOOLSDIRECTORY);
+ORM::configure('mysql:host=' . DB_HOST . ';dbname=' . DB_TOOLSDIRECTORY);
 ORM::configure('username', DB_USER);
 ORM::configure('password', DB_PASS);
 

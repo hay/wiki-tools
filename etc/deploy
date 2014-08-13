@@ -1,5 +1,5 @@
 #!/bin/bash
-rsync --exclude .git --exclude config.php -av --del ../* tools:tools
+rsync --exclude .git --exclude config.php --exclude crawl.log -av --del ../* tools:tools
 
 # Copy files
 ssh tools <<'ENDSSH'
