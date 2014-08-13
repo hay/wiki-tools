@@ -9,9 +9,10 @@ class Crawl {
     const ERR_UNAVAILABLE_JSON_FOR_KNOWN_TOOL = 2;
     const ERR_UNAVAILABLE_JSON_FOR_UNKNOWN_TOOL = 3;
 
-    private $crawllist;
+    private $crawllist, $api;
 
     function __construct() {
+        $this->api = new Api();
         $now = time();
         $this->log("Starting new crawl");
 
@@ -29,7 +30,7 @@ class Crawl {
                 $toolinfo = $this->getToolInfo($url);
             } catch (Exception $e) {
                 if ($e->getCode() == ERR_UNAVAILABLE_JSON_FOR_KNOWN_TOOL) {
-                    $tool = Model::factory('Tool')->where('jsonurl', $url);
+                    $tool = $api->getByJsonUrl($url);
                     $tool->unavailable = true;
                     $tool->save();
                 }
@@ -41,15 +42,15 @@ class Crawl {
 
             $toolinfo->jsonurl = $url;
 
-            if ($this->isToolInDatabase($url)) {
+            if ($this->api->hasByJsonUrl($url)) {
                 $this->log("'$name' already in database, updating values");
 
-                $tool = Model::factory('Tool')->where('jsonurl', $url)->find_one();
+                $tool = $this->api->getByJsonUrl($url);
                 $tool->update($toolinfo);
             } else {
                 $this->log("'$name' not in database, creating");
 
-                $tool = Model::factory('Tool')->create();
+                $tool = $this->api->createTool();
                 $tool->update($toolinfo);
             }
         }
@@ -70,7 +71,7 @@ class Crawl {
                 throw new Exception("Invalid JSON", ERR_INVALID_JSON);
             }
         } else {
-            if ($this->isToolInDatabase($url)) {
+            if ($this->api->hasByJsonUrl($url)) {
                 throw new Exception("JSON not available for this known tool", ERR_UNAVAILABLE_JSON_FOR_KNOWN_TOOL);
             } else {
                 throw new Exception("JSON not available for this unknown tool", ERR_UNAVAILABLE_JSON_FOR_UNKNOWN_TOOL);
@@ -118,17 +119,9 @@ class Crawl {
     // Check if all the jsonurls in the database are in the the crawllist, if
     // not, set them as 'deleted' in the db
     private function checkDeletedTools() {
-        foreach ($this->getTools() as $tool) {
+        foreach ($this->api->getAllTools() as $tool) {
             $tool->deleted = !in_array($tool->jsonurl, $this->crawllist);
             $tool->save();
         }
-    }
-
-    private function getTools() {
-        return Model::factory('Tool')->find_many();
-    }
-
-    private function isToolInDatabase($url) {
-        return Model::factory('Tool')->where('jsonurl', $url)->find_one();
     }
 }

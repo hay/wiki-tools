@@ -18,3 +18,25 @@ class Tool extends Model {
         $this->save();
     }
 }
+
+class Api {
+    function __construct() {
+
+    }
+
+    public function createTool() {
+        return Model::factory('Tool')->create();
+    }
+
+    public function getAllTools() {
+        return Model::factory('Tool')->find_many();
+    }
+
+    public function getByJsonUrl($url) {
+        return Model::factory('Tool')->where('jsonurl', $url)->find_one();
+    }
+
+    public function hasByJsonUrl($url) {
+        return (bool) $this->getByJsonUrl($url);
+    }
+}
