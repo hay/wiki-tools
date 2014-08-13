@@ -46,7 +46,7 @@ class Hay {
         $root = ROOT;
         $html = <<<HTML
 <!doctype html>
-<html ng-app="app">
+<html ng-app="$this->toolname">
 <head>
  <!-- __                                    __                   ___
      /\ \                                  /\ \__               /\_ \
@@ -62,21 +62,7 @@ class Hay {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>$this->titletag</title>
     <link rel="stylesheet" href="{$root}/vendor/bootstrap/css/bootstrap.min.css" />
-    <style>
-        #wrapper { max-width: 700px; }
-
-        .dl-horizontal dd {
-            padding-bottom: 10px;
-            margin-bottom: 10px;
-        }
-
-        .cell-maximize-length {
-            text-overflow: ellipsis;
-            overflow: hidden;
-            display: inline-block;
-            white-space: nowrap;
-        }
-    </style>
+    <link rel="stylesheet" href="{$root}/common/style.css" />
 </head>
 <body>
 <div id="wrapper" class="container">
@@ -105,7 +91,7 @@ HTML;
 
         <hr />
 
-        <footer>
+        <footer class="footer">
             <p><small>Unless stated otherwise all code on these pages is under the <a href="http://opensource.org/licenses/MIT">MIT license</a> and all text and other media is under the <a href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-Sharealike (BY-SA) license</a>.</small></p>
         </footer>
     </div> <!-- .container -->
