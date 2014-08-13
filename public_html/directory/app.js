@@ -61,6 +61,8 @@ app.controller('MainCtrl', function($scope, Api, $location) {
         $scope.value = value;
 
         $scope.tools = $scope.tools.filter(function(tool) {
+            window.scrollTo(0, 0);
+
             if (filter === 'keyword') {
                 return tool.keywords.indexOf(value) !== -1;
             } else if (filter === 'author') {
@@ -74,5 +76,10 @@ app.controller('MainCtrl', function($scope, Api, $location) {
     $scope.resetFilter = function() {
         $scope.filter = null;
         $scope.value = null;
+    }
+
+    $scope.addTool = function() {
+        // This is a bloody awful hack
+        window.scrollTo(0, $("#addtool").offset().top);
     }
 });
