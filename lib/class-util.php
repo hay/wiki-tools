@@ -6,23 +6,6 @@ class Util {
         );
     }
 
-    public static function format($str, $map, $delimiters = "<>") {
-        $regex = sprintf("!\%s([^{]*)\%s!", $delimiters[0], $delimiters[1])
-
-        preg_match_all($regex, $str, $matches);
-
-        $replacements = array();
-        for ($i = 0; $i < count($matches[1]); $i++) {
-            $key = $matches[1][$i];
-            if (isset($map[$key])) {
-                $val = $matches[0][$i];
-                $str = str_replace($val, $map[$key], $str);
-            }
-        }
-
-        return $str;
-    }
-
     public static function xmlToArray($xml, $options = array()) {
         $defaults = array(
             'namespaceSeparator' => ':',//you may want this to be something other than a colon

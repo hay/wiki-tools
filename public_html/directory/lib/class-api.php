@@ -7,6 +7,11 @@ class Tool extends Model {
     public static $_table = "tools";
 
     public function update($data) {
+        // If no title is present, use 'name' instead
+        if (!isset($data->title)) {
+            $data->title = $data->name;
+        }
+
         foreach ($data as $key => $value) {
             $this->set($key, $value);
         }
@@ -32,11 +37,19 @@ class Api {
         return Model::factory('Tool')->find_one($id);
     }
 
+    public function getToolByName($name) {
+        return Model::factory('Tool')->where('name', $name)->find_one();
+    }
+
     public function getToolByJsonUrl($url) {
-        return Model::factory('Tool')->where('jsonurl', $url)->find_one();
+        return Model::factory('Tool')->where('jsonurl', $url)->find_many();
     }
 
     public function hasToolByJsonUrl($url) {
         return (bool) $this->getByJsonUrl($url);
+    }
+
+    public function hasToolByName($name) {
+        return (bool) $this->getToolByName($name);
     }
 }

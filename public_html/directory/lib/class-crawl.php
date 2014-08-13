@@ -20,19 +20,19 @@ class Crawl {
 
         $this->checkDeletedTools();
 
-        foreach ($this->crawllist as $crawlinfo) {
-            $url = $crawlinfo['url'];
-            $name = $crawlinfo['name'];
-
-            $this->log("Now crawling $name < $url >");
+        foreach ($this->crawllist as $url) {
+            $this->log("Now crawling < $url >");
 
             try {
-                $toolinfo = $this->getToolInfo($url);
+                $tools = $this->getToolInfo($url);
             } catch (Exception $e) {
                 if ($e->getCode() == ERR_UNAVAILABLE_JSON_FOR_KNOWN_TOOL) {
-                    $tool = $api->getToolByJsonUrl($url);
-                    $tool->unavailable = true;
-                    $tool->save();
+                    $tools = $api->getToolByJsonUrl($url);
+
+                    foreach ($tools as $tool) {
+                        $tool->unavailable = true;
+                        $tool->save();
+                    }
                 }
 
                 $this->log("Error for '$name': " . $e->getMessage());
@@ -40,18 +40,24 @@ class Crawl {
                 continue;
             }
 
-            $toolinfo->jsonurl = $url;
+            // Now loop over all the tools, and process them
+            foreach ($tools as $tool) {
+                $tool->jsonurl = $url;
 
-            if ($this->api->hasToolByJsonUrl($url)) {
-                $this->log("'$name' already in database, updating values");
+                // Using 'title' instead of 'name' is deprecated
+                $name = isset($tool->name) ? $tool->name : $tool->title;
 
-                $tool = $this->api->getToolByJsonUrl($url);
-                $tool->update($toolinfo);
-            } else {
-                $this->log("'$name' not in database, creating");
+                if ($this->api->hasToolByName($name)) {
+                    $this->log("'$name' already in database, updating values");
 
-                $tool = $this->api->createTool();
-                $tool->update($toolinfo);
+                    $record = $this->api->getToolByName($name);
+                    $record->update($tool);
+                } else {
+                    $this->log("'$name' not in database, creating");
+
+                    $record = $this->api->createTool();
+                    $record->update($tool);
+                }
             }
         }
 
@@ -66,7 +72,14 @@ class Crawl {
             $json = json_decode($req->raw_body);
 
             if ($json) {
-                return $json;
+                // Check if this is a 'multi-tool-list', or simply one tool
+                if (is_object($json)) {
+                    // Put the lonely tool in an array to simplify handling later
+                    return array( $json );
+                } else {
+                    // More than one tool
+                    return $json;
+                }
             } else {
                 throw new Exception("Invalid JSON", ERR_INVALID_JSON);
             }
@@ -85,6 +98,7 @@ class Crawl {
     }
 
     private function getCrawlList() {
+        /*
         $params = http_build_query(array(
             "format" => "json",
             "action" => "query",
@@ -98,22 +112,25 @@ class Crawl {
         // Note the awful use of 'reset' here, because of MW api's strange
         // tendency to give back the page as the first item
         $source = reset($res->body->query->pages)->revisions[0]->{'*'};
+        */
+
+        $res = Request::get('http://localhost/test/tools.txt')->send();
+        $source = "<p>" . $res->raw_body . "</p>";
 
         // Parse the <source> tag and get out the actual URLs
-        $tools = (string) simplexml_load_string($source);
+        $xml = simplexml_load_string($source);
+        $tools = (string) $xml->source;
         $tools = explode("\n", trim($tools));
 
-        // Seperate the name from the url
-        return array_map(function($tool) {
-            $vals = explode(":", $tool);
-            $name = trim(array_shift($vals));
-            $url = trim(implode(":", $vals));
+        // Trim all lines
+        $tools = array_map("trim", $tools);
 
-            return array(
-                "name" => trim($name),
-                "url" => trim($url)
-            );
-        }, $tools);
+        // Remove comments from the tools and newlines and other strange crap
+        $tools = array_filter($tools, function($tool) {
+            return substr($tool, 0, 4) == "http";
+        });
+
+        return $tools;
     }
 
     // Check if all the jsonurls in the database are in the the crawllist, if
