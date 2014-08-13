@@ -22,10 +22,10 @@
 
     // When redirecting, first count it in the database so we can rank
     // the tools later on
-    function redirect($id) {
+    function redirect($name) {
         global $api;
 
-        $tool = $api->getToolById($id);
+        $tool = $api->getToolByName($name);
 
         if (!$tool) {
             $url = "http://tools.wmflabs.org/hay/directory";

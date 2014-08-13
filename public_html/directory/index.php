@@ -63,7 +63,7 @@
 
         <ul class="tools">
             <li ng-repeat="tool in tools" class="tools-item col-md-4">
-                <h3><a href="{{tool.url}}">{{tool.name}}</a></h3>
+                <h3><a href="{{tool.url}}" ng-click="trackClick(tool.name, tool.url)">{{tool.title || tool.name}}</a></h3>
                 <h4>{{tool.description}}</h4>
                 <h5>By
                     <span ng-repeat="author in tool.author">
@@ -90,15 +90,31 @@
 
     <pre><code>
 {
-    "name" : "Tools Directory",
-    "description" : "A way to easily discover Wikimedia-related tools.",
-    "url" : "http://tools.wmflabs.org/hay/directory",
+    "name" : "hay-tools-directory", // A unique name for your tool
+    "title" : "Tools Directory", // A descriptive title
+    "description" : "A way to easily discover Wikimedia-related tools.", // A short summary of what your tool does
+    "url" : "http://tools.wmflabs.org/hay/directory", // The URL to your tool
     "keywords" : "tools, search, discoverability", // separate keywords by comma
     "author" : "Hay Kranen" // for multiple authors, separate by comma
 }
     </code></pre>
 
     <p>All the fields are <strong>required</strong>.</p>
+
+    <p>If you have multiple tools you can also declare multiple tools in one <code>toolinfo.json</code>, simply use an array with objects.</p>
+
+    <pre><code>
+[
+    {
+        "name" : "hay-directory",
+        ....
+    },
+    {
+        "name" : "hay-exturl",
+        ....
+    }
+]
+    </code></pre>
 
     <h3>Step 2</h3>
 
@@ -109,13 +125,7 @@
     <h3>Step 3</h3>
 
     <p>Add the link to your toolinfo.json file to the <a href="https://wikitech.wikimedia.org/wiki/User:Hay/directory">Wiki directory page</a>.
-    The location of this page will probably change in the future (it's now in my user namespace). This should be in the format <code>toolname: url to tool</code>, e.g:</p>
-
-    <pre><code>
-directory: http://tools.wmflabs.org/hay/directory/toolinfo.json
-    </code></pre>
-
-    <p>The <code>toolname</code> is used for logging, it has no other purpose right now.</p>
+    The location of this page will probably change in the future (it's now in my user namespace). Simply put in on a newline. You can also add comments with a hash (<code>#</code>) to group your <code>toolinfo.json</code> files.</p>
 
     <h4>Step 4</h4>
 

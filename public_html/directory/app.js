@@ -8,11 +8,6 @@ app.factory('util', function() {
             return str.split(by).map(function(s) {
                 return s.trim();
             });
-        },
-
-        shuffle : function(o) {
-            for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-            return o;
         }
     };
 });
@@ -21,13 +16,6 @@ app.factory('Api', function($http, $q, util) {
     var tools;
 
     function parseTools(toolData) {
-        /*
-        // Randomize, to make sure we don't get the same tools at the top
-        // every time. In the future, we might have some kind of proper
-        // ranking here
-        toolData = util.shuffle(toolData);
-        */
-
         return toolData.map(function(tool) {
             // Add a 'fulltext' property for full-text searching
             tool.fulltext = '';
@@ -65,6 +53,10 @@ app.factory('Api', function($http, $q, util) {
             }
 
             return defer.promise;
+        },
+
+        trackClick : function(name) {
+            $http.get('api.php?redirect=' + name);
         }
     };
 });
@@ -138,5 +130,9 @@ app.controller('MainCtrl', function($scope, Api, $location) {
 
     $scope.search = function() {
         searchTools($scope.searchValue);
+    }
+
+    $scope.trackClick = function(name, url) {
+        Api.trackClick(name);
     }
 });
