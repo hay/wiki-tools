@@ -5,31 +5,60 @@
     $hay = new Hay("directory");
     $hay->header();
 ?>
+
+<style>
+    #wrapper {
+        max-width: inherit;
+    }
+
+    #header h1 {
+        margin-top: 0;
+    }
+
+    #header button {
+        margin-top: 20px;
+    }
+
+    #search {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    #search input {
+        width: 500px;
+    }
+</style>
+
 <div ng-controller="MainCtrl">
-    <div class="row">
+    <div id="header" class="row">
         <div class="col-md-6">
-            <h1 style="margin-top:0;"><?php $hay->title(); ?></h1>
+            <h1><?php $hay->title(); ?></h1>
         </div>
 
         <div class="col-md-6">
-            <button ng-click="addTool()" class="btn btn-primary pull-right" style="margin-top:20px;">Add your tool</a>
+            <button ng-click="addTool()" class="btn btn-primary pull-right">Add your tool</a>
         </div>
     </div>
 
     <p class="lead"><?php $hay->description(); ?></p>
 
-    <style>
-        #wrapper {
-            max-width: inherit;
-        }
-    </style>
-
     <div id="app">
         <h3 ng-show="loading">Loading...</h3>
+
+        <form id="search" class="form-inline clearfix" ng-show="!filter">
+            <div class="form-group">
+                <label for="search">I need...</label>
+                <input class="form-control" type="text" name="search" ng-keyup="search()" ng-model="searchValue" />
+            </div>
+        </form>
 
         <div class="alert alert-info" ng-show="filter">
             Only showing all tools with <strong>{{value}}</strong> as <strong>{{filter}}</strong>.
             <a href="#" ng-click="resetFilter()">Show all tools instead?</a>
+        </div>
+
+        <div class="alert alert-danger" ng-show="noSearchResults">
+            No search results for this query...
         </div>
 
         <ul class="tools">

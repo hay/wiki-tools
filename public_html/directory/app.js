@@ -13,14 +13,21 @@ app.factory('Api', function($http, $q) {
             } else {
                 $http.get("api.php").success(function(loadedTools) {
                     tools = loadedTools.map(function(tool) {
+                        // Add a 'fulltext' property for full-text searching
+                        tool.fulltext = '';
+
+                        for (var key in tool) {
+                            tool.fulltext += "," + tool[key].toLowerCase();
+                        }
+
                         // Split keywords
                         if (tool.keywords) {
                             tool.keywords = tool.keywords.split(',').map(function(keyword) {
                                 return keyword.trim();
                             });
-
-                            return tool;
                         }
+
+                        return tool;
                     });
 
                     defer.resolve(tools);
@@ -73,6 +80,22 @@ app.controller('MainCtrl', function($scope, Api, $location) {
         });
     }
 
+    function searchTools(q) {
+        Api.loadTools().then(function(tools) {
+            if (!q) {
+                $scope.tools = tools;
+            } else {
+                q = q.toLowerCase();
+
+                $scope.tools = tools.filter(function(tool) {
+                    return tool.fulltext.indexOf(q) !== -1;
+                });
+
+                $scope.noSearchResults = !$scope.tools.length;
+            }
+        });
+    }
+
     $scope.resetFilter = function() {
         $scope.filter = null;
         $scope.value = null;
@@ -81,5 +104,9 @@ app.controller('MainCtrl', function($scope, Api, $location) {
     $scope.addTool = function() {
         // This is a bloody awful hack
         window.scrollTo(0, $("#addtool").offset().top);
+    }
+
+    $scope.search = function() {
+        searchTools($scope.searchValue);
     }
 });
