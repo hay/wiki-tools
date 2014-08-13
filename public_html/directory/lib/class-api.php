@@ -25,14 +25,18 @@ class Api {
     }
 
     public function getAllTools() {
-        return Model::factory('Tool')->find_many();
+        return Model::factory('Tool')->order_by_desc('redirects')->find_many();
     }
 
-    public function getByJsonUrl($url) {
+    public function getToolById($id) {
+        return Model::factory('Tool')->find_one($id);
+    }
+
+    public function getToolByJsonUrl($url) {
         return Model::factory('Tool')->where('jsonurl', $url)->find_one();
     }
 
-    public function hasByJsonUrl($url) {
+    public function hasToolByJsonUrl($url) {
         return (bool) $this->getByJsonUrl($url);
     }
 }

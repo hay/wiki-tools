@@ -65,7 +65,11 @@
             <li ng-repeat="tool in tools" class="tools-item col-md-4">
                 <h3><a href="{{tool.url}}">{{tool.name}}</a></h3>
                 <h4>{{tool.description}}</h4>
-                <h5>By <a href="#/author/{{tool.author}}">{{tool.author}}</a></h5>
+                <h5>By
+                    <span ng-repeat="author in tool.author">
+                        <a href="#/author/{{author}}">{{author}}</a><span ng-if="tool.author.length > 1 && !$last">,</span>
+                    </span>
+                </h5>
 
                 <p class="tools-keywords">
                     <a href="#/keyword/{{keyword}}" ng-repeat="keyword in tool.keywords">
@@ -89,8 +93,8 @@
     "name" : "Tools Directory",
     "description" : "A way to easily discover Wikimedia-related tools.",
     "url" : "http://tools.wmflabs.org/hay/directory",
-    "keywords" : "tools, search, discoverability",
-    "author" : "Hay Kranen"
+    "keywords" : "tools, search, discoverability", // separate keywords by comma
+    "author" : "Hay Kranen" // for multiple authors, separate by comma
 }
     </code></pre>
 

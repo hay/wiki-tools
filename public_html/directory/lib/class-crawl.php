@@ -30,7 +30,7 @@ class Crawl {
                 $toolinfo = $this->getToolInfo($url);
             } catch (Exception $e) {
                 if ($e->getCode() == ERR_UNAVAILABLE_JSON_FOR_KNOWN_TOOL) {
-                    $tool = $api->getByJsonUrl($url);
+                    $tool = $api->getToolByJsonUrl($url);
                     $tool->unavailable = true;
                     $tool->save();
                 }
@@ -42,10 +42,10 @@ class Crawl {
 
             $toolinfo->jsonurl = $url;
 
-            if ($this->api->hasByJsonUrl($url)) {
+            if ($this->api->hasToolByJsonUrl($url)) {
                 $this->log("'$name' already in database, updating values");
 
-                $tool = $this->api->getByJsonUrl($url);
+                $tool = $this->api->getToolByJsonUrl($url);
                 $tool->update($toolinfo);
             } else {
                 $this->log("'$name' not in database, creating");
@@ -71,7 +71,7 @@ class Crawl {
                 throw new Exception("Invalid JSON", ERR_INVALID_JSON);
             }
         } else {
-            if ($this->api->hasByJsonUrl($url)) {
+            if ($this->api->hasToolByJsonUrl($url)) {
                 throw new Exception("JSON not available for this known tool", ERR_UNAVAILABLE_JSON_FOR_KNOWN_TOOL);
             } else {
                 throw new Exception("JSON not available for this unknown tool", ERR_UNAVAILABLE_JSON_FOR_UNKNOWN_TOOL);

@@ -1,18 +1,32 @@
 var app = angular.module('directory',[]);
 
-app.factory('Api', function($http, $q) {
+app.factory('util', function() {
+    return {
+        splittrim : function(str, by) {
+            by = by || ',';
+
+            return str.split(by).map(function(s) {
+                return s.trim();
+            });
+        },
+
+        shuffle : function(o) {
+            for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+            return o;
+        }
+    };
+});
+
+app.factory('Api', function($http, $q, util) {
     var tools;
 
-    function shuffle(o) {
-        for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-        return o;
-    };
-
     function parseTools(toolData) {
+        /*
         // Randomize, to make sure we don't get the same tools at the top
         // every time. In the future, we might have some kind of proper
         // ranking here
-        toolData = shuffle(toolData);
+        toolData = util.shuffle(toolData);
+        */
 
         return toolData.map(function(tool) {
             // Add a 'fulltext' property for full-text searching
@@ -24,9 +38,12 @@ app.factory('Api', function($http, $q) {
 
             // Split keywords
             if (tool.keywords) {
-                tool.keywords = tool.keywords.split(',').map(function(keyword) {
-                    return keyword.trim();
-                });
+                tool.keywords = util.splittrim(tool.keywords);
+            }
+
+            // Split authors
+            if (tool.author) {
+                tool.author = util.splittrim(tool.author);
             }
 
             return tool;
