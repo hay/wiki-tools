@@ -2,6 +2,6 @@
     "name" : "GTAA Reasonator",
     "description" : "Reasonator-like tool for viewing items in the GTAA (Gemeenschappelijke Thesaurus Audiovisuele Archieven ).",
     "url" : "http://tools.wmflabs.org/hay/gtaa",
-    "keywords" : ["gtaa", "wikidata", "visual", "semantics"],
+    "keywords" : "gtaa, wikidata, visual, semantics",
     "author" : "Hay Kranen"
 }

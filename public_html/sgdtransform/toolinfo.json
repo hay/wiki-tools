@@ -2,6 +2,6 @@
     "name" : "SGD Transform",
     "description" : "Add a source URL to XML files provided by the Staten Generaal Digitaal API.",
     "url" : "http://tools.wmflabs.org/hay/sgdtransform",
-    "keywords" : ["sgd", "xml", "staten generaal digitaal", "kb"],
+    "keywords" : "sgd, xml, staten generaal digitaal, kb",
     "author" : "Hay Kranen"
 }

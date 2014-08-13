@@ -8,10 +8,6 @@ class Tool extends Model {
 
     public function update($data) {
         foreach ($data as $key => $value) {
-            if ($key == "keywords") {
-                $value = implode(",", $value);
-            }
-
             $this->set($key, $value);
         }
 
