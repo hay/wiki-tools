@@ -32,6 +32,7 @@ hr, .footer {
     border-left: 3px solid #00af89;
     border-right: 20px solid white;
     margin-bottom: 20px;
+    overflow: hidden;
 }
 
 .tools-item h4 {
