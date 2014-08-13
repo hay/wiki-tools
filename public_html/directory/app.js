@@ -3,6 +3,36 @@ var app = angular.module('directory',[]);
 app.factory('Api', function($http, $q) {
     var tools;
 
+    function shuffle(o) {
+        for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+        return o;
+    };
+
+    function parseTools(toolData) {
+        // Randomize, to make sure we don't get the same tools at the top
+        // every time. In the future, we might have some kind of proper
+        // ranking here
+        toolData = shuffle(toolData);
+
+        return toolData.map(function(tool) {
+            // Add a 'fulltext' property for full-text searching
+            tool.fulltext = '';
+
+            for (var key in tool) {
+                tool.fulltext += "," + tool[key].toLowerCase();
+            }
+
+            // Split keywords
+            if (tool.keywords) {
+                tool.keywords = tool.keywords.split(',').map(function(keyword) {
+                    return keyword.trim();
+                });
+            }
+
+            return tool;
+        });
+    }
+
     return {
         loadTools : function() {
             var defer = $q.defer();
@@ -12,24 +42,7 @@ app.factory('Api', function($http, $q) {
                 defer.resolve(tools);
             } else {
                 $http.get("api.php").success(function(loadedTools) {
-                    tools = loadedTools.map(function(tool) {
-                        // Add a 'fulltext' property for full-text searching
-                        tool.fulltext = '';
-
-                        for (var key in tool) {
-                            tool.fulltext += "," + tool[key].toLowerCase();
-                        }
-
-                        // Split keywords
-                        if (tool.keywords) {
-                            tool.keywords = tool.keywords.split(',').map(function(keyword) {
-                                return keyword.trim();
-                            });
-                        }
-
-                        return tool;
-                    });
-
+                    tools = parseTools(loadedTools);
                     defer.resolve(tools);
                 });
             }

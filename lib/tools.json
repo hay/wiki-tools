@@ -1,8 +1,7 @@
 {
     "directory" : {
         "title" : "Tools Directory",
-        "description" : "A way to easily discover Wikimedia-related tools.",
-        "hidden" : true
+        "description" : "A way to easily discover Wikimedia-related tools."
     },
 
     "wdpainting" : {
