@@ -1,35 +1,78 @@
-var app = angular.module('directory', ['ui.router']).config(
-    function($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.otherwise('/404');
+var app = angular.module('directory',[]);
 
-        $stateProvider
-            .state('root', {
-                url : '/'
-            })
-            .state('keyword', {
-                url : '/keyword/:keyword'
-            })
-            .state('author', {
-                url : '/author/:author'
-            });
-    }
-);
+app.factory('Api', function($http, $q) {
+    var tools;
 
-app.controller('MainCtrl', function($scope, $http) {
+    return {
+        loadTools : function() {
+            var defer = $q.defer();
+
+            // Make sure we only load the tools once in memory
+            if (tools) {
+                defer.resolve(tools);
+            } else {
+                $http.get("api.php").success(function(loadedTools) {
+                    tools = loadedTools.map(function(tool) {
+                        // Split keywords
+                        if (tool.keywords) {
+                            tool.keywords = tool.keywords.split(',').map(function(keyword) {
+                                return keyword.trim();
+                            });
+
+                            return tool;
+                        }
+                    });
+
+                    defer.resolve(tools);
+                });
+            }
+
+            return defer.promise;
+        }
+    };
+});
+
+app.controller('MainCtrl', function($scope, Api, $location) {
     $scope.loading = true;
 
-    $http.get("api.php").success(function(tools) {
-        // Split keywords
-        tools = tools.map(function(tool) {
-            if (tool.keywords) {
-                tool.keywords = tool.keywords.split(',').map(function(keyword) {
-                    return keyword.trim();
-                });
+    if ($location.path() === '') {
+        $location.path('/');
+    }
 
-                return tool;
+    $scope.location = $location;
+
+    $scope.$watch('location.path()', function (path) {
+        Api.loadTools().then(function(tools) {
+            $scope.tools = tools;
+            $scope.loading = false;
+
+            var parts = path.slice(1).split('/');
+
+            if (parts[1]) {
+                var filter = parts[0];
+                var value = parts[1];
+                filterTools(filter, value);
             }
         });
-        $scope.tools = tools;
-        $scope.loading = false;
     });
+
+    function filterTools(filter, value) {
+        $scope.filter = filter;
+        $scope.value = value;
+
+        $scope.tools = $scope.tools.filter(function(tool) {
+            if (filter === 'keyword') {
+                return tool.keywords.indexOf(value) !== -1;
+            } else if (filter === 'author') {
+                return tool.author.indexOf(value) !== -1;
+            } else {
+                return true;
+            }
+        });
+    }
+
+    $scope.resetFilter = function() {
+        $scope.filter = null;
+        $scope.value = null;
+    }
 });
