@@ -98,7 +98,6 @@ class Crawl {
     }
 
     private function getCrawlList() {
-        /*
         $params = http_build_query(array(
             "format" => "json",
             "action" => "query",
@@ -111,11 +110,8 @@ class Crawl {
 
         // Note the awful use of 'reset' here, because of MW api's strange
         // tendency to give back the page as the first item
-        $source = reset($res->body->query->pages)->revisions[0]->{'*'};
-        */
-
-        $res = Request::get('http://localhost/test/tools.txt')->send();
-        $source = "<p>" . $res->raw_body . "</p>";
+        $source = trim(reset($res->body->query->pages)->revisions[0]->{'*'});
+        $source = "<p>$source</p>";
 
         // Parse the <source> tag and get out the actual URLs
         $xml = simplexml_load_string($source);
