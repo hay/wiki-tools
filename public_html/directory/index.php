@@ -1,5 +1,8 @@
 <?php
+    require '../../lib/vendor/autoload.php';
     require '../../lib/class-hay.php';
+    require 'lib/class-db.php';
+
     $hay = new Hay("directory");
     $hay->header();
 ?>
@@ -7,7 +10,19 @@
 
     <p class="lead"><?php $hay->description(); ?></p>
 
-    <p>Hoi</p>
+    <style>
+        #wrapper {
+            max-width: inherit;
+        }
+    </style>
+
+    <?php
+        $tools = Model::factory('Tool')->find_many();
+
+        foreach ($tools as $tool) {
+            echo $tool->name;
+        }
+    ?>
 <?php
     $hay->footer();
 ?>

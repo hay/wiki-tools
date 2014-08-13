@@ -1,4 +1,10 @@
 {
+    "directory" : {
+        "title" : "Tools Directory",
+        "description" : "A way to easily discover Wikimedia-related tools.",
+        "hidden" : true
+    },
+
     "wdpainting" : {
         "title" : "The Wikidata Painting Browser",
         "description" : "See all the paintings that are on Wikidata, and help us to get <a href=\"https://www.wikidata.org/wiki/Wikidata:WikiProject_sum_of_all_paintings\">the sum of them</a>.",

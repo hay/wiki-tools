@@ -2,6 +2,7 @@
     "require": {
         "fabpot/goutte" : "~1.0",
         "nategood/httpful": "*",
+        "j4mie/paris" : "1.5.*",
         "slim/slim": "2.*"
     }
 }
