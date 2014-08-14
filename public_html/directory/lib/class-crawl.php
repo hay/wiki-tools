@@ -12,6 +12,7 @@ class Crawl {
     private $crawllist, $api;
 
     function __construct() {
+        date_default_timezone_set("UTC");
         $this->api = new Api();
         $now = time();
         $this->log("Starting new crawl");
@@ -26,7 +27,7 @@ class Crawl {
             try {
                 $tools = $this->getToolInfo($url);
             } catch (Exception $e) {
-                if ($e->getCode() == ERR_UNAVAILABLE_JSON_FOR_KNOWN_TOOL) {
+                if ($e->getCode() == self::ERR_UNAVAILABLE_JSON_FOR_KNOWN_TOOL) {
                     $tools = $api->getToolByJsonUrl($url);
 
                     foreach ($tools as $tool) {
@@ -86,13 +87,13 @@ class Crawl {
                     return $json;
                 }
             } else {
-                throw new Exception("Invalid JSON", ERR_INVALID_JSON);
+                throw new Exception("Invalid JSON", self::ERR_INVALID_JSON);
             }
         } else {
             if ($this->api->hasToolByJsonUrl($url)) {
-                throw new Exception("JSON not available for this known tool", ERR_UNAVAILABLE_JSON_FOR_KNOWN_TOOL);
+                throw new Exception("JSON not available for this known tool", self::ERR_UNAVAILABLE_JSON_FOR_KNOWN_TOOL);
             } else {
-                throw new Exception("JSON not available for this unknown tool", ERR_UNAVAILABLE_JSON_FOR_UNKNOWN_TOOL);
+                throw new Exception("JSON not available for this unknown tool", self::ERR_UNAVAILABLE_JSON_FOR_UNKNOWN_TOOL);
             }
         }
     }
