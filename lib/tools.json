@@ -22,8 +22,7 @@
         "author" : "Hay Kranen",
         "repository" : "https://github.com/hay/wiki-tools.git",
         "url" : "http://tools.wmflabs.org/hay/wdtranslate",
-        "keywords" : "wikidata, translate, language",
-        "hidden" : true
+        "keywords" : "wikidata, translate, language"
     },
 
     "langstat" : {

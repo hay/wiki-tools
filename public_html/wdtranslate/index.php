@@ -10,40 +10,114 @@
             padding: 0;
             list-style: none;
         }
+
+        h1 {
+            margin-top: -5px;
+        }
+
+        form {
+            margin-bottom: 10px;
+        }
+
+        .input-group-addon-transparent {
+            background: none;
+            border: none;
+        }
+
+        .text-strong {
+            font-weight: bold;
+        }
+
+        .loading.ng-hide {
+            visibility: hidden;
+            display: block !important;
+        }
+
+        .loading {
+            margin-top: -20px;
+            text-align: center;
+            background: #eee;
+        }
     </style>
+
+<div ng-controller="MainCtrl">
 
     <h1><?php $hay->title(); ?></h1>
 
     <p class="lead"><?php $hay->description(); ?></p>
 
-    <div class="row" ng-controller="MainCtrl">
+    <p>
+        Your current preferred languages are:
+
+        <span ng-repeat="language in preferredLanguages">
+            <span ng-class="{'text-strong' : inputLanguage == language.code}">{{language.label}}</span>
+
+            <span ng-if="$index < preferredLanguages.length - 2">,</span>
+            <span ng-if="$index == preferredLanguages.length - 2"> and </span>
+        </span>.<br />
+
+        <a href="" ng-click="selectPreferredLanguages()">
+            Change your preferred languages?
+        </a>
+    </p>
+
+    <hr />
+
+    <div class="row">
+        <div class="loading" ng-show="loading">
+            Loading...
+        </div>
+
         <div class="col-md-6">
             <form>
-                <button class="btn btn-info"
-                        ng-click="selectLanguage()"
-                >Translate from {{inputlanguage.label}}</button>
+                <div class="input-group">
+                    <div class="input-group-addon input-group-addon-transparent">Translate from:</div>
 
-                <br /><br />
+                    <select class="form-control"
+                            ng-model="inputLanguage"
+                            ng-options="lang.code as lang.label for lang in preferredLanguages"
+                    ></select>
+                </div>
+            </form>
 
-                <input type="text"
-                       class="form-control"
-                       ng-model="input"
-                       placeholder="Enter your term here..."
-                       typeahead="term.label for term in suggest($viewValue)"
-                       typeahead-min-length="3"
-                       typeahead-on-select="search($item)"
-                />
+            <form>
+                <div class="input-group">
+                    <input type="text"
+                           class="form-control"
+                           ng-model="input"
+                           placeholder="Enter your term here..."
+                           typeahead="term.label for term in suggest($viewValue)"
+                           typeahead-min-length="3"
+                           typeahead-on-select="search($item)"
+                    />
+
+                    <div class="btn input-group-addon"
+                         ng-click="input = ''"
+                    >
+                        <span class="glyphicon glyphicon-remove-sign"></span>
+                    </div>
+                </div>
             </form>
         </div>
 
         <div class="col-md-6">
             <ul>
                 <li ng-repeat="label in labels">
-                    {{label.language | language}} : <strong>{{label.value}}</strong>
+                    {{label.language | language}} :
+                     <strong>
+                        <a href="http://{{label.language}}.wikipedia.org/wiki/{{label.value}}">
+                        {{label.value}}
+                        </a>
+                    </strong>
+
+                    <div ng-if="label.description">
+                        <span class="text-muted">{{label.description}}</span>
+                    </div>
                 </li>
             </ul>
         </div>
     </div>
+</div>
 
     <script type="text/ng-template" id="languageModal.html">
         <div class="modal-header">
@@ -53,9 +127,16 @@
         <div class="modal-body">
             <ul>
                 <li ng-repeat="language in languages">
-                    <a class="btn btn-link" ng-click="setLanguage(language)">{{language.label}}</a>
+                    <a class="btn"
+                       ng-class="{ 'btn-info' : language.preferred, 'btn-link' : !language.preferred}"
+                       ng-click="language.preferred = !language.preferred"
+                    >{{language.label}}</a>
                 </li>
             </ul>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
         </div>
     </script>
 

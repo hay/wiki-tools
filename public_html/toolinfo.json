@@ -1,5 +1,14 @@
 [
     {
+        "title" : "Wikidata Translate",
+        "description" : "Use the power of Wikidata to translate a term between two languages.",
+        "name" : "hay-wdtranslate",
+        "author" : "Hay Kranen",
+        "repository" : "https://github.com/hay/wiki-tools.git",
+        "url" : "http://tools.wmflabs.org/hay/wdtranslate",
+        "keywords" : "wikidata, translate, language, translation, i18n, languages, dictionary"
+    },
+    {
         "name" : "hay-picapermalink",
         "title" : "Pica Permalink",
         "description" : "A small Javascript bookmarklet to generate a permalink to library catalogues that uses the OCLC PICA software.",
