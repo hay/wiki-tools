@@ -24,8 +24,10 @@
         margin-bottom: 20px;
     }
 
-    #search input {
-        width: 500px;
+    @media (min-width: 640px) {
+        #search input {
+            width: 500px;
+        }
     }
 </style>
 
@@ -36,7 +38,7 @@
         </div>
 
         <div class="col-md-6">
-            <button ng-click="addTool()" class="btn btn-primary pull-right">Add your tool</a>
+            <button ng-click="addTool()" class="btn btn-primary pull-right">Add your tool</button>
         </div>
     </div>
 
