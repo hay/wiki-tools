@@ -14,7 +14,10 @@
         $tools = array();
 
         foreach ($api->getAllTools() as $tool) {
-            $tools[] = $tool->as_array();
+            // Make sure we only list tools that have the required fields
+            if ($api->hasRequiredProperties($tool)) {
+                $tools[] = $tool->as_array();
+            }
         }
 
         echo json_encode($tools);

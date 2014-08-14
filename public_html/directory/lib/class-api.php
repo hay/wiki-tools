@@ -21,6 +21,8 @@ class Tool extends Model {
 }
 
 class Api {
+    private $requiredProperties = array("name", "url", "description");
+
     function __construct() {
 
     }
@@ -43,6 +45,16 @@ class Api {
 
     public function getToolByJsonUrl($url) {
         return Model::factory('Tool')->where('jsonurl', $url)->find_many();
+    }
+
+    public function hasRequiredProperties($tool) {
+        foreach ($this->requiredProperties as $prop) {
+            if (!isset($tool->$prop)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function hasToolByJsonUrl($url) {

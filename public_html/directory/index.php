@@ -40,7 +40,11 @@
         </div>
     </div>
 
-    <p class="lead"><?php $hay->description(); ?> Search through <strong>{{tools.length}}</strong> tools here.</p>
+    <p class="lead">
+        <?php $hay->description(); ?>
+        <span ng-show="!filter">
+            Search through <strong>{{tools.length}}</strong> tools here.</p>
+        </span>
 
     <div id="app">
         <h3 ng-show="loading">Loading...</h3>
@@ -53,7 +57,7 @@
         </form>
 
         <div class="alert alert-info" ng-show="filter">
-            Only showing <span ng-if="tools.length == 1">one tool</span> <span ng-if="tools.length > 1">{{tools.length}} tools</span> with <strong>{{value}}</strong> as <strong>{{filter}}</strong>.
+            Only showing <span ng-show="tools.length == 1">one tool</span> <span ng-show="tools.length > 1">{{tools.length}} tools</span> with <strong>{{value}}</strong> as <strong>{{filter}}</strong>.
             <a href="#" ng-click="resetFilter()">Show all tools instead?</a>
         </div>
 
