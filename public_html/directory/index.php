@@ -69,7 +69,13 @@
 
         <ul class="tools">
             <li ng-repeat="tool in tools" class="tools-item col-md-4">
-                <h3><a href="{{tool.url}}" ng-click="trackClick(tool.name, tool.url)">{{tool.title || tool.name}}</a></h3>
+                <h3>
+                    <a href="{{tool.url}}" ng-click="trackClick(tool.name, tool.url)">{{tool.title || tool.name}}</a>
+
+                    <a href="{{tool.repository}}" ng-if="tool.repository" title="Link to repository">
+                        <span class="glyphicon glyphicon-cloud-download"></span>
+                    </a>
+                </h3>
                 <h4>{{tool.description}}</h4>
                 <h5>By
                     <span ng-repeat="author in tool.author">

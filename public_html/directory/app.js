@@ -21,7 +21,9 @@ app.factory('Api', function($http, $q, util) {
             tool.fulltext = '';
 
             for (var key in tool) {
-                tool.fulltext += "," + tool[key].toLowerCase();
+                if (tool[key]) {
+                    tool.fulltext += "," + tool[key].toLowerCase();
+                }
             }
 
             // Split keywords

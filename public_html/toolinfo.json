@@ -5,7 +5,8 @@
         "description" : "A small Javascript bookmarklet to generate a permalink to library catalogues that uses the OCLC PICA software.",
         "url" : "http://tools.wmflabs.org/hay/kbpermalink",
         "keywords" : "kb, bookmarklet, permalink, libraries, oclc, pica",
-        "author" : "Hay Kranen"
+        "author" : "Hay Kranen",
+		"repository" : "https://github.com/hay/wiki-tools.git"
     },
     {
         "name" : "hay-nadownload",
@@ -13,7 +14,8 @@
         "description" : "A small tool to download all images from a Dutch National Archive inventory.",
         "url" : "http://tools.wmflabs.org/hay/nadownload",
         "keywords" : "na, nationaal archief, download, glam, inventory",
-        "author" : "Hay Kranen"
+        "author" : "Hay Kranen",
+		"repository" : "https://github.com/hay/wiki-tools.git"
     },
     {
         "name" : "hay-streetwiki",
@@ -21,7 +23,8 @@
         "description" : "View Wikipedia articles in Google Maps &amp; Street View.",
         "url" : "http://tools.wmflabs.org/hay/streetwiki",
         "keywords" : "wikipedia, google maps, maps, visual, reuse, streetview",
-        "author" : "Hay Kranen"
+        "author" : "Hay Kranen",
+		"repository" : "https://github.com/hay/wiki-tools.git"
     },
     {
         "name" : "hay-sgdtransform",
@@ -29,7 +32,8 @@
         "description" : "Add a source URL to XML files provided by the Staten Generaal Digitaal API.",
         "url" : "http://tools.wmflabs.org/hay/sgdtransform",
         "keywords" : "sgd, xml, staten generaal digitaal, kb",
-        "author" : "Hay Kranen"
+        "author" : "Hay Kranen",
+		"repository" : "https://github.com/hay/wiki-tools.git"
     },
     {
         "name" : "hay-exturl",
@@ -37,7 +41,8 @@
         "description" : "A better External links search. Collates all the links so you can view which Wikipedia pages have the most external links to a pattern.",
         "url" : "http://tools.wmflabs.org/hay/exturl",
         "keywords" : "url, links, search, external links, stats",
-        "author" : "Hay Kranen"
+        "author" : "Hay Kranen",
+		"repository" : "https://github.com/hay/wiki-tools.git"
     },
     {
         "name" : "hay-directory",
@@ -45,7 +50,8 @@
         "description" : "A way to easily discover Wikimedia-related tools.",
         "url" : "http://tools.wmflabs.org/hay/directory",
         "keywords" : "tools, recursion, discoverability",
-        "author" : "Hay Kranen"
+        "author" : "Hay Kranen",
+		"repository" : "https://github.com/hay/wiki-tools.git"
     },
     {
         "name" : "hay-wdview",
@@ -53,7 +59,8 @@
         "description" : "A simple Reasonator-like viewer for Wikidata items using the simplified Wikidata Readyonly API.",
         "url" : "http://tools.wmflabs.org/hay/wdview",
         "keywords" : "wikidata, reasonator, api, visual, reuse",
-        "author" : "Hay Kranen"
+        "author" : "Hay Kranen",
+		"repository" : "https://github.com/hay/wiki-tools.git"
     },
     {
         "name" : "hay-nasearch",
@@ -61,7 +68,8 @@
         "description" : "A tool to do a mass search in the Dutch National Archive photo collection",
         "url" : "http://tools.wmflabs.org/hay/nasearch",
         "keywords" : "search, nationaal archief, national archive, photos, glam",
-        "author" : "Hay Kranen"
+        "author" : "Hay Kranen",
+		"repository" : "https://github.com/hay/wiki-tools.git"
     },
     {
         "name" : "hay-gtaa",
@@ -69,6 +77,7 @@
         "description" : "Reasonator-like tool for viewing items in the GTAA (Gemeenschappelijke Thesaurus Audiovisuele Archieven ).",
         "url" : "http://tools.wmflabs.org/hay/gtaa",
         "keywords" : "gtaa, wikidata, visual, semantics",
-        "author" : "Hay Kranen"
+        "author" : "Hay Kranen",
+		"repository" : "https://github.com/hay/wiki-tools.git"
     }
 ]

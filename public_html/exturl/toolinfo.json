@@ -1,7 +1,0 @@
-{
-    "name" : "External URL stats",
-    "description" : "A better External links search. Collates all the links so you can view which Wikipedia pages have the most external links to a pattern.",
-    "url" : "http://tools.wmflabs.org/hay/exturl",
-    "keywords" : "url, links, search, external links, stats",
-    "author" : "Hay Kranen"
-}
