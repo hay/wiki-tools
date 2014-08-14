@@ -47,6 +47,11 @@ class Crawl {
                 // Using 'title' instead of 'name' is deprecated
                 $name = isset($tool->name) ? $tool->name : $tool->title;
 
+                if (!$this->api->hasRequiredProperties($tool)) {
+                    $this->log("'$name' does not all have required properties, skipping");
+                    continue;
+                }
+
                 if ($this->api->hasToolByName($name)) {
                     $this->log("'$name' already in database, updating values");
 
