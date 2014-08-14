@@ -71,19 +71,24 @@
             <li ng-repeat="tool in tools" class="tools-item col-md-4">
                 <h3>
                     <a href="{{tool.url}}" ng-click="trackClick(tool.name, tool.url)">{{tool.title || tool.name}}</a>
-
-                    <a href="{{tool.repository}}" ng-if="tool.repository" title="Link to repository">
-                        <span class="glyphicon glyphicon-cloud-download"></span>
-                    </a>
                 </h3>
+
                 <h4>{{tool.description}}</h4>
-                <h5>By
-                    <span ng-repeat="author in tool.author">
-                        <a href="#/author/{{author}}">{{author}}</a><span ng-if="tool.author.length > 1 && !$last">,</span>
+
+                <h5 ng-if="tool.author || tool.repository">
+                    <span ng-if="tool.author">
+                        By
+                        <span ng-repeat="author in tool.author">
+                            <a href="#/author/{{author}}">{{author}}</a><span ng-if="tool.author.length > 1 && !$last">,</span>
+                        </span>
+                    </span>
+
+                    <span ng-if="tool.repository">
+                        (<a href="{{tool.repository}}">source available</a>)
                     </span>
                 </h5>
 
-                <p class="tools-keywords">
+                <p class="tools-keywords" ng-if="tool.keywords">
                     <a href="#/keyword/{{keyword}}" ng-repeat="keyword in tool.keywords">
                     {{keyword}}
                     </a>
@@ -100,18 +105,33 @@
 
     <p>Add a <code>toolinfo.json</code> file to your tool. Your JSON file should look something like this:</p>
 
-    <pre><code>
+<div class="clearfix">
+    <pre class="col-md-6"><code>
 {
-    "name" : "hay-tools-directory", // A unique name for your tool
-    "title" : "Tools Directory", // A descriptive title
-    "description" : "A way to easily discover Wikimedia-related tools.", // A short summary of what your tool does
-    "url" : "http://tools.wmflabs.org/hay/directory", // The URL to your tool
-    "keywords" : "tools, search, discoverability", // separate keywords by comma
-    "author" : "Hay Kranen" // for multiple authors, separate by comma
+    "name" : "hay-tools-directory",
+    "title" : "Tools Directory",
+    "description" : "Discover Wikimedia-related tools.",
+    "url" : "http://tools.wmflabs.org/hay/directory",
+    "keywords" : "tools, search, discoverability",
+    "author" : "Hay Kranen",
+    "repository" : "https://github.com/hay/wiki-tools.git"
 }
     </code></pre>
 
-    <p>All the fields are <strong>required</strong>.</p>
+    <pre class="col-md-6"><code>
+
+A unique name for your tool
+A descriptive title
+A short summary of what your tool does
+The URL to your tool
+Separate keywords by comma
+For multiple authors, separate by comma
+Link to the code repository
+
+    </code></pre>
+</div>
+
+    <p>The <code>name</code>, <code>title</code>, <code>description</code> and <code>url</code> properties are <strong>required</strong>.</p>
 
     <p>If you have multiple tools you can also declare multiple tools in one <code>toolinfo.json</code>, simply use an array with objects.</p>
 

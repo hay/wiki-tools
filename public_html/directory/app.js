@@ -29,11 +29,18 @@ app.factory('Api', function($http, $q, util) {
             // Split keywords
             if (tool.keywords) {
                 tool.keywords = util.splittrim(tool.keywords);
+            } else {
+                tool.keywords = [];
             }
 
             // Split authors
             if (tool.author) {
                 tool.author = util.splittrim(tool.author);
+            }
+
+            // Add a 'source available keyword' if the source is, well, available
+            if (tool.repository) {
+                tool.keywords.push('source available');
             }
 
             return tool;

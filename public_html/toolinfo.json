@@ -20,7 +20,7 @@
     {
         "name" : "hay-streetwiki",
         "title" : "Streetwiki",
-        "description" : "View Wikipedia articles in Google Maps &amp; Street View.",
+        "description" : "View Wikipedia articles in Google Maps & Street View.",
         "url" : "http://tools.wmflabs.org/hay/streetwiki",
         "keywords" : "wikipedia, google maps, maps, visual, reuse, streetview",
         "author" : "Hay Kranen",

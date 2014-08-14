@@ -21,6 +21,7 @@ class Tool extends Model {
 }
 
 class Api {
+    // In the future, we'll probably want 'title' here as well
     private $requiredProperties = array("name", "url", "description");
 
     function __construct() {
@@ -49,7 +50,7 @@ class Api {
 
     public function hasRequiredProperties($tool) {
         foreach ($this->requiredProperties as $prop) {
-            if (!isset($tool->$prop)) {
+            if (empty($tool->$prop)) {
                 return false;
             }
         }
