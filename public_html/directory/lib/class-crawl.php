@@ -28,7 +28,7 @@ class Crawl {
                 $tools = $this->getToolInfo($url);
             } catch (Exception $e) {
                 if ($e->getCode() == self::ERR_UNAVAILABLE_JSON_FOR_KNOWN_TOOL) {
-                    $tools = $api->getToolByJsonUrl($url);
+                    $tools = $this->api->getToolByJsonUrl($url);
 
                     foreach ($tools as $tool) {
                         $tool->unavailable = true;
