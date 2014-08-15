@@ -1,4 +1,4 @@
-var app = angular.module('directory',[]);
+var app = angular.module('directory',['ui.bootstrap']);
 
 app.factory('util', function() {
     return {

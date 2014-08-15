@@ -29,6 +29,15 @@
             width: 500px;
         }
     }
+
+    span[tooltip] {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .tooltip {
+        text-align: left;
+    }
 </style>
 
 <div ng-controller="MainCtrl">
@@ -101,35 +110,21 @@
 
     <h2 id="addtool">Add your tool to the directory</h2>
 
+    <p class="lead">Note that your tool <strong>does not</strong> have to be hosted on WMF Labs. If you have a tool living on your own server, a Javascript gadget on a wiki, or a non-web tool such as a bot feel free to add it using the methods mentioned below.</p>
+
     <h3>Step 1</h3>
 
-    <p>Add a <code>toolinfo.json</code> file to your tool. Your JSON file should look something like this:</p>
+    <p>Add a <code>toolinfo.json</code> file to your tool. Your JSON file should look something like this. <strong>Hover over the properties to see a description.</strong></p>
 
-<div class="clearfix">
-    <pre class="col-md-6"><code>
-{
-    "name" : "hay-tools-directory",
-    "title" : "Tools Directory",
-    "description" : "Discover Wikimedia-related tools.",
-    "url" : "http://tools.wmflabs.org/hay/directory",
-    "keywords" : "tools, search, discoverability",
-    "author" : "Hay Kranen",
-    "repository" : "https://github.com/hay/wiki-tools.git"
-}
-    </code></pre>
-
-    <pre class="col-md-6"><code>
-
-A unique name for your tool
-A descriptive title
-A short summary of what your tool does
-The URL to your tool
-Separate keywords by comma
-For multiple authors, separate by comma
-Link to the code repository
-
-    </code></pre>
-</div>
+    <pre><code>{
+    <span tooltip="A unique name for your tool" tooltip-placement="right">"name"</span> : "hay-tools-directory",
+    <span tooltip="A descriptive title" tooltip-placement="right">"title"</span> : "Tools Directory",
+    <span tooltip="A short summary of what your tool does" tooltip-placement="right">"description"</span> : "Discover Wikimedia-related tools.",
+    <span tooltip="URL to your tool. If it's not a web tool, link to the documentation." tooltip-placement="right">"url"</span> : "http://tools.wmflabs.org/hay/directory",
+    <span tooltip="Separate keywords by comma" tooltip-placement="right">"keywords"</span> : "tools, search, discoverability",
+    <span tooltip="For multiple authors, separate by comma" tooltip-placement="right">"author"</span> : "Hay Kranen",
+    <span tooltip="Link to the code repository" tooltip-placement="right">"repository"</span> : "https://github.com/hay/wiki-tools.git"
+}</code></pre>
 
     <p>The <code>name</code>, <code>title</code>, <code>description</code> and <code>url</code> properties are <strong>required</strong>.</p>
 
@@ -169,6 +164,7 @@ Link to the code repository
 </div>
 
     <script src="../common/angular.js"></script>
+    <script src="../common/angular-ui-bootstrap.js"></script>
     <script src="app.js"></script>
 <?php
     $hay->footer();
