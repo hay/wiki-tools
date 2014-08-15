@@ -120,13 +120,13 @@
     <span tooltip="A unique name for your tool" tooltip-placement="right">"name"</span> : "hay-tools-directory",
     <span tooltip="A descriptive title" tooltip-placement="right">"title"</span> : "Tools Directory",
     <span tooltip="A short summary of what your tool does" tooltip-placement="right">"description"</span> : "Discover Wikimedia-related tools.",
-    <span tooltip="URL to your tool. If it's not a web tool, link to the documentation." tooltip-placement="right">"url"</span> : "http://tools.wmflabs.org/hay/directory",
+    <span tooltip="URL to your tool. Should be unique. If it's not a web tool, link to the documentation." tooltip-placement="right">"url"</span> : "http://tools.wmflabs.org/hay/directory",
     <span tooltip="Separate keywords by comma" tooltip-placement="right">"keywords"</span> : "tools, search, discoverability",
     <span tooltip="For multiple authors, separate by comma" tooltip-placement="right">"author"</span> : "Hay Kranen",
     <span tooltip="Link to the code repository" tooltip-placement="right">"repository"</span> : "https://github.com/hay/wiki-tools.git"
 }</code></pre>
 
-    <p>The <code>name</code>, <code>title</code>, <code>description</code> and <code>url</code> properties are <strong>required</strong>.</p>
+    <p>The <code>name</code>, <code>title</code>, <code>description</code> and <code>url</code> properties are <strong>required</strong>. Both <code>name</code> and <code>url</code> <strong>need</strong> to be unique.</p>
 
     <p>If you have multiple tools you can also declare multiple tools in one <code>toolinfo.json</code>, simply use an array with objects.</p>
 

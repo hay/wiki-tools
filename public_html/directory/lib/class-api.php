@@ -36,12 +36,16 @@ class Api {
         return Model::factory('Tool')->order_by_desc('redirects')->find_many();
     }
 
+    public function getTool($key, $value) {
+        return Model::factory('Tool')->where($key, $value)->find_one();
+    }
+
     public function getToolById($id) {
         return Model::factory('Tool')->find_one($id);
     }
 
     public function getToolByName($name) {
-        return Model::factory('Tool')->where('name', $name)->find_one();
+        return $this->getTool('name', $name);
     }
 
     public function getToolByJsonUrl($url) {
@@ -58,11 +62,15 @@ class Api {
         return true;
     }
 
+    public function hasTool($key, $val) {
+        return (bool) $this->getTool($key, $val);
+    }
+
     public function hasToolByJsonUrl($url) {
-        return (bool) $this->getByJsonUrl($url);
+        return $this->hasTool('jsonurl', $url);
     }
 
     public function hasToolByName($name) {
-        return (bool) $this->getToolByName($name);
+        return $this->hasTool('name', $name);
     }
 }

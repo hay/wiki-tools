@@ -62,6 +62,16 @@ class Crawl {
                     $this->log("'$name' not in database, creating");
 
                     $record = $this->api->createTool();
+
+                    // Does this url already exist in the database?
+                    if ($this->api->hasTool('url', $url)) {
+                        $this->log("'$name' has an url property that already exists in the database, skipping");
+                        continue;
+                    }
+
+                    // Add a timestamp with new tools
+                    $record->added = date("c");
+
                     $record->update($tool);
                 }
             }
