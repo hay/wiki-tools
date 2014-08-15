@@ -81,22 +81,16 @@
             </form>
 
             <form>
-                <div class="input-group">
-                    <input type="text"
-                           class="form-control"
-                           ng-model="input"
-                           placeholder="Enter your term here..."
-                           typeahead="term.label for term in suggest($viewValue)"
-                           typeahead-min-length="3"
-                           typeahead-on-select="search($item)"
-                    />
-
-                    <div class="btn input-group-addon"
-                         ng-click="input = ''"
-                    >
-                        <span class="glyphicon glyphicon-remove-sign"></span>
-                    </div>
-                </div>
+                <input type="text"
+                       class="form-control"
+                       ng-model="input.label"
+                       placeholder="Enter your term here..."
+                       typeahead="term for term in suggest($viewValue)"
+                       typeahead-min-length="3"
+                       typeahead-on-select="search($item)"
+                       typeahead-template-url="typeahead.html"
+                       typeahead-input-formatter="currentTerm.label"
+                />
             </form>
         </div>
 
@@ -138,6 +132,13 @@
         <div class="modal-footer">
             <button class="btn btn-primary" ng-click="ok()">OK</button>
         </div>
+    </script>
+
+    <script type="text/ng-template" id="typeahead.html">
+        <a>
+            <span bind-html-unsafe="match.label.label | typeaheadHighlight:query"></span><br />
+            <span bind-html-unsafe="match.label.description" class="text-muted"></span>
+        </a>
     </script>
 
     <script>

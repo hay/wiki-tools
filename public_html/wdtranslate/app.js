@@ -96,6 +96,7 @@ app.controller('MainCtrl', function($scope, api, config, $modal) {
 
             return res.data.search.map(function(result) {
                 return {
+                    description : result.description,
                     label : result.label,
                     value : result.id
                 };
@@ -104,6 +105,8 @@ app.controller('MainCtrl', function($scope, api, config, $modal) {
     }
 
     $scope.search = function(term) {
+        $scope.currentTerm = term;
+
         var preferredLanguages = $scope.preferredLanguages.map(function(lang) {
             return lang.code;
         });
