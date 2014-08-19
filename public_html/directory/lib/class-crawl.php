@@ -57,7 +57,6 @@ class Crawl {
                     $this->log("'$name' already in database, updating values");
 
                     $record = $this->api->getToolByName($name);
-                    $record->update($tool);
                 } else {
                     $this->log("'$name' not in database, creating");
 
@@ -71,9 +70,9 @@ class Crawl {
 
                     // Add a timestamp with new tools
                     $record->added = date("c");
-
-                    $record->update($tool);
                 }
+
+                $record->update($tool);
             }
         }
 

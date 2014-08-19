@@ -6,6 +6,14 @@ ORM::configure('password', DB_PASS);
 class Tool extends Model {
     public static $_table = "tools";
 
+    // In the future, we'll probably want 'title' here as well
+    public static $requiredProperties = array("name", "url", "description");
+
+    public static $mutableProperties = array(
+        "name", "title", "jsonurl", "description", "url", "keywords", "author",
+        "repository"
+    );
+
     public function update($data) {
         // If no title is present, use 'name' instead
         if (!isset($data->title)) {
@@ -13,7 +21,9 @@ class Tool extends Model {
         }
 
         foreach ($data as $key => $value) {
-            $this->set($key, $value);
+            if (in_array($key, self::$mutableProperties)) {
+                $this->set($key, $value);
+            }
         }
 
         $this->save();
@@ -21,9 +31,6 @@ class Tool extends Model {
 }
 
 class Api {
-    // In the future, we'll probably want 'title' here as well
-    private $requiredProperties = array("name", "url", "description");
-
     function __construct() {
 
     }
@@ -53,7 +60,7 @@ class Api {
     }
 
     public function hasRequiredProperties($tool) {
-        foreach ($this->requiredProperties as $prop) {
+        foreach (Tool::$requiredProperties as $prop) {
             if (empty($tool->$prop)) {
                 return false;
             }
