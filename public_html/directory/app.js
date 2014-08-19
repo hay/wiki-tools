@@ -85,11 +85,15 @@ app.controller('MainCtrl', function($scope, Api, $location) {
             $scope.loading = false;
 
             var parts = path.slice(1).split('/');
+            var filter = parts[0];
+            var value = parts[1];
 
-            if (parts[1]) {
-                var filter = parts[0];
-                var value = parts[1];
+            if (['keyword', 'author'].indexOf(filter) !== -1) {
                 filterTools(filter, value);
+            }
+
+            if (filter === 'search') {
+                searchTools(value);
             }
         });
     });
@@ -112,6 +116,8 @@ app.controller('MainCtrl', function($scope, Api, $location) {
     }
 
     function searchTools(q) {
+        $scope.searchValue = q;
+
         Api.loadTools().then(function(tools) {
             if (!q) {
                 $scope.tools = tools;
@@ -138,7 +144,8 @@ app.controller('MainCtrl', function($scope, Api, $location) {
     }
 
     $scope.search = function() {
-        searchTools($scope.searchValue);
+        $location.path("/search/" + $scope.searchValue);
+        // searchTools($scope.searchValue);
     }
 
     $scope.trackClick = function(name, url) {

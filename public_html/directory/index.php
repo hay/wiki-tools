@@ -53,9 +53,11 @@
 
     <p class="lead">
         <?php $hay->description(); ?>
-        <span ng-show="!filter">
-            Search through <strong>{{tools.length}}</strong> tools here.</p>
+
+        <span ng-show="!filter && !searchValue">
+            Search through <strong>{{tools.length}}</strong> tools here.
         </span>
+    </p>
 
     <div id="app">
         <h3 ng-show="loading">Loading...</h3>
@@ -70,6 +72,10 @@
         <div class="alert alert-info" ng-show="filter">
             Only showing <span ng-show="tools.length == 1">one tool</span> <span ng-show="tools.length > 1">{{tools.length}} tools</span> with <strong>{{value}}</strong> as <strong>{{filter}}</strong>.
             <a href="#" ng-click="resetFilter()">Show all tools instead?</a>
+        </div>
+
+        <div class="alert alert-info" ng-show="searchValue && !noSearchResults">
+            Found {{tools.length}} tool<span ng-if="tools.length > 1">s</span> for "<strong>{{searchValue}}</strong>". <a href="#" ng-click="searchValue = ''">Reset?</a>
         </div>
 
         <div class="alert alert-danger" ng-show="noSearchResults">
