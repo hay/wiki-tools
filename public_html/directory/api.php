@@ -20,6 +20,9 @@
             }
         }
 
+        // Randomize the tool order
+        shuffle($tools);
+
         echo json_encode($tools);
     }
 
