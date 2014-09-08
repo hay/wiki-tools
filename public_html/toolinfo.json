@@ -9,6 +9,15 @@
         "keywords" : "wikidata, translate, language, translation, i18n, languages, dictionary"
     },
     {
+        "title" : "Recent acquisitions",
+        "description" : "Show the newest pages in a category",
+        "name" : "hay-reccat",
+        "author" : "Hay Kranen",
+        "repository" : "https://github.com/hay/wiki-tools.git",
+        "url" : "http://tools.wmflabs.org/hay/reccat",
+        "keywords" : "category, sort, glam"
+    },
+    {
         "name" : "hay-picapermalink",
         "title" : "Pica Permalink",
         "description" : "A small Javascript bookmarklet to generate a permalink to library catalogues that uses the OCLC PICA software.",

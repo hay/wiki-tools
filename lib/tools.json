@@ -36,6 +36,11 @@
         "description" : "A simple <a href=\"http://tools.wmflabs.org/reasonator/\">Reasonator</a>-like viewer for Wikidata items using the simplified Wikidata Readyonly API."
     },
 
+    "reccat" : {
+        "title" : "Recent acquisitions",
+        "description" : "Show the newest pages in a category"
+    },
+
     "gtaa" : {
         "title" : "GTAA Reasonator",
         "description" : "The <a href=\"tools.wmflabs.org/reasonator/\">Reasonator</a> is an awesome tool for viewing <a href=\"http://www.wikidata.org\">Wikidata</a> items. This tool tries to provide the same view for items in the <a href=\"https://sites.google.com/a/beeldengeluid.nl/gtaa/\">GTAA</a>."
