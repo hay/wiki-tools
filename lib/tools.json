@@ -25,6 +25,16 @@
         "keywords" : "wikidata, translate, language"
     },
 
+    "gwtcook" : {
+        "title" : "GWT Cook",
+        "description" : "Preprocess and transform XML from select API's for ingestion in the GLAMWiki Toolset.",
+        "name" : "hay-gwtcook",
+        "author" : "Hay Kranen",
+        "repository" : "https://github.com/hay/wiki-tools.git",
+        "url" : "http://tools.wmflabs.org/hay/gwtcook",
+        "keywords" : "gwt,xml,transform,glam,commons,uploads,bot"
+    },
+
     "langstat" : {
         "title" : "Multilingual stats",
         "description" : "Shows the page views for a Wikipedia article in all available languages.",
