@@ -9,6 +9,15 @@
         "keywords" : "wikidata, translate, language, translation, i18n, languages, dictionary"
     },
     {
+        "title" : "GWT Cook",
+        "description" : "Preprocess and transform XML from select API's for ingestion in the GLAMWiki Toolset.",
+        "name" : "hay-gwtcook",
+        "author" : "Hay Kranen",
+        "repository" : "https://github.com/hay/wiki-tools.git",
+        "url" : "http://tools.wmflabs.org/hay/gwtcook",
+        "keywords" : "gwt,xml,transform,glam,commons,uploads,bot"
+    },
+    {
         "title" : "Recent acquisitions",
         "description" : "Show the newest pages in a category",
         "name" : "hay-reccat",
