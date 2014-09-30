@@ -17,7 +17,7 @@ class GwtCook {
             $this->error = "Invalid transformer.";
         }
 
-        if (!in_array($this->file->type, ["application/xml", "text/xml"])) {
+        if (!in_array($this->file->type, array("application/xml", "text/xml"))) {
             $this->error = "Your upload doesn't seem to be an XML file.";
             return;
         }
