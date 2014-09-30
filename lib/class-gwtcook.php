@@ -1,6 +1,6 @@
 <?php
 class GwtCook {
-    private $xml, $file;
+    private $xml, $file, $transformer;
     private $error = false;
 
     function __construct($file, $transformer) {
@@ -29,17 +29,25 @@ class GwtCook {
             return;
         }
 
-        $transformer = new GwtCookNaBeeldbank($this->xml);
+        $this->transformer = new GwtCookNaBeeldbank($this->xml);
 
-        if (!$transformer->transform()) {
+        if (!$this->transformer->transform()) {
             $this->error = "Could not transform your otherwise valid XML. Sorry...";
         }
 
-        echo $transformer->getXml();
+        return true;
     }
 
     public function getError() {
         return $this->error;
+    }
+
+    public function getFilename() {
+        return str_replace(".xml", "-transformed.xml", $this->file->name);
+    }
+
+    public function getXml() {
+        return $this->transformer->getXml();
     }
 
     public function hasError() {

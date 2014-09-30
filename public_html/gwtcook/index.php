@@ -2,10 +2,19 @@
     require '../../lib/vendor/autoload.php';
     require '../../lib/class-hay.php';
     require '../../lib/class-gwtcook.php';
+    require '../../lib/class-gwtcooktransformer.php';
     require '../../lib/class-gwtcooknabeeldbank.php';
 
     if (!empty($_FILES)) {
         $gwtcook = new GwtCook($_FILES['file'], $_POST['transformer']);
+
+        // If there is no error, offer the new file as a download,
+        // otherwise show the  error
+        if (!$gwtcook->hasError()) {
+            header("Content-disposition: attachment; filename=" . $gwtcook->getFilename());
+            header('Content-Type: application/xml');
+            die( $gwtcook->getXml() );
+        }
     }
 
     $hay = new Hay("gwtcook");
