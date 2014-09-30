@@ -28,6 +28,17 @@ class GwtCookNaBeeldbank extends GwtCookTransformer {
         return str_replace(".tjp", "", (string) $str[0]->value);
     }
 
+    private function getSubjects($item) {
+        $subjects = array_merge(
+            $this->nsStringArray($item, "dc:subject"),
+            $this->nsStringArray($item, "dc:coverage")
+        );
+
+        $subjects = array_unique($subjects);
+
+        return "trefwoorden: " . implode(", ", $subjects);
+    }
+
     public function transform() {
         foreach($this->xml->channel->item as $item) {
             $inventoryNumber = $this->nsString($item, "dc:isPartOf", function($tag) {
@@ -39,17 +50,18 @@ class GwtCookNaBeeldbank extends GwtCookTransformer {
                 return $ok;
             });
 
+            $item->institution = "Nationaal Archief";
             $item->inventoryNumber = $inventoryNumber;
             $item->accessionNumber = $accessionNumber;
             $item->imageUrl = $this->getImageUrl($item);
             $item->description->addAttribute('lang', 'nl');
             $item->isodate = substr($this->nsString($item, "dc:date"), 0, 10);
-            $item->subjects = implode(", ", $this->nsStringArray($item, "dc:subject"));
+            $item->subjects = $this->getSubjects($item);
             $item->subjects->addAttribute('lang', 'nl');
             $item->author = $this->getAuthor($item);
             $item->photoName = $this->getPhotoName($item);
             $item->suggestedFileName = sprintf(
-                "%s (%s).jpg",
+                "%s (%s)",
                 substr($item->title, 0, 150),
                 $item->photoName
             );
@@ -62,8 +74,8 @@ class GwtCookNaBeeldbank extends GwtCookTransformer {
             );
 
             $item->combinedIdentifier = sprintf(
-                "%s, inventory number %s",
-                $inventoryNumber, $accessionNumber
+                "%s, inventory number %s / %s",
+                $inventoryNumber, $accessionNumber, $item->photoName
             );
         }
 
