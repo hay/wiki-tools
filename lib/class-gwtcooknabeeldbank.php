@@ -111,6 +111,7 @@ class GwtCookNaBeeldbank extends GwtCookTransformer {
             $subjects->addAttribute('lang', 'nl');
 
             $item->description->addAttribute('lang', "nl");
+            $item->title->addAttribute('lang', "nl");
         }
 
         return true;
