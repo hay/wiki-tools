@@ -41,16 +41,33 @@ class GwtCookNaBeeldbank extends GwtCookTransformer {
 
     public function transform() {
         foreach($this->xml->xpath("//item") as $item) {
-            $inventoryNumber = $this->nsString($item, "dc:isPartOf", function($tag) {
-                return strpos($tag, "2.24") !== false;
-            });
+            $isMap = $this->nsString($item, "dc:type") == "Kaart";
 
-            $accessionNumber = $this->nsString($item, "dc:identifier", function($tag) {
-                $ok = preg_match("/^\d*-\d*$/m", $tag);
-                return $ok;
-            });
+            if ($isMap) {
+                $inventoryNumber = "4.VTH";
+            } else {
+                $inventoryNumber = $this->nsString($item, "dc:isPartOf", function($tag) {
+                    return strpos($tag, "2.24") !== false;
+                });
+            }
 
-            $photoName = $this->getPhotoName($item);
+            if ($isMap) {
+                $accessionNumber = $this->nsString(
+                    $item,
+                    "memorix:MEMORIX/field[@name='Inventarisnummer']/value"
+                );
+            } else {
+                $accessionNumber = $this->nsString($item, "dc:identifier", function($tag) {
+                    $ok = preg_match("/^\d*-\d*$/m", $tag);
+                    return $ok;
+                });
+            }
+
+            if ($isMap) {
+                $photoName = "NL-HaNA_4.VTH-$accessionNumber";
+            } else {
+                $photoName = $this->getPhotoName($item);
+            }
 
             $suggestedFileName = sprintf(
                 "%s (%s)",
@@ -58,11 +75,18 @@ class GwtCookNaBeeldbank extends GwtCookTransformer {
                 $photoName
             );
 
+            if ($isMap) {
+                $provider = "Nationaal Archief";
+            } else {
+                $provider = "Nationaal Archief / Anefo";
+            }
+
             $sourceText = sprintf(
-                "[%s Nationaal Archief / Anefo], accession number %s, file number %s",
+                "[%s %s], accession number %s, file number %s",
                 (string) $item->guid,
-                $item->inventoryNumber,
-                $item->accessionNumber
+                $provider,
+                $inventoryNumber,
+                $accessionNumber
             );
 
             $combinedIdentifier = sprintf(

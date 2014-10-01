@@ -50,6 +50,13 @@
                 <input type="text" class="form-control" id="q" name="q" placeholder="kranten.kb.nl" />
             </div>
 
+            <div class="checkbox">
+                <label for="namespace">
+                    <input type="checkbox" id="namespace" name="namespace" />
+                    Limit to article namespace (only search articles)
+                </label>
+            </div>
+
             <button type="submit" class="btn btn-primary">
                 <span class="glyphicon glyphicon-search"></span>
                 Search
