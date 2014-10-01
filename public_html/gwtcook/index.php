@@ -11,6 +11,10 @@
         // If there is no error, offer the new file as a download,
         // otherwise show the  error
         if (!$gwtcook->hasError()) {
+            if (!isset($_POST['downloadxml'])) {
+                die( $gwtcook->getXml() );
+            }
+
             header("Content-disposition: attachment; filename=" . $gwtcook->getFilename());
             header('Content-Type: application/xml');
             die( $gwtcook->getXml() );
@@ -40,6 +44,15 @@
             <select name="transformer" id="transformer" class="form-control">
                 <option value="na-beeldbank">Nationaal Archief Beeldbank</option>
             </select>
+        </div>
+
+        <div class="form-group">
+            <label>
+                Download result as XML
+                <input type="checkbox" id="downloadxml" name="downloadxml" checked />
+            </label>
+
+            <p class="help-block">Disable this option to display the XML in the browser instead.</p>
         </div>
 
         <button type="submit" class="btn btn-primary">

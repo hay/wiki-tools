@@ -8,6 +8,12 @@ abstract class GwtCookTransformer {
         $this->xml = $xml;
     }
 
+    protected function addChildren($item, array $nodes) {
+        foreach ($nodes as $key => $value) {
+            $node = $item->addChild($key, $value);
+        }
+    }
+
     protected function nsString($item, $id, $where = false) {
         $tags = $this->nsStringArray($item, $id);
 
@@ -21,7 +27,7 @@ abstract class GwtCookTransformer {
     }
 
     protected function nsStringArray($item, $id) {
-        $tags = $item->xpath("//$id");
+        $tags = $item->xpath("$id");
         $tags = array_map("strval", $tags);
         return $tags;
     }
