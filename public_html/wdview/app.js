@@ -59,16 +59,14 @@ Api.prototype = {
     },
 
     search : function(q, cb) {
-        this.call('wikidata', {
-            method : 'search',
+        this.call('wikidata/search', {
             q : q,
             language : conf.lang
         }, cb);
     },
 
     entity : function(q, cb) {
-        this.call('wikidata', {
-            method : 'entity',
+        this.call('wikidata/entity', {
             q : q,
             language : conf.lang
         }, function(data) {

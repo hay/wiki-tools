@@ -22,11 +22,11 @@ gtaa.factory('api', function($http) {
     }
 
     function wikidataSearch(q, cb) {
-        call('wikidata', { method : 'search', q : q, language : lang}, cb);
+        call('wikidata/search', { q : q, language : lang}, cb);
     }
 
     function wikidataEntity(q, cb) {
-        call('wikidata', { method : 'entity', q : q, language : lang}, cb);
+        call('wikidata/entity', { q : q, language : lang}, cb);
     }
 
     function wikidataSearchAndGet(str, cb) {

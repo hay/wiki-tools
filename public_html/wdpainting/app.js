@@ -3,7 +3,7 @@ var PAGE = 0;
 var IMAGE_WIDTH = 300;
 var IMAGE_HEIGHT = 300;
 
-var app = angular.module('app', []);
+var app = angular.module('wdpainting', []);
 
 app.factory('Api', function($http, $q) {
     var endpoint = "http://api.haykranen.nl";
@@ -11,9 +11,8 @@ app.factory('Api', function($http, $q) {
 
     function query() {
         return $http({
-            url : endpoint + '/wikidata',
+            url : endpoint + '/wikidata/query',
             params : {
-                method : 'query',
                 q : PAINTING_CLAIM
             }
         });
@@ -21,9 +20,8 @@ app.factory('Api', function($http, $q) {
 
     function entities(qids) {
         return $http({
-            url : endpoint + '/wikidata',
+            url : endpoint + '/wikidata/entity',
             params : {
-                method : 'entity',
                 q : qids.join(','),
                 resolveimages : true,
                 imagewidth : IMAGE_WIDTH,
