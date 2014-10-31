@@ -26,6 +26,12 @@ hr, .footer {
     padding: 0;
 }
 
+.header-free {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
 .tools-item {
     list-style-type: none;
     background: #eee;

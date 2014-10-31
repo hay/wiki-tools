@@ -61,19 +61,18 @@
         <div id="item" class="row">
             <div class="loading">Loading...</div>
 
-            <div class="col-md-12">
-                <h1 class="mainlabel"></h1>
-                <h2 class="description"></h2>
-            </div>
+            <header class="header-free">
+                <div class="col-md-6">
+                    <h1 class="mainlabel"></h1>
+                    <h2 class="description"></h2>
+                </div>
 
-            <div class="col-md-6">
-                <div class="image"></div>
-            </div>
+                <div class="col-md-6">
+                    <div class="image"></div>
+                </div>
+            </header>
 
-            <div class="col-md-6">
-                <table class="table itemdata">
-                </table>
-            </div>
+            <table class="table itemdata"></table>
         </div>
     <?php elseif (!empty($_GET['q'])): ?>
         <script>
