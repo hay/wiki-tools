@@ -36,6 +36,8 @@ app.factory('Api', function($http, $q, util) {
             // Split authors
             if (tool.author) {
                 tool.author = util.splittrim(tool.author);
+            } else {
+                tool.author = []; // Fixing #8
             }
 
             // Add a 'source available keyword' if the source is, well, available
