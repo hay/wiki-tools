@@ -166,7 +166,7 @@
 
     <h4>Step 5</h4>
 
-    <p>There is no step 5. Enjoy! If you have any bugs or questions please submit them to the <a href="https://github.com/hay/wiki-tools">Github repo</a>.</p>
+    <p>There is no step 5. Enjoy! If you have any bugs or questions please submit them to the <a href="https://github.com/hay/wiki-tools">Github repo</a>. See also <a href="https://wikitech.wikimedia.org/wiki/Nova_Resource:Tools/Help#Creating_a_tool_description">how to add a description</a> on tools.wmflabs.org.</p>
 </div>
 
     <script src="../common/angular.js"></script>
