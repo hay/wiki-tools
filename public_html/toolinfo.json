@@ -18,6 +18,15 @@
         "keywords" : "gwt,xml,transform,glam,commons,uploads,bot"
     },
     {
+        "title" : "Multilingual page views",
+        "description" : "Page views for an article in all available languages",
+        "name" : "hay-langviews",
+        "author" : "Hay Kranen",
+        "repository" : "https://github.com/hay/wiki-tools.git",
+        "url" : "http://tools.wmflabs.org/hay/langviews",
+        "keywords" : "language,pageviews,statistics,stats,views"
+    },
+    {
         "title" : "Recent acquisitions",
         "description" : "Show the newest pages in a category",
         "name" : "hay-reccat",

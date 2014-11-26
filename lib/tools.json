@@ -15,6 +15,16 @@
         "description" : "A better <a href=\"https://meta.wikimedia.org/wiki/Help:Linksearch\">External links search</a>. Collates all the links so you can view which Wikipedia pages have the most external links to a pattern."
     },
 
+    "langviews"  : {
+        "title" : "Multilingual page views",
+        "description" : "Page views for an article in all available languages using the data from <a href=\"http://stats.grok.se\">stats.grok.se</a>. This shows you the last 30 days.",
+        "name" : "hay-langviews",
+        "author" : "Hay Kranen",
+        "repository" : "https://github.com/hay/wiki-tools.git",
+        "url" : "http://tools.wmflabs.org/hay/langviews",
+        "keywords" : "language,pageviews,statistics,stats,views"
+    },
+
     "wdtranslate" : {
         "title" : "Wikidata Translate",
         "description" : "Use the power of Wikidata to translate a term between two languages.",

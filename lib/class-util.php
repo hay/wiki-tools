@@ -1,9 +1,31 @@
 <?php
+$langcodes = json_decode(file_get_contents(PATH . "langcodes.json"), true);
+
 class Util {
     public static function is_assoc($array) {
         return (bool) count(
             array_filter(array_keys($array), 'is_string')
         );
+    }
+
+    // Cheers! < http://stackoverflow.com/a/14480888/152809 >
+    public static function arrayEmpty($arr) {
+        $empty = true;
+
+        array_walk_recursive($arr, function($item) use (&$empty) {
+                $empty = $empty && empty($item);
+        });
+
+        return $empty;
+    }
+
+    public static function langcode($code) {
+        global $langcodes;
+        if (isset($langcodes[$code])) {
+            return $langcodes[$code];
+        } else {
+            return false;
+        }
     }
 
     public static function xmlToArray($xml, $options = array()) {
