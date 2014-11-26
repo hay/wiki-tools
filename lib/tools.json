@@ -45,12 +45,6 @@
         "keywords" : "gwt,xml,transform,glam,commons,uploads,bot"
     },
 
-    "langstat" : {
-        "title" : "Multilingual stats",
-        "description" : "Shows the page views for a Wikipedia article in all available languages.",
-        "hidden" : true
-    },
-
     "wdview" : {
         "title" : "Wikidata View",
         "description" : "A simple <a href=\"http://tools.wmflabs.org/reasonator/\">Reasonator</a>-like viewer for Wikidata items using the simplified Wikidata Readyonly API."
