@@ -3,5 +3,5 @@ rsync --exclude .git --exclude config.php --exclude crawl.log -av --del ../* too
 
 # Copy files
 ssh tools <<'ENDSSH'
-cp -rv tools/* /data/project/hay/
+cp -r tools/* /data/project/hay/
 ENDSSH
