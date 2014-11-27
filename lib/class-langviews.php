@@ -28,7 +28,7 @@ class LangViews {
     }
 
     private function getStats($lang, $article) {
-        $url = sprintf(self::STAT_ENDPOINT, $lang, $article);
+        $url = sprintf(self::STAT_ENDPOINT, $lang, Util::wikiUrlEncode($article));
         $req = Request::get($url)->send();
 
         if (!isset($req->body)) {
@@ -40,7 +40,7 @@ class LangViews {
     }
 
     private function getLanguages() {
-        $url = sprintf(self::WP_ENDPOINT, $this->langcode, urlencode($this->article));
+        $url = sprintf(self::WP_ENDPOINT, $this->langcode, Util::wikiUrlEncode($this->article));
         $req = Request::get($url)->send();
 
         if (!isset($req->body->query->pages)) {
@@ -49,13 +49,21 @@ class LangViews {
 
         $stats = reset($req->body->query->pages);
 
-        return array_map(function($lang) {
+        $languages = array_map(function($lang) {
             return array(
                 "langcode" => $lang->lang,
                 "article" => $lang->{'*'},
                 "language" => Util::langcode($lang->lang)
             );
         }, $stats->langlinks);
+
+        array_unshift($languages, array(
+            "langcode" => $this->langcode,
+            "article" => $this->article,
+            "language" => Util::langcode($this->langcode)
+        ));
+
+        return $languages;
     }
 
     public function getResults() {
@@ -89,6 +97,12 @@ class LangViews {
             $data[] = $lang;
         }
 
-        return $data;
+        return array(
+            "views" => $data,
+            "totalviews" => array_reduce($data, function($a, $b) {
+                $a = $a + $b['totalviews'];
+                return $a;
+            })
+        );
     }
 }

@@ -38,7 +38,7 @@
         <form action="index.php" method="GET" role="form">
             <div class="form-group">
                 <label for="site">Url to article</label>
-                <input type="text" class="form-control" id="url" name="url" placeholder="Enter an URL to a Wikipedia article here" />
+                <input type="text" class="form-control" id="url" name="url" placeholder="Enter a URL to a Wikipedia article here" />
             </div>
 
             <button type="submit" class="btn btn-primary">
@@ -74,7 +74,7 @@
                 </tr>
             </thead>
 
-        <?php foreach ($results as $result) : ?>
+        <?php foreach ($results['views'] as $result) : ?>
                 <tr>
                     <td>
                         <?= $result['langcode']; ?>
@@ -95,6 +95,12 @@
                     </td>
                 </tr>
             <?php endforeach; ?>
+
+            <tr>
+                <td><strong>Total</strong></td>
+                <td colspan="2"></td>
+                <td><?= $results['totalviews']; ?></td>
+            </tr>
         </table>
     <?php endif; ?>
 <?php

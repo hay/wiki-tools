@@ -2,10 +2,27 @@
 $langcodes = json_decode(file_get_contents(PATH . "langcodes.json"), true);
 
 class Util {
+    public static $wikiEscaping = array(
+        " " => "%20",
+        '"' => "%22",
+        "'" => "%27",
+        "," => "%2C"
+    );
+
     public static function is_assoc($array) {
         return (bool) count(
             array_filter(array_keys($array), 'is_string')
         );
+    }
+
+    // See
+    // < https://en.wikipedia.org/wiki/Help:URL#Fixing_links_with_unsupported_characters >
+    public static function wikiUrlEncode($str) {
+        foreach (self::$wikiEscaping as $from => $to) {
+            $str = str_replace($from, $to, $str);
+        }
+
+        return $str;
     }
 
     // Cheers! < http://stackoverflow.com/a/14480888/152809 >
