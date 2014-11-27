@@ -91,7 +91,9 @@
                     </td>
 
                     <td>
-                        <?= $result['totalviews']; ?>
+                        <a href="http://stats.grok.se/en/latest30/<?= Util::wikiUrlEncode($result['article']); ?>">
+                            <?= $result['totalviews']; ?>
+                        </a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -99,7 +101,7 @@
             <tr>
                 <td><strong>Total</strong></td>
                 <td colspan="2"></td>
-                <td><?= $results['totalviews']; ?></td>
+                <td><strong><?= $results['totalviews']; ?></strong></td>
             </tr>
         </table>
     <?php endif; ?>
