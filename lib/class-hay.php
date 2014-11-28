@@ -63,6 +63,9 @@ class Hay {
     <title>$this->titletag</title>
     <link rel="stylesheet" href="{$root}/vendor/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="{$root}/common/style.css" />
+    <script>
+        window._scripts = [];
+    </script>
 </head>
 <body>
 <div id="wrapper" class="container">
@@ -98,6 +101,13 @@ HTML;
 
     <script src="${root}/vendor/jquery/jquery.js"></script>
     <script src="${root}/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        if (window._scripts) {
+            window._scripts.forEach(function(script) {
+                script();
+            });
+        }
+    </script>
 </body>
 </html>
 HTML;
