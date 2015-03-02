@@ -1,5 +1,14 @@
 [
     {
+        "title" : "Wikidata Skim",
+        "description" : "A (very) limited replacement for Wikidata Query which just does claims, based on the 'linkshere' method of the Wikidata API.",
+        "name" : "hay-wdskim",
+        "author" : "Hay Kranen",
+        "repository" : "https://github.com/hay/wiki-tools.git",
+        "url" : "http://tools.wmflabs.org/hay/wdskim",
+        "keywords" : "wikidata, query, skim, search, api, json"
+    },
+    {
         "title" : "The Sum of all Knowledge",
         "description" : "A project to visualize the knowledge getting added to Wikidata, Wikipedia and Wikimedia Commons.",
         "name" : "hay-sum",

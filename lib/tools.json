@@ -17,22 +17,17 @@
 
     "langviews"  : {
         "title" : "Multilingual page views",
-        "description" : "Page views for an article in all available languages using the data from <a href=\"http://stats.grok.se\">stats.grok.se</a>. This shows you the last 30 days.",
-        "name" : "hay-langviews",
-        "author" : "Hay Kranen",
-        "repository" : "https://github.com/hay/wiki-tools.git",
-        "url" : "http://tools.wmflabs.org/hay/langviews",
-        "keywords" : "language,pageviews,statistics,stats,views"
+        "description" : "Page views for an article in all available languages using the data from <a href=\"http://stats.grok.se\">stats.grok.se</a>. This shows you the last 30 days."
     },
 
     "wdtranslate" : {
         "title" : "Wikidata Translate",
-        "description" : "Use the power of Wikidata to translate a term between two languages.",
-        "name" : "hay-wdtranslate",
-        "author" : "Hay Kranen",
-        "repository" : "https://github.com/hay/wiki-tools.git",
-        "url" : "http://tools.wmflabs.org/hay/wdtranslate",
-        "keywords" : "wikidata, translate, language"
+        "description" : "Use the power of Wikidata to translate a term between two languages."
+    },
+
+    "wdskim" : {
+        "title" : "Wikidata Skim",
+        "description" : "A (very) limited replacement for <a href=\"http://wdq.wmflabs.org\">Wikidata Query</a> which just does claims, based on the 'linkshere' method of the <a href=\"wikidata.org/w/api.php\">Wikidata API</a>."
     },
 
     "chantek" : {
@@ -44,11 +39,7 @@
     "gwtcook" : {
         "title" : "GWT Cook",
         "description" : "Preprocess and transform XML from select API's for ingestion in the GLAMWiki Toolset.",
-        "name" : "hay-gwtcook",
-        "author" : "Hay Kranen",
-        "repository" : "https://github.com/hay/wiki-tools.git",
-        "url" : "http://tools.wmflabs.org/hay/gwtcook",
-        "keywords" : "gwt,xml,transform,glam,commons,uploads,bot"
+        "name" : "hay-gwtcook"
     },
 
     "wdview" : {
