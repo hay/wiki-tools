@@ -8,11 +8,12 @@
     if (!empty($_GET['q'])) {
         $q = $_GET['q'];
         $lang = $_GET['language'];
+        $withimages = isset($_GET['withimages']);
         $json = isset($_GET['json']) || isset($_GET['format']);
         $extended = isset($_GET['extended']);
 
         $api = new WikidataSkim();
-        $results = $api->query($q, $extended, $lang);
+        $results = $api->query($q, $extended, $lang, $withimages);
 
         if ($json) {
             // User wants JSON
@@ -74,6 +75,13 @@
                 </label>
             </div>
 
+            <div class="checkbox">
+                <label for="withimages">
+                    <input type="checkbox" id="withimages" name="withimages" />
+                    Only get entities with images
+                </label>
+            </div>
+
             <button type="submit" class="btn btn-primary">
                 <span class="glyphicon glyphicon-search"></span>
                 Query
@@ -103,13 +111,32 @@
             </a>
         </div>
 
+        <br clear="all">
+        <br>
+
         <?php if (!$extended): ?>
+            <?php if ($withimages): ?>
+                <?php $index = 0; // Oh, PHP! ?>
+                <?php foreach ($results as $result): ?>
+                    <?php if ($index % 4 == 0): ?><div class="row"><?php endif; ?>
+                        <div class="col-md-3">
+                            <a href="http://www.wikidata.org/wiki/<?= $result['id']; ?>" class="thumbnail">
+                                <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/<?= $result['image']; ?>?width=300">
+                                <h3><?= $result['label']; ?></h3>
+                                <h4><?= $result['description']; ?></h4>
+                            </a>
+                        </div>
+                    <?php if ($index % 4 == 3): ?></div><?php endif; ?>
+                    <?php $index++; ?>
+                <?php endforeach; ?>
+            <?php else: ?>
             <table class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Label</th>
                         <th>Description</th>
+                        <?php if ($withimages): ?><th>Image</th><?php endif; ?>
                     </tr>
                 </thead>
 
@@ -127,6 +154,7 @@
                 <?php endforeach; ?>
                 </tbody>
             </table>
+            <?php endif; ?>
         <?php else: ?>
             <div class="alert alert-danger">
                 Sorry, but we can't display results when the 'extended' option is enabled. Try the 'Get this query as JSON' button, or disable the option.

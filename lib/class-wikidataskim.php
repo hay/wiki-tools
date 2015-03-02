@@ -12,7 +12,7 @@ class WikidataSkim {
 
     }
 
-    private function getMatches($ids, $lang, $prop, $isid, $extended = true) {
+    private function getMatches($ids, $lang, $prop, $isid, $extended = true, $withimages = false) {
         $ids = array_slice($ids, 0, 50);
 
         $url = sprintf(self::ENTITIES, implode("|", $ids), $lang);
@@ -25,6 +25,13 @@ class WikidataSkim {
         $results = array();
 
         foreach ($res->body->entities as $id => $entity) {
+            if (!isset($entity->claims->{'P18'})) {
+                if ($withimages) continue;
+                $image = false;
+            } else {
+                $image = reset($entity->claims->P18)->mainsnak->datavalue->value;
+            }
+
             foreach ($entity->claims as $claimprop => $claim) {
                 $claim = $claim[0];
 
@@ -33,17 +40,20 @@ class WikidataSkim {
 
                 $claimentity = "Q" . $claim->mainsnak->datavalue->value->{'numeric-id'};
 
-                if ($claimentity == $isid) {
-                    if ($extended) {
-                        $results[$id] = $entity;
-                    } else {
-                        $results[$id] = array(
-                            "label" => isset($entity->labels) ? $entity->labels->$lang->value : '',
-                            "description" => isset($entity->descriptions) ? $entity->descriptions->$lang->value : '',
-                            "id" => $entity->id
-                        );
-                    }
+                if ($claimentity != $isid) continue;
+
+                if ($extended) {
+                    $results[$id] = $entity;
+                } else {
+                    $results[$id] = array(
+                        "label" => isset($entity->labels) ? $entity->labels->$lang->value : '',
+                        "description" => isset($entity->descriptions) ? $entity->descriptions->$lang->value : '',
+                        "id" => $entity->id,
+                        "image" => $image
+                    );
                 }
+
+                break;
             }
         }
 
@@ -66,7 +76,7 @@ class WikidataSkim {
         }, $linkshere);
     }
 
-    public function query($q, $extended = false, $lang = self::DEFAULT_LANG) {
+    public function query($q, $extended = false, $lang = self::DEFAULT_LANG, $withimages = false) {
         preg_match_all(self::CLAIM_REGEX, $q, $matches);
 
         if (count($matches[0]) < 1) {
@@ -89,6 +99,6 @@ class WikidataSkim {
             );
         }
 
-        return $this->getMatches($results, $lang, $prop, $isid, $extended);
+        return $this->getMatches($results, $lang, $prop, $isid, $extended, $withimages);
     }
 }
