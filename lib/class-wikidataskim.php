@@ -7,7 +7,7 @@ class WikidataSkim {
     const ENTITIES_SHORT = "&props=labels|descriptions|claims";
     const DEFAULT_LANG = "en";
     const CLAIM_REGEX = "/CLAIM\[(\d+):(\d+)]/i";
-    const MAX_ENTITIES_FOR_CALL = 50;
+    const ITEMS_PER_PAGE = 50;
 
     private $extended = false;
     private $lang = self::DEFAULT_LANG;
@@ -21,26 +21,22 @@ class WikidataSkim {
     }
 
     private function getEntities($ids) {
-        $len = ceil( count($ids) / self::MAX_ENTITIES_FOR_CALL );
         $results = array();
 
-        for ($i = 0; $i < $len; $i++) {
-            $start = $i * self::MAX_ENTITIES_FOR_CALL;
-            $url = sprintf(
-                self::ENTITIES,
-                implode("|", array_slice($ids, $start, self::MAX_ENTITIES_FOR_CALL)),
-                $this->lang
-            );
+        $start = $this->page * self::ITEMS_PER_PAGE;
 
-            if (!$this->extended) $url .= self::ENTITIES_SHORT;
+        $url = sprintf(
+            self::ENTITIES,
+            implode("|", array_slice($ids, $start, self::ITEMS_PER_PAGE)),
+            $this->lang
+        );
 
-            error_log($url);
+        if (!$this->extended) $url .= self::ENTITIES_SHORT;
 
-            $res = Request::get($url)->send();
+        $res = Request::get($url)->send();
 
-            foreach ($res->body->entities as $key => $value) {
-                $results[$key] = $value;
-            }
+        foreach ($res->body->entities as $key => $value) {
+            $results[$key] = $value;
         }
 
         return $results;
@@ -102,6 +98,15 @@ class WikidataSkim {
         }, $linkshere);
     }
 
+    private function hasNext($results) {
+        $nextitem = ($this->page + 1) * self::ITEMS_PER_PAGE;
+        return $nextitem < count($results);
+    }
+
+    private function hasPrev($results) {
+        return $this->page > 0;
+    }
+
     public function query($q) {
         preg_match_all(self::CLAIM_REGEX, $q, $matches);
 
@@ -134,6 +139,10 @@ class WikidataSkim {
         if ($prop[0] !== "P") $prop = "P$prop";
         if ($isid[0] !== "Q") $isid = "Q$isid";
 
-        return $this->getMatches($results, $prop, $isid);
+        return array(
+            "hasnext" => $this->hasNext($results),
+            "hasprev" => $this->hasPrev($results),
+            "items" => $this->getMatches($results, $prop, $isid)
+        );
     }
 }

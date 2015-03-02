@@ -4,6 +4,7 @@
     require '../../lib/class-wikidataskim.php';
 
     $hay = new Hay("wdskim");
+    $page = isset($_GET['page']) ? $_GET['page'] : 0;
 
     if (!empty($_GET['q'])) {
         $q = $_GET['q'];
@@ -17,7 +18,8 @@
             "extended" => $extended,
             "lang" => $lang,
             "withimages" => $withimages,
-            "usewdq" => $usewdq
+            "usewdq" => $usewdq,
+            "page" => $page
         ));
 
         $results = $api->query($q);
@@ -28,6 +30,34 @@
             echo json_encode($results);
             die();
         }
+    }
+
+    function page_link($delta) {
+        global $page;
+        $query = $_SERVER['QUERY_STRING'];
+
+        if (strpos($query, "&page") === false) {
+            echo "index.php?$query&page=" . ($page + $delta);
+        } else {
+            echo "index.php?" . str_replace("page=$page", "page=" . ($page + $delta), $query);
+        }
+    }
+
+    function pager() {
+        global $results;
+?>
+        <div class="row text-center" style="margin-bottom:20px;">
+            <div class="btn-group">
+            <?php if ($results['hasprev']) : ?>
+                <a href="<?php page_link(-1); ?>" class="btn btn-default">&laquo; Previous page</a>
+            <?php endif; ?>
+
+            <?php if ($results['hasnext']) : ?>
+                <a href="<?php page_link(1); ?>"  class="btn btn-default">Next page &raquo; </a>
+            <?php endif; ?>
+            </div>
+        </div>
+<?php
     }
 
     $hay->header();
@@ -117,8 +147,6 @@
             <a href="index.php" class="pull-right btn btn-primary">Do another query</a>
         </h1>
 
-        <h3>There seem to be <b><?php echo count($results); ?></b> results.</h3>
-
         <div class="pull-right">
             <a class="btn btn-default" href="index.php?<?php echo $_SERVER['QUERY_STRING']; ?>&format=json">
                 Get this query as JSON
@@ -128,10 +156,13 @@
         <br clear="all">
         <br>
 
+
         <?php if (!$extended): ?>
+            <?php pager(); ?>
+
             <?php if ($withimages): ?>
                 <?php $index = 0; // Oh, PHP! ?>
-                <?php foreach ($results as $result): ?>
+                <?php foreach ($results['items'] as $result): ?>
                     <?php if ($index % 4 == 0): ?><div class="row"><?php endif; ?>
                         <div class="col-md-3">
                             <a href="http://www.wikidata.org/wiki/<?= $result['id']; ?>" class="thumbnail">
@@ -169,6 +200,8 @@
                 </tbody>
             </table>
             <?php endif; ?>
+
+            <?php pager(); ?>
         <?php else: ?>
             <div class="alert alert-danger">
                 Sorry, but we can't display results when the 'extended' option is enabled. Try the 'Get this query as JSON' button, or disable the option.
