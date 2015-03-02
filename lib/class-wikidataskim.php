@@ -7,24 +7,41 @@ class WikidataSkim {
     const ENTITIES_SHORT = "&props=labels|descriptions|claims";
     const DEFAULT_LANG = "en";
     const CLAIM_REGEX = "/CLAIM\[(\d+):(\d+)]/i";
+    const MAX_ENTITIES_FOR_CALL = 50;
 
     function __construct() {
 
     }
 
-    private function getMatches($ids, $lang, $prop, $isid, $extended = true, $withimages = false) {
-        $ids = array_slice($ids, 0, 50);
-
-        $url = sprintf(self::ENTITIES, implode("|", $ids), $lang);
-
-        if (!$extended) {
-            $url .= self::ENTITIES_SHORT;
-        }
-
-        $res = Request::get($url)->send();
+    private function getEntities($ids, $lang, $extended) {
+        $len = ceil( count($ids) / self::MAX_ENTITIES_FOR_CALL );
         $results = array();
 
-        foreach ($res->body->entities as $id => $entity) {
+        for ($i = 0; $i < $len; $i++) {
+            $start = $i * self::MAX_ENTITIES_FOR_CALL;
+            $url = sprintf(
+                self::ENTITIES,
+                implode("|", array_slice($ids, $start, self::MAX_ENTITIES_FOR_CALL)),
+                $lang
+            );
+
+            if (!$extended) $url .= self::ENTITIES_SHORT;
+
+            $res = Request::get($url)->send();
+
+            foreach ($res->body->entities as $key => $value) {
+                $results[$key] = $value;
+            }
+        }
+
+        return $results;
+    }
+
+    private function getMatches($ids, $lang, $prop, $isid, $extended = true, $withimages = false) {
+        $items = $this->getEntities($ids, $lang, $extended);
+        $results = array();
+
+        foreach ($items as $id => $entity) {
             if (!isset($entity->claims->{'P18'})) {
                 if ($withimages) continue;
                 $image = false;

@@ -40,7 +40,7 @@
         <p>Currently, the only supported query is <code>CLAIM</code> with both properties
         given, for example, to get all paintings by <a href="https://www.wikidata.org/wiki/Q130777">Kazimir Malevich</a>, try <code>CLAIM[170:130777]</code></p>
 
-        <div class="alert alert-warning">This tool is currently limited to 50 results.</div>
+        <div class="alert alert-warning">This tool is currently limited to 500 results.</div>
 
         <form action="index.php" method="GET" role="form">
             <div class="form-group">
