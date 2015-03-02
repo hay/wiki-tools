@@ -9,11 +9,18 @@
         $q = $_GET['q'];
         $lang = $_GET['language'];
         $withimages = isset($_GET['withimages']);
+        $usewdq = isset($_GET['usewdq']);
         $json = isset($_GET['json']) || isset($_GET['format']);
         $extended = isset($_GET['extended']);
 
-        $api = new WikidataSkim();
-        $results = $api->query($q, $extended, $lang, $withimages);
+        $api = new WikidataSkim(array(
+            "extended" => $extended,
+            "lang" => $lang,
+            "withimages" => $withimages,
+            "usewdq" => $usewdq
+        ));
+
+        $results = $api->query($q);
 
         if ($json) {
             // User wants JSON
@@ -72,6 +79,13 @@
                 <label for="extended">
                     <input type="checkbox" id="extended" name="extended" />
                     Add extended data (claims, aliases, etcetera)
+                </label>
+            </div>
+
+            <div class="checkbox">
+                <label for="usewdq">
+                    <input type="checkbox" id="usewdq" name="usewdq" />
+                    Use Wikidata Query (for comparing)
                 </label>
             </div>
 

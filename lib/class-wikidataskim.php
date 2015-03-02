@@ -9,11 +9,18 @@ class WikidataSkim {
     const CLAIM_REGEX = "/CLAIM\[(\d+):(\d+)]/i";
     const MAX_ENTITIES_FOR_CALL = 50;
 
-    function __construct() {
+    private $extended = false;
+    private $lang = self::DEFAULT_LANG;
+    private $withimages = false;
+    private $usewdq = false;
 
+    function __construct($opts) {
+        foreach ($opts as $key => $value) {
+            $this->$key = $value;
+        }
     }
 
-    private function getEntities($ids, $lang, $extended) {
+    private function getEntities($ids) {
         $len = ceil( count($ids) / self::MAX_ENTITIES_FOR_CALL );
         $results = array();
 
@@ -22,10 +29,12 @@ class WikidataSkim {
             $url = sprintf(
                 self::ENTITIES,
                 implode("|", array_slice($ids, $start, self::MAX_ENTITIES_FOR_CALL)),
-                $lang
+                $this->lang
             );
 
-            if (!$extended) $url .= self::ENTITIES_SHORT;
+            if (!$this->extended) $url .= self::ENTITIES_SHORT;
+
+            error_log($url);
 
             $res = Request::get($url)->send();
 
@@ -37,13 +46,13 @@ class WikidataSkim {
         return $results;
     }
 
-    private function getMatches($ids, $lang, $prop, $isid, $extended = true, $withimages = false) {
-        $items = $this->getEntities($ids, $lang, $extended);
+    private function getMatches($ids, $prop, $isid) {
+        $items = $this->getEntities($ids);
         $results = array();
 
         foreach ($items as $id => $entity) {
             if (!isset($entity->claims->{'P18'})) {
-                if ($withimages) continue;
+                if ($this->withimages) continue;
                 $image = false;
             } else {
                 $image = reset($entity->claims->P18)->mainsnak->datavalue->value;
@@ -59,12 +68,12 @@ class WikidataSkim {
 
                 if ($claimentity != $isid) continue;
 
-                if ($extended) {
+                if ($this->extended) {
                     $results[$id] = $entity;
                 } else {
                     $results[$id] = array(
-                        "label" => isset($entity->labels) ? $entity->labels->$lang->value : '',
-                        "description" => isset($entity->descriptions) ? $entity->descriptions->$lang->value : '',
+                        "label" => isset($entity->labels) ? $entity->labels->{$this->lang}->value : '',
+                        "description" => isset($entity->descriptions) ? $entity->descriptions->{$this->lang}->value : '',
                         "id" => $entity->id,
                         "image" => $image
                     );
@@ -93,7 +102,7 @@ class WikidataSkim {
         }, $linkshere);
     }
 
-    public function query($q, $extended = false, $lang = self::DEFAULT_LANG, $withimages = false) {
+    public function query($q) {
         preg_match_all(self::CLAIM_REGEX, $q, $matches);
 
         if (count($matches[0]) < 1) {
@@ -105,10 +114,16 @@ class WikidataSkim {
         $prop = $matches[1][0];
         $isid = $matches[2][0];
 
-        if ($prop[0] !== "P") $prop = "P$prop";
-        if ($isid[0] !== "Q") $isid = "Q$isid";
-
-        $results = $this->getLinksHere($isid);
+        if ($this->usewdq) {
+            $url = sprintf("http://wdq.wmflabs.org/api?q=CLAIM[%s:%s]", $prop, $isid);
+            $res = Request::get($url)->send();
+            $results = array_map(function($item) {
+                return "Q$item";
+            }, $res->body->items);
+        } else {
+            if ($isid[0] !== "Q") $isid = "Q$isid";
+            $results = $this->getLinksHere($isid);
+        }
 
         if (!$results) {
             return array(
@@ -116,6 +131,9 @@ class WikidataSkim {
             );
         }
 
-        return $this->getMatches($results, $lang, $prop, $isid, $extended, $withimages);
+        if ($prop[0] !== "P") $prop = "P$prop";
+        if ($isid[0] !== "Q") $isid = "Q$isid";
+
+        return $this->getMatches($results, $prop, $isid);
     }
 }
