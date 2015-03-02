@@ -22,7 +22,7 @@ class WikidataSkim {
         }
 
         $res = Request::get($url)->send();
-        $results = [];
+        $results = array();
 
         foreach ($res->body->entities as $id => $entity) {
             foreach ($entity->claims as $claimprop => $claim) {
@@ -37,11 +37,11 @@ class WikidataSkim {
                     if ($extended) {
                         $results[$id] = $entity;
                     } else {
-                        $results[$id] = [
-                            "label" => isset($entity->labels) ? $entity->labels->$lang->value : 'No value',
-                            "description" => isset($entity->descriptions) ? $entity->descriptions->$lang->value : 'No value',
+                        $results[$id] = array(
+                            "label" => isset($entity->labels) ? $entity->labels->$lang->value : '',
+                            "description" => isset($entity->descriptions) ? $entity->descriptions->$lang->value : '',
                             "id" => $entity->id
-                        ];
+                        );
                     }
                 }
             }
@@ -66,17 +66,13 @@ class WikidataSkim {
         }, $linkshere);
     }
 
-    private function parseQuery($q) {
-
-    }
-
     public function query($q, $extended = false, $lang = self::DEFAULT_LANG) {
         preg_match_all(self::CLAIM_REGEX, $q, $matches);
 
         if (count($matches[0]) < 1) {
-            return [
+            return array(
                 'error' => 400
-            ];
+            );
         }
 
         $prop = $matches[1][0];
@@ -88,9 +84,9 @@ class WikidataSkim {
         $results = $this->getLinksHere($isid);
 
         if (!$results) {
-            return [
+            return array(
                 'error' => 404
-            ];
+            );
         }
 
         return $this->getMatches($results, $lang, $prop, $isid, $extended);
