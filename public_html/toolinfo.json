@@ -1,5 +1,23 @@
 [
     {
+        "title" : "The Sum of all Knowledge",
+        "description" : "A project to visualize the knowledge getting added to Wikidata, Wikipedia and Wikimedia Commons.",
+        "name" : "hay-sum",
+        "author" : "Hay Kranen",
+        "repository" : "https://github.com/hay/sum.git",
+        "url" : "http://sum.bykr.org",
+        "keywords" : "wikidata, api, visual, reuse, wikipedia, wikicommons"
+    },
+    {
+        "title" : "Chantek",
+        "description" : "An unaspiring HTTP API server written in Python with lots of Wikimedia-related commands.",
+        "name" : "hay-chantek",
+        "author" : "Hay Kranen",
+        "repository" : "https://github.com/hay/chantek.git",
+        "url" : "https://github.com/hay/chantek",
+        "keywords" : "wikidata, api, python, json, server, wikipedia, wikicommons"
+    },
+    {
         "title" : "Wikidata Translate",
         "description" : "Use the power of Wikidata to translate a term between two languages.",
         "name" : "hay-wdtranslate",

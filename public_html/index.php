@@ -21,7 +21,11 @@
             foreach ($tools as $tool => $data) :
             ?>
                 <dt>
-                    <a href="<?php echo $tool; ?>/">
+                    <?php if (isset($data->url)) : ?>
+                    <a href="<?= $data->url; ?>">
+                    <?php else: ?>
+                    <a href="<?= $tool; ?>/">
+                    <?php endif; ?>
                         <?php echo $data->title; ?>
                     </a>
                 </dt>

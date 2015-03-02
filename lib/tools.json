@@ -1,13 +1,13 @@
 {
+    "sum" : {
+        "title" : "Sum of all Knowledge",
+        "description" : "A project to visualize the knowledge getting added to Wikidata, Wikipedia and Wikimedia Commons.",
+        "url" : "http://sum.bykr.org"
+    },
+
     "directory" : {
         "title" : "Tools Directory",
         "description" : "A way to easily discover Wikimedia-related tools."
-    },
-
-    "wdpainting" : {
-        "title" : "The Wikidata Painting Browser",
-        "description" : "See all the paintings that are on Wikidata, and help us to get <a href=\"https://www.wikidata.org/wiki/Wikidata:WikiProject_sum_of_all_paintings\">the sum of them</a>.",
-        "hidden" : true
     },
 
     "exturl" : {
@@ -33,6 +33,12 @@
         "repository" : "https://github.com/hay/wiki-tools.git",
         "url" : "http://tools.wmflabs.org/hay/wdtranslate",
         "keywords" : "wikidata, translate, language"
+    },
+
+    "chantek" : {
+        "title" : "Chantek",
+        "description" : "An unaspiring HTTP API server written in Python with lots of Wikimedia-related commands.",
+        "url" : "https://github.com/hay/chantek"
     },
 
     "gwtcook" : {

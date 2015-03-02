@@ -6,6 +6,10 @@ a:hover {
     max-width: 700px;
 }
 
+.dl-horizontal {
+    margin-top: 20px;
+}
+
 .dl-horizontal dd {
     padding-bottom: 10px;
     margin-bottom: 10px;
