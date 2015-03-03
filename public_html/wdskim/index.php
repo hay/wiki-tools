@@ -6,8 +6,13 @@
     $hay = new Hay("wdskim");
     $page = isset($_GET['page']) ? $_GET['page'] : 0;
 
-    if (!empty($_GET['q'])) {
-        $q = $_GET['q'];
+    if (!empty($_GET['prop']) && !empty($_GET['item'])) {
+        $q = sprintf(
+            "CLAIM[%s:%s]",
+            substr($_GET['prop'], 1),
+            substr($_GET['item'], 1)
+        );
+
         $lang = $_GET['language'];
         $withimages = isset($_GET['withimages']);
         $usewdq = isset($_GET['usewdq']);
@@ -68,62 +73,73 @@
         }
     </style>
 
+    <link rel="stylesheet" href="../common/awesomplete.css">
+    <script src="../common/jquery.js"></script>
+    <script src="../common/underscore-min.js"></script>
+    <script src="../common/awesomplete.js"></script>
+    <script src="app.js"></script>
+
     <?php if (empty($_GET['q'])): ?>
         <h1><?php $hay->title(); ?></h1>
 
         <p class="lead"><?php $hay->description(); ?></p>
 
-        <h3>"Documentation"</h3>
-        <p>Currently, the only supported query is <code>CLAIM</code> with both properties
-        given, for example, to get all paintings by <a href="https://www.wikidata.org/wiki/Q130777">Kazimir Malevich</a>, try <code>CLAIM[170:130777]</code></p>
-
         <div class="alert alert-warning">This tool is currently limited to 500 results.</div>
 
         <form action="index.php" method="GET" role="form">
-            <div class="form-group">
-                <label for="q">Claim</label>
-
-                <div class="input-group">
-                    <input type="text" class="form-control" id="q" name="q" />
-                    <div class="input-group-addon">
-                        Language:
-                        <select name="language" id="language">
-                            <option value="en">English</option>
-                            <option value="es">Spanish</option>
-                            <option value="de">German</option>
-                            <option value="fr">French</option>
-                            <option value="nl">Dutch</option>
-                        </select>
-                    </div>
+            <div class="flexgroup">
+                <div>Property</div>
+                <input type="text" id="prop" name="prop" class="form-control">
+                <div>Item</div>
+                <input type="text" class="form-control" id="item" name="item">
+                <div>
+                    Language:
+                    <select name="language" id="language">
+                        <option value="en">English</option>
+                        <option value="es">Spanish</option>
+                        <option value="de">German</option>
+                        <option value="fr">French</option>
+                        <option value="nl">Dutch</option>
+                    </select>
                 </div>
             </div>
 
-            <div class="checkbox">
-                <label for="json">
-                    <input type="checkbox" id="json" name="json" />
-                    Output as JSON
-                </label>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="checkbox">
+                        <label for="withimages">
+                            <input type="checkbox" id="withimages" name="withimages" checked>
+                            Only get entities with images
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <button id="show-advanced" class="btn btn-link pull-right">Show advanced options</button>
+                </div>
             </div>
 
-            <div class="checkbox">
-                <label for="extended">
-                    <input type="checkbox" id="extended" name="extended" />
-                    Add extended data (claims, aliases, etcetera)
-                </label>
-            </div>
+            <div id="advanced" class="hidden">
+                <div class="checkbox">
+                    <label for="json">
+                        <input type="checkbox" id="json" name="json" />
+                        Output as JSON
+                    </label>
+                </div>
 
-            <div class="checkbox">
-                <label for="usewdq">
-                    <input type="checkbox" id="usewdq" name="usewdq" />
-                    Use Wikidata Query (for comparing)
-                </label>
-            </div>
+                <div class="checkbox">
+                    <label for="extended">
+                        <input type="checkbox" id="extended" name="extended" />
+                        Add extended data (claims, aliases, etcetera)
+                    </label>
+                </div>
 
-            <div class="checkbox">
-                <label for="withimages">
-                    <input type="checkbox" id="withimages" name="withimages" checked>
-                    Only get entities with images
-                </label>
+                <div class="checkbox">
+                    <label for="usewdq">
+                        <input type="checkbox" id="usewdq" name="usewdq" />
+                        Use Wikidata Query (for comparing)
+                    </label>
+                </div>
             </div>
 
             <button type="submit" class="btn btn-primary">
@@ -155,7 +171,6 @@
 
         <br clear="all">
         <br>
-
 
         <?php if (!$extended): ?>
             <?php pager(); ?>

@@ -76,3 +76,14 @@ hr, .footer {
 .tools-item:nth-child(3n) {
     border-right: 0;
 }
+
+.flexgroup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flexgroup > div,
+.flexgroup > input {
+    padding: 10px;
+}
