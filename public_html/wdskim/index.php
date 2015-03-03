@@ -23,13 +23,13 @@
         $json = isset($_GET['json']) || isset($_GET['format']);
         $extended = isset($_GET['extended']);
 
-        $api = new WikidataSkim(array(
+        $api = new WikidataSkim([
             "extended" => $extended,
             "lang" => $lang,
             "withimages" => $withimages,
             "usewdq" => $usewdq,
             "page" => $page
-        ));
+        ]);
 
         $results = $api->query($q);
 
@@ -96,9 +96,30 @@
 
         <p class="lead"><?php $hay->description(); ?></p>
 
-        <div class="alert alert-info">
-            <span class="glyphicon glyphicon-info-sign"></span>
-            This tool is limited to 500 results.
+        <h3>Examples</h3>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <ul>
+                    <li><a href="?prop=P170&item=Q167654&language=en&withimages=on">All paintings by Frans Hals</a></li>
+                    <li><a href="?prop=P1303&item=Q9798&language=en&withimages=on">People playing the saxophone</a></li>
+                </ul>
+            </div>
+
+            <div class="col-sm-4">
+                <ul>
+                    <li><a href="?prop=P195&item=Q3044768&language=en&withimages=on">Paintings in the Louvre</a></li>
+                    <li><a href="?prop=P1344&item=Q79859&language=en&withimages=on">Footballers who played in the 2014 world cup</a></li>
+                </ul>
+            </div>
+
+            <div class="col-sm-4">
+                <ul>
+                    <li><a href="?prop=P161&item=Q81328&language=en">Movies with Harrison Ford</a></li>
+                    <li><a href="?prop=P141&item=Q11394&language=en&withimages=on">Endangered animals</a></li>
+                </ul>
+            </div>
+
         </div>
 
         <form action="index.php" method="GET" role="form" class="form-horizontal">
@@ -191,6 +212,11 @@
                 </div>
             </div>
         </form>
+
+        <div class="alert alert-info">
+            <span class="glyphicon glyphicon-info-sign"></span>
+            Note: this tool is limited to 500 results.
+        </div>
     <?php elseif (isset($results['error'])) : ?>
         <h1>
             <a href="index.php">Wikidata Skim</a>

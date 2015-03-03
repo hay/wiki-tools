@@ -21,7 +21,7 @@ class WikidataSkim {
     }
 
     private function getEntities($ids) {
-        $results = array();
+        $results = [];
 
         $start = $this->page * self::ITEMS_PER_PAGE;
 
@@ -44,7 +44,7 @@ class WikidataSkim {
 
     private function getMatches($ids, $prop, $isid) {
         $items = $this->getEntities($ids);
-        $results = array();
+        $results = [];
 
         foreach ($items as $id => $entity) {
             if (!isset($entity->claims->{'P18'})) {
@@ -67,12 +67,12 @@ class WikidataSkim {
                 if ($this->extended) {
                     $results[$id] = $entity;
                 } else {
-                    $results[$id] = array(
+                    $results[$id] = [
                         "label" => isset($entity->labels) ? $entity->labels->{$this->lang}->value : '',
                         "description" => isset($entity->descriptions) ? $entity->descriptions->{$this->lang}->value : '',
                         "id" => $entity->id,
                         "image" => $image
-                    );
+                    ];
                 }
 
                 break;
@@ -111,9 +111,9 @@ class WikidataSkim {
         preg_match_all(self::CLAIM_REGEX, $q, $matches);
 
         if (count($matches[0]) < 1) {
-            return array(
+            return [
                 'error' => 400
-            );
+            ];
         }
 
         $prop = $matches[1][0];
@@ -131,18 +131,18 @@ class WikidataSkim {
         }
 
         if (!$results) {
-            return array(
+            return [
                 'error' => 404
-            );
+            ];
         }
 
         if ($prop[0] !== "P") $prop = "P$prop";
         if ($isid[0] !== "Q") $isid = "Q$isid";
 
-        return array(
+        return [
             "hasnext" => $this->hasNext($results),
             "hasprev" => $this->hasPrev($results),
             "items" => $this->getMatches($results, $prop, $isid)
-        );
+        ];
     }
 }
