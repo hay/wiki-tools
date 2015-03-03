@@ -6,7 +6,11 @@
     $hay = new Hay("wdskim");
     $page = isset($_GET['page']) ? $_GET['page'] : 0;
 
-    if (!empty($_GET['prop']) && !empty($_GET['item'])) {
+    function has_query() {
+        return !empty($_GET['prop']) && !empty($_GET['item']);
+    }
+
+    if (has_query()) {
         $q = sprintf(
             "CLAIM[%s:%s]",
             substr($_GET['prop'], 1),
@@ -71,6 +75,14 @@
         #wrapper {
             max-width: inherit;
         }
+
+        .awesomplete {
+            width: 100%;
+        }
+
+        form h3 {
+            margin-bottom: 20px;
+        }
     </style>
 
     <link rel="stylesheet" href="../common/awesomplete.css">
@@ -79,22 +91,44 @@
     <script src="../common/awesomplete.js"></script>
     <script src="app.js"></script>
 
-    <?php if (empty($_GET['q'])): ?>
+    <?php if (!has_query()) : ?>
         <h1><?php $hay->title(); ?></h1>
 
         <p class="lead"><?php $hay->description(); ?></p>
 
-        <div class="alert alert-warning">This tool is currently limited to 500 results.</div>
+        <div class="alert alert-info">
+            <span class="glyphicon glyphicon-info-sign"></span>
+            This tool is limited to 500 results.
+        </div>
 
-        <form action="index.php" method="GET" role="form">
-            <div class="flexgroup">
-                <div>Property</div>
-                <input type="text" id="prop" name="prop" class="form-control">
-                <div>Item</div>
-                <input type="text" class="form-control" id="item" name="item">
-                <div>
-                    Language:
-                    <select name="language" id="language">
+        <form action="index.php" method="GET" role="form" class="form-horizontal">
+            <h3>Find items where...</h3>
+
+            <div class="form-group">
+                <label for="prop" class="col-sm-4">
+                    this property:
+                </label>
+                <div class="col-sm-8">
+                    <input type="hidden" id="prop" name="prop">
+                    <input type="text" data-name="prop" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-4">
+                    is equal to this item:
+                </label>
+                <div class="col-sm-8">
+                    <input type="hidden" id="item" name="item">
+                    <input type="text" data-name="item" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="language" class="col-sm-4">display in this language:</label>
+
+                <div class="col-sm-8">
+                    <select name="language" id="language" class="form-control">
                         <option value="en">English</option>
                         <option value="es">Spanish</option>
                         <option value="de">German</option>
@@ -104,52 +138,62 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="checkbox">
-                        <label for="withimages">
-                            <input type="checkbox" id="withimages" name="withimages" checked>
-                            Only get entities with images
-                        </label>
-                    </div>
+            <div class="form-group">
+                <div class="col-sm-8 col-sm-offset-4">
+                    <label>
+                        <input type="checkbox" id="withimages" name="withimages" checked>
+                        Only get items with an image
+                    </label>
                 </div>
+            </div>
 
-                <div class="col-md-6">
-                    <button id="show-advanced" class="btn btn-link pull-right">Show advanced options</button>
+            <div class="form-group">
+                <div class="col-sm-8 col-sm-offset-4">
+                    <button id="show-advanced" class="btn btn-link">Show advanced options</button>
                 </div>
             </div>
 
             <div id="advanced" class="hidden">
-                <div class="checkbox">
-                    <label for="json">
-                        <input type="checkbox" id="json" name="json" />
-                        Output as JSON
-                    </label>
+                <div class="form-group">
+                    <div class="col-sm-8 col-sm-offset-4">
+                        <label>
+                            <input type="checkbox" id="json" name="json">
+                            Output as JSON
+                        </label>
+                    </div>
                 </div>
 
-                <div class="checkbox">
-                    <label for="extended">
-                        <input type="checkbox" id="extended" name="extended" />
-                        Add extended data (claims, aliases, etcetera)
-                    </label>
+                <div class="form-group">
+                    <div class="col-sm-8 col-sm-offset-4">
+                        <label>
+                            <input type="checkbox" id="extended" name="extended">
+                            Add extended data (claims, aliases, etcetera)
+                        </label>
+                    </div>
                 </div>
 
-                <div class="checkbox">
-                    <label for="usewdq">
-                        <input type="checkbox" id="usewdq" name="usewdq" />
-                        Use Wikidata Query (for comparing)
-                    </label>
+                <div class="form-group">
+                    <div class="col-sm-8 col-sm-offset-4">
+                        <label>
+                            <input type="checkbox" id="usewdq" name="usewdq">
+                            Use Wikidata Query (for comparing)
+                        </label>
+                    </div>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">
-                <span class="glyphicon glyphicon-search"></span>
-                Query
-            </button>
+            <div class="form-group">
+                <div class="col-sm-8 col-sm-offset-4">
+                    <button type="submit" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-search"></span>
+                        Query
+                    </button>
+                </div>
+            </div>
         </form>
     <?php elseif (isset($results['error'])) : ?>
         <h1>
-            Wikidata Skim
+            <a href="index.php">Wikidata Skim</a>
             <a href="index.php" class="pull-right btn btn-primary">Do another query</a>
         </h1>
 
@@ -159,7 +203,7 @@
         </div>
     <?php else: ?>
         <h1>
-            Wikidata Skim
+            <a href="index.php">Wikidata Skim</a>
             <a href="index.php" class="pull-right btn btn-primary">Do another query</a>
         </h1>
 
@@ -181,12 +225,15 @@
                     <?php if ($index % 4 == 0): ?><div class="row"><?php endif; ?>
                         <div class="col-md-3">
                             <a href="http://www.wikidata.org/wiki/<?= $result['id']; ?>" class="thumbnail">
-                                <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/<?= $result['image']; ?>?width=300">
+                                <?php
+                                    $img = htmlspecialchars($result['image']);
+                                ?>
+                                <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/<?= $img; ?>?width=300">
                                 <h3><?= $result['label']; ?></h3>
                                 <h4><?= $result['description']; ?></h4>
                             </a>
                         </div>
-                    <?php if ($index % 4 == 3): ?></div><?php endif; ?>
+                    <?php if ($index % 4 == 3 || $index == count($results['items']) - 1): ?></div><?php endif; ?>
                     <?php $index++; ?>
                 <?php endforeach; ?>
             <?php else: ?>

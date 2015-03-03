@@ -1,10 +1,14 @@
 $(function() {
-    function autocomplete(id, type) {
-        var $input = $(id);
+    function autocomplete(id, type, showDescription) {
+        var input = '[data-name="' + id + '"]';
+        var $input = $(input);
+        var $val = $("#" + id);
 
-        var awesome = new Awesomplete(id, {
+        var awesome = new Awesomplete(input, {
             replace : function(text) {
-                this.input.value = text.split(':').shift();
+                var parts = text.split(':');
+                $val.val(parts[0].trim());
+                this.input.value = parts.join(':');
             }
         });
 
@@ -16,7 +20,10 @@ $(function() {
                 if (!data.search) return;
 
                 awesome.list = data.search.map(function(item) {
-                    return item.id + ': ' + item.label;
+                    var label = item.label || '';
+                    var description = item.description || '';
+                    var line = label + ' - ' + description;
+                    return item.id + ' : ' + line;
                 });
             });
         }, 200));
@@ -27,6 +34,6 @@ $(function() {
         $("#advanced").toggleClass('hidden');
     })
 
-    autocomplete("#prop", "property");
-    autocomplete("#item", "item");
+    autocomplete('prop', "property", false);
+    autocomplete('item', "item", true);
 });

@@ -27,7 +27,7 @@
 
     "wdskim" : {
         "title" : "Wikidata Skim",
-        "description" : "A (very) limited replacement for <a href=\"http://wdq.wmflabs.org\">Wikidata Query</a> which just does claims, based on the 'linkshere' method of the <a href=\"http://wikidata.org/w/api.php\">Wikidata API</a>."
+        "description" : "A (very) limited, visual, replacement for <a href=\"http://wdq.wmflabs.org\">Wikidata Query</a> which just does one claim, based on the 'linkshere' method of the <a href=\"http://wikidata.org/w/api.php\">Wikidata API</a>."
     },
 
     "chantek" : {

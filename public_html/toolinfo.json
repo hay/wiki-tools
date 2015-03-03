@@ -1,7 +1,7 @@
 [
     {
         "title" : "Wikidata Skim",
-        "description" : "A (very) limited replacement for Wikidata Query which just does claims, based on the 'linkshere' method of the Wikidata API.",
+        "description" : "A (very) limited, visual, replacement for Wikidata Query which just does one claim, based on the 'linkshere' method of the Wikidata API.",
         "name" : "hay-wdskim",
         "author" : "Hay Kranen",
         "repository" : "https://github.com/hay/wiki-tools.git",
