@@ -121,7 +121,7 @@
 
             <div class="checkbox">
                 <label for="withimages">
-                    <input type="checkbox" id="withimages" name="withimages" />
+                    <input type="checkbox" id="withimages" name="withimages" checked>
                     Only get entities with images
                 </label>
             </div>
@@ -186,7 +186,7 @@
                 </thead>
 
                 <tbody>
-                <?php foreach ($results as $result): ?>
+                <?php foreach ($results['items'] as $result): ?>
                 <tr>
                     <td>
                         <a href="http://www.wikidata.org/wiki/<?= $result['id']; ?>">
