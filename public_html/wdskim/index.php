@@ -91,6 +91,19 @@
             float: left;
         }
 
+        .thumbnail h3 {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
+        .thumbnail h4 {
+            font-size: 14px;
+        }
+
+        .thumbnail:hover {
+            border-radius: 0;
+        }
+
         @media (max-width: 479px) {
             .thumbnail {
                 width: 100%;
