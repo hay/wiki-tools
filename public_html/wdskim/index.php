@@ -36,6 +36,7 @@
         if ($json) {
             // User wants JSON
             header("Content-Type: application/json");
+            header("Access-Control-Allow-Origin: *");
             echo json_encode($results);
             die();
         }
@@ -83,12 +84,32 @@
         form h3 {
             margin-bottom: 20px;
         }
+
+        .thumbnail {
+            width: 25%;
+            border: 10px solid white;
+            float: left;
+        }
+
+        @media (max-width: 479px) {
+            .thumbnail {
+                width: 100%;
+            }
+        }
+
+        @media (min-width: 480px) and (max-width: 767px) {
+            .thumbnail {
+                width: 50%;
+            }
+        }
     </style>
 
     <link rel="stylesheet" href="../common/awesomplete.css">
     <script src="../common/jquery.js"></script>
     <script src="../common/underscore-min.js"></script>
     <script src="../common/awesomplete.js"></script>
+    <script src="../common/masonry.pkgd.min.js"></script>
+    <script src="../common/imagesloaded.pkgd.min.js"></script>
     <script src="app.js"></script>
 
     <?php if (!has_query()) : ?>
@@ -246,22 +267,18 @@
             <?php pager(); ?>
 
             <?php if ($withimages): ?>
-                <?php $index = 0; // Oh, PHP! ?>
+                <div class="thumbnail-grid">
                 <?php foreach ($results['items'] as $result): ?>
-                    <?php if ($index % 4 == 0): ?><div class="row"><?php endif; ?>
-                        <div class="col-md-3">
-                            <a href="http://www.wikidata.org/wiki/<?= $result['id']; ?>" class="thumbnail">
-                                <?php
-                                    $img = htmlspecialchars($result['image']);
-                                ?>
-                                <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/<?= $img; ?>?width=300">
-                                <h3><?= $result['label']; ?></h3>
-                                <h4><?= $result['description']; ?></h4>
-                            </a>
-                        </div>
-                    <?php if ($index % 4 == 3 || $index == count($results['items']) - 1): ?></div><?php endif; ?>
-                    <?php $index++; ?>
+                    <a href="http://www.wikidata.org/wiki/<?= $result['id']; ?>" class="thumbnail">
+                        <?php
+                            $img = htmlspecialchars($result['image']);
+                        ?>
+                        <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/<?= $img; ?>?width=300">
+                        <h3><?= $result['label']; ?></h3>
+                        <h4><?= $result['description']; ?></h4>
+                    </a>
                 <?php endforeach; ?>
+                </div>
             <?php else: ?>
             <table class="table table-condensed table-hover table-striped">
                 <thead>

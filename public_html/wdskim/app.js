@@ -4,6 +4,8 @@ $(function() {
         var $input = $(input);
         var $val = $("#" + id);
 
+        if ($input.length === 0) return;
+
         var awesome = new Awesomplete(input, {
             replace : function(text) {
                 var parts = text.split(':');
@@ -29,6 +31,15 @@ $(function() {
         }, 200));
     }
 
+    function masonry() {
+        var container = $(".thumbnail-grid").get(0);
+        imagesLoaded(container, function() {
+            var grid = new Masonry(container, {
+                itemSelector : '.thumbnail'
+            });
+        });
+    }
+
     $("#show-advanced").on('click', function(e) {
         e.preventDefault();
         $("#advanced").toggleClass('hidden');
@@ -36,4 +47,5 @@ $(function() {
 
     autocomplete('prop', "property", false);
     autocomplete('item', "item", true);
+    masonry();
 });
