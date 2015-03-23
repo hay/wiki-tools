@@ -1,5 +1,5 @@
 <?php
-use \Httpful\Request as Request;
+require 'class-util.php';
 
 class Category {
     const QUERY = "?action=query&generator=categorymembers&gcmtitle=Category:%s&gcmlimit=500&gcmsort=timestamp&gcmdir=older&format=json&prop=info";
@@ -10,18 +10,12 @@ class Category {
     }
 
     public function getRecentPages($cat) {
-        $endpoint = sprintf("http://%s.org/w/api.php", $this->site);
-        $url = $endpoint . sprintf(self::QUERY, urlencode($cat));
-
-        error_log("Getting $url");
-
-        $res = Request::get($url)->send();
-        $query = $res->body->query->pages;
-        $site = $this->site;
-        $pages = array();
+        $call = sprintf(self::QUERY, urlencode($cat));
+        $query = Util::doQueryWithContinue($call, $this->site);
+        $pages = [];
 
         foreach ($query as $id => $page) {
-            $page->url = "http://$site.org/wiki/" . $page->title;
+            $page->url = "http://$this->site.org/wiki/" . $page->title;
             $date = strtotime($page->touched);
             $page->date = strftime("%a %e %b %Y, at %H:%M", $date);
             $pages[] = $page;

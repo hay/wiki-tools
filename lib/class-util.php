@@ -1,7 +1,40 @@
 <?php
 $langcodes = json_decode(file_get_contents(PATH . "langcodes.json"), true);
+use \Httpful\Request as Request;
 
 class Util {
+    public static function doQueryWithContinue($q, $site) {
+        $endpoint = sprintf("http://%s.org/w/api.php", $site);
+        $results = array();
+        $continue = false;
+
+        do {
+            $url = $endpoint . $q;
+
+            if ($continue) {
+                foreach ($continue as $key => $val) {
+                    $url = $url . "&$key=" . urlencode($val);
+                }
+            } else {
+                $url = $url . "&continue=";
+            }
+
+            error_log("Getting $url");
+
+            $res = Request::get($url)->send();
+
+            if (isset($res->body->continue)) {
+                $continue = $res->body->continue;
+            }
+
+            $newresults = (array) reset($res->body->query);
+
+            $results = array_merge($results, $newresults);
+        } while (isset($res->body->continue));
+
+        return $results;
+    }
+
     public static $wikiEscaping = array(
         " " => "%20",
         '"' => "%22",

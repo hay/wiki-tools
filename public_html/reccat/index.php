@@ -61,6 +61,8 @@
 
         <p class="lead">Note that the dates are only a vague indication of the last 'touched' date. The API gives back wrong stuff apparently.</p>
 
+        <p>Found <b><?= count($pages); ?></b> results.</p>
+
         <hr />
 
         <ul>
