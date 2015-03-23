@@ -36,7 +36,7 @@ class Crawl {
                     }
                 }
 
-                $this->log("Error for '$name': " . $e->getMessage());
+                $this->log("Error for < $url >: " . $e->getMessage());
 
                 continue;
             }
