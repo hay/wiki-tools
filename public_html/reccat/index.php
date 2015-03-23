@@ -8,6 +8,13 @@
         $site = $_GET['site'];
         $api = new Category($site);
         $pages = $api->getRecentPages($cat);
+
+        if (!empty($_GET['format'])) {
+            // User wants JSON
+            header("Content-Type: application/json");
+            echo json_encode($pages);
+            die();
+        }
     }
 
     $hay = new Hay("reccat");
@@ -45,6 +52,12 @@
             <?php $hay->title(); ?>
             <a href="index.php" class="pull-right btn btn-primary">Do another search</a>
         </h1>
+
+        <div class="pull-right">
+            <a class="btn btn-default" href="index.php?<?php echo $_SERVER['QUERY_STRING']; ?>&format=json">
+                Get this query as JSON
+            </a>
+        </div>
 
         <p class="lead">Note that the dates are only a vague indication of the last 'touched' date. The API gives back wrong stuff apparently.</p>
 
