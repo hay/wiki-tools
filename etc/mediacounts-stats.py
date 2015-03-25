@@ -1,4 +1,4 @@
-import unicodecsv, json, argparse, sys
+import unicodecsv, json, argparse, sys, datetime
 
 # These are taken from
 # http://dumps.wikimedia.org/other/mediacounts/README.txt
@@ -77,7 +77,9 @@ def process():
 def main():
     global args
     args = init_argparse()
+    log("Starting " + datetime.datetime.now().isoformat())
     process()
+    log("Ending " + datetime.datetime.now().isoformat())
 
 if __name__ == "__main__":
     main()
