@@ -1,4 +1,8 @@
-import unicodecsv, json, argparse, sys, datetime
+import unicodecsv, json, argparse, sys, re, datetime
+try:
+    from wikitools import wiki, category
+except ImportError:
+    print "No wikitools library found for the web API! Can't use -cat."
 
 # These are taken from
 # http://dumps.wikimedia.org/other/mediacounts/README.txt
@@ -38,6 +42,7 @@ def init_argparse():
     )
     parser.add_argument('-i', '--input', help="Path to TSV file", required = True)
     parser.add_argument('-o', '--output', help="Path to output CSV file", required = True)
+    parser.add_argument('-cat', '--category', help="Name of a Wikimedia Commons category of files to search for")
     parser.add_argument('-q', '--query', help="Media file to search for")
     parser.add_argument('-qf', '--queryfile', help="Path to a newline separated file of files to search for")
     parser.add_argument('-v', '--verbose', help="Output verbose results", action="store_true")
@@ -59,6 +64,12 @@ def process():
         query = [l.strip() for l in open(args.queryfile)]
     elif args.query:
         query = [args.query]
+    elif args.category:
+        site = wiki.Wiki("https://commons.wikimedia.org/w/api.php")
+        cat = category.Category(site, args.category)
+        query = []
+        for page in cat.getAllMembersGen(namespaces=[6]):
+            query.append( re.sub("File:", "", page.title ) )
     else:
         sys.exit("No query given")
 
