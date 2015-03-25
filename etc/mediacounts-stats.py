@@ -39,7 +39,7 @@ def init_argparse():
     parser.add_argument('-i', '--input', help="Path to TSV file", required = True)
     parser.add_argument('-o', '--output', help="Path to output CSV file", required = True)
     parser.add_argument('-q', '--query', help="Media file to search for")
-    parser.add_argument('-qf', '--queryfile', help="Path to a newline seperated file of files to search for")
+    parser.add_argument('-qf', '--queryfile', help="Path to a newline separated file of files to search for")
     parser.add_argument('-v', '--verbose', help="Output verbose results", action="store_true")
 
     return parser.parse_args()
