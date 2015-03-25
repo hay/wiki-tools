@@ -1,4 +1,4 @@
-import unicodecsv, json, argparse, sys, datetime
+import json, argparse, sys, datetime, os
 
 # These are taken from
 # http://dumps.wikimedia.org/other/mediacounts/README.txt
@@ -41,6 +41,7 @@ def init_argparse():
     parser.add_argument('-q', '--query', help="Media file to search for")
     parser.add_argument('-qf', '--queryfile', help="Path to a newline separated file of files to search for")
     parser.add_argument('-v', '--verbose', help="Output verbose results", action="store_true")
+    parser.add_argument('-p', '--progress', help="Show progress", action="store_true")
 
     return parser.parse_args()
 
@@ -50,8 +51,8 @@ def log(msg):
 
 def process():
     tsvfile = open(args.input)
+    tsvfilesize = os.path.getsize(args.input)
     csvfile = open(args.output, "w")
-    reader = unicodecsv.reader(tsvfile, delimiter="\t")
     writer = unicodecsv.writer(csvfile)
     rowwritten = False
 
@@ -62,8 +63,16 @@ def process():
     else:
         sys.exit("No query given")
 
-    for row in reader:
-        if row[0] not in query:
+    for index, line in enumerate(tsvfile):
+        if args.progress:
+            if index % 200000 == 0:
+                percent = tsvfile.tell() / float(tsvfilesize)
+                print "{0:.2f}%".format(percent * 100)
+
+        row = line.split("\t")
+        filename = row[0].split("/")[-1]
+
+        if filename not in query:
             continue
 
         log("MATCH " + row[0])
