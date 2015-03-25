@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-import unicodecsv, json, argparse, sys, re, datetime
+import csv, json, argparse, sys, datetime, os, re
 # Requires wikitools 1.3+ to use generators
 try:
     from wikitools import wiki, category, api
 except ImportError:
     print "No wikitools library found for the web API! Can't use -cat."
-=======
-import json, argparse, sys, datetime, os
->>>>>>> 9c26b2799164cd54e6e912839c164a7dcbd5fe89
 
 # These are taken from
 # http://dumps.wikimedia.org/other/mediacounts/README.txt
@@ -45,11 +41,11 @@ def init_argparse():
     parser = argparse.ArgumentParser(
         description='Get mediacounts for a specific media file or list of files'
     )
-    parser.add_argument('-i', '--input', help="Path to TSV file. Better if sorted", required = True)
+    parser.add_argument('-i', '--input', help="Path to TSV file", required = True)
     parser.add_argument('-o', '--output', help="Path to output CSV file", required = True)
-    parser.add_argument('-cat', '--category', help="Name of a Wikimedia Commons category of files to search for")
     parser.add_argument('-q', '--query', help="Media file to search for")
     parser.add_argument('-qf', '--queryfile', help="Path to a newline separated file of files to search for")
+    parser.add_argument('-cat', '--category', help="Name of a Wikimedia Commons category of files to search for")
     parser.add_argument('-v', '--verbose', help="Output verbose results", action="store_true")
     parser.add_argument('-p', '--progress', help="Show progress", action="store_true")
 
@@ -60,35 +56,42 @@ def log(msg):
         print msg
 
 def process():
-<<<<<<< HEAD
-=======
     tsvfile = open(args.input)
     tsvfilesize = os.path.getsize(args.input)
->>>>>>> 9c26b2799164cd54e6e912839c164a7dcbd5fe89
     csvfile = open(args.output, "w")
-    writer = unicodecsv.writer(csvfile)
+    writer = csv.writer(csvfile)
     rowwritten = False
 
-    for path in query():
-        # FIXME: Should search for sorted titles and continue seeking where it left.
-        tsvfile = open(args.input)
-        reader = unicodecsv.reader(tsvfile, delimiter="\t")
+    # Actually benefit from the generator, e.g. batch
+    query = sorted([ l for l in queries() ])
 
-        #print "Looking for " + path
-        for row in reader:
-            #print "Inspecting row " + row[0]
-            if row[0].strip().startswith(path.strip()):
-                log("MATCH " + row[0])
-                if not rowwritten:
-                    writer.writerow(FIELDS)
-                    rowwritten = True
+    for index, line in enumerate(tsvfile):
+        if args.progress:
+            if index % 200000 == 0:
+                percent = tsvfile.tell() / float(tsvfilesize)
+                print "{0:.2f}%".format(percent * 100)
 
-                writer.writerow(row)
-                break
-        tsvfile.close()
+        row = line.split("\t")
+        if args.category:
+            filename = row[0]
+        else:
+            filename = row[0].split("/")[-1]
+
+        if filename not in query:
+            continue
+
+        log("MATCH " + row[0])
+
+        if not rowwritten:
+            writer.writerow(FIELDS)
+            rowwritten = True
+
+        writer.writerow(row)
+
+    tsvfile.close()
     csvfile.close()
 
-def query():
+def queries():
     if args.queryfile:
         for l in open(args.queryfile):
             yield l.strip()
@@ -115,29 +118,6 @@ def query():
     else:
         sys.exit("No query given")
 
-<<<<<<< HEAD
-=======
-    for index, line in enumerate(tsvfile):
-        if args.progress:
-            if index % 200000 == 0:
-                percent = tsvfile.tell() / float(tsvfilesize)
-                print "{0:.2f}%".format(percent * 100)
-
-        row = line.split("\t")
-        filename = row[0].split("/")[-1]
-
-        if filename not in query:
-            continue
-
-        log("MATCH " + row[0])
-
-        if not rowwritten:
-            writer.writerow(FIELDS)
-            rowwritten = True
-
-        writer.writerow(row)
-
->>>>>>> 9c26b2799164cd54e6e912839c164a7dcbd5fe89
 def main():
     global args
     args = init_argparse()
