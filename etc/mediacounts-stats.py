@@ -1,4 +1,4 @@
-import json, argparse, sys, datetime, os
+import csv, json, argparse, sys, datetime, os
 
 # These are taken from
 # http://dumps.wikimedia.org/other/mediacounts/README.txt
@@ -53,7 +53,7 @@ def process():
     tsvfile = open(args.input)
     tsvfilesize = os.path.getsize(args.input)
     csvfile = open(args.output, "w")
-    writer = unicodecsv.writer(csvfile)
+    writer = csv.writer(csvfile)
     rowwritten = False
 
     if args.queryfile:
