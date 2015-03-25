@@ -1,6 +1,7 @@
 import unicodecsv, json, argparse, sys, re, datetime
+# Requires wikitools 1.3+ to use generators
 try:
-    from wikitools import wiki, category
+    from wikitools import wiki, category, api
 except ImportError:
     print "No wikitools library found for the web API! Can't use -cat."
 
@@ -40,7 +41,7 @@ def init_argparse():
     parser = argparse.ArgumentParser(
         description='Get mediacounts for a specific media file or list of files'
     )
-    parser.add_argument('-i', '--input', help="Path to TSV file", required = True)
+    parser.add_argument('-i', '--input', help="Path to TSV file. Better if sorted", required = True)
     parser.add_argument('-o', '--output', help="Path to output CSV file", required = True)
     parser.add_argument('-cat', '--category', help="Name of a Wikimedia Commons category of files to search for")
     parser.add_argument('-q', '--query', help="Media file to search for")
@@ -54,36 +55,55 @@ def log(msg):
         print msg
 
 def process():
-    tsvfile = open(args.input)
     csvfile = open(args.output, "w")
-    reader = unicodecsv.reader(tsvfile, delimiter="\t")
     writer = unicodecsv.writer(csvfile)
     rowwritten = False
 
+    for path in query():
+        # FIXME: Should search for sorted titles and continue seeking where it left.
+        tsvfile = open(args.input)
+        reader = unicodecsv.reader(tsvfile, delimiter="\t")
+
+        #print "Looking for " + path
+        for row in reader:
+            #print "Inspecting row " + row[0]
+            if row[0].strip().startswith(path.strip()):
+                log("MATCH " + row[0])
+                if not rowwritten:
+                    writer.writerow(FIELDS)
+                    rowwritten = True
+
+                writer.writerow(row)
+                break
+        tsvfile.close()
+    csvfile.close()
+
+def query():
     if args.queryfile:
-        query = [l.strip() for l in open(args.queryfile)]
+        for l in open(args.queryfile):
+            yield l.strip()
     elif args.query:
-        query = [args.query]
+        yield args.query
     elif args.category:
         site = wiki.Wiki("https://commons.wikimedia.org/w/api.php")
-        cat = category.Category(site, args.category)
         query = []
-        for page in cat.getAllMembersGen(namespaces=[6]):
-            query.append( re.sub("File:", "", page.title ) )
+        params = {
+        'action': 'query',
+        'prop': 'imageinfo',
+        'iiprop': 'url',
+        'generator': 'categorymembers',
+        'gcmtitle': 'Category:' + args.category,
+        'gcmnamespace': '6',
+        'gcmprop': 'title'
+        }
+        req = api.APIRequest(site, params)
+        for data in req.queryGen():
+            keys = data['query']['pages'].keys()
+            for key in keys:
+                url = data['query']['pages'][key]['imageinfo'][0]['url']
+                yield re.sub("https://upload.wikimedia.org", "", url)
     else:
         sys.exit("No query given")
-
-    for row in reader:
-        if row[0] not in query:
-            continue
-
-        log("MATCH " + row[0])
-
-        if not rowwritten:
-            writer.writerow(FIELDS)
-            rowwritten = True
-
-        writer.writerow(row)
 
 def main():
     global args
