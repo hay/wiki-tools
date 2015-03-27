@@ -63,7 +63,7 @@ def process():
     rowwritten = False
 
     # Actually benefit from the generator, e.g. batch
-    query = sorted([ l for l in queries() ])
+    query = frozenset([ l for l in queries() ])
 
     for index, line in enumerate(tsvfile):
         if args.progress:
