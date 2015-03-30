@@ -1,9 +1,12 @@
 import csv, json, argparse, sys, datetime, os, re
+
 # Requires wikitools 1.3+ to use generators
 try:
     from wikitools import wiki, category, api
 except ImportError:
-    print "No wikitools library found for the web API! Can't use -cat."
+    HAS_WIKITOOLS = False
+else:
+    HAS_WIKITOOLS = True
 
 # These are taken from
 # http://dumps.wikimedia.org/other/mediacounts/README.txt
@@ -97,21 +100,26 @@ def queries():
             yield l.strip()
     elif args.query:
         yield args.query
-    elif args.category:
+    elif args.category and not HAS_WIKITOOLS:
+        sys.exit("-cat option given, but wikitools package is not present, see < https://github.com/alexz-enwp/wikitools >")
+    elif args.category and HAS_WIKITOOLS:
         site = wiki.Wiki("https://commons.wikimedia.org/w/api.php")
         query = []
         params = {
-        'action': 'query',
-        'prop': 'imageinfo',
-        'iiprop': 'url',
-        'generator': 'categorymembers',
-        'gcmtitle': 'Category:' + args.category,
-        'gcmnamespace': '6',
-        'gcmprop': 'title'
+            'action': 'query',
+            'prop': 'imageinfo',
+            'iiprop': 'url',
+            'generator': 'categorymembers',
+            'gcmtitle': 'Category:' + args.category,
+            'gcmnamespace': '6',
+            'gcmprop': 'title'
         }
+
         req = api.APIRequest(site, params)
+
         for data in req.queryGen():
             keys = data['query']['pages'].keys()
+
             for key in keys:
                 url = data['query']['pages'][key]['imageinfo'][0]['url']
                 yield re.sub("https://upload.wikimedia.org", "", url)
