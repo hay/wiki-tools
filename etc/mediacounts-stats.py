@@ -1,4 +1,4 @@
-import csv, json, argparse, sys, datetime, os, re
+import csv, json, argparse, sys, datetime, os, re, time
 
 # Requires wikitools 1.3+ to use generators
 try:
@@ -129,9 +129,11 @@ def queries():
 def main():
     global args
     args = init_argparse()
+    now = time.time()
     log("Starting " + datetime.datetime.now().isoformat())
     process()
     log("Ending " + datetime.datetime.now().isoformat())
+    log("Query took %s seconds" % round(time.time() - now, 2))
 
 if __name__ == "__main__":
     main()
