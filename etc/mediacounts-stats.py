@@ -1,4 +1,9 @@
-import csv, json, argparse, sys, datetime, os
+import csv, json, argparse, sys, datetime, os, re
+# Requires wikitools 1.3+ to use generators
+try:
+    from wikitools import wiki, category, api
+except ImportError:
+    print "No wikitools library found for the web API! Can't use -cat."
 
 # These are taken from
 # http://dumps.wikimedia.org/other/mediacounts/README.txt
@@ -40,6 +45,7 @@ def init_argparse():
     parser.add_argument('-o', '--output', help="Path to output CSV file", required = True)
     parser.add_argument('-q', '--query', help="Media file to search for")
     parser.add_argument('-qf', '--queryfile', help="Path to a newline separated file of files to search for")
+    parser.add_argument('-cat', '--category', help="Name of a Wikimedia Commons category of files to search for")
     parser.add_argument('-v', '--verbose', help="Output verbose results", action="store_true")
     parser.add_argument('-p', '--progress', help="Show progress", action="store_true")
 
@@ -56,12 +62,8 @@ def process():
     writer = csv.writer(csvfile)
     rowwritten = False
 
-    if args.queryfile:
-        query = [l.strip() for l in open(args.queryfile)]
-    elif args.query:
-        query = [args.query]
-    else:
-        sys.exit("No query given")
+    # Actually benefit from the generator, e.g. batch
+    query = frozenset([ l for l in queries() ])
 
     for index, line in enumerate(tsvfile):
         if args.progress:
@@ -70,7 +72,10 @@ def process():
                 print "{0:.2f}%".format(percent * 100)
 
         row = line.split("\t")
-        filename = row[0].split("/")[-1]
+        if args.category:
+            filename = row[0]
+        else:
+            filename = row[0].split("/")[-1]
 
         if filename not in query:
             continue
@@ -82,6 +87,36 @@ def process():
             rowwritten = True
 
         writer.writerow(row)
+
+    tsvfile.close()
+    csvfile.close()
+
+def queries():
+    if args.queryfile:
+        for l in open(args.queryfile):
+            yield l.strip()
+    elif args.query:
+        yield args.query
+    elif args.category:
+        site = wiki.Wiki("https://commons.wikimedia.org/w/api.php")
+        query = []
+        params = {
+        'action': 'query',
+        'prop': 'imageinfo',
+        'iiprop': 'url',
+        'generator': 'categorymembers',
+        'gcmtitle': 'Category:' + args.category,
+        'gcmnamespace': '6',
+        'gcmprop': 'title'
+        }
+        req = api.APIRequest(site, params)
+        for data in req.queryGen():
+            keys = data['query']['pages'].keys()
+            for key in keys:
+                url = data['query']['pages'][key]['imageinfo'][0]['url']
+                yield re.sub("https://upload.wikimedia.org", "", url)
+    else:
+        sys.exit("No query given")
 
 def main():
     global args
