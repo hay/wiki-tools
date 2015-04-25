@@ -145,8 +145,8 @@
         window.LANGUAGES = <?php echo file_get_contents('./languages.json'); ?>;
     </script>
 
-    <script src="../common/angular.js"></script>
-    <script src="../common/angular-ui-bootstrap.js"></script>
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/angular.js/1.2.16/angular.min.js"></script>
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.js"></script>
     <script src="app.js"></script>
 <?php
     $hay->footer();

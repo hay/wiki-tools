@@ -87,7 +87,7 @@
 
 <?php endif; ?>
 
-        <script src="../common/jquery.js"></script>
+        <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
         <script>
             $("#examples a").on('click', function(e) {
                 e.preventDefault();
