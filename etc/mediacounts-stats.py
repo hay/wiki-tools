@@ -1,4 +1,4 @@
-import csv, json, argparse, sys, datetime, os, re, time
+import csv, json, argparse, sys, datetime, os, re, time, bz2
 
 # Requires wikitools 1.3+ to use generators
 try:
@@ -44,7 +44,7 @@ def init_argparse():
     parser = argparse.ArgumentParser(
         description='Get mediacounts for a specific media file or list of files'
     )
-    parser.add_argument('-i', '--input', help="Path to TSV file", required = True)
+    parser.add_argument('-i', '--input', help="Path(s) to TSV file(s), separated by space", required = True)
     parser.add_argument('-o', '--output', help="Path to output CSV file", required = True)
     parser.add_argument('-q', '--query', help="Media file to search for")
     parser.add_argument('-qf', '--queryfile', help="Path to a newline separated file of files to search for")
@@ -58,15 +58,19 @@ def log(msg):
     if args.verbose:
         print msg
 
-def process():
-    tsvfile = open(args.input)
-    tsvfilesize = os.path.getsize(args.input)
-    csvfile = open(args.output, "w")
+def process(datafile, out, query):
+    log("Doing %s" % datafile)
+    if datafile.endswith("bz2"):
+        tsvfile = bz2.BZ2File(datafile, "r")
+    else:
+        tsvfile = open(datafile)
+    tsvfilesize = os.path.getsize(datafile)
+    csvfile = open(out, "a")
     writer = csv.writer(csvfile)
     rowwritten = False
 
     # Actually benefit from the generator, e.g. batch
-    query = frozenset([ l for l in queries() ])
+    query = frozenset(query)
 
     for index, line in enumerate(tsvfile):
         if args.progress:
@@ -131,7 +135,10 @@ def main():
     args = init_argparse()
     now = time.time()
     log("Starting " + datetime.datetime.now().isoformat())
-    process()
+    query = [ l for l in queries() ]
+    log("Searching statistics for %d files" % len(query))
+    for datafile in args.input.split(" "):
+        process(datafile, args.output, query)
     log("Ending " + datetime.datetime.now().isoformat())
     log("Query took %s seconds" % round(time.time() - now, 2))
 
