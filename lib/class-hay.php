@@ -61,7 +61,7 @@ class Hay {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>$this->titletag</title>
-    <link rel="stylesheet" href="{$root}/vendor/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{$root}/vendor/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="{$root}/common/style.css" />
     <script>
         window._scripts = [];
@@ -99,14 +99,17 @@ HTML;
         </footer>
     </div> <!-- .container -->
 
-    <script src="${root}/vendor/jquery/jquery.js"></script>
-    <script src="${root}/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="${root}/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="${root}/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="${root}/vendor/fastclick/lib/fastclick.js"></script>
     <script>
         if (window._scripts) {
             window._scripts.forEach(function(script) {
                 script();
             });
         }
+
+        FastClick.attach(document.body);
     </script>
 </body>
 </html>

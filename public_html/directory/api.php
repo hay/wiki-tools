@@ -26,26 +26,21 @@
         echo json_encode($tools);
     }
 
-    // When redirecting, first count it in the database so we can rank
-    // the tools later on
-    function redirect($name) {
+    function track($name) {
         global $api;
 
         $tool = $api->getToolByName($name);
 
-        if (!$tool) {
-            $url = "http://tools.wmflabs.org/hay/directory";
-        } else {
+        if ($tool) {
             $tool->redirects = intval($tool->redirects) + 1;
             $tool->save();
-            $url = $tool->url;
         }
 
-        header("Location: $url", true, 301);
+        die();
     }
 
-    if (isset($_GET['redirect'])) {
-        redirect($_GET['redirect']);
+    if (isset($_GET['track'])) {
+        track($_GET['track']);
     } else {
         listtools();
     }

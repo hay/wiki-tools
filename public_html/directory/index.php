@@ -103,20 +103,11 @@
             <a href="#">Show all tools instead?</a>
         </div>
 
-<!--
-        <div class="alert alert-info">
-            Found {{tools.length}} tool<span ng-if="tools.length > 1">s</span> for "<strong>{{searchValue}}</strong>". <a href="#" ng-click="searchValue = ''">Reset?</a>
-        </div>
-
-        <div class="alert alert-danger" ng-show="noSearchResults">
-            No search results for this query...
-        </div> -->
-
         <ul class="tools">
             <?php foreach ($tools as $tool): ?>
             <li class="tools-item col-md-4" data-tool="<?= $tool['name']; ?>">
                 <h3>
-                    <a href="<?= $tool['url']; ?>" ng-click="trackClick(tool.name, tool.url)">
+                    <a href="<?= $tool['url']; ?>" data-track="<?= $tool['name']; ?>">
                         <?= $tool['title']; ?>
                     </a>
                 </h3>
@@ -124,8 +115,8 @@
                 <h4><?= $tool['description']; ?></h4>
 
                 <?php if (isset($tool['author']) || isset($tool['repository'])) : ?>
-                <h5 ng-if="tool.author || tool.repository">
-                    By
+                <h5>
+                    <?php if (isset($tool['author'])): ?>By<?php endif; ?>
 
                     <?php foreach ($tool['author'] as $author) :?>
                         <a href="#/author/<?= $author; ?>"><?= $author; ?></a>
@@ -138,9 +129,9 @@
                 <?php endif; ?>
 
                 <?php if (isset($tool['keywords'])): ?>
-                <p class="tools-keywords" ng-if="tool.keywords">
+                <p class="tools-keywords">
                     <?php foreach ($tool['keywords'] as $keyword): ?>
-                    <a href="#/keyword/<?= $keyword; ?>" ng-repeat="keyword in tool.keywords">
+                    <a href="#/keyword/<?= $keyword; ?>">
                         <?= $keyword; ?>
                     </a>
                     <?php endforeach; ?>
@@ -162,13 +153,13 @@
     <p>Add a <code>toolinfo.json</code> file to your tool. Your JSON file should look something like this. <strong>Hover over the properties to see a description.</strong></p>
 
     <pre><code>{
-    <span tooltip="A unique name for your tool" tooltip-placement="right">"name"</span> : "hay-tools-directory",
-    <span tooltip="A descriptive title" tooltip-placement="right">"title"</span> : "Tools Directory",
-    <span tooltip="A short summary of what your tool does" tooltip-placement="right">"description"</span> : "Discover Wikimedia-related tools.",
-    <span tooltip="URL to your tool. Should be unique. If it's not a web tool, link to the documentation." tooltip-placement="right">"url"</span> : "http://tools.wmflabs.org/hay/directory",
-    <span tooltip="Separate keywords by comma" tooltip-placement="right">"keywords"</span> : "tools, search, discoverability",
-    <span tooltip="For multiple authors, separate by comma" tooltip-placement="right">"author"</span> : "Hay Kranen",
-    <span tooltip="Link to the code repository" tooltip-placement="right">"repository"</span> : "https://github.com/hay/wiki-tools.git"
+    <span title="A unique name for your tool" data-toggle="tooltip" data-placement="right">"name"</span> : "hay-tools-directory",
+    <span title="A descriptive title" data-toggle="tooltip" data-placement="right">"title"</span> : "Tools Directory",
+    <span title="A short summary of what your tool does" data-toggle="tooltip" data-placement="right">"description"</span> : "Discover Wikimedia-related tools.",
+    <span title="URL to your tool. Should be unique. If it's not a web tool, link to the documentation." data-toggle="tooltip" data-placement="right">"url"</span> : "http://tools.wmflabs.org/hay/directory",
+    <span title="Separate keywords by comma" data-toggle="tooltip" data-placement="right">"keywords"</span> : "tools, search, discoverability",
+    <span title="For multiple authors, separate by comma" data-toggle="tooltip" data-placement="right">"author"</span> : "Hay Kranen",
+    <span title="Link to the code repository" data-toggle="tooltip" data-placement="right">"repository"</span> : "https://github.com/hay/wiki-tools.git"
 }</code></pre>
 
     <p>The <code>name</code>, <code>title</code>, <code>description</code> and <code>url</code> properties are <strong>required</strong>. Both <code>name</code> and <code>url</code> <strong>need</strong> to be unique.</p>
@@ -197,7 +188,7 @@
     <h3>Step 3</h3>
 
     <p>Add the link to your toolinfo.json file to the <a href="https://wikitech.wikimedia.org/wiki/User:Hay/directory">Wiki directory page</a>.
-    The location of this page will probably change in the future (it's now in my user namespace). Simply put in on a newline. You can also add comments with a hash (<code>#</code>) to group your <code>toolinfo.json</code> files.</p>
+    Simply put in on a newline. You can also add comments with a hash (<code>#</code>) to group your <code>toolinfo.json</code> files.</p>
 
     <h4>Step 4</h4>
 
@@ -208,9 +199,14 @@
     <p>There is no step 5. Enjoy! If you have any bugs or questions please submit them to the <a href="https://github.com/hay/wiki-tools">Github repo</a>.</p>
 </div>
 
-    <script src="../common/jquery.js"></script>
     <script src="app.js"></script>
-    <!-- <script src="app.js"></script> -->
+    <script>
+        window._scripts.push(function() {
+            $(function() {
+                $('[data-toggle="tooltip"]').tooltip()
+            });
+        });
+    </script>
 <?php
     $hay->footer();
 ?>
