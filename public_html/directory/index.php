@@ -84,7 +84,7 @@
     <p class="lead">
         <?php $hay->description(); ?>
 
-        <span data-bind="toolcount">
+        <span id="toolcount">
             Search through <strong><?= count($tools); ?></strong> tools here.
         </span>
     </p>
@@ -96,13 +96,14 @@
                 <input class="form-control" type="text" name="search" id="q" />
             </div>
         </form>
-<!--
-        <div class="alert alert-info">
-            Only showing <?= count($tools); ?> tools</span> with <strong>{{value}}</strong> as <strong>{{filter}}</strong>.
 
-            <a href="#" ng-click="resetFilter()">Show all tools instead?</a>
+        <div class="alert alert-info" id="alert">
+            <span></span>
+
+            <a href="#">Show all tools instead?</a>
         </div>
 
+<!--
         <div class="alert alert-info">
             Found {{tools.length}} tool<span ng-if="tools.length > 1">s</span> for "<strong>{{searchValue}}</strong>". <a href="#" ng-click="searchValue = ''">Reset?</a>
         </div>

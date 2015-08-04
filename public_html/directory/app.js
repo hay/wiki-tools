@@ -28,43 +28,84 @@ function bindEventHandlers() {
 }
 
 function forTools(fn) {
+    var count = 0;
+
     $tools.each(function() {
         var name = $(this).attr('data-tool');
         var tool = window._toolindex[name];
         var visible = fn(tool);
 
         if (visible) {
+            count++;
             $(this).show();
         } else {
             $(this).hide();
         }
     });
+
+    return count;
 }
 
 function filter(action, value) {
+    var count;
+
+    // Check for empty searches
+    if (action === 'search' && !value) {
+        window.location.hash = '/showall';
+    }
+
     if (action === 'showall') {
         $tools.show();
-        return;
+        $("#q").val('');
+        updateAlert(false);
     }
 
     if (action === 'search') {
         $("#q").val(value);
 
-        forTools(function(tool) {
+        count = forTools(function(tool) {
             return tool.fulltext.indexOf(value) !== -1;
         });
+
+        if (count > 0) {
+            var msg = "Found " + count + " tool(s) for <strong>'" + value + "'</strong>.";
+            updateAlert(true, msg);
+        }
+
+        if (count === 0) {
+            updateAlert(true, "No search results for this query...");
+        }
     }
 
     if (action === 'keyword') {
-        forTools(function(tool) {
+        count = forTools(function(tool) {
             return tool.keywords.indexOf(value) !== -1;
         });
     }
 
     if (action === 'author') {
-        forTools(function(tool) {
+        count = forTools(function(tool) {
             return tool.author.indexOf(value) !== -1;
         });
+    }
+
+    if (['author', 'keyword'].indexOf(action) !== -1) {
+        var msg = 'Only showing ' + count + ' tools with <strong>' + value + '</strong> as <strong>' + action + '</strong>.';
+        updateAlert(true, msg);
+        $("#search").hide();
+    } else {
+        $("#search").show();
+    }
+}
+
+function updateAlert(show, html) {
+    if (show) {
+        $('#alert span').html(html);
+        $("#alert").show();
+        $("#toolcount").hide();
+    } else {
+        $("#alert").hide();
+        $("#toolcount").show();
     }
 }
 
