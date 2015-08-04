@@ -1,10 +1,40 @@
 <?php
     require '../../lib/vendor/autoload.php';
     require '../../lib/class-hay.php';
+    require 'lib/class-api.php';
 
     $hay = new Hay("directory");
     $hay->header();
+
+    $api = new Api();
+    $tools = [];
+
+    foreach ($api->getAllTools() as $tool) {
+        // Make sure we only list tools that have the required fields
+        if ($api->hasRequiredProperties($tool)) {
+            $tools[] = $tool->as_array();
+        }
+    }
+
+    // For easy filtering
+    $jsontools = [];
+
+    foreach ($tools as $tool) {
+        $name = $tool['name'];
+        $jsontools[$name] = [
+            "author" => $tool['author'],
+            "keywords" => $tool['keywords'],
+            "fulltext" => $tool['fulltext']
+        ];
+    }
+
+    // Randomize the tool order
+    shuffle($tools);
 ?>
+
+<script>
+    window._toolindex = <?php echo json_encode($jsontools); ?>;
+</script>
 
 <style>
     #wrapper {
@@ -40,75 +70,83 @@
     }
 </style>
 
-<div ng-controller="MainCtrl">
+<div>
     <div id="header" class="row">
         <div class="col-md-6">
             <h1><?php $hay->title(); ?></h1>
         </div>
 
         <div class="col-md-6">
-            <button ng-click="addTool()" class="btn btn-primary pull-right">Add your tool</button>
+            <a href="#addtool" class="btn btn-primary pull-right">Add your tool</a>
         </div>
     </div>
 
     <p class="lead">
         <?php $hay->description(); ?>
 
-        <span ng-show="!filter && !searchValue">
-            Search through <strong>{{tools.length}}</strong> tools here.
+        <span data-bind="toolcount">
+            Search through <strong><?= count($tools); ?></strong> tools here.
         </span>
     </p>
 
     <div id="app">
-        <h3 ng-show="loading">Loading...</h3>
-
-        <form id="search" class="form-inline clearfix" ng-show="!filter">
+        <form id="search" class="form-inline clearfix">
             <div class="form-group">
                 <label for="search">I need...</label>
-                <input class="form-control" type="text" name="search" ng-keyup="search()" ng-model="searchValue" />
+                <input class="form-control" type="text" name="search" id="q" />
             </div>
         </form>
+<!--
+        <div class="alert alert-info">
+            Only showing <?= count($tools); ?> tools</span> with <strong>{{value}}</strong> as <strong>{{filter}}</strong>.
 
-        <div class="alert alert-info" ng-show="filter">
-            Only showing <span ng-show="tools.length == 1">one tool</span> <span ng-show="tools.length > 1">{{tools.length}} tools</span> with <strong>{{value}}</strong> as <strong>{{filter}}</strong>.
             <a href="#" ng-click="resetFilter()">Show all tools instead?</a>
         </div>
 
-        <div class="alert alert-info" ng-show="searchValue && !noSearchResults">
+        <div class="alert alert-info">
             Found {{tools.length}} tool<span ng-if="tools.length > 1">s</span> for "<strong>{{searchValue}}</strong>". <a href="#" ng-click="searchValue = ''">Reset?</a>
         </div>
 
         <div class="alert alert-danger" ng-show="noSearchResults">
             No search results for this query...
-        </div>
+        </div> -->
 
         <ul class="tools">
-            <li ng-repeat="tool in tools" class="tools-item col-md-4">
+            <?php foreach ($tools as $tool): ?>
+            <li class="tools-item col-md-4" data-tool="<?= $tool['name']; ?>">
                 <h3>
-                    <a href="{{tool.url}}" ng-click="trackClick(tool.name, tool.url)">{{tool.title || tool.name}}</a>
+                    <a href="<?= $tool['url']; ?>" ng-click="trackClick(tool.name, tool.url)">
+                        <?= $tool['title']; ?>
+                    </a>
                 </h3>
 
-                <h4>{{tool.description}}</h4>
+                <h4><?= $tool['description']; ?></h4>
 
+                <?php if (isset($tool['author']) || isset($tool['repository'])) : ?>
                 <h5 ng-if="tool.author || tool.repository">
-                    <span ng-if="tool.author">
-                        By
-                        <span ng-repeat="author in tool.author">
-                            <a href="#/author/{{author}}">{{author}}</a><span ng-if="tool.author.length > 1 && !$last">,</span>
-                        </span>
-                    </span>
+                    By
 
-                    <span ng-if="tool.repository">
-                        (<a href="{{tool.repository}}">source available</a>)
-                    </span>
+                    <?php foreach ($tool['author'] as $author) :?>
+                        <a href="#/author/<?= $author; ?>"><?= $author; ?></a>
+                    <?php endforeach; ?>
+
+                    <?php if (!empty($tool['repository'])): ?>
+                        (<a href="<?= $tool['repository']; ?>">source available</a>)
+                    <?php endif; ?>
                 </h5>
+                <?php endif; ?>
 
+                <?php if (isset($tool['keywords'])): ?>
                 <p class="tools-keywords" ng-if="tool.keywords">
-                    <a href="#/keyword/{{keyword}}" ng-repeat="keyword in tool.keywords">
-                    {{keyword}}
+                    <?php foreach ($tool['keywords'] as $keyword): ?>
+                    <a href="#/keyword/<?= $keyword; ?>" ng-repeat="keyword in tool.keywords">
+                        <?= $keyword; ?>
                     </a>
+                    <?php endforeach; ?>
                 </p>
+                <?php endif; ?>
             </li>
+            <?php endforeach; ?>
         </ul>
     </div>
 
@@ -169,9 +207,9 @@
     <p>There is no step 5. Enjoy! If you have any bugs or questions please submit them to the <a href="https://github.com/hay/wiki-tools">Github repo</a>.</p>
 </div>
 
-    <script src="../common/angular.js"></script>
-    <script src="../common/angular-ui-bootstrap.js"></script>
+    <script src="../common/jquery.js"></script>
     <script src="app.js"></script>
+    <!-- <script src="app.js"></script> -->
 <?php
     $hay->footer();
 ?>

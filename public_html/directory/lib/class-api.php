@@ -31,8 +31,35 @@ class Tool extends Model {
 }
 
 class Api {
+    private $indexfields = ['name', 'title', 'description', 'keywords', 'author'];
+
     function __construct() {
 
+    }
+
+    private function explode($str) {
+        $arr = explode(",", $str);
+        return array_map("trim", $arr);
+    }
+
+    private function transformTool($tool) {
+        // Add a fulltext property for easy filtering
+        $tool->fulltext = "";
+
+        foreach ($this->indexfields as $field) {
+            $tool->fulltext .= " " . strtolower($tool->$field);
+        }
+
+        $tool->fulltext = trim($tool->fulltext);
+
+        $tool->author = $this->explode($tool->author);
+        $tool->keywords = $this->explode($tool->keywords);
+
+        if (!empty($tools->title)) {
+            $tools->title = $tools->name;
+        }
+
+        return $tool;
     }
 
     public function createTool() {
@@ -40,7 +67,8 @@ class Api {
     }
 
     public function getAllTools() {
-        return Model::factory('Tool')->order_by_desc('redirects')->find_many();
+        $tools = Model::factory('Tool')->order_by_desc('redirects')->find_many();
+        return array_map([$this, "transformTool"], $tools);
     }
 
     public function getTool($key, $value) {
