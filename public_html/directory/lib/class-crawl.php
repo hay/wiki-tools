@@ -5,6 +5,7 @@ class Crawl {
     const API_ENDPOINT = 'https://wikitech.wikimedia.org/w/api.php';
     const TOOLS_PAGE = 'User:Hay/directory';
     const LOG_FILE = "crawler.log";
+    const TOOL_REGEX = "/<!-- START_TOOL_LIST -->(.*)<!-- END_TOOL_LIST -->/ms";
     const ERR_INVALID_JSON = 1;
     const ERR_UNAVAILABLE_JSON_FOR_KNOWN_TOOL = 2;
     const ERR_UNAVAILABLE_JSON_FOR_UNKNOWN_TOOL = 3;
@@ -121,16 +122,17 @@ class Crawl {
             "rvprop" => "content"
         ));
 
+        $url = self::API_ENDPOINT . "?" . $params;
         $res = Request::get(self::API_ENDPOINT . "?" . $params)->send();
 
         // Note the awful use of 'reset' here, because of MW api's strange
         // tendency to give back the page as the first item
         $source = trim(reset($res->body->query->pages)->revisions[0]->{'*'});
-        $source = "<p>$source</p>";
+
+        preg_match_all(self::TOOL_REGEX, $source, $matches);
+        $tools = $matches[1][0];
 
         // Parse the <source> tag and get out the actual URLs
-        $xml = simplexml_load_string($source);
-        $tools = (string) $xml->source;
         $tools = explode("\n", trim($tools));
 
         // Trim all lines
