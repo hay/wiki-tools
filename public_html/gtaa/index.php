@@ -33,7 +33,7 @@
             </dl>
         </div>
 
-        <script src="../common/angular.js"></script>
+        <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/angular.js/1.2.16/angular.min.js"></script>
         <script src="gtaa.js"></script>
 
     <?php endif; ?>

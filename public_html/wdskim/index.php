@@ -118,7 +118,7 @@
     </style>
 
     <link rel="stylesheet" href="../common/awesomplete.css">
-    <script src="../common/jquery.js"></script>
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
     <script src="../common/underscore-min.js"></script>
     <script src="../common/awesomplete.js"></script>
     <script src="../common/masonry.pkgd.min.js"></script>

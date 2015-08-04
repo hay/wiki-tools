@@ -100,8 +100,8 @@
     <?php endif; ?>
 </div>
 
-    <script src="../common/jquery.js"></script>
-    <script src="../common/moment.js"></script>
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/moment.js/2.6.0/moment.min.js"></script>
     <script src="app.js"></script>
     <script>
         this.app = new App();
