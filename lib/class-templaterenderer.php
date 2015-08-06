@@ -10,12 +10,14 @@ class TemplateRenderer {
             "debug" => DEBUG
         ]);
 
+        $this->renderer->addGlobal('root', ROOT);
+
         if (DEBUG)  {
             $this->renderer->addExtension(new Twig_Extension_Debug());
         }
     }
 
-    public function render($template, $data) {
+    public function render($template, $data = []) {
         return $this->renderer->render("$template.html", $data);
     }
 }

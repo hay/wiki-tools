@@ -39,79 +39,13 @@
     window._toolindex = <?php echo json_encode($jsontools); ?>;
 </script>
 
-<style>
-    #wrapper {
-        max-width: inherit;
-    }
-
-    #header h1 {
-        margin-top: 0;
-    }
-
-    #header button {
-        margin-top: 20px;
-    }
-
-    #search {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    @media (min-width: 640px) {
-        #search input {
-            width: 500px;
-        }
-    }
-
-    span[tooltip] {
-        text-decoration: underline;
-        cursor: pointer;
-    }
-
-    .tooltip {
-        text-align: left;
-    }
-</style>
-
-<div>
-    <div id="header" class="row">
-        <div class="col-md-6">
-            <h1><?php $hay->title(); ?></h1>
-        </div>
-
-        <div class="col-md-6">
-            <a href="#addtool" class="btn btn-primary pull-right">Add your tool</a>
-        </div>
-    </div>
-
-    <p class="lead">
-        <?php $hay->description(); ?>
-
-        <span id="toolcount">
-            Search through <strong><?= count($tools); ?></strong> tools here.
-        </span>
-    </p>
-
-    <div id="app">
-        <form id="search" class="form-inline clearfix">
-            <div class="form-group">
-                <label for="search">I need...</label>
-                <input class="form-control" type="text" name="search" id="q" />
-            </div>
-        </form>
-
-        <div class="alert alert-info" id="alert">
-            <span></span>
-
-            <a href="#">Show all tools instead?</a>
-        </div>
-
-        <ul class="tools">
-            <?php echo $templaterenderer->render("toollist", ["tools" => $tools]); ?>
-        </ul>
-    </div>
-
-    <hr />
+    <?php
+        echo $templaterenderer->render("directory-header", [
+            "title" => $hay->getTitle(),
+            "description" => $hay->getDescription(),
+            "tools" => $tools,
+        ]);
+    ?>
 
     <h2 id="addtool">Add your tool to the directory</h2>
 
@@ -168,14 +102,7 @@
     <p>There is no step 5. Enjoy! If you have any bugs or questions please submit them to the <a href="https://github.com/hay/wiki-tools">Github repo</a>.</p>
 </div>
 
-    <script src="app.js"></script>
-    <script>
-        window._scripts.push(function() {
-            $(function() {
-                $('[data-toggle="tooltip"]').tooltip()
-            });
-        });
-    </script>
 <?php
+    echo $templaterenderer->render("directory-footer");
     $hay->footer();
 ?>

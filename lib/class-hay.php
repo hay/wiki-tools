@@ -34,6 +34,14 @@ class Hay {
         return $tools;
     }
 
+    public function getTitle() {
+        return $this->title;
+    }
+
+    public function getDescription() {
+        return $this->description;
+    }
+
     public function title() {
         echo $this->title;
     }
