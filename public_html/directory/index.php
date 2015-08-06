@@ -1,10 +1,13 @@
 <?php
     require '../../lib/vendor/autoload.php';
     require '../../lib/class-hay.php';
+    require '../../lib/class-templaterenderer.php';
     require 'lib/class-api.php';
 
     $hay = new Hay("directory");
     $hay->header();
+
+    $templaterenderer = new TemplateRenderer();
 
     $api = new Api();
     $tools = [];
@@ -104,41 +107,7 @@
         </div>
 
         <ul class="tools">
-            <?php foreach ($tools as $tool): ?>
-            <li class="tools-item col-md-4" data-tool="<?= $tool['name']; ?>">
-                <h3>
-                    <a href="<?= $tool['url']; ?>" data-track="<?= $tool['name']; ?>">
-                        <?= $tool['title']; ?>
-                    </a>
-                </h3>
-
-                <h4><?= $tool['description']; ?></h4>
-
-                <?php if (isset($tool['author']) || isset($tool['repository'])) : ?>
-                <h5>
-                    <?php if (isset($tool['author'])): ?>By<?php endif; ?>
-
-                    <?php foreach ($tool['author'] as $author) :?>
-                        <a href="#/author/<?= $author; ?>"><?= $author; ?></a>
-                    <?php endforeach; ?>
-
-                    <?php if (!empty($tool['repository'])): ?>
-                        (<a href="<?= $tool['repository']; ?>">source available</a>)
-                    <?php endif; ?>
-                </h5>
-                <?php endif; ?>
-
-                <?php if (isset($tool['keywords'])): ?>
-                <p class="tools-keywords">
-                    <?php foreach ($tool['keywords'] as $keyword): ?>
-                    <a href="#/keyword/<?= $keyword; ?>">
-                        <?= $keyword; ?>
-                    </a>
-                    <?php endforeach; ?>
-                </p>
-                <?php endif; ?>
-            </li>
-            <?php endforeach; ?>
+            <?php echo $templaterenderer->render("toollist", ["tools" => $tools]); ?>
         </ul>
     </div>
 
