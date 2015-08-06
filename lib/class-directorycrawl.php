@@ -1,7 +1,7 @@
 <?php
 use \Httpful\Request as Request;
 
-class Crawl {
+class DirectoryCrawl {
     const API_ENDPOINT = 'https://wikitech.wikimedia.org/w/api.php';
     const TOOLS_PAGE = 'User:Hay/directory';
     const LOG_FILE = "crawler.log";
@@ -14,7 +14,7 @@ class Crawl {
 
     function __construct() {
         date_default_timezone_set("UTC");
-        $this->api = new Api("DatabaseToolProvider");
+        $this->api = new DirectoryApi("DatabaseToolProvider");
         $now = time();
         $this->log("Starting new crawl");
 
@@ -149,7 +149,7 @@ class Crawl {
     // Check if all the jsonurls in the database are in the the crawllist, if
     // not, set them as 'deleted' in the db
     private function checkDeletedTools() {
-        foreach ($this->api->getAllTools() as $tool) {
+        foreach ($this->api->getAllToolsRaw() as $tool) {
             $tool->deleted = !in_array($tool->jsonurl, $this->crawllist);
             $tool->save();
         }

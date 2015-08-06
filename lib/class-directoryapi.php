@@ -74,7 +74,7 @@ class DatabaseToolProvider {
     }
 }
 
-class Api {
+class DirectoryApi {
     private $indexfields = ['name', 'title', 'description', 'keywords', 'author'];
     private $toolprovider;
 
@@ -115,6 +115,10 @@ class Api {
     public function getAllTools() {
         $tools = $this->toolprovider->getTools();
         return array_map([$this, "transformTool"], $tools);
+    }
+
+    public function getAllToolsRaw() {
+        return $this->toolprovider->getTools();
     }
 
     public function getTool($key, $value) {

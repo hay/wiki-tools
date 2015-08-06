@@ -2,14 +2,14 @@
     require '../../lib/vendor/autoload.php';
     require '../../lib/class-hay.php';
     require '../../lib/class-templaterenderer.php';
-    require 'lib/class-api.php';
+    require '../../lib/class-directoryapi.php';
 
     $hay = new Hay("directory");
     $hay->header();
 
     $templaterenderer = new TemplateRenderer();
 
-    $api = new Api("DatabaseToolProvider");
+    $api = new DirectoryApi("DatabaseToolProvider");
     $tools = [];
 
     foreach ($api->getAllTools() as $tool) {
