@@ -42,6 +42,12 @@
         "name" : "hay-gwtcook"
     },
 
+    "wdd" : {
+        "title" : "Wikimedia Documentation Directory",
+        "description" : "A way to easily discover Wikimedia-related documentation including all outreach activities e.g GLAM and education. For metrics and other tools please visit the <a href='../directory'>Tools Directory</a>.",
+        "name" : "hay-wdd"
+    },
+
     "wdview" : {
         "title" : "Wikidata View",
         "description" : "A simple <a href=\"http://tools.wmflabs.org/reasonator/\">Reasonator</a>-like viewer for Wikidata items using the simplified Wikidata Readyonly API."

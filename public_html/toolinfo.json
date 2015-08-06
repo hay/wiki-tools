@@ -117,6 +117,15 @@
 		"repository" : "https://github.com/hay/wiki-tools.git"
     },
     {
+        "name" : "hay-directory",
+        "title" : "Wikimedia Documentation Directory",
+        "description" : "A way to easily discover Wikimedia-related documentation including all outreach activities e.g GLAM and education.",
+        "url" : "http://tools.wmflabs.org/hay/wdd",
+        "keywords" : "documentation, outreach, discoverability",
+        "author" : "Hay Kranen",
+        "repository" : "https://github.com/hay/wiki-tools.git"
+    },
+    {
         "name" : "hay-wdview",
         "title" : "Wikidata View",
         "description" : "A simple Reasonator-like viewer for Wikidata items using the simplified Wikidata Readyonly API.",
