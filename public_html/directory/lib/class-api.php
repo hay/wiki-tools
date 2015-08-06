@@ -30,11 +30,18 @@ class Tool extends Model {
     }
 }
 
+class DatabaseToolProvider {
+    public function getTools() {
+        return Model::factory('Tool')->order_by_desc('redirects')->find_many();
+    }
+}
+
 class Api {
     private $indexfields = ['name', 'title', 'description', 'keywords', 'author'];
+    private $toolprovider;
 
-    function __construct() {
-
+    function __construct($toolprovider) {
+        $this->toolprovider = new $toolprovider();
     }
 
     private function explode($str) {
@@ -67,7 +74,7 @@ class Api {
     }
 
     public function getAllTools() {
-        $tools = Model::factory('Tool')->order_by_desc('redirects')->find_many();
+        $tools = $this->toolprovider->getTools();
         return array_map([$this, "transformTool"], $tools);
     }
 

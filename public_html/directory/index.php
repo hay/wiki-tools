@@ -9,7 +9,7 @@
 
     $templaterenderer = new TemplateRenderer();
 
-    $api = new Api();
+    $api = new Api("DatabaseToolProvider");
     $tools = [];
 
     foreach ($api->getAllTools() as $tool) {

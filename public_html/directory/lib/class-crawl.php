@@ -14,7 +14,7 @@ class Crawl {
 
     function __construct() {
         date_default_timezone_set("UTC");
-        $this->api = new Api();
+        $this->api = new Api("DatabaseToolProvider");
         $now = time();
         $this->log("Starting new crawl");
 
