@@ -1,4 +1,6 @@
 <?php
+use \Httpful\Request as Request;
+
 ORM::configure('mysql:host=' . DB_HOST . ';dbname=' . DB_TOOLSDIRECTORY);
 ORM::configure('username', DB_USER);
 ORM::configure('password', DB_PASS);
@@ -30,6 +32,42 @@ class Tool extends Model {
     }
 }
 
+class CsvTool {
+    // Really...
+    public function as_array() {
+        return json_decode(json_encode($this), true);
+    }
+}
+
+class CsvToolProvider {
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/184W69EVaWG-FGgughOsOLa3YqtQIHwbGpi9cpxy7YII/export?format=csv&gid=1636389058";
+
+    private function convertToAssoc($data) {
+        $tools = [];
+        $header = array_shift($data);
+
+        foreach ($data as $row) {
+            $tool = new CsvTool();
+
+            foreach ($row as $index => $value) {
+                $key = $header[$index];
+                $tool->$key = $value;
+            }
+
+            $tools[] = $tool;
+        }
+
+        return $tools;
+    }
+
+    public function getTools() {
+        $url = self::CSV_URL;
+        $res = Request::get($url)->send();
+        $tools = $this->convertToAssoc($res->body);
+        return $tools;
+    }
+}
+
 class DatabaseToolProvider {
     public function getTools() {
         return Model::factory('Tool')->order_by_desc('redirects')->find_many();
@@ -46,7 +84,8 @@ class Api {
 
     private function explode($str) {
         $arr = explode(",", $str);
-        return array_map("trim", $arr);
+        $arr = array_map("trim", $arr);
+        return $arr[0] == "" ? [] : $arr;
     }
 
     private function transformTool($tool) {
