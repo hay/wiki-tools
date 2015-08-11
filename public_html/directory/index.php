@@ -39,6 +39,27 @@
     window._toolindex = <?php echo json_encode($jsontools); ?>;
 </script>
 
+<?php echo $templaterenderer->render("directory-style"); ?>
+
+<div>
+    <div id="header" class="row">
+        <div class="col-md-6">
+            <h1><?php $hay->title(); ?></h1>
+        </div>
+
+        <div class="col-md-6">
+            <a href="#addtool" class="btn btn-primary pull-right">Add your tool</a>
+        </div>
+    </div>
+
+    <p class="lead">
+        <?php echo $hay->description(); ?>
+
+        <span id="toolcount">
+            Search through <strong><?php echo count($tools); ?></strong> tools here.
+        </span>
+    </p>
+
     <?php
         echo $templaterenderer->render("directory-header", [
             "title" => $hay->getTitle(),

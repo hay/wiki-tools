@@ -39,6 +39,27 @@
     window._toolindex = <?php echo json_encode($jsontools); ?>;
 </script>
 
+<?php echo $templaterenderer->render("directory-style"); ?>
+
+<div>
+    <div id="header" class="row">
+        <div class="col-md-6">
+            <h1><?php $hay->title(); ?></h1>
+        </div>
+
+        <div class="col-md-6">
+            <a href="https://docs.google.com/forms/d/1oObDiBb-4HUy6aOwwP8E0naT6vl_A8WuxqIeMTEHxuc/viewform" class="btn btn-primary pull-right">Add a resource</a>
+        </div>
+    </div>
+
+    <p class="lead">
+        <?php echo $hay->description(); ?>
+
+        <span id="toolcount">
+            Search through <strong><?php echo count($tools); ?></strong> tools here.
+        </span>
+    </p>
+
     <?php
         echo $templaterenderer->render("directory-header", [
             "title" => $hay->getTitle(),
@@ -47,9 +68,7 @@
         ]);
     ?>
 
-    <h2 id="addtool">Add your tool to the WDD</h2>
-
-    <p>Some wonderful instructions to add your tool will be available here soon.</p>
+    <p><em>Note that every submission is being reviewed by hand and could take a little while to appear here.</em></p>
 
     <p>If you have any bugs or questions please submit them to the <a href="https://github.com/hay/wiki-tools">Github repo</a>.</p>
 </div>
