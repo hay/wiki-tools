@@ -2,8 +2,8 @@
 use \Httpful\Request as Request;
 
 class WikidataSkim {
-    const LINKSHERE = "http://www.wikidata.org/w/api.php?action=query&prop=linkshere&titles=%s&lhnamespace=0&lhshow=!redirect&format=json&lhlimit=500";
-    const ENTITIES = "http://www.wikidata.org/w/api.php?action=wbgetentities&ids=%s&languages=%s&format=json&languagefallback=1";
+    const LINKSHERE = "https://www.wikidata.org/w/api.php?action=query&prop=linkshere&titles=%s&lhnamespace=0&lhshow=!redirect&format=json&lhlimit=500";
+    const ENTITIES = "https://www.wikidata.org/w/api.php?action=wbgetentities&ids=%s&languages=%s&format=json&languagefallback=1";
     const ENTITIES_SHORT = "&props=labels|descriptions|claims";
     const DEFAULT_LANG = "en";
     const CLAIM_REGEX = "/CLAIM\[(\d+):(\d+)]/i";
@@ -85,6 +85,7 @@ class WikidataSkim {
     private function getLinksHere($q) {
         $url = sprintf(self::LINKSHERE, $q);
         $res = Request::get($url)->send();
+
         $query = $res->body->query;
 
         if (isset($query->pages->{-1})) {

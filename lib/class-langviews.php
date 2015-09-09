@@ -5,7 +5,7 @@ use \Httpful\Request as Request;
 
 class LangViews {
     const URL_REGEX = "/https?:\/\/(.*).wikipedia.org\/wiki\/(.*)/";
-    const WP_ENDPOINT = "http://%s.wikipedia.org/w/api.php?action=query&prop=langlinks&titles=%s&format=json&lllimit=50";
+    const WP_ENDPOINT = "https://%s.wikipedia.org/w/api.php?action=query&prop=langlinks&titles=%s&format=json&lllimit=50";
     const STAT_ENDPOINT = "http://stats.grok.se/json/%s/latest30/%s";
 
     private $url, $langcode, $article;

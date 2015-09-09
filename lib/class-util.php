@@ -4,7 +4,7 @@ use \Httpful\Request as Request;
 
 class Util {
     public static function doQueryWithContinue($q, $site) {
-        $endpoint = sprintf("http://%s.org/w/api.php", $site);
+        $endpoint = sprintf("https://%s.org/w/api.php", $site);
         $results = array();
         $continue = false;
 

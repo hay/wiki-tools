@@ -15,7 +15,7 @@ class ExternalLinkSearch {
     }
 
     private function getLinks($q, $site) {
-        $endpoint = sprintf("http://%s.org/w/api.php", $site);
+        $endpoint = sprintf("https://%s.org/w/api.php", $site);
         $results = array();
         $continue = false;
 
@@ -47,7 +47,7 @@ class ExternalLinkSearch {
         foreach ($links as $item) {
             $pageid = $item->pageid;
             $page = $item->title;
-            $pagelink = sprintf("http://%s.org/wiki/%s", $site, $item->title);
+            $pagelink = sprintf("https://%s.org/wiki/%s", $site, $item->title);
             $externallink = $item->url;
 
             if (empty($results[$pageid])) {
