@@ -121,6 +121,12 @@
     <h4>Step 5</h4>
 
     <p>There is no step 5. Enjoy! If you have any bugs or questions please submit them to the <a href="https://github.com/hay/wiki-tools">Github repo</a>.</p>
+
+    <?php if (file_exists("last-update.txt")): ?>
+        <p class="text-right">
+            Last update: <?php echo file_get_contents("last-update.txt"); ?>
+        </p>
+    <?php endif; ?>
 </div>
 
 <?php
