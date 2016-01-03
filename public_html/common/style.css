@@ -28,6 +28,10 @@ hr, .footer {
 
 .tools {
     padding: 0;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
 }
 
 .header-free {
@@ -67,14 +71,6 @@ hr, .footer {
     display: inline-block;
     margin-right: 5px;
     margin-bottom: 10px;
-}
-
-.tools-item:nth-child(3n + 1) {
-    clear: left;
-}
-
-.tools-item:nth-child(3n) {
-    border-right: 0;
 }
 
 .flexgroup {
