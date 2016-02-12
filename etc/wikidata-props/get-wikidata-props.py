@@ -1,26 +1,32 @@
 from math import ceil
+from dictquery import DictQuery
+from wikidatatypes import TYPES
 import requests, json, pdb
 
 ENDPOINT = "https://www.wikidata.org/w/api.php"
 PROP_NAMESPACE = 120
 QUERY_LIMIT = 50
 
-def parseprop(prop):
+def parseprop(item):
+    prop = DictQuery(item)
+
     data = {
-        "datatype" : prop.get("datatype", "unknown"),
+        "datatype" : prop.get("datatype"),
         "id" : prop["id"],
-        "label" : prop["labels"]["en"]["value"]
+        "label" : prop.get("labels/en/value"),
+        "description" : prop.get("descriptions/en/value"),
+        "aliases" : [a["value"] for a in prop.get("aliases/en")]
     }
 
-    if "en" in prop["descriptions"]:
-        data["description"] = prop["descriptions"]["en"]["value"]
-    else:
-        data["description"] = None
+    example = prop.get("claims/P1855/mainsnak/datavalue/value/numeric-id")
 
-    if "aliases" in prop and "en" in prop["aliases"]:
-        data["aliases"] = [a["value"] for a in prop["aliases"]["en"]]
-    else:
-        data["aliases"] = []
+    if isinstance(example, list) and example[0] != None:
+        data["example"] = example
+
+    types = prop.get("claims/P31/mainsnak/datavalue/value/numeric-id")
+
+    if isinstance(types, list):
+        data["types"] = filter(None, [TYPES.get("Q%s" % qid) for qid in types])
 
     return data
 
