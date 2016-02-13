@@ -3,6 +3,8 @@ window._scripts.push(function() {
     var $q = $("#q");
     var searchindex = [];
     var $resultcount = $("#resultcount");
+    var $listview = $("#listview");
+    var $table = $("table");
 
     function makeIndex() {
         $rows.each(function(index) {
@@ -45,4 +47,11 @@ window._scripts.push(function() {
     var placeholder = 'Filter through ' + $rows.length + ' properties here';
     $q.attr('placeholder', placeholder);
     makeIndex();
+
+    $listview.on('click', 'button', function() {
+        var $el = $(this);
+        $listview.find("button").removeClass('active');
+        $el.addClass('active');
+        $table.attr('data-view', $el.attr('data-view'));
+    });
 });
