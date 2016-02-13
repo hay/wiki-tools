@@ -1,11 +1,22 @@
 from math import ceil
 from dictquery import DictQuery
 from wikidatatypes import TYPES
-import requests, json, pdb
+from operator import itemgetter
+import requests, json, pdb, jinja2
 
 ENDPOINT = "https://www.wikidata.org/w/api.php"
 PROP_NAMESPACE = 120
 QUERY_LIMIT = 50
+SAVE_DIRECTORY = "../../public_html/propbrowse/"
+
+def render(data):
+    env = jinja2.Environment(
+        trim_blocks = True,
+        lstrip_blocks = True
+    )
+    with open("../../templates/propbrowse-list.html") as template:
+        tmpl = env.from_string(template.read())
+        return tmpl.render(data)
 
 def parseprop(item):
     prop = DictQuery(item)
@@ -96,9 +107,23 @@ def main():
         for p in get_prop_info(ids):
             props.append(parseprop(p))
 
-    with open("wikidata-props.json", "w") as f:
-        data = json.dumps(props)
-        f.write(data)
+    # Sort by label
+    props = sorted(props, key = itemgetter("label"))
+
+    with open(SAVE_DIRECTORY + "props.json", "w") as jsonprops:
+        jsonprops.write(json.dumps(props))
+
+    with open(SAVE_DIRECTORY + "props.html", "w") as htmlprops:
+        html = render({ "props" : props })
+        htmlprops.write(html.encode('utf-8'))
+
+def main_from_json():
+    with open(SAVE_DIRECTORY + "props.json") as f:
+        props = json.loads(f.read())
+        html = render({ "props" : props })
+
+        with open(SAVE_DIRECTORY + "props.html", "w") as table:
+            table.write(html.encode('utf-8'))
 
 if __name__ == "__main__":
     main()

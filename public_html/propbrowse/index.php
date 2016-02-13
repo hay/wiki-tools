@@ -5,9 +5,6 @@
 
     $hay = new Hay("propbrowse");
     $hay->header();
-    $templaterenderer = new TemplateRenderer();
-    $props = file_get_contents("../../etc/wikidata-props/wikidata-props.json");
-    $props = json_decode($props, true);
 ?>
 <style>
     #wrapper {
@@ -22,10 +19,23 @@
         cursor: pointer;
         color: navy;
     }
+
+    .flexrow {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+    }
 </style>
-    <h1><?php $hay->title(); ?></h1>
+<div>
+    <div class="flexrow">
+        <h1><?php $hay->title(); ?></h1>
+
+        <a href="props.json" download class="btn btn-primary">Download as JSON</a>
+    </div>
 
     <p class="lead"><?php $hay->description(); ?></p>
+
+    <p>Click on the column headers to sort by that column.</p>
 
     <table class="table">
         <thead>
@@ -41,13 +51,11 @@
         </thead>
         <tbody>
         <?php
-            echo $templaterenderer->render("propbrowse-list", [
-                "props" => $props
-            ]);
+            require 'props.html';
         ?>
         </tbody>
     </table>
-
+</div>
 <?php
     $hay->footer();
 ?>
