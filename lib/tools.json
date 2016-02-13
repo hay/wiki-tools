@@ -25,6 +25,11 @@
         "description" : "Use the power of Wikidata to translate a term between two languages."
     },
 
+    "propbrowse" : {
+        "title" : "Wikidata Propbrowse",
+        "description" : "A quick way to browse and view all properties on Wikidata"
+    },
+
     "wdskim" : {
         "title" : "Wikidata Skim",
         "description" : "A (very) limited, visual, replacement for <a href=\"http://wdq.wmflabs.org\">Wikidata Query</a> which just does one claim, based on the 'linkshere' method of the <a href=\"http://wikidata.org/w/api.php\">Wikidata API</a>."

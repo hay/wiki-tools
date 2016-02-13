@@ -110,6 +110,17 @@ HTML;
     <script src="${root}/vendor/jquery/dist/jquery.min.js"></script>
     <script src="${root}/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="${root}/vendor/fastclick/lib/fastclick.js"></script>
+    <script src="${root}/vendor/jquery-stupid-table/stupidtable.min.js"></script>
+    <script>
+        $("table").stupidtable({
+            "wikidataid" : function(a, b) {
+                a = parseInt(a.trim().slice(1));
+                b = parseInt(b.trim().slice(1));
+                return a < b ? -1 : 1;
+            }
+        });
+    </script>
+
     <script>
         if (window._scripts) {
             window._scripts.forEach(function(script) {

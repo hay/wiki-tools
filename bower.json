@@ -15,6 +15,7 @@
   "dependencies": {
     "jquery": "~2.1.4",
     "bootstrap": "~3.3.5",
-    "fastclick": "~1.0.6"
+    "fastclick": "~1.0.6",
+    "jquery-stupid-table": "^1.0.1"
   }
 }

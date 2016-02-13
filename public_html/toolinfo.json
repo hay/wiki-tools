@@ -151,5 +151,14 @@
         "keywords" : "gtaa, wikidata, visual, semantics",
         "author" : "Hay Kranen",
 		"repository" : "https://github.com/hay/wiki-tools.git"
+    },
+    {
+        "name" : "hay-propbrowse",
+        "title" : "Wikidata Property Browser",
+        "description" : "A quick way to search and view all properties on Wikidata",
+        "url" : "http://tools.wmflabs.org/hay/propbrowse",
+        "keywords" : "wikidata,browse,search,documentation",
+        "author" : "Hay Kranen",
+        "repository" : "https://github.com/hay/wiki-tools.git"
     }
 ]
