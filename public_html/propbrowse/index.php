@@ -6,6 +6,7 @@
     $hay = new Hay("propbrowse");
     $hay->header();
 ?>
+<script src="app.js"></script>
 <style>
     #wrapper {
         max-width: inherit;
@@ -25,6 +26,11 @@
         align-items: baseline;
         justify-content: space-between;
     }
+
+    .filters {
+        max-width: 500px;
+        margin: 0 auto 20px auto;
+    }
 </style>
 <div>
     <div class="flexrow">
@@ -34,6 +40,18 @@
     </div>
 
     <p class="lead"><?php $hay->description(); ?></p>
+
+    <div class="input-group filters">
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-filter"></span>
+        </span>
+        <input class="form-control" type="search" name="search" id="q" placeholder="Loading..."/>
+    </div>
+
+    <div class="text-center hidden" id="resultcount">
+        <span></span>
+        <a class="btn btn-text">Reset filter</a>
+    </div>
 
     <p>Click on the column headers to sort by that column.</p>
 
