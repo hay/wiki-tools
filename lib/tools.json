@@ -10,6 +10,11 @@
         "description" : "A way to easily discover Wikimedia-related tools."
     },
 
+    "vizquery" : {
+        "title" : "VizQuery",
+        "description" : "A visual way to query Wikidata without having to use SPARQL"
+    },
+
     "exturl" : {
         "title" : "External URL stats",
         "description" : "A better <a href=\"https://meta.wikimedia.org/wiki/Help:Linksearch\">External links search</a>. Collates all the links so you can view which Wikipedia pages have the most external links to a pattern."

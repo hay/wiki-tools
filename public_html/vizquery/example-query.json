@@ -1,0 +1,11 @@
+{
+    "has" : [
+        ["?item", "wdt:P31", "wd:Q33506"],
+        ["?item", "wdt:P17", "wd:Q55"],
+        ["?item", "wdt:P18", "?image"]
+    ],
+    "language" : "en",
+    "minus" : [
+        ["?item", "wdt:P1435", "wd:Q916333"]
+    ]
+}

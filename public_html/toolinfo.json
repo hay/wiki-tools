@@ -1,5 +1,14 @@
 [
     {
+        "title" : "VizQuery",
+        "description" : "A visual way to query Wikidata without having to use SPARQL.",
+        "name" : "hay-vizquery",
+        "author" : "Hay Kranen",
+        "repository" : "https://github.com/hay/wiki-tools.git",
+        "url" : "http://tools.wmflabs.org/hay/vizquery",
+        "keywords" : "wikidata, query, skim, search, api, json"
+    },
+    {
         "title" : "Wikidata Skim",
         "description" : "A (very) limited, visual, replacement for Wikidata Query which just does one claim, based on the 'linkshere' method of the Wikidata API.",
         "name" : "hay-wdskim",

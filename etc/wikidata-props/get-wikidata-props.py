@@ -2,19 +2,20 @@ from math import ceil
 from dictquery import DictQuery
 from wikidatatypes import TYPES
 from operator import itemgetter
-import requests, json, pdb, jinja2
+import requests, json, pdb, jinja2, os
 
 ENDPOINT = "https://www.wikidata.org/w/api.php"
 PROP_NAMESPACE = 120
 QUERY_LIMIT = 50
-SAVE_DIRECTORY = "../../public_html/propbrowse/"
+PATH = os.path.dirname(os.path.realpath(__file__))
+SAVE_DIRECTORY = PATH + "/../../public_html/propbrowse/"
 
 def render(data):
     env = jinja2.Environment(
         trim_blocks = True,
         lstrip_blocks = True
     )
-    with open("../../templates/propbrowse-list.html") as template:
+    with open(PATH + "/../../templates/propbrowse-list.html") as template:
         tmpl = env.from_string(template.read())
         return tmpl.render(data)
 
