@@ -1,0 +1,35 @@
+{% for tool in tools %}
+<li class="tools-item col-md-4" data-tool="{{tool.name}}" data-visible>
+    <h3>
+        <a href="{{tool.url}}" data-track="{{tool.name}}">
+            {{tool.title}}
+        </a>
+    </h3>
+
+    <h4>{{tool.description}}</h4>
+
+    {% if tool.author or tool.repository %}
+    <h5>
+        {% if tool.author %}By {% endif %}
+
+        {% for author in tool.author %}
+            <a href="#/author/{{author}}">{{author}}</a>{% if not loop.last %},{% endif %}
+        {% endfor %}
+
+        {% if tool.repository %}
+            (<a href="{{tool.repository}}">source available</a>)
+        {% endif %}
+    </h5>
+    {% endif %}
+
+    {% if tool.keywords %}
+    <p class="tools-keywords">
+        {% for keyword in tool.keywords %}
+        <a href="#/keyword/{{keyword}}">
+            {{keyword}}
+        </a>
+        {% endfor %}
+    </p>
+    {% endif %}
+</li>
+{% endfor %}

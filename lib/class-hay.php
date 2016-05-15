@@ -1,14 +1,19 @@
 <?php
 require 'config.php';
+require_once 'vendor/autoload.php';
+require_once 'class-templaterenderer.php';
 
 class Hay {
     const DEFAULT_TITLE = "Hay's tools";
-    private $toolname, $tools, $tooldata, $title, $description, $titletag, $path;
+    private $toolname, $tools, $tooldata, $title;
+    private $description, $titletag, $path, $opts;
 
-    public function __construct($toolname = false) {
+    public function __construct($toolname = false, $opts = []) {
         $this->path = realpath(dirname(__FILE__));
         $toolpath = $this->path . "/tools.json";
         $this->tools = json_decode(file_get_contents($toolpath));
+        $this->renderer = new TemplateRenderer();
+        $this->opts = $opts;
 
         if ($toolname) {
             $this->toolname = $toolname;
@@ -50,89 +55,20 @@ class Hay {
         echo $this->description;
     }
 
-    public function header(array $opts = array()) {
-        $root = ROOT;
-        $html = <<<HTML
-<!doctype html>
-<html ng-app="$this->toolname">
-<head>
- <!-- __                                    __                   ___
-     /\ \                                  /\ \__               /\_ \
-     \ \ \___      __     __  __    ____   \ \ ,_\   ___     ___\//\ \     ____
-      \ \  _ `\  /'__`\  /\ \/\ \  /',__\   \ \ \/  / __`\  / __`\\ \ \   /',__\
-       \ \ \ \ \/\ \L\.\_\ \ \_\ \/\__, `\   \ \ \_/\ \L\ \/\ \L\ \\_\ \_/\__, `\
-        \ \_\ \_\ \__/.\_\\/`____ \/\____/    \ \__\ \____/\ \____//\____\/\____/
-         \/_/\/_/\/__/\/_/ `/___/> \/___/      \/__/\/___/  \/___/ \/____/\/___/
-                              /\___/
-                              \/__/                                           -->
-
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>$this->titletag</title>
-    <link rel="stylesheet" href="{$root}/vendor/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="{$root}/common/style.css" />
-    <script>
-        window._scripts = [];
-    </script>
-</head>
-<body>
-<div id="wrapper" class="container">
-    <header>
-        <ul class="nav nav-header nav-pills pull-right">
-            <li><a href="../">Home</a></li>
-            <li><a href="https://github.com/hay/wiki-tools">Source</a></li>
-        </ul>
-        <h3 class="text-muted"><a href="../">Hay's tools</a></h3>
-    </header>
-
-    <hr />
-
-    <main>
-HTML;
-
-        echo $html;
+    public function header() {
+        echo $this->renderer->render("header", [
+            'toolname' => $this->toolname,
+            'title' => $this->title,
+            'root' => ROOT,
+            "opts" => $this->opts
+        ]);
     }
 
     public function footer() {
-        $root = ROOT;
-
-        echo <<<HTML
-
-        </main>
-
-        <hr />
-
-        <footer class="footer">
-            <p><small>Unless stated otherwise all code on these pages is under the <a href="http://opensource.org/licenses/MIT">MIT license</a> and all text and other media is under the <a href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-Sharealike (BY-SA) license</a>.</small></p>
-        </footer>
-    </div> <!-- .container -->
-
-    <script src="${root}/vendor/jquery/dist/jquery.min.js"></script>
-    <script src="${root}/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="${root}/vendor/fastclick/lib/fastclick.js"></script>
-    <script src="${root}/vendor/jquery-stupid-table/stupidtable.min.js"></script>
-    <script>
-        $("table").stupidtable({
-            "wikidataid" : function(a, b) {
-                a = parseInt(a.trim().slice(1));
-                b = parseInt(b.trim().slice(1));
-                return a < b ? -1 : 1;
-            }
-        });
-    </script>
-
-    <script>
-        if (window._scripts) {
-            window._scripts.forEach(function(script) {
-                script();
-            });
-        }
-
-        FastClick.attach(document.body);
-    </script>
-</body>
-</html>
-HTML;
-
+        echo $this->renderer->render("footer", [
+            "root" => ROOT,
+            "opts" => $this->opts,
+            "toolname" => $this->toolname
+        ]);
     }
 }

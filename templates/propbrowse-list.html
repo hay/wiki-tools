@@ -1,0 +1,27 @@
+{% for prop in props %}
+<tr>
+    <td data-key="id">
+        <a href="https://www.wikidata.org/wiki/Property:{{prop.id}}">
+            {{prop.id}}
+        </a>
+    </td>
+    <td data-key="label">{{prop.label}}</td>
+    <td>
+        {{prop.description}}
+    </td>
+    <td>{{prop.types | join(',') }}</td>
+    <td>{{prop.datatype}}</td>
+    <td>
+        {% for a in prop.aliases %}
+            {{a}}<br>
+        {% endfor %}
+    </td>
+    <td>
+        {% for e in prop.example %}
+            <a href="https://www.wikidata.org/wiki/Q{{e}}">
+                Q{{e}}
+            </a><br>
+        {% endfor %}
+    </td>
+</tr>
+{% endfor %}

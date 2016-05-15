@@ -12,7 +12,7 @@ window._scripts.push(function() {
 
         return {
             action : parts[0],
-            value : parts[1]
+            value : decodeURIComponent(parts[1])
         };
     }
 
@@ -92,7 +92,9 @@ window._scripts.push(function() {
 
         if (action === 'keyword') {
             count = forTools(function(tool) {
-                return tool.keywords.indexOf(value) !== -1;
+                return tool.keywords.map(function(k) {
+                    return k.toLowerCase();
+                }).indexOf(value.toLowerCase()) !== -1;
             });
         }
 

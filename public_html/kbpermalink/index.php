@@ -1,6 +1,8 @@
 <?php
     require '../../lib/class-hay.php';
-    $hay = new Hay("kbpermalink");
+    $hay = new Hay("kbpermalink", [
+        "scripts" => false
+    ]);
 
     $hay->header();
 ?>
