@@ -12,7 +12,7 @@ window._scripts.push(function() {
 
         return {
             action : parts[0],
-            value : parts[1]
+            value : decodeURIComponent(parts[1])
         };
     }
 
