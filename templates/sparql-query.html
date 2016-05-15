@@ -1,0 +1,17 @@
+select ?item ?image ?itemLabel ?itemDescription where {
+    {% for claim in has %}
+        {{claim[0]}} {{claim[1]}} {{claim[2]}} .
+    {% endfor %}
+
+    {% if minus %}
+    MINUS {
+        {% for claim in minus %}
+            {{claim[0]}} {{claim[1]}} {{claim[2]}} .
+        {% endfor %}
+    }
+    {% endif %}
+
+    SERVICE wikibase:label {
+        bd:serviceParam wikibase:language "{{language}}"
+    }
+}

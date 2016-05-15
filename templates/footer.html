@@ -1,0 +1,43 @@
+
+        </main>
+
+        <hr />
+
+        <footer class="footer">
+            <p><small>Unless stated otherwise all code on these pages is under the <a href="http://opensource.org/licenses/MIT">MIT license</a> and all text and other media is under the <a href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-Sharealike (BY-SA) license</a>.</small></p>
+        </footer>
+    </div> <!-- .container -->
+
+    {% if opts.scripts is defined %}
+        {% if opts.scripts is iterable %}
+            {% for script in opts.scripts %}
+                <script src="{{root}}/{{toolname}}/{{script}}"></script>
+            {% endfor %}
+        {% endif %}
+    {% else %}
+    <script src="{{root}}/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="{{root}}/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="{{root}}/vendor/fastclick/lib/fastclick.js"></script>
+    <script src="{{root}}/vendor/jquery-stupid-table/stupidtable.min.js"></script>
+    <script>
+        $("table").stupidtable({
+            "wikidataid" : function(a, b) {
+                a = parseInt(a.trim().slice(1));
+                b = parseInt(b.trim().slice(1));
+                return a < b ? -1 : 1;
+            }
+        });
+    </script>
+
+    <script>
+        if (window._scripts) {
+            window._scripts.forEach(function(script) {
+                script();
+            });
+        }
+
+        FastClick.attach(document.body);
+    </script>
+    {% endif %}
+</body>
+</html>

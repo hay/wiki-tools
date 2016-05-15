@@ -1,0 +1,20 @@
+    <div id="app">
+        <form id="search" class="form-inline clearfix">
+            <div class="form-group">
+                <label for="search">I need...</label>
+                <input class="form-control" type="text" name="search" id="q" />
+            </div>
+        </form>
+
+        <div class="alert alert-info" id="alert">
+            <span></span>
+
+            <a href="#">Show all tools instead?</a>
+        </div>
+
+        <ul class="tools">
+            {% include 'toollist.html' %}
+        </ul>
+    </div>
+
+    <hr />
