@@ -13,7 +13,7 @@
         {% if tool.author %}By {% endif %}
 
         {% for author in tool.author %}
-            <a href="#/author/{{author}}">{{author}}</a>
+            <a href="#/author/{{author}}">{{author}}</a>{% if not loop.last %},{% endif %}
         {% endfor %}
 
         {% if tool.repository %}
