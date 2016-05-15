@@ -92,7 +92,9 @@ window._scripts.push(function() {
 
         if (action === 'keyword') {
             count = forTools(function(tool) {
-                return tool.keywords.indexOf(value) !== -1;
+                return tool.keywords.map(function(k) {
+                    return k.toLowerCase();
+                }).indexOf(value.toLowerCase()) !== -1;
             });
         }
 
