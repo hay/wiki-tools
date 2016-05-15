@@ -1,10 +1,10 @@
 <?php
-    require '../../lib/vendor/autoload.php';
     require '../../lib/class-hay.php';
-    require '../../lib/class-templaterenderer.php';
     require '../../lib/class-directoryapi.php';
 
-    $hay = new Hay("directory");
+    $hay = new Hay("directory", [
+        'styles' => ['../common/directory.css']
+    ]);
     $hay->header();
 
     $templaterenderer = new TemplateRenderer();
@@ -38,8 +38,6 @@
 <script>
     window._toolindex = <?php echo json_encode($jsontools); ?>;
 </script>
-
-<?php echo $templaterenderer->render("directory-style"); ?>
 
 <div>
     <div id="header" class="row">

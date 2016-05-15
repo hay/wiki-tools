@@ -1,7 +1,5 @@
 <?php
-    require '../../lib/vendor/autoload.php';
     require '../../lib/class-hay.php';
-    require '../../lib/class-templaterenderer.php';
 
     $hay = new Hay("propbrowse");
     $hay->header();
