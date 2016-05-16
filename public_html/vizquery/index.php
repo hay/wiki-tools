@@ -1,146 +1,105 @@
 <?php
-    require '../../lib/vendor/autoload.php';
     require '../../lib/class-hay.php';
-    require '../../lib/class-templaterenderer.php';
-    require '../../lib/class-vizquery.php';
 
-    $vizquery = new VizQuery();
-    $query = json_decode(file_get_contents("example-query.json"), true);
-    print_r($vizquery->query($query));
-
-    $hay = new Hay("vizquery");
-
-    function has_query() {
-        return !empty($_GET['q']);
-    }
-
-    if (has_query()) {
-        $results = $api->query($q);
-
-        if ($json) {
-            // User wants JSON
-            header("Content-Type: application/json");
-            header("Access-Control-Allow-Origin: *");
-            echo json_encode($results);
-            die();
-        }
-    }
+    $hay = new Hay("vizquery", [
+        "styles" => [ 'style.css' ],
+        "scripts" => [
+            '../vendor/vue/dist/vue.min.js',
+            '../vendor/handlebars/handlebars.min.js',
+            '../vendor/underscore/underscore-min.js',
+            'app.js'
+        ]
+    ]);
 
     $hay->header();
 ?>
-    <style>
-        #wrapper {
-            max-width: inherit;
-        }
+    <h1><?php $hay->title(); ?></h1>
 
-        .awesomplete {
-            width: 100%;
-        }
-    </style>
+    <p class="lead" v-show="!results">
+        <?php $hay->description(); ?>
+    </p>
 
-    <link rel="stylesheet" href="../common/awesomplete.css">
-    <script src="../common/jquery.js"></script>
-    <script src="../common/underscore-min.js"></script>
-    <script src="../common/awesomplete.js"></script>
-    <script src="app.js"></script>
+    <a v-show="results" href="index.php" class="pull-right btn btn-primary">Do another query</a>
 
-    <?php if (!has_query()) : ?>
-        <h1><?php $hay->title(); ?></h1>
+    <div class="alert alert-danger" v-show="error">
+        Sorry, something went wrong. Either your query was wrong, or there were no results.
+        <p v-if="error">{{error}}</p>
+    </div>
 
-        <p class="lead"><?php $hay->description(); ?></p>
+    <div class="form">
+        <h3>Find all items that...</h3>
 
-        <form role="form" class="form-horizontal">
-            <h3>
-                Find items where property:
-                <input type="hidden" id="prop" name="prop">
-                <input type="text" data-name="prop" class="form-control">
-                is equal to item:
-                <input type="hidden" id="item" name="item">
-                <input type="text" data-name="item" class="form-control">
-            </h3>
+        <section v-for="rule in rules">
+            <select v-model="rule.has">
+                <option v-for="option in hasOptions" v-bind:value="option.value">
+                    {{ option.label }}
+                </option>
+            </select>
 
-            <div class="form-group">
-                <div class="col-sm-8 col-sm-offset-4">
-                    <label>
-                        <input type="checkbox" id="withimages" name="withimages" checked>
-                        Only get items with an image
-                    </label>
-                </div>
-            </div>
+            <p>a property</p>
 
-            <div class="form-group">
-                <div class="col-sm-8 col-sm-offset-4">
-                    <button id="show-advanced" class="btn btn-link">Show advanced options</button>
-                </div>
-            </div>
+            <input type="text" v-model="rule.property">
 
-            <div id="advanced" class="hidden">
-                <div class="form-group">
-                    <div class="col-sm-8 col-sm-offset-4">
-                        <label>
-                            <input type="checkbox" id="json" name="json">
-                            Output as JSON
-                        </label>
-                    </div>
-                </div>
+            <p>that contains</p>
 
-                <div class="form-group">
-                    <div class="col-sm-8 col-sm-offset-4">
-                        <label>
-                            <input type="checkbox" id="extended" name="extended">
-                            Add extended data (claims, aliases, etcetera)
-                        </label>
-                    </div>
-                </div>
+            <input type="text" v-model="rule.value">
 
-                <div class="form-group">
-                    <div class="col-sm-8 col-sm-offset-4">
-                        <label>
-                            <input type="checkbox" id="usewdq" name="usewdq">
-                            Use Wikidata Query (for comparing)
-                        </label>
-                    </div>
-                </div>
-            </div>
+            <button class="btn btn-default" v-on:click="removeRule(rule)">
+                <span class="glyphicon glyphicon-minus"></span>
+                Remove rule
+            </button>
+        </section>
 
-            <div class="form-group">
-                <div class="col-sm-8 col-sm-offset-4">
-                    <button id="query" type="submit" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-search"></span>
-                        Query
-                    </button>
-                </div>
-            </div>
-        </form>
-    <?php elseif (isset($results['error'])) : ?>
-        <h1>
-            <a href="index.php">VizQuery</a>
-            <a href="index.php" class="pull-right btn btn-primary">Do another query</a>
-        </h1>
+        <section>
+            <button class="btn btn-default" v-on:click="addRule">
+                <span class="glyphicon glyphicon-plus"></span>
+                Add rule
+            </button>
+        </section>
 
-        <div class="alert alert-danger">
-            Sorry, something went wrong. Either your query was wrong, or there were no results.<br>
-            <b>Error code: <?= $results['error']; ?></b>
-        </div>
-    <?php else: ?>
-        <h1>
-            <a href="index.php">VizQuery</a>
-            <a href="index.php" class="pull-right btn btn-primary">Do another query</a>
-        </h1>
+        <section>
+            <input type="checkbox" id="withimages" name="withimages" checked>
+            <label for="withimages">Only get items with an image</label>
+        </section>
 
-        <div class="pull-right">
-            <a class="btn btn-default" href="index.php?<?php echo $_SERVER['QUERY_STRING']; ?>&format=json">
-                Get this query as JSON
-            </a>
-        </div>
+        <section>
+            <button class="btn btn-primary" v-on:click="doQuery">
+                <span class="glyphicon glyphicon-search"></span>
+                Query
+            </button>
+        </section>
+    </div>
 
-        <br clear="all">
-        <br>
+    <pre>{{query}}</pre>
 
-        <?php if (!$extended): ?>
+    <script type="text/html" id="sparl-query">
+        PREFIX wd: <http://www.wikidata.org/entity/>
+        PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+        PREFIX wikibase: <http://wikiba.se/ontology#>
+        PREFIX p: <http://www.wikidata.org/prop/>
+        PREFIX ps: <http://www.wikidata.org/prop/statement/>
+        PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX bd: <http://www.bigdata.com/rdf#>
 
-        <?php endif; ?>
-    <?php endif; ?>
+        SELECT ?item ?itemLabel ?itemDescription ?image WHERE {
+            ?item wdt:P18 ?image .
+
+            {{#each where}}
+                ?item wdt:{{property}} wd:{{value}} .
+            {{/each}}
+
+            {{#if minus}}
+            MINUS {
+                {{#each minus}}
+                    ?item wdt:{{property}} wd:{{value}} .
+                {{/each}}
+            }
+            {{/if}}
+
+          SERVICE wikibase:label { bd:serviceParam wikibase:language "en" }
+        } LIMIT 50
+    </script>
 <?php
     $hay->footer();
 ?>

@@ -1,47 +1,66 @@
-$(function() {
-    function handleQuery(e) {
-        e.preventDefault();
+// var url = 'http://www.wikidata.org/w/api.php?callback=?&action=wbsearchentities&limit=10&format=json&language=en&type=' + type + '&search=' + q;
 
+function createEmptyRule() {
+    return {
+        has : 'where',
+        property : null,
+        value : null
+    };
+};
+
+function Query() {
+    this.tmpl = Handlebars.compile(document.querySelector('#sparl-query').innerHTML);
+}
+
+Query.prototype = {
+    stringify : function(q) {
+        console.log(q);
+        var view = {
+            where : _.where(q, { 'has' : 'where' }),
+            minus : _.where(q, { 'has' : 'minus' })
+        };
+
+        console.log(view);
+
+        return this.tmpl(view);
     }
+};
 
-    function autocomplete(id, type, showDescription) {
-        var input = '[data-name="' + id + '"]';
-        var $input = $(input);
-        var $val = $("#" + id);
+var query = new Query();
 
-        if ($input.length === 0) return;
+function clone(obj) {
+    return JSON.parse(JSON.stringify(obj));
+}
 
-        var awesome = new Awesomplete(input, {
-            replace : function(text) {
-                var parts = text.split(':');
-                $val.val(parts[0].trim());
-                this.input.value = parts.join(':');
+var vue = new Vue({
+    el : "#wrapper",
+    data : {
+        state : 'search',
+        results : false,
+        hasOptions : [
+            { value : 'where', label : 'have' },
+            { value : 'minus', label : "don't have" }
+        ],
+        query : null,
+        rules : [
+            {
+                has : 'where'
             }
-        });
+        ]
+    },
+    methods : {
+        addRule : function() {
+            this.rules.push(createEmptyRule());
+        },
 
-        $input.on('keyup', _.debounce(function() {
-            var q = $input.val();
-            var url = 'http://www.wikidata.org/w/api.php?callback=?&action=wbsearchentities&limit=10&format=json&language=en&type=' + type + '&search=' + q;
+        doQuery : function() {
+            this.query = query.stringify(clone(this.rules));
+        },
 
-            $.getJSON(url, function(data) {
-                if (!data.search) return;
-
-                awesome.list = data.search.map(function(item) {
-                    var label = item.label || '';
-                    var description = item.description || '';
-                    var line = label + ' - ' + description;
-                    return item.id + ' : ' + line;
-                });
+        removeRule : function(rule) {
+            this.rules = this.rules.filter(function(r) {
+                return r !== rule;
             });
-        }, 200));
+        }
     }
-
-    $("#show-advanced").on('click', function(e) {
-        e.preventDefault();
-        $("#advanced").toggleClass('hidden');
-    })
-
-    autocomplete('prop', "property", false);
-    autocomplete('item', "item", true);
-    $("#query").on('click', handleQuery);
 });

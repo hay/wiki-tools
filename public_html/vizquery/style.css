@@ -1,0 +1,17 @@
+#wrapper {
+    max-width: inherit;
+}
+
+.awesomplete {
+    width: 100%;
+}
+
+.form section {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.form section > * {
+    font-size: 16px;
+    margin-right: 10px;
+}

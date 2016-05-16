@@ -16,6 +16,9 @@
     "jquery": "~2.1.4",
     "bootstrap": "~3.3.5",
     "fastclick": "~1.0.6",
-    "jquery-stupid-table": "^1.0.1"
+    "jquery-stupid-table": "^1.0.1",
+    "vue": "^1.0.24",
+    "handlebars": "^4.0.5",
+    "underscore": "^1.8.3"
   }
 }
