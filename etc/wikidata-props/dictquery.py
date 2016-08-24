@@ -6,7 +6,7 @@ class DictQuery(dict):
         for key in keys:
             if val:
                 if isinstance(val, list):
-                    val = [ v.get(key, default) for v in val]
+                    val = [ v.get(key, default) if v else None for v in val]
                 else:
                     val = val.get(key, default)
             else:
