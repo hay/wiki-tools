@@ -110,12 +110,11 @@ def main():
     # Sort by label
     props = sorted(props, key = itemgetter("label"))
 
-    with open(SAVE_DIRECTORY + "props.json", "w") as jsonprops:
-        jsonprops.write(json.dumps(props))
+    jsonpath = SAVE_DIRECTORY + "props.json"
+    print("Saving to " + jsonpath)
 
-    with open(SAVE_DIRECTORY + "props.html", "w") as htmlprops:
-        html = render({ "props" : props })
-        htmlprops.write(html.encode('utf-8'))
+    with open(jsonpath, "w") as jsonprops:
+        jsonprops.write(json.dumps(props))
 
 def main_from_json():
     with open(SAVE_DIRECTORY + "props.json") as f:

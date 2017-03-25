@@ -6,6 +6,7 @@
     $hay = new Hay("propbrowse", [
         "scripts" => [
             "node_modules/vue/dist/vue$vue",
+            "node_modules/superagent/superagent.js",
             "app.js"
         ]
     ]);
@@ -60,8 +61,16 @@
     .table[data-view="compact"] td[data-key="id"] {
         width: 50px;
     }
+
+    [v-cloak]:before {
+        content: "Loading...";
+    }
+
+    [v-cloak] > * {
+        display: none;
+    }
 </style>
-<div>
+<section id="content" v-cloak>
     <div class="flexrow">
         <h1><?php $hay->title(); ?></h1>
 
@@ -116,12 +125,26 @@
             </tr>
         </thead>
         <tbody>
-        <?php
-            // require 'props.html';
-        ?>
+            <tr v-for="prop in properties">
+                <td>
+                    <a v-bind:href="prop.url">{{prop.id}}</a>
+                </td>
+                <td>{{prop.label}}</td>
+                <td>{{prop.description}}</td>
+                <td>
+                    <span v-for="type in prop.types">{{type}}</span>
+                <td>{{prop.datatype}}</td>
+                <td>
+                    <span v-for="a in prop.aliases">{{a}}</span>
+                </td>
+                <td>
+                    <a v-for="ex in prop.example"
+                       href="'https://www.wikidata.org/wiki/Q' + ex">Q{{ex}}</a>
+                </td>
+            </tr>
         </tbody>
     </table>
-</div>
+</section>
 <?php
     $hay->footer();
 ?>
