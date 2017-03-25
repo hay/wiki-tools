@@ -1,10 +1,17 @@
 <?php
     require '../../lib/class-hay.php';
 
-    $hay = new Hay("propbrowse");
+    $vue = DEBUG ? ".js" : ".min.js";
+
+    $hay = new Hay("propbrowse", [
+        "scripts" => [
+            "node_modules/vue/dist/vue$vue",
+            "app.js"
+        ]
+    ]);
+
     $hay->header();
 ?>
-<script src="app.js"></script>
 <style>
     #wrapper {
         max-width: inherit;
@@ -110,7 +117,7 @@
         </thead>
         <tbody>
         <?php
-            require 'props.html';
+            // require 'props.html';
         ?>
         </tbody>
     </table>
