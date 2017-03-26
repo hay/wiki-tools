@@ -63,7 +63,7 @@
     }
 
     [v-cloak]:before {
-        content: "Loading...";
+        content: "Loading, this can take a couple of seconds...";
     }
 
     [v-cloak] > * {
@@ -85,17 +85,26 @@
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-filter"></span>
                 </span>
-                <input class="form-control" type="search" name="search" id="q" placeholder="Loading..."/>
+                <input class="form-control"
+                       type="search"
+                       name="search"
+                       v-model.trim="q" />
             </div>
         </div>
 
         <div class="col-md-3">
             <div class="btn-group pull-right" id="listview">
-                <button type="button" class="btn btn-default active" data-view="detailed">
+                <button type="button"
+                        v-bind:class="[ view === 'detailed' ? 'active' : '']"
+                        v-on:click="view = 'detailed'"
+                        class="btn btn-default">
                     <span class="glyphicon glyphicon-th-large"></span>
                     Detailed
                 </button>
-                <button type="button" class="btn btn-default" data-view="compact">
+                <button type="button"
+                        v-bind:class="[ view === 'compact' ? 'active' : '']"
+                        v-on:click="view = 'compact'"
+                        class="btn btn-default">
                     <span class="glyphicon glyphicon-th"></span>
                     Compact
                 </button>
@@ -105,41 +114,42 @@
 
     <br>
 
-    <div class="text-center hidden" id="resultcount">
-        <span></span>
-        <a class="btn btn-text">Reset filter</a>
+    <div class="text-center" v-show="q.length > 2">
+        <span>Found {{shownProperties}} results</span>
+        <a class="btn btn-text" v-on:click="q = ''">Reset filter</a>
     </div>
 
     <p>Click on the column headers to sort by that column.</p>
 
-    <table class="table" data-view="detailed">
+    <table class="table" v-bind:data-view="view">
         <thead>
             <tr>
-                <th data-sort="wikidataid" data-key="id">ID</th>
-                <th data-sort="string" data-key="label">Label</th>
-                <th data-sort="string">Description</th>
-                <th data-sort="string">Use</th>
-                <th data-sort="string">Type</th>
-                <th data-sort="string">Aliases</th>
-                <th data-sort="string">Example</th>
+                <th v-on:click="sortBy('id')">ID</th>
+                <th v-on:click="sortBy('label')">Label</th>
+                <th v-on:click="sortBy('description')">Description</th>
+                <th v-on:click="sortBy('types')">Use</th>
+                <th v-on:click="sortBy('datatype')">Type</th>
+                <th v-on:click="sortBy('aliases')">Aliases</th>
+                <th>Example</th>
             </tr>
         </thead>
         <tbody>
-            <tr v-for="prop in properties">
+            <tr v-for="prop in properties"
+                v-show="prop.visible">
                 <td>
                     <a v-bind:href="prop.url">{{prop.id}}</a>
                 </td>
                 <td>{{prop.label}}</td>
                 <td>{{prop.description}}</td>
-                <td>
-                    <span v-for="type in prop.types">{{type}}</span>
+                <td>{{prop.types}}</td>
                 <td>{{prop.datatype}}</td>
+                <td>{{prop.aliases}}</td>
                 <td>
-                    <span v-for="a in prop.aliases">{{a}}</span>
-                </td>
-                <td>
-                    <a v-for="ex in prop.example"
-                       href="'https://www.wikidata.org/wiki/Q' + ex">Q{{ex}}</a>
+                    <ul v-if="prop.example">
+                        <li v-for="ex in prop.example">
+                            <a v-bind:href="'https://www.wikidata.org/wiki/Q' + ex">Q{{ex}}</a>
+                        </li>
+                    </ul>
                 </td>
             </tr>
         </tbody>
