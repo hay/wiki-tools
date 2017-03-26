@@ -23,7 +23,7 @@
 
             prop.visible = true;
 
-            prop.index = [prop.id, prop.label, prop.description].join(' ');
+            prop.index = [prop.id, prop.label, prop.description].join(' ').toLowerCase();
 
             return prop;
         });
@@ -33,12 +33,14 @@
             data : {
                 properties : properties,
                 sortDirection : 1,
-                view : 'detailed',
+                view : 'compact',
                 q : '',
                 shownProperties : properties.length
             },
             watch : {
                 q : function(q) {
+                    this.view = q.length < 3 ? 'compact' : 'detailed';
+
                     if (q.length < 3) {
                         this.properties = this.properties.map(function(p) {
                             p.visible = true;
@@ -50,7 +52,7 @@
                         this.shownProperties = 0;
 
                         this.properties = this.properties.map(function(p) {
-                            var isVisible = p.index.indexOf(q) !== -1;
+                            var isVisible = p.index.indexOf(q.toLowerCase()) !== -1;
 
                             if (isVisible) {
                                 this.shownProperties += 1;

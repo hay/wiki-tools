@@ -33,33 +33,21 @@
         justify-content: space-between;
     }
 
-    .filters {
-        max-width: 500px;
-        margin: 0 auto 20px auto;
-    }
-
-    .table[data-view="compact"] th,
-    .table[data-view="compact"] thead,
-    .table[data-view="compact"] td {
-        display: none;
-    }
-
-    .table[data-view="compact"] [data-key] {
-        display: table-cell;
-    }
-
-    .table[data-view="compact"] tr {
-        float: left;
-        width: 25%;
-    }
-
-    .table[data-view="compact"] td {
+    .list {
+        display: flex;
+        flex-wrap: wrap;
         padding: 0;
-        border: 0;
     }
 
-    .table[data-view="compact"] td[data-key="id"] {
-        width: 50px;
+    .list li {
+        list-style: none;
+        width: calc(100% / 3);
+        padding: .25rem 1rem;
+    }
+
+    .list strong {
+        display: inline-block;
+        width: 5rem;
     }
 
     [v-cloak]:before {
@@ -87,7 +75,7 @@
                 </span>
                 <input class="form-control"
                        type="search"
-                       name="search"
+                       placeholder="Filter all properties"
                        v-model.trim="q" />
             </div>
         </div>
@@ -121,7 +109,17 @@
 
     <p>Click on the column headers to sort by that column.</p>
 
-    <table class="table" v-bind:data-view="view">
+    <ul class="list" v-if="view === 'compact'">
+        <li v-for="prop in properties">
+            <a v-bind:href="prop.url"
+               target="_blank"
+               v-bind:title="prop.description">
+                <strong>{{prop.id}}</strong> <span>{{prop.label}}</span>
+            </a>
+        </li>
+    </ul>
+
+    <table class="table" v-if="view === 'detailed'">
         <thead>
             <tr>
                 <th v-on:click="sortBy('id')">ID</th>
@@ -137,7 +135,8 @@
             <tr v-for="prop in properties"
                 v-show="prop.visible">
                 <td>
-                    <a v-bind:href="prop.url">{{prop.id}}</a>
+                    <a v-bind:href="prop.url"
+                       target="_blank">{{prop.id}}</a>
                 </td>
                 <td>{{prop.label}}</td>
                 <td>{{prop.description}}</td>
