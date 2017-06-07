@@ -9,6 +9,7 @@
 .form section {
     display: flex;
     margin-bottom: 10px;
+    align-items: baseline;
 }
 
 .form section > * {

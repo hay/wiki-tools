@@ -1,79 +1,37 @@
-(function() {
-    var baseQuery = {
-        "queryType": "SELECT",
-        "variables": [
-            "?item",
-            "?image",
-            "?itemLabel",
-            "?itemDescription"
-        ],
-        "where": [
-            {
-                "type": "bgp",
-                "triples": [
-                    {
-                        "subject": "?item",
-                        "predicate": "http://www.wikidata.org/prop/direct/P31",
-                        "object": "http://www.wikidata.org/entity/Q33506"
-                    },
-                    {
-                        "subject": "?item",
-                        "predicate": "http://www.wikidata.org/prop/direct/P17",
-                        "object": "http://www.wikidata.org/entity/Q55"
-                    },
-                    {
-                        "subject": "?item",
-                        "predicate": "http://www.wikidata.org/prop/direct/P18",
-                        "object": "?image"
-                    }
-                ]
-            },
-            {
-                "type": "minus",
-                "patterns": [
-                    {
-                        "type": "bgp",
-                        "triples": [
-                            {
-                                "subject": "?item",
-                                "predicate": "http://www.wikidata.org/prop/direct/P50",
-                                "object": "http://www.wikidata.org/entity/Q364153"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "type": "service",
-                "patterns": [
-                    {
-                        "type": "bgp",
-                        "triples": [
-                            {
-                                "subject": "http://www.bigdata.com/rdf#serviceParam",
-                                "predicate": "http://wikiba.se/ontology#language",
-                                "object": "\"en,nl\""
-                            }
-                        ]
-                    }
-                ],
-                "name": "http://wikiba.se/ontology#label",
-                "silent": false
+window.QueryBuilder = (function() {
+    // var url = 'http://www.wikidata.org/w/api.php?callback=?&action=wbsearchentities&limit=10&format=json&language=en&type=' + type + '&search=' + q;
+    //
+    function QueryBuilder(queryHtml) {
+        this.tmpl = Handlebars.compile(queryHtml);
+    }
+
+    QueryBuilder.prototype = {
+        stringify : function(q) {
+
+            var view = {
+                where : _.where(q, { 'has' : 'where' }),
+                minus : _.where(q, { 'has' : 'minus' }),
+                limit : q.limit
+            };
+
+            var hasimage = !!_.findWhere(q, { has : 'image' });
+
+            if (hasimage) {
+                view.where.push({
+                    property : 'P18',
+                    value : '?image'
+                });
             }
-        ],
-        "type": "query",
-        "prefixes": {
-            "wd": "http://www.wikidata.org/entity/",
-            "wdt": "http://www.wikidata.org/prop/direct/",
-            "wikibase": "http://wikiba.se/ontology#",
-            "p": "http://www.wikidata.org/prop/",
-            "ps": "http://www.wikidata.org/prop/statement/",
-            "pq": "http://www.wikidata.org/prop/qualifier/",
-            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-            "bd": "http://www.bigdata.com/rdf#"
+
+            view.where = view.where.map(function(v) {
+                var val = v.value.trim();
+                v.value = val.charAt(0) === "Q" ? "wd:" + val : val;
+                return v;
+            })
+
+            return this.tmpl(view);
         }
     };
 
-    function Query() {
-    }
+    return QueryBuilder;
 })();

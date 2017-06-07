@@ -4,73 +4,88 @@
     $hay = new Hay("vizquery", [
         "styles" => [ 'style.css' ],
         "scripts" => [
-            '../vendor/vue/dist/vue.min.js',
+            '../vendor/vue/dist/vue.js',
             '../vendor/handlebars/handlebars.min.js',
             '../vendor/underscore/underscore-min.js',
+            'query.js',
+            'view.js',
             'app.js'
         ]
     ]);
 
     $hay->header();
 ?>
-    <h1><?php $hay->title(); ?></h1>
+    <div id="app">
+        <h1><?php $hay->title(); ?></h1>
 
-    <p class="lead" v-show="!results">
-        <?php $hay->description(); ?>
-    </p>
+        <p class="lead" v-show="!results">
+            <?php $hay->description(); ?>
+        </p>
 
-    <a v-show="results" href="index.php" class="pull-right btn btn-primary">Do another query</a>
+        <a v-show="results" href="index.php" class="pull-right btn btn-primary">Do another query</a>
 
-    <div class="alert alert-danger" v-show="error">
-        Sorry, something went wrong. Either your query was wrong, or there were no results.
-        <p v-if="error">{{error}}</p>
+        <div class="alert alert-danger" v-show="error">
+            Sorry, something went wrong. Either your query was wrong, or there were no results.
+            <p v-if="error">{{error}}</p>
+        </div>
+
+        <div class="form">
+            <h3>Find all items that...</h3>
+
+            <section v-for="rule in rules">
+                <select v-model="rule.has">
+                    <option v-for="option in hasOptions" v-bind:value="option.value">
+                        {{ option.label }}
+                    </option>
+                </select>
+
+                <p>a property</p>
+
+                <input type="text" v-model="rule.property">
+
+                <p>that contains</p>
+
+                <input type="text" v-model="rule.value">
+
+                <button class="btn btn-default" v-on:click="removeRule(rule)">
+                    <span class="glyphicon glyphicon-minus"></span>
+                    Remove rule
+                </button>
+            </section>
+
+            <section>
+                <button class="btn btn-default" v-on:click="addRule">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Add rule
+                </button>
+            </section>
+
+            <section>
+                <input type="checkbox" id="withimages" v-model="withimages">
+                <label for="withimages">Only get items with an image</label>
+            </section>
+
+            <section>
+                <label for="limit">Maximum number of items to get</label>
+                <input type="number" id="limit" v-model="limit">
+            </section>
+
+            <section>
+                <button class="btn btn-primary" v-on:click="doQuery">
+                    <span class="glyphicon glyphicon-search"></span>
+                    Query
+                </button>
+            </section>
+        </div>
+
+        <pre>{{query}}</pre>
+
+        <h3>Example queries</h3>
+
+        <ul>
+            <li><a href="#" v-on:click="setExample">Municipalities in Gelderland</a></li>
+        </ul>
     </div>
-
-    <div class="form">
-        <h3>Find all items that...</h3>
-
-        <section v-for="rule in rules">
-            <select v-model="rule.has">
-                <option v-for="option in hasOptions" v-bind:value="option.value">
-                    {{ option.label }}
-                </option>
-            </select>
-
-            <p>a property</p>
-
-            <input type="text" v-model="rule.property">
-
-            <p>that contains</p>
-
-            <input type="text" v-model="rule.value">
-
-            <button class="btn btn-default" v-on:click="removeRule(rule)">
-                <span class="glyphicon glyphicon-minus"></span>
-                Remove rule
-            </button>
-        </section>
-
-        <section>
-            <button class="btn btn-default" v-on:click="addRule">
-                <span class="glyphicon glyphicon-plus"></span>
-                Add rule
-            </button>
-        </section>
-
-        <section>
-            <input type="checkbox" id="withimages" name="withimages" checked>
-            <label for="withimages">Only get items with an image</label>
-        </section>
-
-        <section>
-            <button class="btn btn-primary" v-on:click="doQuery">
-                <span class="glyphicon glyphicon-search"></span>
-                Query
-            </button>
-        </section>
-    </div>
-
-    <pre>{{query}}</pre>
 
     <script type="text/html" id="sparl-query">
         PREFIX wd: <http://www.wikidata.org/entity/>
@@ -83,10 +98,8 @@
         PREFIX bd: <http://www.bigdata.com/rdf#>
 
         SELECT ?item ?itemLabel ?itemDescription ?image WHERE {
-            ?item wdt:P18 ?image .
-
             {{#each where}}
-                ?item wdt:{{property}} wd:{{value}} .
+                ?item wdt:{{property}} {{value}} .
             {{/each}}
 
             {{#if minus}}
@@ -98,7 +111,7 @@
             {{/if}}
 
           SERVICE wikibase:label { bd:serviceParam wikibase:language "en" }
-        } LIMIT 50
+        } LIMIT {{limit}}
     </script>
 <?php
     $hay->footer();
