@@ -6,6 +6,7 @@ import typeahead from "./typeahead";
 import displayTable from "./display-table";
 import displayGrid from "./display-grid";
 import Vue from "vue";
+import Papaparse from "papaparse";
 
 function parseWhere(str) {
     var parts = str.split(" ");
@@ -81,6 +82,25 @@ class View {
                     e.data = e.data.map(parseWhere);
                     return e;
                 })
+            },
+
+            computed : {
+                csv : function() {
+                    var results = this.results.map((d) => {
+                        // REALLY UGLY CODE
+                        ['item', 'itemDescription', 'itemLabel'].forEach((key) => {
+                            d[key] = d[key] && d[key].value ? d[key].value : null;
+                        });
+
+                        return d;
+                    });
+
+                    var csv = Papaparse.unparse(results, {
+                        quotes : true
+                    });
+
+                    return `data:text/csv;charset=utf-8,${encodeURIComponent(csv)}`;
+                }
             },
 
             methods : {

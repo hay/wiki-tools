@@ -108,6 +108,10 @@
                 </div>
             </h3>
 
+            <p>
+                <a v-bind:href="csv" download="data.csv">Download as CSV</a>
+            </p>
+
             <display-table v-if="display === 'table'" v-bind:data="results"></display-table>
 
             <display-grid v-if="display === 'grid'" v-bind:data="results"></display-grid>

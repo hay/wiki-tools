@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build" : "webpack --progress --colors",
-    "watch" : "webpack --progress --colors --watch"
+    "build": "webpack --progress --colors",
+    "watch": "webpack --progress --colors --watch"
   },
   "babel": {
     "presets": [
@@ -16,6 +16,7 @@
     "babel-loader": "^7.0.0",
     "babel-preset-env": "^1.5.2",
     "handlebars": "^4.0.10",
+    "papaparse": "^4.3.3",
     "underscore": "^1.8.3",
     "vue": "^2.3.4",
     "webpack": "^2.6.1"
