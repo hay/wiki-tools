@@ -1,10 +1,18 @@
 <?php
     require '../../lib/class-hay.php';
 
-    $hay = new Hay("propbrowse");
+    $vue = DEBUG ? ".js" : ".min.js";
+
+    $hay = new Hay("propbrowse", [
+        "scripts" => [
+            "node_modules/vue/dist/vue$vue",
+            "node_modules/superagent/superagent.js",
+            "app.js"
+        ]
+    ]);
+
     $hay->header();
 ?>
-<script src="app.js"></script>
 <style>
     #wrapper {
         max-width: inherit;
@@ -25,36 +33,32 @@
         justify-content: space-between;
     }
 
-    .filters {
-        max-width: 500px;
-        margin: 0 auto 20px auto;
+    .list {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0;
     }
 
-    .table[data-view="compact"] th,
-    .table[data-view="compact"] thead,
-    .table[data-view="compact"] td {
+    .list li {
+        list-style: none;
+        width: calc(100% / 3);
+        padding: .25rem 1rem;
+    }
+
+    .list strong {
+        display: inline-block;
+        width: 5rem;
+    }
+
+    [v-cloak]:before {
+        content: "Loading, this can take a couple of seconds...";
+    }
+
+    [v-cloak] > * {
         display: none;
     }
-
-    .table[data-view="compact"] [data-key] {
-        display: table-cell;
-    }
-
-    .table[data-view="compact"] tr {
-        float: left;
-        width: 25%;
-    }
-
-    .table[data-view="compact"] td {
-        padding: 0;
-        border: 0;
-    }
-
-    .table[data-view="compact"] td[data-key="id"] {
-        width: 50px;
-    }
 </style>
-<div>
+<section id="content" v-cloak>
     <div class="flexrow">
         <h1><?php $hay->title(); ?></h1>
 
@@ -69,17 +73,26 @@
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-filter"></span>
                 </span>
-                <input class="form-control" type="search" name="search" id="q" placeholder="Loading..."/>
+                <input class="form-control"
+                       type="search"
+                       placeholder="Filter all properties"
+                       v-model.trim="q" />
             </div>
         </div>
 
         <div class="col-md-3">
             <div class="btn-group pull-right" id="listview">
-                <button type="button" class="btn btn-default active" data-view="detailed">
+                <button type="button"
+                        v-bind:class="[ view === 'detailed' ? 'active' : '']"
+                        v-on:click="view = 'detailed'"
+                        class="btn btn-default">
                     <span class="glyphicon glyphicon-th-large"></span>
                     Detailed
                 </button>
-                <button type="button" class="btn btn-default" data-view="compact">
+                <button type="button"
+                        v-bind:class="[ view === 'compact' ? 'active' : '']"
+                        v-on:click="view = 'compact'"
+                        class="btn btn-default">
                     <span class="glyphicon glyphicon-th"></span>
                     Compact
                 </button>
@@ -89,32 +102,58 @@
 
     <br>
 
-    <div class="text-center hidden" id="resultcount">
-        <span></span>
-        <a class="btn btn-text">Reset filter</a>
+    <div class="text-center" v-show="q.length > 2">
+        <span>Found {{shownProperties}} results</span>
+        <a class="btn btn-text" v-on:click="q = ''">Reset filter</a>
     </div>
 
     <p>Click on the column headers to sort by that column.</p>
 
-    <table class="table" data-view="detailed">
+    <ul class="list" v-if="view === 'compact'">
+        <li v-for="prop in properties">
+            <a v-bind:href="prop.url"
+               target="_blank"
+               v-bind:title="prop.description">
+                <strong>{{prop.id}}</strong> <span>{{prop.label}}</span>
+            </a>
+        </li>
+    </ul>
+
+    <table class="table" v-if="view === 'detailed'">
         <thead>
             <tr>
-                <th data-sort="wikidataid" data-key="id">ID</th>
-                <th data-sort="string" data-key="label">Label</th>
-                <th data-sort="string">Description</th>
-                <th data-sort="string">Use</th>
-                <th data-sort="string">Type</th>
-                <th data-sort="string">Aliases</th>
-                <th data-sort="string">Example</th>
+                <th v-on:click="sortBy('id')">ID</th>
+                <th v-on:click="sortBy('label')">Label</th>
+                <th v-on:click="sortBy('description')">Description</th>
+                <th v-on:click="sortBy('types')">Use</th>
+                <th v-on:click="sortBy('datatype')">Type</th>
+                <th v-on:click="sortBy('aliases')">Aliases</th>
+                <th>Example</th>
             </tr>
         </thead>
         <tbody>
-        <?php
-            require 'props.html';
-        ?>
+            <tr v-for="prop in properties"
+                v-show="prop.visible">
+                <td>
+                    <a v-bind:href="prop.url"
+                       target="_blank">{{prop.id}}</a>
+                </td>
+                <td>{{prop.label}}</td>
+                <td>{{prop.description}}</td>
+                <td>{{prop.types}}</td>
+                <td>{{prop.datatype}}</td>
+                <td>{{prop.aliases}}</td>
+                <td>
+                    <ul v-if="prop.example">
+                        <li v-for="ex in prop.example">
+                            <a v-bind:href="'https://www.wikidata.org/wiki/Q' + ex">Q{{ex}}</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
         </tbody>
     </table>
-</div>
+</section>
 <?php
     $hay->footer();
 ?>

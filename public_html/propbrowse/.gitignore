@@ -1,2 +1,4 @@
 props.html
 props.json
+node_modules
+yarn.lock

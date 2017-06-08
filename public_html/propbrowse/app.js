@@ -1,57 +1,93 @@
-window._scripts.push(function() {
-    var $rows = $("table tbody tr");
-    var $q = $("#q");
-    var searchindex = [];
-    var $resultcount = $("#resultcount");
-    var $listview = $("#listview");
-    var $table = $("table");
-
-    function makeIndex() {
-        $rows.each(function(index) {
-            searchindex[index] = '';
-
-            $(this).find('td').each(function() {
-                searchindex[index] += $(this).text().trim().toLowerCase() + ' ';
-            });
+(function() {
+    function load(cb) {
+        superagent.get("props.json").end(function(err, res) {
+            if (err) {
+                alert("Something went wrong loading the properties...");
+            } else {
+                cb(res.body);
+            }
         });
     }
 
-    function filter() {
-        var q = $("#q").val().toLowerCase();
-        var results = 0;
+    function view(properties) {
+        properties = properties.map(function(prop) {
+            if (prop.types) {
+                prop.types = prop.types.join(', ');
+            }
 
-        if (!q) {
-            reset();
-            return;
-        }
+            if (prop.aliases) {
+                prop.aliases = prop.aliases.join(' ');
+            }
 
-        searchindex.forEach(function(str, index) {
-            var display = str.indexOf(q) !== -1;
-            $rows.eq(index).toggle(display);
+            prop.url = 'https://www.wikidata.org/wiki/Property:' + prop.id;
 
-            if (display) results += 1;
+            prop.visible = true;
+
+            prop.index = [prop.id, prop.label, prop.description].join(' ').toLowerCase();
+
+            return prop;
         });
 
-        $resultcount.find("span").text("Found " + results + " properties");
-        $resultcount.removeClass('hidden');
+        new Vue({
+            el : "#content",
+            data : {
+                properties : properties,
+                sortDirection : 1,
+                view : 'compact',
+                q : '',
+                shownProperties : properties.length
+            },
+            watch : {
+                q : function(q) {
+                    this.view = q.length < 3 ? 'compact' : 'detailed';
+
+                    if (q.length < 3) {
+                        this.properties = this.properties.map(function(p) {
+                            p.visible = true;
+                            return p;
+                        });
+
+                        this.shownProperties = this.properties.length;
+                    } else {
+                        this.shownProperties = 0;
+
+                        this.properties = this.properties.map(function(p) {
+                            var isVisible = p.index.indexOf(q.toLowerCase()) !== -1;
+
+                            if (isVisible) {
+                                this.shownProperties += 1;
+                            }
+
+                            p.visible = isVisible;
+
+                            return p;
+                        }, this );
+                    }
+                }
+            },
+            methods : {
+                sortBy : function(key) {
+                    this.properties = this.properties.sort(function(a, b) {
+                        a = a[key];
+                        b = b[key];
+
+                        if (key === 'id') {
+                            a = parseInt(a.replace('P', ''));
+                            b = parseInt(b.replace('P', ''));
+                        }
+
+                        return a > b ? (1 * this.sortDirection) : -1 * this.sortDirection;
+                    }.bind(this));
+
+                    this.sortDirection = this.sortDirection * -1;
+                }
+            }
+        })
     }
 
-    function reset() {
-        $q.val('');
-        $resultcount.addClass('hidden');
-        $rows.show();
+    function main() {
+        load(view);
     }
 
-    $q.on('keyup', filter);
-    $resultcount.on('click', '.btn', reset);
-    var placeholder = 'Filter through ' + $rows.length + ' properties here';
-    $q.attr('placeholder', placeholder);
-    makeIndex();
-
-    $listview.on('click', 'button', function() {
-        var $el = $(this);
-        $listview.find("button").removeClass('active');
-        $el.addClass('active');
-        $table.attr('data-view', $el.attr('data-view'));
-    });
-});
+    main();
+})();
