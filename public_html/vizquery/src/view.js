@@ -56,6 +56,8 @@ class View {
 
                 results : [],
 
+                hadResults : false,
+
                 hasOptions : [
                     { value : 'where', label : 'have' },
                     { value : 'minus', label : "don't have" }
@@ -108,6 +110,7 @@ class View {
                     self.query.fetch(this.query, function(results) {
                         this.results = results.map(self.parseResult);
                         this.loading = false;
+                        this.hadResults = true;
                     }.bind(this));
                 },
 

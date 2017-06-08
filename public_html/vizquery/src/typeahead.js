@@ -18,14 +18,7 @@ export default Vue.component('typeahead', {
                 return;
             }
 
-            search(this.type, value).then(function(data) {
-                this.suggestions = data.search.map(function(d) {
-                    return {
-                        id : d.id,
-                        label : d.label
-                    };
-                });
-            }.bind(this));
+            search(this.type, value).then((d) => this.suggestions = d.search);
         },
 
         setSuggestion : function(suggestion) {

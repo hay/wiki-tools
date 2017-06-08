@@ -17,8 +17,6 @@
             <?php $hay->description(); ?>
         </p>
 
-        <a v-show="results" href="index.php" class="pull-right btn btn-primary">Do another query</a>
-
         <div class="alert alert-danger" v-show="error">
             Sorry, something went wrong. Either your query was wrong, or there were no results.
             <p v-if="error">{{error}}</p>
@@ -83,7 +81,7 @@
             Loading...
         </div>
 
-        <div class="alert alert-info" v-show="results.length == 0 && !loading">
+        <div class="alert alert-info" v-show="results.length == 0 && !loading && hadResults">
             No results
         </div>
 
@@ -134,7 +132,10 @@
     <script type="text/html" id="tmpl-display-grid">
         <ul class="results--grid">
             <li v-for="item in data" class="thumbnail">
-                <img v-bind:src="item.thumb" v-if="item.thumb" />
+                <a v-if="item.thumb" v-bind:href="item.item.value" target="_blank">
+                    <img v-bind:src="item.thumb" v-if="item.thumb" />
+                </a>
+
                 <h3 v-if="item.itemLabel">{{item.itemLabel.value}}</h3>
                 <p v-if="item.itemDescription">{{item.itemDescription.value}}</p>
                 <small><a v-if="item.item" v-bind:href="item.item.value" target="blank">{{item.id}}</a></small>
@@ -149,7 +150,6 @@
                     <th>ID</th>
                     <th>Label</th>
                     <th>Description</th>
-                    <th>Image</th>
                 </tr>
             </thead>
 
@@ -163,9 +163,6 @@
                     </td>
                     <td>
                         <template v-if="row.itemDescription">{{row.itemDescription.value}}</template>
-                    </td>
-                    <td>
-                        <img v-if="row.thumb" v-bind:src="row.thumb" />
                     </td>
                 </tr>
             </tbody>
@@ -182,7 +179,8 @@
             <ul class="inputbox__suggestions" v-show="suggestions.length">
                 <li v-for="suggestion in suggestions"
                     v-on:click="setSuggestion(suggestion)">
-                    {{suggestion.id}} - {{suggestion.label}}
+                    {{suggestion.id}} - {{suggestion.label}}<br>
+                    <small>{{suggestion.description}}</small>
                 </li>
             </ul>
         </div>
