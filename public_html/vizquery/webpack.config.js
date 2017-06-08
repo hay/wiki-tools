@@ -4,6 +4,7 @@ module.exports = {
     path: __dirname,
     filename: 'dist.js'
   },
+  devtool : 'source-map',
   module: {
     rules: [
       {

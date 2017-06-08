@@ -1,4 +1,4 @@
-window.EXAMPLES =[
+export default [
     {
         "description" : "Painters born in Leiden",
         "data" : [

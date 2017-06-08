@@ -1,5 +1,3 @@
-import Vue from "vue";
+import View from './view';
 
-new Vue({
-    el : "#app"
-});
+new View("#app");

@@ -4,3 +4,4 @@ yarn.lock
 .DS_Store
 *.pyc
 yarn*.log
+*.js.map

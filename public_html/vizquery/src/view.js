@@ -1,123 +1,119 @@
-window.View = (function() {
-    var $ = document.querySelector.bind(document);
-    var DEFAULT_LIMIT = 50;
+import { $, clone } from "./util";
+import { DEFAULT_RESULT_LIMIT } from "./conf";
+import EXAMPLES from "./examples";
+import Query from "./query";
+import Vue from "vue";
 
-    function parseWhere(str) {
-        var parts = str.split(" ");
-        return { has : 'where', property : parts[0], value : parts[1] };
-    }
+function parseWhere(str) {
+    var parts = str.split(" ");
+    return { has : 'where', property : parts[0], value : parts[1] };
+}
 
-    function View(selector, properties) {
+function createEmptyRule() {
+    return {
+        has : 'where',
+        property : null,
+        value : null
+    };
+};
+
+class View {
+    constructor(selector) {
         this.selector = $(selector);
-        this.properties = properties;
-        this.query = new Query($("#sparql-query").innerHTML);
+        this.query = new Query();
         this.setup();
     }
 
-    function createEmptyRule() {
-        return {
-            has : 'where',
-            property : null,
-            value : null
-        };
-    };
+    parseResult(result) {
+        if (result.image) {
+            result.thumb = result.image.value + '?width=300';
+        }
 
-    function clone(obj) {
-        return JSON.parse(JSON.stringify(obj));
+        if (result.item) {
+            result.id = result.item.value.replace('http://www.wikidata.org/entity/', '');
+        }
+
+        return result;
     }
 
-    View.prototype = {
-        parseResult : function(result) {
-            if (result.image) {
-                result.thumb = result.image.value + '?width=300';
-            }
+    setup() {
+        var self = this;
 
-            if (result.item) {
-                result.id = result.item.value.replace('http://www.wikidata.org/entity/', '');
-            }
+        this.view = new Vue({
+            el : this.selector,
 
-            return result;
-        },
+            data : {
+                state : 'search',
 
-        setup : function() {
-            var self = this;
+                results : false,
 
-            this.view = new Vue({
-                el : this.selector,
+                hasOptions : [
+                    { value : 'where', label : 'have' },
+                    { value : 'minus', label : "don't have" }
+                ],
 
-                data : {
-                    state : 'search',
+                query : null,
 
-                    results : false,
+                rules : [
+                    {
+                        has : 'where'
+                    }
+                ],
 
-                    hasOptions : [
-                        { value : 'where', label : 'have' },
-                        { value : 'minus', label : "don't have" }
-                    ],
+                error : false,
 
-                    query : null,
+                withimages : true,
 
-                    rules : [
-                        {
-                            has : 'where'
-                        }
-                    ],
+                limit : DEFAULT_RESULT_LIMIT,
 
-                    error : false,
+                loading : false,
 
-                    withimages : true,
+                examples : EXAMPLES.map(function(e) {
+                    e.data = e.data.map(parseWhere);
+                    return e;
+                })
+            },
 
-                    limit : DEFAULT_LIMIT,
-
-                    loading : false,
-
-                    examples : EXAMPLES.map(function(e) {
-                        e.data = e.data.map(parseWhere);
-                        return e;
-                    })
+            methods : {
+                addRule : function() {
+                    this.rules.push(createEmptyRule());
                 },
 
-                methods : {
-                    addRule : function() {
-                        this.rules.push(createEmptyRule());
-                    },
+                doQuery : function() {
+                    this.results = [];
 
-                    doQuery : function() {
-                        this.results = [];
+                    this.loading = true;
 
-                        this.loading = true;
+                    var rules = clone(this.rules);
 
-                        var rules = clone(this.rules);
-
-                        if (this.withimages) {
-                            rules.push({
-                                has : 'image'
-                            });
-                        }
-
-                        rules.limit = this.limit;
-
-                        this.query = self.query.build(rules);
-
-                        self.query.fetch(this.query, function(results) {
-                            this.results = results.map(self.parseResult);
-                            this.loading = false;
-                        }.bind(this));
-                    },
-
-                    removeRule : function(rule) {
-                        this.rules = this.rules.filter(function(r) {
-                            return r !== rule;
+                    if (this.withimages) {
+                        rules.push({
+                            has : 'image'
                         });
-                    },
-
-                    setExample : function(example) {
-                        this.rules = example.data;
                     }
-                }
-            });
-        }
-    };
 
-    return View;
-})();
+                    rules.limit = this.limit;
+
+                    this.query = self.query.build(rules);
+
+                    self.query.fetch(this.query, function(results) {
+                        this.results = results.map(self.parseResult);
+                        this.loading = false;
+                    }.bind(this));
+                },
+
+                removeRule : function(rule) {
+                    this.rules = this.rules.filter(function(r) {
+                        return r !== rule;
+                    });
+                },
+
+                setExample : function(example) {
+                    this.rules = example.data;
+                }
+            }
+        });
+    }
+};
+
+export default View;
