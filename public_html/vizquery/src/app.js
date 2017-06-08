@@ -1,0 +1,1 @@
+window.view = new View("#app");

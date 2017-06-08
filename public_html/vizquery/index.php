@@ -7,13 +7,7 @@
             '../vendor/vue/dist/vue.js',
             '../vendor/handlebars/handlebars.min.js',
             '../vendor/underscore/underscore-min.js',
-            'typeahead.js',
-            'examples.js',
-            'wdapi.js',
-            'properties.js',
-            'query.js',
-            'view.js',
-            'app.js'
+            'dist.js'
         ]
     ]);
 
