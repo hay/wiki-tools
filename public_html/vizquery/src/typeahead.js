@@ -1,4 +1,5 @@
 import Vue from "vue";
+import { search } from "./api";
 
 export default Vue.component('typeahead', {
     template : "#tmpl-typeahead",
@@ -16,7 +17,7 @@ export default Vue.component('typeahead', {
                 return;
             }
 
-            wdapi.search(this.type, this.input).then(function(data) {
+            search(this.type, this.input).then(function(data) {
                 this.suggestions = data.search.map(function(d) {
                     return {
                         id : d.id,
