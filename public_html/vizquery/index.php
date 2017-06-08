@@ -7,6 +7,9 @@
             '../vendor/vue/dist/vue.js',
             '../vendor/handlebars/handlebars.min.js',
             '../vendor/underscore/underscore-min.js',
+            'typeahead.js',
+            'examples.js',
+            'properties.js',
             'query.js',
             'view.js',
             'app.js'
@@ -15,8 +18,8 @@
 
     $hay->header();
 ?>
-    <div id="app">
-        <h1><?php $hay->title(); ?></h1>
+    <div id="app" v-cloak>
+        <h1>Wikidata <?php $hay->title(); ?></h1>
 
         <p class="lead" v-show="!results">
             <?php $hay->description(); ?>
@@ -41,7 +44,10 @@
 
                 <p>a property</p>
 
-                <input type="text" v-model="rule.property">
+                <typeahead
+                    v-bind:source="properties"
+                    v-bind:minlength="2"
+                    v-bind:value="rule.property"></typeahead>
 
                 <p>that contains</p>
 
@@ -129,7 +135,21 @@
         </ul>
     </div>
 
-    <script type="text/html" id="sparl-query">
+    <script type="text/html" id="tmpl-typeahead">
+        <div class="typeahead">
+            <!-- <datalist> is still not supported on Safari :( -->
+            <input type="text" v-model="input" v-on:keyup="keydown">
+
+            <ul class="inputbox__suggestions" v-show="suggestions.length">
+                <li v-for="suggestion in suggestions"
+                    v-on:click="setSuggestion(suggestion)">
+                    {{suggestion.id}} - {{suggestion.label}}
+                </li>
+            </ul>
+        </div>
+    </script>
+
+    <script type="text/html" id="sparql-query">
         PREFIX wd: <http://www.wikidata.org/entity/>
         PREFIX wdt: <http://www.wikidata.org/prop/direct/>
         PREFIX wikibase: <http://wikiba.se/ontology#>

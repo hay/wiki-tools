@@ -24,3 +24,32 @@
 .results--table tr {
     border-bottom: 10px solid white; /* bit of a hack */
 }
+
+#app[v-cloak] > * {
+    display: none;
+}
+
+#app[v-cloak]:before {
+    content: "Loading...";
+    font-size: 20px;
+}
+
+.inputbox__suggestions {
+    border: 1px solid #eee;
+    padding: 0;
+}
+
+.inputbox__suggestions li {
+    padding: 5px 10px;
+    list-style: none;
+    cursor: pointer;
+}
+
+.inputbox__suggestions li:nth-child(odd) {
+    background: #eee;
+}
+
+.inputbox__suggestions li:hover {
+    background: #337ab7;
+    color: white;
+}

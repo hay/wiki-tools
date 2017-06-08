@@ -7,34 +7,10 @@ window.View = (function() {
         return { has : 'where', property : parts[0], value : parts[1] };
     }
 
-    var EXAMPLES = [
-        {
-            "description" : "Painters born in Leiden",
-            "data" : [
-                "P31 Q5",
-                "P106 Q1028181",
-                "P19 Q43631"
-            ].map(parseWhere)
-        },
-        {
-            "description" : "Municipalities in the province of Gelderland, the Netherlands",
-            "data" : [
-                "P31 Q2039348",
-                "P131 Q775"
-            ].map(parseWhere)
-        },
-        {
-            "description" : "Paintings by Theo van Doesburg",
-            "data" : [
-                "P31 Q3305213",
-                "P170 Q160422"
-            ].map(parseWhere)
-        }
-    ];
-
-    function View(selector) {
+    function View(selector, properties) {
         this.selector = $(selector);
-        this.query = new Query($("#sparl-query").innerHTML);
+        this.properties = properties;
+        this.query = new Query($("#sparql-query").innerHTML);
         this.setup();
     }
 
@@ -95,7 +71,12 @@ window.View = (function() {
 
                     loading : false,
 
-                    examples : EXAMPLES
+                    properties : self.properties,
+
+                    examples : EXAMPLES.map(function(e) {
+                        e.data = e.data.map(parseWhere);
+                        return e;
+                    })
                 },
 
                 methods : {
