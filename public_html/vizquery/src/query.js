@@ -1,5 +1,6 @@
 import { SPARQL_ENDPOINT } from "./conf";
 import template from "./query-template";
+import _ from "underscore";
 
 export default class Query {
     build(q) {
@@ -28,7 +29,7 @@ export default class Query {
     }
 
     fetch(query, callback) {
-        var url = QUERY_ENDPOINT.replace('%s', encodeURIComponent(query));
+        var url = SPARQL_ENDPOINT.replace('%s', encodeURIComponent(query));
 
         fetch(url).then(function(res) {
             return res.json();

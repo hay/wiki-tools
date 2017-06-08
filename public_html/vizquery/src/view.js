@@ -2,6 +2,7 @@ import { $, clone } from "./util";
 import { DEFAULT_RESULT_LIMIT } from "./conf";
 import EXAMPLES from "./examples";
 import Query from "./query";
+import typeahead from "./typeahead";
 import Vue from "vue";
 
 function parseWhere(str) {
@@ -41,6 +42,8 @@ class View {
 
         this.view = new Vue({
             el : this.selector,
+
+            components : { typeahead },
 
             data : {
                 state : 'search',
