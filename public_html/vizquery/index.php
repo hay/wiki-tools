@@ -4,9 +4,9 @@
     $hay = new Hay("vizquery", [
         "styles" => [ 'style.css' ],
         "scripts" => [
-            '../vendor/vue/dist/vue.js',
-            '../vendor/handlebars/handlebars.min.js',
-            '../vendor/underscore/underscore-min.js',
+            // '../vendor/vue/dist/vue.js',
+            // '../vendor/handlebars/handlebars.min.js',
+            // '../vendor/underscore/underscore-min.js',
             'dist.js'
         ]
     ]);
