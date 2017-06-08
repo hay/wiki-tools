@@ -52,7 +52,10 @@
 
                 <p>that contains</p>
 
-                <input type="text" v-model="rule.value">
+                <typeahead
+                    type="item"
+                    v-bind:minlength="2"
+                    v-bind:value="rule.value"></typeahead>
 
                 <button class="btn btn-default" v-on:click="removeRule(rule)">
                     <span class="glyphicon glyphicon-minus"></span>
