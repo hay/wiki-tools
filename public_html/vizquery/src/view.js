@@ -57,11 +57,7 @@ class View {
 
                 query : null,
 
-                rules : [
-                    {
-                        has : 'where'
-                    }
-                ],
+                rules : [ createEmptyRule() ],
 
                 error : false,
 
@@ -112,7 +108,7 @@ class View {
                 },
 
                 setExample : function(example) {
-                    this.rules = example.data;
+                    this.rules = clone(example.data);
                 }
             }
         });

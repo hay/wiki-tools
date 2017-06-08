@@ -6,18 +6,19 @@ export default Vue.component('typeahead', {
 
     data : function() {
         return {
-            suggestions : [],
-            input : this.value
+            suggestions : []
         }
     },
 
     methods : {
-        keydown : function() {
-            if (this.input.length < this.minlength) {
+        update : function(value) {
+            this.$emit('input', value);
+
+            if (value.length < this.minlength) {
                 return;
             }
 
-            search(this.type, this.input).then(function(data) {
+            search(this.type, value).then(function(data) {
                 this.suggestions = data.search.map(function(d) {
                     return {
                         id : d.id,
@@ -28,8 +29,8 @@ export default Vue.component('typeahead', {
         },
 
         setSuggestion : function(suggestion) {
-            this.input = suggestion.id;
             this.suggestions = [];
+            this.$emit('input', suggestion.id);
         }
     },
 

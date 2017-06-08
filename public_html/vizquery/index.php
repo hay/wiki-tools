@@ -39,14 +39,14 @@
                 <typeahead
                     type="property"
                     v-bind:minlength="2"
-                    v-bind:value="rule.property"></typeahead>
+                    v-model="rule.property"></typeahead>
 
                 <p>that contains</p>
 
                 <typeahead
                     type="item"
                     v-bind:minlength="2"
-                    v-bind:value="rule.value"></typeahead>
+                    v-model="rule.value"></typeahead>
 
                 <button class="btn btn-default" v-on:click="removeRule(rule)">
                     <span class="glyphicon glyphicon-minus"></span>
@@ -83,7 +83,11 @@
             Loading...
         </div>
 
-        <template v-if="results">
+        <div class="alert alert-info" v-show="results.length == 0 && !loading">
+            No results
+        </div>
+
+        <div v-show="results.length">
             <h3 v-show="results">Results</h3>
 
             <table v-show="results" class="results--table">
@@ -119,7 +123,7 @@
                 <summary>Show query</summary>
                 <pre>{{query}}</pre>
             </details>
-        </template>
+        </div>
 
         <h3>Example queries</h3>
 
@@ -133,7 +137,9 @@
     <script type="text/html" id="tmpl-typeahead">
         <div class="typeahead">
             <!-- <datalist> is still not supported on Safari :( -->
-            <input type="text" v-model="input" v-on:keyup="keydown">
+            <input type="text"
+                   v-bind:value="value"
+                   v-on:input="update($event.target.value)">
 
             <ul class="inputbox__suggestions" v-show="suggestions.length">
                 <li v-for="suggestion in suggestions"
