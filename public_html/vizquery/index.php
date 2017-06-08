@@ -67,7 +67,7 @@
             </section>
 
             <section>
-                <label for="limit">Maximum number of items to get</label>
+                <label for="limit">Maximum results (0 is no limit)</label>
                 <input type="number" id="limit" v-model="limit">
             </section>
 
@@ -87,35 +87,32 @@
             No results
         </div>
 
-        <div v-show="results.length">
-            <h3 v-show="results">Results</h3>
+        <div class="results" v-show="results.length">
+            <h3 v-show="results">
+                Results <small>{{results.length}}</small>
 
-            <table v-show="results" class="results--table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Label</th>
-                        <th>Description</th>
-                        <th>Image</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="row in results">
-                        <td>
-                            <a v-if="row.item" v-bind:href="row.item.value" target="blank">{{row.id}}</a>
-                        </td>
-                        <td>
-                            <template v-if="row.itemLabel">{{row.itemLabel.value}}</template>
-                        </td>
-                        <td>
-                            <template v-if="row.itemDescription">{{row.itemDescription.value}}</template>
-                        </td>
-                        <td>
-                            <img v-if="row.thumb" v-bind:src="row.thumb" />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                <div class="btn-group pull-right" role="group">
+                    <button type="button"
+                            class="btn btn-default"
+                            v-bind:class="{ active : display === 'table' }"
+                            v-on:click="setDisplay('table')">
+                        <span class="glyphicon glyphicon-list"></span>
+                        Table
+                    </button>
+
+                    <button type="button"
+                            class="btn btn-default"
+                            v-bind:class="{ active : display === 'grid' }"
+                            v-on:click="setDisplay('grid')">
+                        <span class="glyphicon glyphicon-th"></span>
+                        Grid
+                    </button>
+                </div>
+            </h3>
+
+            <display-table v-if="display === 'table'" v-bind:data="results"></display-table>
+
+            <display-grid v-if="display === 'grid'" v-bind:data="results"></display-grid>
 
             <h3>SPARQL Query</h3>
 
@@ -133,6 +130,47 @@
             </li>
         </ul>
     </div>
+
+    <script type="text/html" id="tmpl-display-grid">
+        <ul class="results--grid">
+            <li v-for="item in data" class="thumbnail">
+                <img v-bind:src="item.thumb" v-if="item.thumb" />
+                <h3 v-if="item.itemLabel">{{item.itemLabel.value}}</h3>
+                <p v-if="item.itemDescription">{{item.itemDescription.value}}</p>
+                <small><a v-if="item.item" v-bind:href="item.item.value" target="blank">{{item.id}}</a></small>
+            </li>
+        </ul>
+    </script>
+
+    <script type="text/html" id="tmpl-display-table">
+        <table class="results--table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Label</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr v-for="row in data">
+                    <td>
+                        <a v-if="row.item" v-bind:href="row.item.value" target="blank">{{row.id}}</a>
+                    </td>
+                    <td>
+                        <template v-if="row.itemLabel">{{row.itemLabel.value}}</template>
+                    </td>
+                    <td>
+                        <template v-if="row.itemDescription">{{row.itemDescription.value}}</template>
+                    </td>
+                    <td>
+                        <img v-if="row.thumb" v-bind:src="row.thumb" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </script>
 
     <script type="text/html" id="tmpl-typeahead">
         <div class="typeahead">

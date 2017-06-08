@@ -3,6 +3,8 @@ import { DEFAULT_RESULT_LIMIT } from "./conf";
 import EXAMPLES from "./examples";
 import Query from "./query";
 import typeahead from "./typeahead";
+import displayTable from "./display-table";
+import displayGrid from "./display-grid";
 import Vue from "vue";
 
 function parseWhere(str) {
@@ -43,12 +45,16 @@ class View {
         this.view = new Vue({
             el : this.selector,
 
-            components : { typeahead },
+            components : {
+                typeahead : typeahead,
+                'display-table' : displayTable,
+                'display-grid' : displayGrid
+            },
 
             data : {
                 state : 'search',
 
-                results : false,
+                results : [],
 
                 hasOptions : [
                     { value : 'where', label : 'have' },
@@ -56,6 +62,8 @@ class View {
                 ],
 
                 query : null,
+
+                display : 'table',
 
                 rules : [ createEmptyRule() ],
 
@@ -91,6 +99,8 @@ class View {
                         });
                     }
 
+                    this.display = this.withimages ? 'grid' : 'table';
+
                     rules.limit = this.limit;
 
                     this.query = self.query.build(rules);
@@ -105,6 +115,10 @@ class View {
                     this.rules = this.rules.filter(function(r) {
                         return r !== rule;
                     });
+                },
+
+                setDisplay : function(type) {
+                    this.display = type;
                 },
 
                 setExample : function(example) {

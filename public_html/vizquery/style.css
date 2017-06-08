@@ -17,6 +17,17 @@
     margin-right: 10px;
 }
 
+.results--grid {
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.results--grid li {
+    width: calc(25% - 10px);
+    margin: 5px;
+}
+
 .results--table {
     width: 100%;
 }

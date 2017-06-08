@@ -21,6 +21,11 @@ function minus(minus) {
     }
 }
 
+// '0' equals no limit
+function limit(limit) {
+    return parseInt(limit) === 0 ? '' : `LIMIT ${limit}`
+}
+
 export default function query(view) {
     return `
 ${PREFIXES}
@@ -29,5 +34,5 @@ SELECT ?item ?itemLabel ?itemDescription ?image WHERE {
     ${claims(view.where)}
     ${minus(view.minus)}
     SERVICE wikibase:label { bd:serviceParam wikibase:language "en" }
-} LIMIT ${view.limit}`;
+} ${limit(view.limit)}`;
 };
