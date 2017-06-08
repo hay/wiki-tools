@@ -1,18 +1,17 @@
 {
-    "sum" : {
-        "title" : "Sum of all Knowledge",
-        "description" : "A project to visualize the knowledge getting added to Wikidata, Wikipedia and Wikimedia Commons.",
-        "url" : "http://sum.bykr.org"
-    },
-
     "directory" : {
         "title" : "Tools Directory",
-        "description" : "A way to easily discover Wikimedia-related tools."
+        "description" : "Discover Wikimedia-related tools"
     },
 
     "vizquery" : {
         "title" : "VizQuery",
-        "description" : "A visual way to query Wikidata without having to use SPARQL"
+        "description" : "Query Wikidata visually without using SPARQL"
+    },
+
+    "propbrowse" : {
+        "title" : "Wikidata Propbrowse",
+        "description" : "Browse and view all properties on Wikidata"
     },
 
     "exturl" : {
@@ -20,9 +19,10 @@
         "description" : "A better <a href=\"https://meta.wikimedia.org/wiki/Help:Linksearch\">External links search</a>. Collates all the links so you can view which Wikipedia pages have the most external links to a pattern."
     },
 
-    "langviews"  : {
-        "title" : "Multilingual page views",
-        "description" : "Page views for an article in all available languages using the data from <a href=\"http://stats.grok.se\">stats.grok.se</a>. This shows you the last 30 days."
+    "sum" : {
+        "title" : "Sum of all Knowledge",
+        "description" : "A project to visualize the knowledge getting added to Wikidata, Wikipedia and Wikimedia Commons.",
+        "url" : "http://sum.bykr.org"
     },
 
     "wdtranslate" : {
@@ -30,9 +30,9 @@
         "description" : "Use the power of Wikidata to translate a term between two languages."
     },
 
-    "propbrowse" : {
-        "title" : "Wikidata Propbrowse",
-        "description" : "A quick way to browse and view all properties on Wikidata"
+    "langviews"  : {
+        "title" : "Multilingual page views",
+        "description" : "Page views for an article in all available languages using the data from <a href=\"http://stats.grok.se\">stats.grok.se</a>. This shows you the last 30 days."
     },
 
     "wdskim" : {
