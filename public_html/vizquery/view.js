@@ -71,8 +71,6 @@ window.View = (function() {
 
                     loading : false,
 
-                    properties : self.properties,
-
                     examples : EXAMPLES.map(function(e) {
                         e.data = e.data.map(parseWhere);
                         return e;

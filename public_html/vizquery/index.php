@@ -9,6 +9,7 @@
             '../vendor/underscore/underscore-min.js',
             'typeahead.js',
             'examples.js',
+            'wdapi.js',
             'properties.js',
             'query.js',
             'view.js',
@@ -45,7 +46,7 @@
                 <p>a property</p>
 
                 <typeahead
-                    v-bind:source="properties"
+                    type="property"
                     v-bind:minlength="2"
                     v-bind:value="rule.property"></typeahead>
 

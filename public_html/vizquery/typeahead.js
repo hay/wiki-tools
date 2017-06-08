@@ -14,8 +14,13 @@ Vue.component('typeahead', {
                 return;
             }
 
-            this.source.query(this.input).then(function(data) {
-                this.suggestions = data;
+            wdapi.search(this.type, this.input).then(function(data) {
+                this.suggestions = data.search.map(function(d) {
+                    return {
+                        id : d.id,
+                        label : d.label
+                    };
+                });
             }.bind(this));
         },
 
@@ -27,7 +32,7 @@ Vue.component('typeahead', {
 
     props : {
         value : String,
-        source : Object,
-        minlength : Number
+        minlength : Number,
+        type : String
     }
 });
