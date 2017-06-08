@@ -78,7 +78,39 @@
             </section>
         </div>
 
-        <pre>{{query}}</pre>
+        <div class="alert alert-info" v-show="loading">
+            Loading...
+        </div>
+
+        <template v-if="results">
+            <h3 v-show="results">Results</h3>
+
+            <table v-show="results" class="results--table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Label</th>
+                        <th>Description</th>
+                        <th>Image</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="row in results">
+                        <td><a v-bind:href="row.item.value" target="blank">{{row.id}}</a></td>
+                        <td>{{row.itemLabel.value}}</td>
+                        <td>{{row.itemDescription.value}}</td>
+                        <td><img v-bind:src="row.thumb" /></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>SPARL Query</h3>
+
+            <details>
+                <summary>Show query</summary>
+                <pre>{{query}}</pre>
+            </details>
+        </template>
 
         <h3>Example queries</h3>
 

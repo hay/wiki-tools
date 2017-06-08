@@ -9,7 +9,7 @@ window.View = (function() {
 
     function View(selector) {
         this.selector = $(selector);
-        this.queryBuilder = new QueryBuilder($("#sparl-query").innerHTML);
+        this.query = new Query($("#sparl-query").innerHTML);
         this.setup();
     }
 
@@ -26,6 +26,18 @@ window.View = (function() {
     }
 
     View.prototype = {
+        parseResult : function(result) {
+            if (result.image) {
+                result.thumb = result.image.value + '?width=300';
+            }
+
+            if (result.item) {
+                result.id = result.item.value.replace('http://www.wikidata.org/entity/', '');
+            }
+
+            return result;
+        },
+
         setup : function() {
             var self = this;
 
@@ -54,7 +66,9 @@ window.View = (function() {
 
                     withimages : true,
 
-                    limit : DEFAULT_LIMIT
+                    limit : DEFAULT_LIMIT,
+
+                    loading : false
                 },
 
                 methods : {
@@ -63,6 +77,10 @@ window.View = (function() {
                     },
 
                     doQuery : function() {
+                        this.results = [];
+
+                        this.loading = true;
+
                         var rules = clone(this.rules);
 
                         if (this.withimages) {
@@ -73,8 +91,12 @@ window.View = (function() {
 
                         rules.limit = this.limit;
 
-                        var query = self.queryBuilder.stringify(rules);
-                        console.log(query);
+                        this.query = self.query.build(rules);
+
+                        self.query.fetch(this.query, function(results) {
+                            this.results = results.map(self.parseResult);
+                            this.loading = false;
+                        }.bind(this));
                     },
 
                     removeRule : function(rule) {
