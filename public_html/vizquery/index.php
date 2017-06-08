@@ -4,16 +4,10 @@
     $hay = new Hay("vizquery", [
         "styles" => [ 'style.css' ],
         "scripts" => [
-            '../vendor/vue/dist/vue.js',
-            '../vendor/handlebars/handlebars.min.js',
-            '../vendor/underscore/underscore-min.js',
-            'typeahead.js',
-            'examples.js',
-            'wdapi.js',
-            'properties.js',
-            'query.js',
-            'view.js',
-            'app.js'
+            // '../vendor/vue/dist/vue.js',
+            // '../vendor/handlebars/handlebars.min.js',
+            // '../vendor/underscore/underscore-min.js',
+            'dist.js'
         ]
     ]);
 
@@ -151,33 +145,6 @@
                 </li>
             </ul>
         </div>
-    </script>
-
-    <script type="text/html" id="sparql-query">
-        PREFIX wd: <http://www.wikidata.org/entity/>
-        PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-        PREFIX wikibase: <http://wikiba.se/ontology#>
-        PREFIX p: <http://www.wikidata.org/prop/>
-        PREFIX ps: <http://www.wikidata.org/prop/statement/>
-        PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
-        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-        PREFIX bd: <http://www.bigdata.com/rdf#>
-
-        SELECT ?item ?itemLabel ?itemDescription ?image WHERE {
-            {{#each where}}
-                ?item wdt:{{property}} {{value}} .
-            {{/each}}
-
-            {{#if minus}}
-            MINUS {
-                {{#each minus}}
-                    ?item wdt:{{property}} wd:{{value}} .
-                {{/each}}
-            }
-            {{/if}}
-
-          SERVICE wikibase:label { bd:serviceParam wikibase:language "en" }
-        } LIMIT {{limit}}
     </script>
 <?php
     $hay->footer();

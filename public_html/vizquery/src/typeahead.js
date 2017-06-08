@@ -1,4 +1,6 @@
-Vue.component('typeahead', {
+import Vue from "vue";
+
+export default Vue.component('typeahead', {
     template : "#tmpl-typeahead",
 
     data : function() {
