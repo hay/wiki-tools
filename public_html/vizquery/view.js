@@ -2,9 +2,34 @@ window.View = (function() {
     var $ = document.querySelector.bind(document);
     var DEFAULT_LIMIT = 50;
 
-    var exampleQuery = [
-        { has : 'where', property : 'P31', value : 'Q2039348' },
-        { has : 'where', property : 'P131', value : 'Q775' }
+    function parseWhere(str) {
+        var parts = str.split(" ");
+        return { has : 'where', property : parts[0], value : parts[1] };
+    }
+
+    var EXAMPLES = [
+        {
+            "description" : "Painters born in Leiden",
+            "data" : [
+                "P31 Q5",
+                "P106 Q1028181",
+                "P19 Q43631"
+            ].map(parseWhere)
+        },
+        {
+            "description" : "Municipalities in the province of Gelderland, the Netherlands",
+            "data" : [
+                "P31 Q2039348",
+                "P131 Q775"
+            ].map(parseWhere)
+        },
+        {
+            "description" : "Paintings by Theo van Doesburg",
+            "data" : [
+                "P31 Q3305213",
+                "P170 Q160422"
+            ].map(parseWhere)
+        }
     ];
 
     function View(selector) {
@@ -68,7 +93,9 @@ window.View = (function() {
 
                     limit : DEFAULT_LIMIT,
 
-                    loading : false
+                    loading : false,
+
+                    examples : EXAMPLES
                 },
 
                 methods : {
@@ -105,8 +132,8 @@ window.View = (function() {
                         });
                     },
 
-                    setExample : function() {
-                        this.rules = exampleQuery;
+                    setExample : function(example) {
+                        this.rules = example.data;
                     }
                 }
             });

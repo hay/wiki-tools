@@ -96,15 +96,23 @@
                 </thead>
                 <tbody>
                     <tr v-for="row in results">
-                        <td><a v-bind:href="row.item.value" target="blank">{{row.id}}</a></td>
-                        <td>{{row.itemLabel.value}}</td>
-                        <td>{{row.itemDescription.value}}</td>
-                        <td><img v-bind:src="row.thumb" /></td>
+                        <td>
+                            <a v-if="row.item" v-bind:href="row.item.value" target="blank">{{row.id}}</a>
+                        </td>
+                        <td>
+                            <template v-if="row.itemLabel">{{row.itemLabel.value}}</template>
+                        </td>
+                        <td>
+                            <template v-if="row.itemDescription">{{row.itemDescription.value}}</template>
+                        </td>
+                        <td>
+                            <img v-if="row.thumb" v-bind:src="row.thumb" />
+                        </td>
                     </tr>
                 </tbody>
             </table>
 
-            <h3>SPARL Query</h3>
+            <h3>SPARQL Query</h3>
 
             <details>
                 <summary>Show query</summary>
@@ -115,7 +123,9 @@
         <h3>Example queries</h3>
 
         <ul>
-            <li><a href="#" v-on:click="setExample">Municipalities in Gelderland</a></li>
+            <li v-for="e in examples">
+                <a href="#" v-on:click="setExample(e)">{{e.description}}</a>
+            </li>
         </ul>
     </div>
 
