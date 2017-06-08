@@ -86,7 +86,7 @@ class View {
 
             computed : {
                 csv : function() {
-                    var results = this.results.map((d) => {
+                    var results = clone(this.results).map((d) => {
                         // REALLY UGLY CODE
                         ['item', 'itemDescription', 'itemLabel'].forEach((key) => {
                             d[key] = d[key] && d[key].value ? d[key].value : null;
