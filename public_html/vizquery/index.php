@@ -13,7 +13,7 @@
     <div id="app" v-cloak>
         <h1>Wikidata <?php $hay->title(); ?></h1>
 
-        <p class="lead" v-show="!results">
+        <p class="lead" v-show="!hadResults">
             <?php $hay->description(); ?>
         </p>
 
@@ -178,9 +178,11 @@
             <!-- <datalist> is still not supported on Safari :( -->
             <input type="text"
                    v-bind:value="value"
+                   v-bind:style="style"
+                   v-bind:placeholder="type"
                    v-on:input="update($event.target.value)">
 
-            <ul class="inputbox__suggestions" v-show="suggestions.length">
+            <ul class="typeahead__suggestions" v-show="suggestions.length">
                 <li v-for="suggestion in suggestions"
                     v-on:click="setSuggestion(suggestion)">
                     {{suggestion.id}} - {{suggestion.label}}<br>
