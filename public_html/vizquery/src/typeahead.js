@@ -2,12 +2,19 @@ import Vue from "vue";
 import { search } from "./api";
 import { MIN_INPUT_LENGTH } from "./conf";
 
+function parseSearch(item) {
+    item.formLabel = `${item.label} - (${item.id})`;
+    return item;
+}
+
 export default Vue.component('typeahead', {
     template : "#tmpl-typeahead",
 
     data : function() {
         return {
             suggestions : [],
+            loading : false,
+            item : null
         }
     },
 
@@ -27,12 +34,23 @@ export default Vue.component('typeahead', {
                 return;
             }
 
-            search(this.type, value).then((d) => this.suggestions = d.search);
+            this.loading = true;
+            search(this.type, value).then((d) => {
+                this.loading = false;
+                this.suggestions = d.search.map(parseSearch);
+            });
         },
 
         setSuggestion : function(suggestion) {
             this.suggestions = [];
-            this.$emit('input', suggestion.id);
+            this.$emit('input', suggestion.formLabel);
+            this.item = suggestion;
+        }
+    },
+
+    watch : {
+        item : function(item) {
+            this.$emit('item', item);
         }
     },
 

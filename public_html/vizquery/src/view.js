@@ -16,10 +16,12 @@ function parseWhere(str) {
 function createEmptyRule() {
     return {
         has : 'where',
-        property : null,
-        value : null
+        property : {},
+        propertyLabel : null,
+        value : {},
+        valueLabel : null
     };
-};
+}
 
 class View {
     constructor(selector) {

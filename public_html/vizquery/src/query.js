@@ -14,16 +14,22 @@ export default class Query {
 
         if (hasimage) {
             view.where.push({
-                property : 'P18',
-                value : '?image'
+                property : {
+                    id : 'P18'
+                },
+                value : {
+                    value : '?image'
+                }
             });
         }
 
-        view.where = view.where.map(function(v) {
-            var val = v.value.trim();
-            v.value = val.charAt(0) === "Q" ? "wd:" + val : val;
-            return v;
-        })
+        view.where = view.where.map((claim) => {
+            if (!claim.value.value) {
+                claim.value.value = `wd:${claim.value.id}`;
+            }
+
+            return claim;
+        });
 
         return template(view);
     }

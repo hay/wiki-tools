@@ -37,14 +37,16 @@
                 <typeahead
                     type="property"
                     v-bind:minlength="2"
-                    v-model="rule.property"></typeahead>
+                    v-on:item="item => { rule.property = item }"
+                    v-model="rule.propertyLabel"></typeahead>
 
                 <p>that contains</p>
 
                 <typeahead
                     type="item"
                     v-bind:minlength="2"
-                    v-model="rule.value"></typeahead>
+                    v-on:item="item => { rule.value = item }"
+                    v-model="rule.valueLabel"></typeahead>
 
                 <button class="btn btn-default" v-on:click="removeRule(rule)">
                     <span class="glyphicon glyphicon-minus"></span>
@@ -181,6 +183,10 @@
                    v-bind:style="style"
                    v-bind:placeholder="type"
                    v-on:input="update($event.target.value)">
+
+            <ul class="typeahead__suggestions" v-show="loading">
+                <li>Loading...</li>
+            </ul>
 
             <ul class="typeahead__suggestions" v-show="suggestions.length">
                 <li v-for="suggestion in suggestions"

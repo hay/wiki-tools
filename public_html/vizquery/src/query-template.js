@@ -10,7 +10,7 @@ PREFIX bd: <http://www.bigdata.com/rdf#>
 `;
 
 function claims(claims) {
-    return claims.map(d => `?item wdt:${d.property} ${d.value} .`).join('\n');
+    return claims.map(d => `?item wdt:${d.property.id} ${d.value.value} .`).join('\n');
 }
 
 function minus(minus) {
