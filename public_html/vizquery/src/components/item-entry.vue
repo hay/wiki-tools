@@ -17,6 +17,7 @@
         <input class="item-entry__search"
                type="search"
                v-show="searching"
+               v-on:keyup.esc="searching = false"
                v-bind:placeholder="type"
                v-model="search" />
 
