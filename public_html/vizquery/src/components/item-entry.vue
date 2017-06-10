@@ -10,7 +10,7 @@
             </template>
 
             <template v-if="!value.id">
-                click to set property
+                click to set {{type}}
             </template>
         </p>
 
@@ -35,20 +35,9 @@
 </template>
 
 <script>
-import { search, get } from "../api";
+import { search, searchAndGet } from "../api";
 import { MIN_INPUT_LENGTH, LANGUAGE } from "../conf";
 import Vue from "vue";
-
-function parseItem(item) {
-    item.label = item.labels[LANGUAGE].value;
-    item.description = item.descriptions[LANGUAGE].value;
-    return item;
-}
-
-function parseSearch(item) {
-    item.formLabel = `${item.label} - (${item.id})`;
-    return item;
-}
 
 export default {
     data : function() {
@@ -60,17 +49,13 @@ export default {
         };
     },
 
-    /*
     created : function() {
-        if (this.fromitemid) {
-            get(this.fromitemid).then((item) => {
-                this.item = parseItem(item.entities[this.fromitemid]);
-                this.item = parseSearch(this.item);
-                this.$emit('input', this.item.formLabel);
-            });
+        if (this.value.id) {
+            searchAndGet(this.type, this.value.id).then((item) => {
+                this.$emit('input', item);
+            })
         }
     },
-    */
 
     methods : {
         goSearch : function() {
@@ -91,7 +76,7 @@ export default {
 
             search(this.type, q).then((d) => {
                 this.loading = false;
-                this.suggestions = d.search.map(parseSearch);
+                this.suggestions = d.search;
             });
         },
 

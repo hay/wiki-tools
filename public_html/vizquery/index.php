@@ -37,14 +37,14 @@
                 <item-entry
                     type="property"
                     v-bind:minlength="2"
-                    v-model="rule.property"></typeahead>
+                    v-model="rule.property"></item-entry>
 
                 <p>that contains</p>
 
                 <item-entry
                     type="item"
                     v-bind:minlength="2"
-                    v-model="rule.value"></typeahead>
+                    v-model="rule.value"></item-entry>
 
                 <button class="btn btn-default" v-on:click="removeRule(rule)">
                     <span class="glyphicon glyphicon-minus"></span>

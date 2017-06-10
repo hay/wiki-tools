@@ -13,6 +13,22 @@ export function search(type, q) {
     `);
 };
 
+export function searchAndGet(type, q) {
+    return search(type, q).then((d) => {
+        d = d.search;
+
+        return new Promise((resolve, reject) => {
+            const item = d.filter((i) => i.id === q);
+
+            if (item.length) {
+                resolve(item[0]);
+            } else {
+                reject();
+            }
+        });
+    });
+}
+
 export function get(id) {
     return getJson(`
         https://www.wikidata.org/w/api.php
