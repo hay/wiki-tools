@@ -36,7 +36,7 @@ export default Vue.component('typeahead', {
 
     computed : {
         style : function() {
-            var len = this.value ? (this.value.length + 1) : MIN_INPUT_LENGTH;
+            var len = this.value ? this.value.length : MIN_INPUT_LENGTH;
             len = len > MIN_INPUT_LENGTH ? len : MIN_INPUT_LENGTH;
             return { width : `${len + 1}ch` };
         }

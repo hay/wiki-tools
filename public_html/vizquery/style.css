@@ -47,6 +47,10 @@
 
 .typeahead input {
     padding: 0 5px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 15px;
+    font-weight: bold;
+    color: navy;
 }
 
 .typeahead__suggestions {
