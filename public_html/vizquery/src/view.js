@@ -10,7 +10,16 @@ import Papaparse from "papaparse";
 
 function parseWhere(str) {
     var parts = str.split(" ");
-    return { has : 'where', property : parts[0], value : parts[1] };
+
+    return {
+        has : 'where',
+        property : {
+            'id' : parts[0]
+        },
+        value : {
+            'id' : parts[1]
+        }
+    };
 }
 
 function createEmptyRule() {

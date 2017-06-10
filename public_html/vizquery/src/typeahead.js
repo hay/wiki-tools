@@ -1,6 +1,12 @@
 import Vue from "vue";
-import { search } from "./api";
-import { MIN_INPUT_LENGTH } from "./conf";
+import { search, get } from "./api";
+import { MIN_INPUT_LENGTH, LANGUAGE } from "./conf";
+
+function parseItem(item) {
+    item.label = item.labels[LANGUAGE].value;
+    item.description = item.descriptions[LANGUAGE].value;
+    return item;
+}
 
 function parseSearch(item) {
     item.formLabel = `${item.label} - (${item.id})`;
@@ -15,6 +21,16 @@ export default Vue.component('typeahead', {
             suggestions : [],
             loading : false,
             item : null
+        };
+    },
+
+    created : function() {
+        if (this.fromitemid) {
+            get(this.fromitemid).then((item) => {
+                this.item = parseItem(item.entities[this.fromitemid]);
+                this.item = parseSearch(this.item);
+                this.$emit('input', this.item.formLabel);
+            });
         }
     },
 
@@ -57,6 +73,7 @@ export default Vue.component('typeahead', {
     props : {
         value : String,
         minlength : Number,
-        type : String
+        type : String,
+        fromitemid : String
     }
 });

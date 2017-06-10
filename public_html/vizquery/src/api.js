@@ -1,17 +1,26 @@
-import { cleanupUrl } from "./util";
+import { getJson } from "./util";
+import { LANGUAGE } from "./conf";
 
 export function search(type, q) {
-    var url = `
+    return getJson(`
         https://www.wikidata.org/w/api.php
             ?action=wbsearchentities
             &origin=*
             &format=json
-            &language=en
+            &language=${LANGUAGE}
             &type=${type}
             &search=${encodeURIComponent(q)}
-    `;
-
-    url = cleanupUrl(url);
-
-    return fetch(url).then((res) => res.json());
+    `);
 };
+
+export function get(id) {
+    return getJson(`
+        https://www.wikidata.org/w/api.php
+            ?action=wbgetentities
+            &ids=${id}
+            &languages=${LANGUAGE}
+            &props=info|aliases|labels|descriptions|datatype
+            &origin=*
+            &format=json
+    `);
+}

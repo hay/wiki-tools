@@ -9,3 +9,8 @@ export function clone(obj) {
 export function cleanupUrl(url) {
     return url.trim().replace(/ /g, '').replace(/\n/g, '');
 }
+
+export function getJson(url) {
+    url = cleanupUrl(url);
+    return fetch(url).then((res) => res.json());
+}

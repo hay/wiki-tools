@@ -37,6 +37,7 @@
                 <typeahead
                     type="property"
                     v-bind:minlength="2"
+                    v-bind:fromitemid="rule.property.id"
                     v-on:item="item => { rule.property = item }"
                     v-model="rule.propertyLabel"></typeahead>
 
@@ -45,6 +46,7 @@
                 <typeahead
                     type="item"
                     v-bind:minlength="2"
+                    v-bind:fromitemid="rule.value.id"
                     v-on:item="item => { rule.value = item }"
                     v-model="rule.valueLabel"></typeahead>
 
