@@ -1,10 +1,11 @@
 export default [
     {
-        "description" : "Painters born in Leiden, the Netherlands",
+        "description" : "Paintings of women by Vincent van Gogh in the Van Gogh museum",
         "data" : [
-            "P31 Q5",
-            "P106 Q1028181",
-            "P19 Q43631"
+            "P31 Q3305213",
+            "P170 Q5582",
+            "P921 Q467",
+            "P276 Q224124"
         ]
     },
     {
@@ -27,13 +28,6 @@ export default [
             "P31 Q5",
             "P1303 Q8338",
             "P21 Q6581072"
-        ]
-    },
-    {
-        "description" : "Paintings by Theo van Doesburg",
-        "data" : [
-            "P31 Q3305213",
-            "P170 Q160422"
         ]
     }
 ];

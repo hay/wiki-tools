@@ -119,7 +119,9 @@
             <display-table v-if="display === 'table'" v-bind:data="results"></display-table>
 
             <display-grid v-if="display === 'grid'" v-bind:data="results"></display-grid>
+        </div>
 
+        <div v-show="hadResults">
             <h3>SPARQL Query</h3>
 
             <details>

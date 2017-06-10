@@ -51,6 +51,7 @@ export default Vue.component('typeahead', {
             }
 
             this.loading = true;
+
             search(this.type, value).then((d) => {
                 this.loading = false;
                 this.suggestions = d.search.map(parseSearch);

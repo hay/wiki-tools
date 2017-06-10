@@ -156,7 +156,10 @@ class View {
                 },
 
                 setExample : function(example) {
-                    this.rules = clone(example.data);
+                    this.rules = [];
+                    Vue.nextTick(() => {
+                        this.rules = clone(example.data);
+                    });
                 }
             }
         });
