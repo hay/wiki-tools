@@ -34,21 +34,17 @@
 
                 <p>a property</p>
 
-                <typeahead
+                <item-entry
                     type="property"
                     v-bind:minlength="2"
-                    v-bind:fromitemid="rule.property.id"
-                    v-on:item="item => { rule.property = item }"
-                    v-model="rule.propertyLabel"></typeahead>
+                    v-model="rule.property"></typeahead>
 
                 <p>that contains</p>
 
-                <typeahead
+                <item-entry
                     type="item"
                     v-bind:minlength="2"
-                    v-bind:fromitemid="rule.value.id"
-                    v-on:item="item => { rule.value = item }"
-                    v-model="rule.valueLabel"></typeahead>
+                    v-model="rule.value"></typeahead>
 
                 <button class="btn btn-default" v-on:click="removeRule(rule)">
                     <span class="glyphicon glyphicon-minus"></span>

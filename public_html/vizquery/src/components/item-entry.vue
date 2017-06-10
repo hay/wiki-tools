@@ -1,17 +1,29 @@
 <template>
-    <div class="typeahead">
-        <!-- <datalist> is still not supported on Safari :( -->
-        <input type="text"
-               v-bind:value="value"
-               v-bind:style="style"
-               v-bind:placeholder="type"
-               v-on:input="update($event.target.value)">
+    <div class="item-entry">
+        <p class="item-entry__label"
+           v-on:click="goSearch"
+           v-show="!searching">
+            <template v-if="value.id">
+                {{value.label}}
+                <sup>{{value.id}}</sup>
+            </template>
 
-        <ul class="typeahead__suggestions" v-show="loading">
+            <template v-if="!value.id">
+                Click to set property
+            </template>
+        </p>
+
+        <input class="item-entry__search"
+               type="search"
+               v-show="searching"
+               v-bind:placeholder="type"
+               v-model="search" />
+
+        <ul class="item-entry__suggestions" v-show="loading">
             <li>Loading...</li>
         </ul>
 
-        <ul class="typeahead__suggestions" v-show="suggestions.length">
+        <ul class="item-entry__suggestions" v-show="suggestions.length">
             <li v-for="suggestion in suggestions"
                 v-on:click="setSuggestion(suggestion)">
                 {{suggestion.id}} - {{suggestion.label}}<br>
@@ -24,6 +36,7 @@
 <script>
 import { search, get } from "../api";
 import { MIN_INPUT_LENGTH, LANGUAGE } from "../conf";
+import Vue from "vue";
 
 function parseItem(item) {
     item.label = item.labels[LANGUAGE].value;
@@ -37,16 +50,16 @@ function parseSearch(item) {
 }
 
 export default {
-    template : "#tmpl-typeahead",
-
     data : function() {
         return {
             suggestions : [],
             loading : false,
-            item : null
+            search : null,
+            searching : false
         };
     },
 
+    /*
     created : function() {
         if (this.fromitemid) {
             get(this.fromitemid).then((item) => {
@@ -56,78 +69,68 @@ export default {
             });
         }
     },
-
-    computed : {
-        style : function() {
-            var len = this.value ? this.value.length : MIN_INPUT_LENGTH;
-            len = len > MIN_INPUT_LENGTH ? len : MIN_INPUT_LENGTH;
-            return { width : `${len + 1}ch` };
-        }
-    },
+    */
 
     methods : {
-        update : function(value) {
-            this.$emit('input', value);
-
-            if (value.length < this.minlength) {
-                return;
-            }
-
-            this.loading = true;
-
-            search(this.type, value).then((d) => {
-                this.loading = false;
-                this.suggestions = d.search.map(parseSearch);
+        goSearch : function() {
+            this.searching = true;
+            Vue.nextTick(() => {
+                this.$el.querySelector('input').focus();
             });
         },
 
         setSuggestion : function(suggestion) {
             this.suggestions = [];
-            this.$emit('input', suggestion.formLabel);
-            this.item = suggestion;
+            this.$emit('input', suggestion);
+            this.searching = false;
         }
     },
 
     watch : {
-        item : function(item) {
-            this.$emit('item', item);
+        search : function(q) {
+            if (q.length < this.minlength) {
+                return;
+            }
+
+            this.loading = true;
+
+            search(this.type, q).then((d) => {
+                this.loading = false;
+                this.suggestions = d.search.map(parseSearch);
+            });
         }
     },
 
     props : {
-        value : String,
-        minlength : Number,
         type : String,
-        fromitemid : String
+        minlength : Number,
+        value : Object
     }
 };
 </script>
 
 <style scoped>
-.typeahead input {
-    padding: 0 5px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 15px;
-    font-weight: bold;
-    color: navy;
+.item-entry__label {
+    cursor: pointer;
+    border-bottom: 1px solid black;
 }
 
-.typeahead__suggestions {
+.item-entry__suggestions {
     border: 1px solid #eee;
     padding: 0;
 }
 
-.typeahead__suggestions li {
+.item-entry__suggestions li {
     padding: 5px 10px;
     list-style: none;
     cursor: pointer;
 }
 
-.typeahead__suggestions li:nth-child(odd) {
+.item-entry__suggestions li:nth-child(odd) {
     background: #eee;
 }
 
-.typeahead__suggestions li:hover {
+.item-entry__suggestions li:hover {
     background: #337ab7;
     color: white;
 }

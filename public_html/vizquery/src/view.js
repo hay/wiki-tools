@@ -7,7 +7,7 @@ import Vue from "vue";
 import Papaparse from "papaparse";
 
 // Components
-import typeahead from "./components/typeahead.vue";
+import itemEntry from "./components/item-entry.vue";
 import displayTable from "./components/display-table.vue";
 import displayGrid from "./components/display-grid.vue";
 
@@ -65,7 +65,7 @@ class View {
             el : this.selector,
 
             components : {
-                typeahead : typeahead,
+                'item-entry' : itemEntry,
                 'display-table' : displayTable,
                 'display-grid' : displayGrid
             },
