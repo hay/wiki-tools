@@ -138,69 +138,6 @@
             </li>
         </ul>
     </div>
-
-    <script type="text/html" id="tmpl-display-grid">
-        <ul class="results--grid">
-            <li v-for="item in data" class="thumbnail">
-                <a v-if="item.thumb" v-bind:href="item.item.value" target="_blank">
-                    <img v-bind:src="item.thumb" v-if="item.thumb" />
-                </a>
-
-                <h3 v-if="item.itemLabel">{{item.itemLabel.value}}</h3>
-                <p v-if="item.itemDescription">{{item.itemDescription.value}}</p>
-                <small><a v-if="item.item" v-bind:href="item.item.value" target="blank">{{item.id}}</a></small>
-            </li>
-        </ul>
-    </script>
-
-    <script type="text/html" id="tmpl-display-table">
-        <table class="results--table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Label</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr v-for="row in data">
-                    <td>
-                        <a v-if="row.item" v-bind:href="row.item.value" target="blank">{{row.id}}</a>
-                    </td>
-                    <td>
-                        <template v-if="row.itemLabel">{{row.itemLabel.value}}</template>
-                    </td>
-                    <td>
-                        <template v-if="row.itemDescription">{{row.itemDescription.value}}</template>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </script>
-
-    <script type="text/html" id="tmpl-typeahead">
-        <div class="typeahead">
-            <!-- <datalist> is still not supported on Safari :( -->
-            <input type="text"
-                   v-bind:value="value"
-                   v-bind:style="style"
-                   v-bind:placeholder="type"
-                   v-on:input="update($event.target.value)">
-
-            <ul class="typeahead__suggestions" v-show="loading">
-                <li>Loading...</li>
-            </ul>
-
-            <ul class="typeahead__suggestions" v-show="suggestions.length">
-                <li v-for="suggestion in suggestions"
-                    v-on:click="setSuggestion(suggestion)">
-                    {{suggestion.id}} - {{suggestion.label}}<br>
-                    <small>{{suggestion.description}}</small>
-                </li>
-            </ul>
-        </div>
-    </script>
 <?php
     $hay->footer();
 ?>

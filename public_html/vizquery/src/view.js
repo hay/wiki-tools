@@ -1,12 +1,19 @@
-import { $, clone } from "./util";
+// Constants
 import { DEFAULT_RESULT_LIMIT } from "./conf";
 import EXAMPLES from "./examples";
-import Query from "./query";
-import typeahead from "./typeahead";
-import displayTable from "./display-table";
-import displayGrid from "./display-grid";
+
+// Libraries
 import Vue from "vue";
 import Papaparse from "papaparse";
+
+// Components
+import typeahead from "./components/typeahead.vue";
+import displayTable from "./components/display-table.vue";
+import displayGrid from "./components/display-grid.vue";
+
+// Custom code
+import { $, clone } from "./util";
+import Query from "./query";
 
 function parseWhere(str) {
     var parts = str.split(" ");

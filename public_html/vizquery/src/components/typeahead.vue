@@ -1,6 +1,29 @@
-import Vue from "vue";
-import { search, get } from "./api";
-import { MIN_INPUT_LENGTH, LANGUAGE } from "./conf";
+<template>
+    <div class="typeahead">
+        <!-- <datalist> is still not supported on Safari :( -->
+        <input type="text"
+               v-bind:value="value"
+               v-bind:style="style"
+               v-bind:placeholder="type"
+               v-on:input="update($event.target.value)">
+
+        <ul class="typeahead__suggestions" v-show="loading">
+            <li>Loading...</li>
+        </ul>
+
+        <ul class="typeahead__suggestions" v-show="suggestions.length">
+            <li v-for="suggestion in suggestions"
+                v-on:click="setSuggestion(suggestion)">
+                {{suggestion.id}} - {{suggestion.label}}<br>
+                <small>{{suggestion.description}}</small>
+            </li>
+        </ul>
+    </div>
+</template>
+
+<script>
+import { search, get } from "../api";
+import { MIN_INPUT_LENGTH, LANGUAGE } from "../conf";
 
 function parseItem(item) {
     item.label = item.labels[LANGUAGE].value;
@@ -13,7 +36,7 @@ function parseSearch(item) {
     return item;
 }
 
-export default Vue.component('typeahead', {
+export default {
     template : "#tmpl-typeahead",
 
     data : function() {
@@ -77,4 +100,35 @@ export default Vue.component('typeahead', {
         type : String,
         fromitemid : String
     }
-});
+};
+</script>
+
+<style scoped>
+.typeahead input {
+    padding: 0 5px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 15px;
+    font-weight: bold;
+    color: navy;
+}
+
+.typeahead__suggestions {
+    border: 1px solid #eee;
+    padding: 0;
+}
+
+.typeahead__suggestions li {
+    padding: 5px 10px;
+    list-style: none;
+    cursor: pointer;
+}
+
+.typeahead__suggestions li:nth-child(odd) {
+    background: #eee;
+}
+
+.typeahead__suggestions li:hover {
+    background: #337ab7;
+    color: white;
+}
+</style>

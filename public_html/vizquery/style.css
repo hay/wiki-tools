@@ -17,25 +17,6 @@
     margin-right: 10px;
 }
 
-.results--grid {
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.results--grid li {
-    width: calc(25% - 10px);
-    margin: 5px;
-}
-
-.results--table {
-    width: 100%;
-}
-
-.results--table tr {
-    border-bottom: 10px solid white; /* bit of a hack */
-}
-
 #app[v-cloak] > * {
     display: none;
 }
@@ -43,32 +24,4 @@
 #app[v-cloak]:before {
     content: "Loading...";
     font-size: 20px;
-}
-
-.typeahead input {
-    padding: 0 5px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 15px;
-    font-weight: bold;
-    color: navy;
-}
-
-.typeahead__suggestions {
-    border: 1px solid #eee;
-    padding: 0;
-}
-
-.typeahead__suggestions li {
-    padding: 5px 10px;
-    list-style: none;
-    cursor: pointer;
-}
-
-.typeahead__suggestions li:nth-child(odd) {
-    background: #eee;
-}
-
-.typeahead__suggestions li:hover {
-    background: #337ab7;
-    color: white;
 }
