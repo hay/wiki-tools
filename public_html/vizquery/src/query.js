@@ -2,6 +2,14 @@ import { SPARQL_ENDPOINT } from "./conf";
 import template from "./query-template";
 import _ from "underscore";
 
+function addClaimValue(claim) {
+    if (!claim.value.value) {
+        claim.value.value = `wd:${claim.value.id}`;
+    }
+
+    return claim;
+}
+
 export default class Query {
     build(q) {
         var view = {
@@ -23,13 +31,8 @@ export default class Query {
             });
         }
 
-        view.where = view.where.map((claim) => {
-            if (!claim.value.value) {
-                claim.value.value = `wd:${claim.value.id}`;
-            }
-
-            return claim;
-        });
+        view.where = view.where.map(addClaimValue);
+        view.minus = view.minus.map(addClaimValue);
 
         return template(view);
     }

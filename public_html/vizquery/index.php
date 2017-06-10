@@ -118,7 +118,12 @@
         </div>
 
         <div v-show="hadResults">
-            <h3>SPARQL Query</h3>
+            <h3>
+                <a v-bind:href="'https://query.wikidata.org/#' + encodeURIComponent(query)"
+                   target="_blank">
+                    SPARQL Query
+                </a>
+            </h3>
 
             <details>
                 <summary>Show query</summary>

@@ -30,9 +30,9 @@ export default function query(view) {
     return `
 ${PREFIXES}
 
-SELECT ?item ?itemLabel ?itemDescription ?image WHERE {
+SELECT DISTINCT ?item ?itemLabel ?itemDescription ?image WHERE {
     ${claims(view.where)}
     ${minus(view.minus)}
     SERVICE wikibase:label { bd:serviceParam wikibase:language "en" }
-} ${limit(view.limit)}`;
+} ${limit(view.limit)}`.trim();
 };
