@@ -1,6 +1,7 @@
 <template>
     <div class="item-entry">
         <p class="item-entry__label"
+           v-bind:has-value="!!value.id"
            v-on:click="goSearch"
            v-show="!searching">
             <template v-if="value.id">
@@ -9,7 +10,7 @@
             </template>
 
             <template v-if="!value.id">
-                Click to set property
+                click to set property
             </template>
         </p>
 
@@ -74,8 +75,23 @@ export default {
     methods : {
         goSearch : function() {
             this.searching = true;
+
             Vue.nextTick(() => {
                 this.$el.querySelector('input').focus();
+                this.setSearch(this.search);
+            });
+        },
+
+        setSearch : function(q) {
+            if (!q || q.length < this.minlength) {
+                return;
+            }
+
+            this.loading = true;
+
+            search(this.type, q).then((d) => {
+                this.loading = false;
+                this.suggestions = d.search.map(parseSearch);
             });
         },
 
@@ -88,16 +104,7 @@ export default {
 
     watch : {
         search : function(q) {
-            if (q.length < this.minlength) {
-                return;
-            }
-
-            this.loading = true;
-
-            search(this.type, q).then((d) => {
-                this.loading = false;
-                this.suggestions = d.search.map(parseSearch);
-            });
+            this.setSearch(q);
         }
     },
 
@@ -112,7 +119,16 @@ export default {
 <style scoped>
 .item-entry__label {
     cursor: pointer;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #337ab7;
+    color: #337ab7;
+}
+
+.item-entry__label[has-value] {
+    color: black;
+}
+
+.item-entry__label sup {
+    color: #666;
 }
 
 .item-entry__suggestions {
