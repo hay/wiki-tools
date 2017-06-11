@@ -25,3 +25,7 @@
     content: "Loading...";
     font-size: 20px;
 }
+
+.text-link {
+    cursor: pointer;
+}

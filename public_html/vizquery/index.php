@@ -135,7 +135,7 @@
 
         <ul>
             <li v-for="e in examples">
-                <a href="#" v-on:click="setExample(e)">{{e.description}}</a>
+                <a v-bind:href="'#' + e.hash">{{e.description}}</a>
             </li>
         </ul>
     </div>

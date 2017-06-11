@@ -98,8 +98,17 @@ class View {
 
                 examples : EXAMPLES.map(function(e) {
                     e.data = e.data.map(parseWhere);
+                    e.hash = encodeURIComponent(JSON.stringify(e.data));
                     return e;
                 })
+            },
+
+            mounted : function() {
+                if (!!window.location.hash) {
+                    this.setExample();
+                }
+
+                window.addEventListener('hashchange', this.setExample.bind(this));
             },
 
             computed : {
@@ -162,10 +171,13 @@ class View {
                     this.display = type;
                 },
 
-                setExample : function(example) {
+                setExample : function() {
+                    var hash = window.location.hash.slice(1);
                     this.rules = [];
+
                     Vue.nextTick(() => {
-                        this.rules = clone(example.data);
+                        this.rules = JSON.parse(decodeURIComponent(hash));
+                        window.scrollTo(0, 0);
                     });
                 }
             }
