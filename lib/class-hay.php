@@ -55,6 +55,10 @@ class Hay {
         echo $this->description;
     }
 
+    public function getUrl() {
+        return ROOT . "/" . $this->toolname;
+    }
+
     public function header() {
         echo $this->renderer->render("header", [
             'toolname' => $this->toolname,

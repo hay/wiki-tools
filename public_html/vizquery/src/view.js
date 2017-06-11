@@ -183,7 +183,14 @@ class View {
                 },
 
                 setQuery : function() {
-                    window.location.hash = encodeURIComponent(JSON.stringify(this.rules));
+                    var hash = encodeURIComponent(JSON.stringify(this.rules));
+
+                    // Make sure we can change limit/withimage
+                    if (hash === window.location.hash.slice(1)) {
+                        this.doQuery();
+                    } else {
+                        window.location.hash = hash;
+                    }
                 }
             }
         });

@@ -11,7 +11,9 @@
     $hay->header();
 ?>
     <div id="app" v-cloak>
-        <h1>Wikidata <?php $hay->title(); ?></h1>
+        <h1>
+            <a href="<?= $hay->getUrl(); ?>">Wikidata <?php $hay->title(); ?></a>
+        </h1>
 
         <p class="lead" v-show="!hadResults">
             <?php $hay->description(); ?>
