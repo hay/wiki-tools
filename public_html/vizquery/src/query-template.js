@@ -1,3 +1,5 @@
+import { LABEL_LANGUAGES } from "./conf";
+
 const PREFIXES = `
 PREFIX wd: <http://www.wikidata.org/entity/>
 PREFIX wdt: <http://www.wikidata.org/prop/direct/>
@@ -33,6 +35,6 @@ ${PREFIXES}
 SELECT DISTINCT ?item ?itemLabel ?itemDescription ?image WHERE {
     ${claims(view.where)}
     ${minus(view.minus)}
-    SERVICE wikibase:label { bd:serviceParam wikibase:language "en" }
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "${LABEL_LANGUAGES}" }
 } ${limit(view.limit)}`.trim();
 };

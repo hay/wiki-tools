@@ -6,7 +6,7 @@
 
     "vizquery" : {
         "title" : "VizQuery",
-        "description" : "Query Wikidata visually without using SPARQL"
+        "description" : "Query Wikidata visually"
     },
 
     "propbrowse" : {

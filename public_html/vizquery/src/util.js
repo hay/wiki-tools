@@ -1,3 +1,8 @@
+export function getBrowserLanguage() {
+    var lang = navigator.language || navigator.userLanguage;
+    return lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang;
+}
+
 export function $(selector) {
     return document.querySelector(selector);
 }

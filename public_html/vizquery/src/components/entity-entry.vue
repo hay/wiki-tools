@@ -1,6 +1,6 @@
 <template>
-    <div class="item-entry">
-        <p class="item-entry__label"
+    <div class="entity-entry">
+        <p class="entity-entry__label"
            v-bind:has-value="!!value.id"
            v-on:click="goSearch"
            v-show="!searching">
@@ -14,18 +14,18 @@
             </template>
         </p>
 
-        <input class="item-entry__search"
+        <input class="entity-entry__search"
                type="search"
                v-show="searching"
                v-on:keyup.esc="searching = false"
                v-bind:placeholder="type"
                v-model="search" />
 
-        <ul class="item-entry__suggestions" v-show="loading">
+        <ul class="entity-entry__suggestions" v-show="loading">
             <li>Loading...</li>
         </ul>
 
-        <ul class="item-entry__suggestions" v-show="suggestions.length">
+        <ul class="entity-entry__suggestions" v-show="suggestions.length">
             <li v-for="suggestion in suggestions"
                 v-on:click="setSuggestion(suggestion)">
                 {{suggestion.id}} - {{suggestion.label}}<br>
@@ -103,36 +103,36 @@ export default {
 </script>
 
 <style scoped>
-.item-entry__label {
+.entity-entry__label {
     cursor: pointer;
     border-bottom: 1px solid #337ab7;
     color: #337ab7;
 }
 
-.item-entry__label[has-value] {
+.entity-entry__label[has-value] {
     color: black;
 }
 
-.item-entry__label sup {
+.entity-entry__label sup {
     color: #666;
 }
 
-.item-entry__suggestions {
+.entity-entry__suggestions {
     border: 1px solid #eee;
     padding: 0;
 }
 
-.item-entry__suggestions li {
+.entity-entry__suggestions li {
     padding: 5px 10px;
     list-style: none;
     cursor: pointer;
 }
 
-.item-entry__suggestions li:nth-child(odd) {
+.entity-entry__suggestions li:nth-child(odd) {
     background: #eee;
 }
 
-.item-entry__suggestions li:hover {
+.entity-entry__suggestions li:hover {
     background: #337ab7;
     color: white;
 }

@@ -7,7 +7,7 @@ import Vue from "vue";
 import Papaparse from "papaparse";
 
 // Components
-import itemEntry from "./components/item-entry.vue";
+import entityEntry from "./components/entity-entry.vue";
 import displayTable from "./components/display-table.vue";
 import displayGrid from "./components/display-grid.vue";
 
@@ -65,7 +65,7 @@ class View {
             el : this.selector,
 
             components : {
-                'item-entry' : itemEntry,
+                'entity-entry' : entityEntry,
                 'display-table' : displayTable,
                 'display-grid' : displayGrid
             },

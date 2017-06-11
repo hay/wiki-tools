@@ -23,7 +23,7 @@
         </div>
 
         <div class="form">
-            <h3>Find all items that...</h3>
+            <h3>Find things that...</h3>
 
             <section v-for="rule in rules">
                 <select v-model="rule.has">
@@ -34,17 +34,17 @@
 
                 <p>a property</p>
 
-                <item-entry
+                <entity-entry
                     type="property"
                     v-bind:minlength="2"
-                    v-model="rule.property"></item-entry>
+                    v-model="rule.property"></entity-entry>
 
                 <p>that contains</p>
 
-                <item-entry
+                <entity-entry
                     type="item"
                     v-bind:minlength="2"
-                    v-model="rule.value"></item-entry>
+                    v-model="rule.value"></entity-entry>
 
                 <button class="btn btn-default" v-on:click="removeRule(rule)">
                     <span class="glyphicon glyphicon-minus"></span>
