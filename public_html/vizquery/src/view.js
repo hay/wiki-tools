@@ -105,10 +105,10 @@ class View {
 
             mounted : function() {
                 if (!!window.location.hash) {
-                    this.setExample();
+                    this.parseHash();
                 }
 
-                window.addEventListener('hashchange', this.setExample.bind(this));
+                window.addEventListener('hashchange', this.parseHash.bind(this));
             },
 
             computed : {
@@ -171,14 +171,19 @@ class View {
                     this.display = type;
                 },
 
-                setExample : function() {
+                parseHash : function() {
                     var hash = window.location.hash.slice(1);
                     this.rules = [];
 
                     Vue.nextTick(() => {
                         this.rules = JSON.parse(decodeURIComponent(hash));
                         window.scrollTo(0, 0);
+                        this.doQuery();
                     });
+                },
+
+                setQuery : function() {
+                    window.location.hash = encodeURIComponent(JSON.stringify(this.rules));
                 }
             }
         });

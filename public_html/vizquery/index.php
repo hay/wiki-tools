@@ -70,7 +70,7 @@
             </section>
 
             <section>
-                <button class="btn btn-primary" v-on:click="doQuery">
+                <button class="btn btn-primary" v-on:click="setQuery">
                     <span class="glyphicon glyphicon-search"></span>
                     Query
                 </button>
