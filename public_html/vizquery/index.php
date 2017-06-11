@@ -19,6 +19,8 @@
             <?php $hay->description(); ?>
         </p>
 
+        <p class="intro" v-show="!hadResults">This tool allows you to query Wikidata, the database of all things in the world. For example, you could get a list of world heritage sites in your country. A list with movies with Joe Pesci and Robert De Niro. Or female trumpet players. You construct a query by combining <em>properties</em> and <em>items</em> into <em>claims</em>. Let's start with a simple example: <a href="#%5B%7B%22has%22%3A%22where%22%2C%22property%22%3A%7B%22id%22%3A%22P31%22%7D%2C%22value%22%3A%7B%22id%22%3A%22Q146%22%7D%7D%5D">click here to find all cats on Wikidata</a>.</p>
+
         <div class="alert alert-danger" v-show="error">
             Sorry, something went wrong. Either your query was wrong, or there were no results.
             <p v-if="error">{{error}}</p>

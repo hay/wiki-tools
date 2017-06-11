@@ -14,18 +14,25 @@
             </template>
         </p>
 
-        <input class="entity-entry__search"
-               type="search"
-               v-show="searching"
-               v-on:keyup.esc="searching = false"
-               v-bind:placeholder="type"
-               v-model="search" />
+        <div class="input-group" v-show="searching">
+            <input class="entity-entry__search form-control"
+                   type="search"
+                   v-on:keyup.esc="searching = false"
+                   v-bind:placeholder="type"
+                   v-model="search" />
+
+            <span class="input-group-btn">
+                <button class="btn btn-default"
+                        v-on:click="searching = false">&times;</button>
+            </span>
+        </div>
+
 
         <ul class="entity-entry__suggestions" v-show="loading">
             <li>Loading...</li>
         </ul>
 
-        <ul class="entity-entry__suggestions" v-show="suggestions.length">
+        <ul class="entity-entry__suggestions" v-show="suggestions.length && searching">
             <li v-for="suggestion in suggestions"
                 v-on:click="setSuggestion(suggestion)">
                 {{suggestion.id}} - {{suggestion.label}}<br>
@@ -103,6 +110,15 @@ export default {
 </script>
 
 <style scoped>
+.entity-entry {
+    max-width: 250px;
+}
+
+.entity-entry .input-group {
+    position: relative;
+    top: 11px; /* fix later */
+}
+
 .entity-entry__label {
     cursor: pointer;
     border-bottom: 1px solid #337ab7;
@@ -120,6 +136,8 @@ export default {
 .entity-entry__suggestions {
     border: 1px solid #eee;
     padding: 0;
+    position: relative;
+    top: 10px;
 }
 
 .entity-entry__suggestions li {

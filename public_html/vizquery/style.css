@@ -6,6 +6,11 @@
     width: 100%;
 }
 
+.intro {
+    max-width: 600px;
+    display: block;
+}
+
 .form section {
     display: flex;
     margin-bottom: 10px;

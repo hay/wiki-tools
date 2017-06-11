@@ -13,6 +13,13 @@ export default [
         ]
     },
     {
+        "description" : "Movies with both Joe Pesci and Robert De Niro",
+        "data" : [
+            "P161 Q36949",
+            "P161 Q20178"
+        ]
+    },
+    {
         "description" : "Train stations in the Czech Republic",
         "data" : [
             "P31 Q55488",
