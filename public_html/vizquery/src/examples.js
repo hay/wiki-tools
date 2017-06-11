@@ -1,11 +1,15 @@
 export default [
     {
-        "description" : "Paintings of women by Vincent van Gogh in the Van Gogh museum",
+        "description" : "Cats",
         "data" : [
-            "P31 Q3305213",
-            "P170 Q5582",
-            "P921 Q467",
-            "P276 Q224124"
+            "P31 Q146"
+        ]
+    },
+    {
+        "description" : "World Heritage sites in the Netherlands",
+        "data" : [
+            "P1435 Q9259",
+            "P17 Q55"
         ]
     },
     {
@@ -29,5 +33,14 @@ export default [
             "P1303 Q8338",
             "P21 Q6581072"
         ]
-    }
+    },
+    {
+        "description" : "Paintings of women by Vincent van Gogh in the Van Gogh museum",
+        "data" : [
+            "P31 Q3305213",
+            "P170 Q5582",
+            "P921 Q467",
+            "P276 Q224124"
+        ]
+    },
 ];
