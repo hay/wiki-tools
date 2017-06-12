@@ -5,6 +5,7 @@
                 <th>ID</th>
                 <th>Label</th>
                 <th>Description</th>
+                <th>Wikipedia article</th>
             </tr>
         </thead>
 
@@ -18,6 +19,11 @@
                 </td>
                 <td>
                     <template v-if="row.itemDescription">{{row.itemDescription.value}}</template>
+                </td>
+                <td>
+                    <a v-if="row.sitelink" target="_blank" v-bind:href="row.sitelink.value">
+                        Wikipedia article
+                    </a>
                 </td>
             </tr>
         </tbody>

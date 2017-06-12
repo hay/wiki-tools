@@ -1,4 +1,4 @@
-import { LABEL_LANGUAGES } from "./conf";
+import { LABEL_LANGUAGES, LANGUAGE } from "./conf";
 
 const PREFIXES = `
 PREFIX wd: <http://www.wikidata.org/entity/>
@@ -32,10 +32,14 @@ export default function query(view) {
     return `
 ${PREFIXES}
 
-SELECT DISTINCT ?item ?itemLabel ?itemDescription ?image WHERE {
+SELECT DISTINCT ?item ?itemLabel ?itemDescription ?image ?sitelink WHERE {
     ${claims(view.where)}
     ${minus(view.minus)}
     OPTIONAL { ?item wdt:P18 ?image }
+    OPTIONAL {
+        ?sitelink schema:about ?item .
+        ?sitelink schema:isPartOf <https://${LANGUAGE}.wikipedia.org/> .
+    }
     SERVICE wikibase:label { bd:serviceParam wikibase:language "${LABEL_LANGUAGES}" }
 } ${limit(view.limit)}`.trim();
 };
