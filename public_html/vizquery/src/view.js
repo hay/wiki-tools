@@ -84,13 +84,11 @@ class View {
 
                 query : null,
 
-                display : 'table',
+                display : 'grid',
 
                 rules : [ createEmptyRule() ],
 
                 error : false,
-
-                withimages : true,
 
                 limit : DEFAULT_RESULT_LIMIT,
 
@@ -141,14 +139,6 @@ class View {
                     this.loading = true;
 
                     var rules = clone(this.rules);
-
-                    if (this.withimages) {
-                        rules.push({
-                            has : 'image'
-                        });
-                    }
-
-                    this.display = this.withimages ? 'grid' : 'table';
 
                     rules.limit = this.limit;
 

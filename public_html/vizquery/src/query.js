@@ -12,29 +12,11 @@ function addClaimValue(claim) {
 
 export default class Query {
     build(q) {
-        var view = {
-            where : _.where(q, { 'has' : 'where' }),
-            minus : _.where(q, { 'has' : 'minus' }),
+        return template({
+            where : _.where(q, { 'has' : 'where' }).map(addClaimValue),
+            minus : _.where(q, { 'has' : 'minus' }).map(addClaimValue),
             limit : q.limit
-        };
-
-        var hasimage = !!_.findWhere(q, { has : 'image' });
-
-        if (hasimage) {
-            view.where.push({
-                property : {
-                    id : 'P18'
-                },
-                value : {
-                    value : '?image'
-                }
-            });
-        }
-
-        view.where = view.where.map(addClaimValue);
-        view.minus = view.minus.map(addClaimValue);
-
-        return template(view);
+        });
     }
 
     fetch(query, callback) {

@@ -64,11 +64,6 @@
             </section>
 
             <section>
-                <input type="checkbox" id="withimages" v-model="withimages">
-                <label for="withimages">Only get items with an image</label>
-            </section>
-
-            <section>
                 <label for="limit">Maximum results (0 is no limit)</label>
                 <input type="number" id="limit" v-model="limit">
             </section>
