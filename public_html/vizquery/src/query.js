@@ -1,4 +1,4 @@
-import { SPARQL_ENDPOINT } from "./conf";
+import { SPARQL_ENDPOINT, WIKIDATA_ITEM, WIKIDATA_PROPERTY } from "./conf";
 import getBaseQuery from "./baseQuery";
 import SparqlJs from "sparqljs";
 import { clone } from "./util";
@@ -24,9 +24,9 @@ export default class Query {
 
     addRule(predicate, object) {
         this.triples.push({
-            "subject" : "?item",
-            predicate,
-            object
+            subject : "?item",
+            predicate : predicate.replace('wdt:', WIKIDATA_PROPERTY),
+            object : object.replace('wd:', WIKIDATA_ITEM)
         });
     }
 
@@ -48,22 +48,7 @@ export default class Query {
     }
 
     stringify() {
-        // FIXME: this could be easier
-        const query = clone(this.query);
-
-        query.where = query.where.map((d) => {
-            if (d.triples) {
-                d.triples = d.triples.map((t) => {
-                    t.object = t.object.replace('wd:', this.query.prefixes.wd);
-                    t.predicate = t.predicate.replace('wdt:', this.query.prefixes.wdt);
-                    return t;
-                });
-            }
-
-            return d;
-        });
-
-        return this.generator.stringify(query);
+        return this.generator.stringify(this.query);
     }
 
     get triples() {

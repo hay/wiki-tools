@@ -55,6 +55,8 @@ class View {
 
                 query : new Query(),
 
+                queryString : null,
+
                 display : 'grid',
 
                 error : false,
@@ -106,7 +108,11 @@ class View {
                 },
 
                 parseHash : function() {
+                    window.scrollTo(0, 0);
+
                     const query = decodeURIComponent(window.location.hash.slice(1));
+
+                    this.queryString = query;
 
                     this.results = [];
                     this.loading = true;
@@ -114,7 +120,7 @@ class View {
 
                     this.query.fetch().then((results) => {
                         this.results = results.map(parseResult);
-                        this.loading = true;
+                        this.loading = false;
                         this.hadResults = true;
                     });
                 }

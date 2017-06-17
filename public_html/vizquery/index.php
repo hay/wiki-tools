@@ -118,7 +118,7 @@
 
         <div v-show="hadResults">
             <h3>
-                <a v-bind:href="'https://query.wikidata.org/#' + encodeURIComponent(query)"
+                <a v-bind:href="'https://query.wikidata.org/#' + encodeURIComponent(queryString)"
                    target="_blank">
                     SPARQL Query
                 </a>
@@ -126,7 +126,7 @@
 
             <details>
                 <summary>Show query</summary>
-                <pre>{{query}}</pre>
+                <pre>{{queryString}}</pre>
             </details>
         </div>
 

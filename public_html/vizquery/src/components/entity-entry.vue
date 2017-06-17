@@ -6,8 +6,8 @@
            v-show="!searching">
 
             <template v-if="value">
-                {{label}}
-                <sup>{{value}}</sup>
+                {{entity.label}}
+                <sup>{{entity.id}}</sup>
             </template>
 
             <template v-if="!value">
@@ -45,7 +45,12 @@
 
 <script>
 import { search, searchAndGet } from "../api";
-import { MIN_INPUT_LENGTH, LANGUAGE } from "../conf";
+import {
+    MIN_INPUT_LENGTH,
+    LANGUAGE,
+    WIKIDATA_PROPERTY,
+    WIKIDATA_ITEM
+} from "../conf";
 import Vue from "vue";
 
 export default {
@@ -54,16 +59,14 @@ export default {
             suggestions : [],
             loading : false,
             search : null,
-            label : null,
+            entity : {},
             searching : false
         };
     },
 
     created : function() {
         if (this.value) {
-            searchAndGet(this.type, this.value).then((item) => {
-                this.label = item.label;
-            })
+            searchAndGet(this.type, this.value).then((item) => this.entity = item);
         }
     },
 
@@ -84,16 +87,16 @@ export default {
 
             this.loading = true;
 
-            search(this.type, q).then((d) => {
+            search(this.type, q).then((results) => {
                 this.loading = false;
-                this.suggestions = d.search;
+                this.suggestions = results;
             });
         },
 
         setSuggestion : function(suggestion) {
             this.suggestions = [];
-            this.label = suggestion.label;
-            this.$emit('input', suggestion.id);
+            this.entity = suggestion;
+            this.$emit('input', suggestion.concepturi);
             this.searching = false;
         }
     },
@@ -105,8 +108,10 @@ export default {
     },
 
     props : {
-        type : String,
         minlength : Number,
+        type : {
+            validator : (type) => ['item', 'property'].includes(type)
+        },
         value : {
             validator : (val) => typeof val === 'string' || val === null
         }

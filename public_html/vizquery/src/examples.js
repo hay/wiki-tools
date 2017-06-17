@@ -44,7 +44,7 @@ const EXAMPLES = [
         ]
     },
     {
-        "description" : "aintings of women by Vincent van Gogh in the Van Gogh museum",
+        "description" : "Paintings of women by Vincent van Gogh in the Van Gogh museum",
         "data" : [
             "wdt:P31 wd:Q3305213",
             "wdt:P170 wd:Q5582",

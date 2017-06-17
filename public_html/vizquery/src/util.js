@@ -15,7 +15,7 @@ export function cleanupUrl(url) {
     return url.trim().replace(/ /g, '').replace(/\n/g, '');
 }
 
-export function getJson(url) {
+export function fetchJson(url) {
     url = cleanupUrl(url);
     return fetch(url).then((res) => res.json());
 }
