@@ -1,3 +1,3 @@
-import View from './view';
+import view from './view';
 
-new View("#app");
+window.__view__ = view("#app");
