@@ -116,12 +116,19 @@ class View {
 
                     this.results = [];
                     this.loading = true;
-                    this.query = new Query(query);
 
-                    this.query.fetch().then((results) => {
-                        this.results = results.map(parseResult);
-                        this.loading = false;
-                        this.hadResults = true;
+                    // This whole query resetting and then doing a nextTick
+                    // feels pretty voodoo to me, but it is necessary...
+                    this.query = new Query();
+
+                    Vue.nextTick(() => {
+                        this.query = new Query(query);
+
+                        this.query.fetch().then((results) => {
+                            this.results = results.map(parseResult);
+                            this.loading = false;
+                            this.hadResults = true;
+                        });
                     });
                 }
             }
