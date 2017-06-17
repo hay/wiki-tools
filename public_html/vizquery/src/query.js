@@ -30,19 +30,6 @@ export default class Query {
         });
     }
 
-    fetch() {
-        const query = this.stringify();
-        const url = SPARQL_ENDPOINT.replace('%s', encodeURIComponent(query));
-
-        return new Promise((resolve, reject) => {
-            fetch(url).then(function(res) {
-                return res.json();
-            }).then(function(results) {
-                resolve(results.results.bindings);
-            });
-        });
-    }
-
     removeTriple(triple) {
         this.triples = this.triples.filter((t) => t !== triple);
     }

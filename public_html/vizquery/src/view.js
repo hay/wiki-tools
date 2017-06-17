@@ -14,18 +14,7 @@ import displayGrid from "./components/display-grid.vue";
 // Custom code
 import { $, clone } from "./util";
 import Query from "./query";
-
-function parseResult(result) {
-    if (result.image) {
-        result.thumb = result.image.value + '?width=300';
-    }
-
-    if (result.item) {
-        result.id = result.item.value.replace('http://www.wikidata.org/entity/', '');
-    }
-
-    return result;
-}
+import { query as fetchQuery } from "./api";
 
 class View {
     constructor(selector) {
@@ -124,8 +113,8 @@ class View {
                     Vue.nextTick(() => {
                         this.query = new Query(query);
 
-                        this.query.fetch().then((results) => {
-                            this.results = results.map(parseResult);
+                        fetchQuery(this.query.stringify()).then((results) => {
+                            this.results = results;
                             this.loading = false;
                             this.hadResults = true;
                         });

@@ -1,5 +1,5 @@
 import { fetchJson } from "./util";
-import { LANGUAGE, WIKIDATA_PROPERTY } from "./conf";
+import { LANGUAGE, WIKIDATA_PROPERTY, SPARQL_ENDPOINT } from "./conf";
 
 function transformProperty(item) {
     // This is a hack because for some reason the search API gives
@@ -9,6 +9,30 @@ function transformProperty(item) {
     }
 
     return item;
+}
+
+export function query(query) {
+    const url = SPARQL_ENDPOINT.replace('%s', encodeURIComponent(query));
+
+    return new Promise((resolve, reject) => {
+        fetch(url).then(function(res) {
+            return res.json();
+        }).then(function(results) {
+            results = results.results.bindings.map((d) => {
+                if (d.image) {
+                    d.thumb = d.image.value + '?width=300';
+                }
+
+                if (d.item) {
+                    d.id = d.item.value.replace('http://www.wikidata.org/entity/', '');
+                }
+
+                return d;
+            });
+
+            resolve(results);
+        });
+    });
 }
 
 export function search(type, q) {
