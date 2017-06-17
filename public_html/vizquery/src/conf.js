@@ -6,3 +6,5 @@ export const SPARQL_ENDPOINT = "https://query.wikidata.org/sparql?format=json&qu
 export const MIN_INPUT_LENGTH = 10;
 export const LANGUAGE = getBrowserLanguage();
 export const LABEL_LANGUAGES = '[AUTO_LANGUAGE],en,fr,es,de,ru,it,nl,ja,zh,pl,cs';
+export const WIKIDATA_ITEM = 'http://www.wikidata.org/entity/';
+export const WIKIDATA_PROPERTY = 'http://www.wikidata.org/prop/direct/';

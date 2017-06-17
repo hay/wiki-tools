@@ -19,7 +19,13 @@
             <?php $hay->description(); ?>
         </p>
 
-        <p class="intro" v-show="!hadResults">This tool allows you to query Wikidata, the database of all things in the world. For example, you could get a list of world heritage sites in your country. A list with movies with Joe Pesci and Robert De Niro. Or female trumpet players. You construct a query by combining <em>properties</em> and <em>items</em> into <em>claims</em>. Let's start with a simple example: <a href="#%5B%7B%22has%22%3A%22where%22%2C%22property%22%3A%7B%22id%22%3A%22P31%22%7D%2C%22value%22%3A%7B%22id%22%3A%22Q146%22%7D%7D%5D">click here to find all cats on Wikidata</a>.</p>
+        <p class="intro" v-show="!hadResults">This tool allows you to query Wikidata, the database of all things in the world. For example, you could get a list of world heritage sites in your country. A list with movies with Joe Pesci and Robert De Niro. Or female trumpet players. You construct a query by combining <em>properties</em> and <em>items</em> into <em>claims</em>.
+
+        <!-- FIXME -->
+        <!--
+        Let's start with a simple example: <a href="#%5B%7B%22has%22%3A%22where%22%2C%22property%22%3A%7B%22id%22%3A%22P31%22%7D%2C%22value%22%3A%7B%22id%22%3A%22Q146%22%7D%7D%5D">click here to find all cats on Wikidata</a>. -->
+
+        </p>
 
         <div class="alert alert-danger" v-show="error">
             Sorry, something went wrong. Either your query was wrong, or there were no results.
@@ -29,28 +35,22 @@
         <div class="form">
             <h3>Find things that...</h3>
 
-            <section v-for="rule in rules">
-                <select v-model="rule.has">
-                    <option v-for="option in hasOptions" v-bind:value="option.value">
-                        {{ option.label }}
-                    </option>
-                </select>
-
-                <p>a property</p>
+            <section v-for="triple in query.triples">
+                <p>have a property</p>
 
                 <entity-entry
                     type="property"
                     v-bind:minlength="2"
-                    v-model="rule.property"></entity-entry>
+                    v-model="triple.predicate"></entity-entry>
 
                 <p>that contains</p>
 
                 <entity-entry
                     type="item"
                     v-bind:minlength="2"
-                    v-model="rule.value"></entity-entry>
+                    v-model="triple.object"></entity-entry>
 
-                <button class="btn btn-default" v-on:click="removeRule(rule)">
+                <button class="btn btn-default" v-on:click="query.removeTriple(triple)">
                     <span class="glyphicon glyphicon-minus"></span>
                     Remove rule
                 </button>
@@ -65,11 +65,11 @@
 
             <section>
                 <label for="limit">Maximum results (0 is no limit)</label>
-                <input type="number" id="limit" v-model="limit">
+                <input type="number" id="limit" v-model="query.limit">
             </section>
 
             <section>
-                <button class="btn btn-primary" v-on:click="setQuery">
+                <button class="btn btn-primary" v-on:click="doQuery">
                     <span class="glyphicon glyphicon-search"></span>
                     Query
                 </button>
@@ -134,7 +134,7 @@
 
         <ul>
             <li v-for="e in examples">
-                <a v-bind:href="'#' + e.hash">{{e.description}}</a>
+                <a v-bind:href="'#' + encodeURIComponent(e.query)">{{e.description}}</a>
             </li>
         </ul>
     </div>

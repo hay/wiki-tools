@@ -15,28 +15,16 @@ import displayGrid from "./components/display-grid.vue";
 import { $, clone } from "./util";
 import Query from "./query";
 
-function parseWhere(str) {
-    var parts = str.split(" ");
+function parseResult(result) {
+    if (result.image) {
+        result.thumb = result.image.value + '?width=300';
+    }
 
-    return {
-        has : 'where',
-        property : {
-            'id' : parts[0]
-        },
-        value : {
-            'id' : parts[1]
-        }
-    };
-}
+    if (result.item) {
+        result.id = result.item.value.replace('http://www.wikidata.org/entity/', '');
+    }
 
-function createEmptyRule() {
-    return {
-        has : 'where',
-        property : {},
-        propertyLabel : null,
-        value : {},
-        valueLabel : null
-    };
+    return result;
 }
 
 class View {
@@ -46,20 +34,8 @@ class View {
         this.setup();
     }
 
-    parseResult(result) {
-        if (result.image) {
-            result.thumb = result.image.value + '?width=300';
-        }
-
-        if (result.item) {
-            result.id = result.item.value.replace('http://www.wikidata.org/entity/', '');
-        }
-
-        return result;
-    }
-
     setup() {
-        var self = this;
+        let self = this;
 
         this.view = new Vue({
             el : this.selector,
@@ -77,28 +53,15 @@ class View {
 
                 hadResults : false,
 
-                hasOptions : [
-                    { value : 'where', label : 'have' },
-                    { value : 'minus', label : "don't have" }
-                ],
-
-                query : null,
+                query : new Query(),
 
                 display : 'grid',
 
-                rules : [ createEmptyRule() ],
-
                 error : false,
-
-                limit : DEFAULT_RESULT_LIMIT,
 
                 loading : false,
 
-                examples : EXAMPLES.map(function(e) {
-                    e.data = e.data.map(parseWhere);
-                    e.hash = encodeURIComponent(JSON.stringify(e.data));
-                    return e;
-                })
+                examples : EXAMPLES
             },
 
             mounted : function() {
@@ -130,31 +93,12 @@ class View {
 
             methods : {
                 addRule : function() {
-                    this.rules.push(createEmptyRule());
+                    this.query.addEmptyTriple();
                 },
 
                 doQuery : function() {
-                    this.results = [];
-
-                    this.loading = true;
-
-                    var rules = clone(this.rules);
-
-                    rules.limit = this.limit;
-
-                    this.query = self.query.build(rules);
-
-                    self.query.fetch(this.query, function(results) {
-                        this.results = results.map(self.parseResult);
-                        this.loading = false;
-                        this.hadResults = true;
-                    }.bind(this));
-                },
-
-                removeRule : function(rule) {
-                    this.rules = this.rules.filter(function(r) {
-                        return r !== rule;
-                    });
+                    const query = this.query.stringify();
+                    window.location.hash = encodeURIComponent(query);
                 },
 
                 setDisplay : function(type) {
@@ -162,25 +106,17 @@ class View {
                 },
 
                 parseHash : function() {
-                    var hash = window.location.hash.slice(1);
-                    this.rules = [];
+                    const query = decodeURIComponent(window.location.hash.slice(1));
 
-                    Vue.nextTick(() => {
-                        this.rules = JSON.parse(decodeURIComponent(hash));
-                        window.scrollTo(0, 0);
-                        this.doQuery();
+                    this.results = [];
+                    this.loading = true;
+                    this.query = new Query(query);
+
+                    this.query.fetch().then((results) => {
+                        this.results = results.map(parseResult);
+                        this.loading = true;
+                        this.hadResults = true;
                     });
-                },
-
-                setQuery : function() {
-                    var hash = encodeURIComponent(JSON.stringify(this.rules));
-
-                    // Make sure we can change limit/withimage
-                    if (hash === window.location.hash.slice(1)) {
-                        this.doQuery();
-                    } else {
-                        window.location.hash = hash;
-                    }
                 }
             }
         });

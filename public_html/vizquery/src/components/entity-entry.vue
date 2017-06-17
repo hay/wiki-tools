@@ -1,15 +1,16 @@
 <template>
     <div class="entity-entry">
         <p class="entity-entry__label"
-           v-bind:has-value="!!value.id"
+           v-bind:has-value="!!value"
            v-on:click="goSearch"
            v-show="!searching">
-            <template v-if="value.id">
-                {{value.label}}
-                <sup>{{value.id}}</sup>
+
+            <template v-if="value">
+                {{label}}
+                <sup>{{value}}</sup>
             </template>
 
-            <template v-if="!value.id">
+            <template v-if="!value">
                 click to set {{type}}
             </template>
         </p>
@@ -53,14 +54,15 @@ export default {
             suggestions : [],
             loading : false,
             search : null,
+            label : null,
             searching : false
         };
     },
 
     created : function() {
-        if (this.value.id) {
-            searchAndGet(this.type, this.value.id).then((item) => {
-                this.$emit('input', item);
+        if (this.value) {
+            searchAndGet(this.type, this.value).then((item) => {
+                this.label = item.label;
             })
         }
     },
@@ -90,7 +92,8 @@ export default {
 
         setSuggestion : function(suggestion) {
             this.suggestions = [];
-            this.$emit('input', suggestion);
+            this.label = suggestion.label;
+            this.$emit('input', suggestion.id);
             this.searching = false;
         }
     },
@@ -104,7 +107,9 @@ export default {
     props : {
         type : String,
         minlength : Number,
-        value : Object
+        value : {
+            validator : (val) => typeof val === 'string' || val === null
+        }
     }
 };
 </script>
