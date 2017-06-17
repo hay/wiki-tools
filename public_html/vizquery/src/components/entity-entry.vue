@@ -7,7 +7,7 @@
 
             <template v-if="value">
                 {{entity.label}}
-                <sup>{{entity.id}}</sup>
+                <sup v-if="entity.id">{{entity.id}}</sup>
             </template>
 
             <template v-if="!value">
@@ -21,6 +21,13 @@
                    v-on:keyup.esc="searching = false"
                    v-bind:placeholder="type"
                    v-model="search" />
+
+            <span class="input-group-btn">
+                <button class="btn btn-default"
+                        v-on:click="setAny">
+                    <span class="glyphicon glyphicon-record"></span> Any
+                </button>
+            </span>
 
             <span class="input-group-btn">
                 <button class="btn btn-default"
@@ -65,7 +72,9 @@ export default {
     },
 
     created : function() {
-        if (this.value) {
+        if (this.value === '?any') {
+            this.setAnyLabel();
+        } else if (this.value) {
             searchAndGet(this.type, this.value).then((item) => this.entity = item);
         }
     },
@@ -78,6 +87,18 @@ export default {
                 this.$el.querySelector('input').focus();
                 this.setSearch(this.search);
             });
+        },
+
+        setAnyLabel : function() {
+            this.entity = {
+                label : "anything"
+            };
+        },
+
+        setAny : function() {
+            this.$emit('input', '?any');
+            this.searching = false;
+            this.setAnyLabel();
         },
 
         setSearch : function(q) {
