@@ -4,7 +4,6 @@ import EXAMPLES from "./examples";
 
 // Libraries
 import Vue from "vue";
-import Papaparse from "papaparse";
 
 // Components
 import entityEntry from "./components/entity-entry.vue";
@@ -12,8 +11,9 @@ import displayTable from "./components/display-table.vue";
 import displayGrid from "./components/display-grid.vue";
 
 // Custom code
-import { $, clone } from "./util";
+import { $ } from "./util";
 import Query from "./query";
+import parseCsv from "./csv";
 import { query as fetchQuery } from "./api";
 
 class View {
@@ -65,20 +65,7 @@ class View {
 
             computed : {
                 csv : function() {
-                    var results = clone(this.results).map((d) => {
-                        // REALLY UGLY CODE
-                        ['item', 'itemDescription', 'itemLabel'].forEach((key) => {
-                            d[key] = d[key] && d[key].value ? d[key].value : null;
-                        });
-
-                        return d;
-                    });
-
-                    var csv = Papaparse.unparse(results, {
-                        quotes : true
-                    });
-
-                    return `data:text/csv;charset=utf-8,${encodeURIComponent(csv)}`;
+                    return parseCsv(this.results);
                 }
             },
 
