@@ -31,7 +31,8 @@
         <div class="form">
             <h3>Select items where...</h3>
 
-            <section v-for="triple in query.triples">
+            <section v-for="triple in query.triples"
+                     v-bind:key="query.hashTriple(triple)">
                 <subject-entry
                     v-model="triple.subject"
                     v-bind:subjects="query.subjects"></subject-entry>
@@ -69,7 +70,9 @@
             </section>
 
             <section>
-                <button class="btn btn-primary" v-on:click="doQuery">
+                <button class="btn btn-primary"
+                        v-on:click="doQuery"
+                        v-bind:disabled="!query.triples">
                     <span class="glyphicon glyphicon-search"></span>
                     Query
                 </button>

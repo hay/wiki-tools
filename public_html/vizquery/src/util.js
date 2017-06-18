@@ -1,5 +1,5 @@
 export function getBrowserLanguage() {
-    var lang = navigator.language || navigator.userLanguage;
+    const lang = navigator.language || navigator.userLanguage;
     return lang.indexOf('-') !== -1 ? lang.split('-')[0] : lang;
 }
 
@@ -18,4 +18,16 @@ export function cleanupUrl(url) {
 export function fetchJson(url) {
     url = cleanupUrl(url);
     return fetch(url).then((res) => res.json());
+}
+
+export function hashString(string) {
+    let hash = 0;
+
+    for (let i = 0; i < string.length; i++) {
+        const charCode = string.charCodeAt(i);
+        hash = ((hash << 5) - hash) + string.charCodeAt(i);
+        hash |= 0; // Convert to 32bit integer
+    }
+
+    return hash;
 }

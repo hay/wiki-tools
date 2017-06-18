@@ -1,7 +1,7 @@
 import { SPARQL_ENDPOINT, WIKIDATA_ITEM, WIKIDATA_PROPERTY } from "./conf";
 import getBaseQuery from "./baseQuery";
 import SparqlJs from "sparqljs";
-import { clone } from "./util";
+import { clone, hashString } from "./util";
 
 function getEmptyTriple() {
     return {
@@ -28,6 +28,11 @@ export default class Query {
             predicate : predicate.replace('wdt:', WIKIDATA_PROPERTY),
             object : object.replace('wd:', WIKIDATA_ITEM)
         });
+    }
+
+    hashTriple(triple) {
+        const string = Object.values(triple).join('-');
+        return hashString(string);
     }
 
     removeTriple(triple) {
