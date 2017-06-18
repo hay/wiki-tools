@@ -72,7 +72,7 @@
             <section>
                 <button class="btn btn-primary"
                         v-on:click="doQuery"
-                        v-bind:disabled="!query.triples">
+                        v-bind:disabled="!query.triples || !query.triples.length">
                     <span class="glyphicon glyphicon-search"></span>
                     Query
                 </button>
