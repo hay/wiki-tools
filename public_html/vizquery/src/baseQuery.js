@@ -104,7 +104,7 @@ export default function() {
       "p": "http://www.wikidata.org/prop/",
       "ps": "http://www.wikidata.org/prop/statement/",
       "pq": "http://www.wikidata.org/prop/qualifier/",
-      "schema": "http://www.w3.org/2000/01/rdf-schema#",
+      "schema": "http://schema.org/",
       "bd": "http://www.bigdata.com/rdf#"
     }
   };

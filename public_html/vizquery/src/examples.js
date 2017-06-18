@@ -4,7 +4,7 @@ const BASE_QUERY = `
 PREFIX wd: <http://www.wikidata.org/entity/>
 PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 PREFIX wikibase: <http://wikiba.se/ontology#>
-PREFIX schema: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <http://schema.org/>
 PREFIX bd: <http://www.bigdata.com/rdf#>
 SELECT DISTINCT ?item ?itemLabel ?itemDescription (SAMPLE(?image) AS ?image) ?sitelink WHERE {
   %query%
