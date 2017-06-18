@@ -42,7 +42,17 @@ export default class Query {
         if (!this.triples) {
             return [];
         } else {
-            return [...new Set(this.triples.map((t) => t.subject))];
+            const subjects = [];
+
+            this.triples.forEach((t) => {
+                Object.values(t).forEach((d) => {
+                    if (d && d[0] === '?' && !subjects.includes(d)) {
+                        subjects.push(d);
+                    }
+                });
+            });
+
+            return subjects;
         }
     }
 

@@ -70,7 +70,7 @@ export default {
     },
 
     created : function() {
-        if (this.value[0] === '?') {
+        if (this.value && this.value[0] === '?') {
             this.entity = {
                 label : this.value
             };

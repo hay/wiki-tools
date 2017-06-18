@@ -1,68 +1,85 @@
 import Query from "./query";
 
-const EXAMPLES = [
-    {
-        "description" : "Cats",
-        "data" : [
-            "wdt:P31 wd:Q146"
-        ]
-    },
-    {
-        "description" : "World Heritage sites in the Netherlands",
-        "data" : [
-            "wdt:P1435 wd:Q9259",
-            "wdt:P17 wd:Q55"
-        ]
-    },
-    {
-        "description" : "Movies with both Joe Pesci and Robert De Niro",
-        "data" : [
-            "wdt:P161 wd:Q36949",
-            "wdt:P161 wd:Q20178"
-        ]
-    },
-    {
-        "description" : "Train stations in the Czech Republic",
-        "data" : [
-            "wdt:P31 wd:Q55488",
-            "wdt:P17 wd:Q213"
-        ]
-    },
-    {
-        "description" : "Municipalities in the province of Gelderland, the Netherlands",
-        "data" : [
-            "wdt:P31 wd:Q2039348",
-            "wdt:P131 wd:Q775"
-        ]
-    },
-    {
-        "description" : "Female trumpet players",
-        "data" : [
-            "wdt:P31 wd:Q5",
-            "wdt:P1303 wd:Q8338",
-            "wdt:P21 wd:Q6581072"
-        ]
-    },
-    {
-        "description" : "Paintings of women by Vincent van Gogh in the Van Gogh museum",
-        "data" : [
-            "wdt:P31 wd:Q3305213",
-            "wdt:P170 wd:Q5582",
-            "wdt:P921 wd:Q467",
-            "wdt:P276 wd:Q224124"
-        ]
-    },
-];
+const BASE_QUERY = `
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX wikibase: <http://wikiba.se/ontology#>
+PREFIX schema: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX bd: <http://www.bigdata.com/rdf#>
+SELECT DISTINCT ?item ?itemLabel ?itemDescription ?image ?sitelink WHERE {
+  %query%
+  OPTIONAL { ?item wdt:P18 ?image. }
+  OPTIONAL {
+    ?sitelink schema:about ?item.
+    ?sitelink schema:isPartOf <https://en.wikipedia.org/>.
+  }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en,fr,es,de,ru,it,nl,ja,zh,pl,cs". }
+}
+LIMIT 50
+`;
 
-export default EXAMPLES.map((e) => {
-    const query = new Query();
+const EXAMPLES = `
+# Cats
+?item wdt:P31 wd:Q146 .
 
-    e.data.forEach((rule) => {
-        const [predicate, object] = rule.split(" ");
-        query.addRule(predicate, object);
+# World Heritage sites in the Netherlands
+?item wdt:P1435 wd:Q9259;
+      wdt:P17 wd:Q55 .
+
+# Movies with both Joe Pesci and Robert De Niro
+?item wdt:P161 wd:Q36949, wd:Q20178 .
+
+# Train stations in the Czech Republic
+?item wdt:P31 wd:Q55488;
+      wdt:P17 wd:Q213 .
+
+# Municipalities in the province of Gelderland, the Netherlands
+?item wdt:P31 wd:Q2039348;
+      wdt:P131 wd:Q775 .
+
+# Female trumpet players
+?item wdt:P31 wd:Q5 ;
+      wdt:P1303 wd:Q8338 ;
+      wdt:P21 wd:Q6581072 .
+
+# Cities with female mayors
+?item wdt:P31 wd:Q515 ;
+      wdt:P6 ?person .
+?person wdt:P21 wd:Q6581072 .
+
+# Paintings of women by Vincent van Gogh in the Van Gogh museum
+?item wdt:P31 wd:Q3305213 ;
+      wdt:P170 wd:Q5582 ;
+      wdt:P921 wd:Q467 ;
+      wdt:P276 wd:Q224124 .
+`;
+
+function parseExamples(data) {
+    const examples = [];
+    let e = false;
+
+    data.trim().split('\n').forEach((line) => {
+        if (line[0] === '#') {
+            if (e) {
+                examples.push(e);
+            }
+
+            e = {
+                query : ''
+            };
+
+            e.description = line.replace('#', '').trim();
+        } else {
+            e.query += line + '\n';
+        }
     });
 
-    e.query = query.stringify();
+    examples.push(e);
 
-    return e;
-});
+    return examples.map((e) => {
+        e.query = BASE_QUERY.replace('%query%', e.query);
+        return e;
+    });
+}
+
+export default parseExamples(EXAMPLES);
