@@ -22,17 +22,15 @@
                    v-bind:placeholder="type"
                    v-model="search" />
 
-            <span class="input-group-btn">
+            <div class="input-group-btn">
                 <button class="btn btn-default"
-                        v-on:click="setAny">
-                    <span class="glyphicon glyphicon-record"></span> Any
+                        v-on:click="setVariable">
+                    <span class="glyphicon glyphicon-question-sign"></span> Variable
                 </button>
-            </span>
 
-            <span class="input-group-btn">
                 <button class="btn btn-default"
                         v-on:click="searching = false">&times;</button>
-            </span>
+            </div>
         </div>
 
 
@@ -72,8 +70,10 @@ export default {
     },
 
     created : function() {
-        if (this.value === '?any') {
-            this.setAnyLabel();
+        if (this.value[0] === '?') {
+            this.entity = {
+                label : this.value
+            };
         } else if (this.value) {
             searchAndGet(this.type, this.value).then((item) => this.entity = item);
         }
@@ -89,16 +89,15 @@ export default {
             });
         },
 
-        setAnyLabel : function() {
-            this.entity = {
-                label : "anything"
-            };
+        resetSearch : function() {
+            this.suggestions = [];
+            this.searching = false;
         },
 
-        setAny : function() {
-            this.$emit('input', '?any');
-            this.searching = false;
-            this.setAnyLabel();
+        setVariable: function() {
+            this.$emit('input', '?' + this.search);
+            this.entity = { label : '?' + this.search };
+            this.resetSearch();
         },
 
         setSearch : function(q) {
@@ -115,10 +114,9 @@ export default {
         },
 
         setSuggestion : function(suggestion) {
-            this.suggestions = [];
             this.entity = suggestion;
             this.$emit('input', suggestion.concepturi);
-            this.searching = false;
+            this.resetSearch();
         }
     },
 

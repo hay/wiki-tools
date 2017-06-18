@@ -29,17 +29,17 @@
         </div>
 
         <div class="form">
-            <h3>Find things that...</h3>
+            <h3>Select items where...</h3>
 
             <section v-for="triple in query.triples">
-                <p>have a property</p>
+                <p>item has a property</p>
 
                 <entity-entry
                     type="property"
                     v-bind:minlength="2"
                     v-model="triple.predicate"></entity-entry>
 
-                <p>that contains</p>
+                <p>that is</p>
 
                 <entity-entry
                     type="item"

@@ -38,6 +38,14 @@ export default class Query {
         return this.generator.stringify(this.query);
     }
 
+    get subjects() {
+        if (!this.triples) {
+            return [];
+        } else {
+            return [...new Set(this.triples.map((t) => t.subject))];
+        }
+    }
+
     get triples() {
         const triples = this.query.where.filter((d) => d.triples);
         return !!triples.length ? triples[0].triples : null;
