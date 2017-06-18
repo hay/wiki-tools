@@ -20,6 +20,7 @@ export function fetchJson(url) {
     return fetch(url).then((res) => res.json());
 }
 
+// Comparable to Java's hashing
 export function hashString(string) {
     let hash = 0;
 

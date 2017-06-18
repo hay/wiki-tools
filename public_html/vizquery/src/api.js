@@ -30,10 +30,6 @@ export function query(query) {
                 return d;
             });
 
-            // This is a pretty ugly way to solve the multiple instances of an
-            // item, but oh well
-            results = unique(results, (d) => d.id);
-
             resolve(results);
         });
     });

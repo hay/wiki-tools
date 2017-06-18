@@ -11,7 +11,15 @@ export default function() {
       "?item",
       "?itemLabel",
       "?itemDescription",
-      "?image",
+      {
+        "expression": {
+          "expression": "?image",
+          "type": "aggregate",
+          "aggregation": "sample",
+          "distinct": false
+        },
+        "variable": "?image"
+      },
       "?sitelink"
     ],
     "distinct": true,
@@ -71,6 +79,20 @@ export default function() {
         ],
         "name": "http://wikiba.se/ontology#label",
         "silent": false
+      }
+    ],
+    "group": [
+      {
+        "expression": "?item"
+      },
+      {
+        "expression": "?itemLabel"
+      },
+      {
+        "expression": "?itemDescription"
+      },
+      {
+        "expression": "?sitelink"
       }
     ],
     "limit": DEFAULT_RESULT_LIMIT,

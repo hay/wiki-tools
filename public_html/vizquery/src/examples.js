@@ -6,7 +6,7 @@ PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 PREFIX wikibase: <http://wikiba.se/ontology#>
 PREFIX schema: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX bd: <http://www.bigdata.com/rdf#>
-SELECT DISTINCT ?item ?itemLabel ?itemDescription ?image ?sitelink WHERE {
+SELECT DISTINCT ?item ?itemLabel ?itemDescription (SAMPLE(?image) AS ?image) ?sitelink WHERE {
   %query%
   OPTIONAL { ?item wdt:P18 ?image. }
   OPTIONAL {
@@ -15,6 +15,7 @@ SELECT DISTINCT ?item ?itemLabel ?itemDescription ?image ?sitelink WHERE {
   }
   SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en,fr,es,de,ru,it,nl,ja,zh,pl,cs". }
 }
+GROUP BY ?item ?itemLabel ?itemDescription ?sitelink
 LIMIT 50
 `;
 
@@ -52,6 +53,12 @@ const EXAMPLES = `
       wdt:P170 wd:Q5582 ;
       wdt:P921 wd:Q467 ;
       wdt:P276 wd:Q224124 .
+
+# World heritage sites of countries with a female head of government
+?item wdt:P1435 wd:Q9259;
+      wdt:P17 ?country.
+?country wdt:P6 ?person.
+?person wdt:P21 wd:Q6581072.
 `;
 
 function parseExamples(data) {
