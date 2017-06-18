@@ -8,6 +8,7 @@ import Vue from "vue";
 import entityEntry from "./components/entity-entry.vue";
 import displayTable from "./components/display-table.vue";
 import displayGrid from "./components/display-grid.vue";
+import subjectEntry from "./components/subject-entry.vue";
 
 // Custom code
 import { $ } from "./util";
@@ -22,7 +23,8 @@ export default function(selector) {
         components : {
             'entity-entry' : entityEntry,
             'display-table' : displayTable,
-            'display-grid' : displayGrid
+            'display-grid' : displayGrid,
+            'subject-entry' : subjectEntry
         },
 
         data : {

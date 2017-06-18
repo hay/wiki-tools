@@ -32,7 +32,11 @@
             <h3>Select items where...</h3>
 
             <section v-for="triple in query.triples">
-                <p>item has a property</p>
+                <subject-entry
+                    v-model="triple.subject"
+                    v-bind:subjects="query.subjects"></subject-entry>
+
+                <p>has a property</p>
 
                 <entity-entry
                     type="property"
