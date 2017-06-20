@@ -59,6 +59,12 @@ const EXAMPLES = `
       wdt:P17 ?country.
 ?country wdt:P6 ?person.
 ?person wdt:P21 wd:Q6581072.
+
+# Vegetarians who are married to to a vegeterian
+?item wdt:P31 wd:Q5;
+      wdt:P1576 wd:Q18338317;
+      wdt:P26 ?spouse.
+?spouse wdt:P1576 wd:Q18338317.
 `;
 
 function parseExamples(data) {
