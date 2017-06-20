@@ -15,13 +15,15 @@
             <a href="<?= $hay->getUrl(); ?>">Wikidata <?php $hay->title(); ?></a>
         </h1>
 
-        <p class="lead" v-show="!hadResults">
-            <?php $hay->description(); ?>
-        </p>
+        <section v-show="!hadResults">
+            <p class="lead">
+                <?php $hay->description(); ?>
+            </p>
 
-        <p class="intro" v-show="!hadResults">This tool allows you to query Wikidata, the database of all things in the world. For example, you could get a list of world heritage sites in your country. A list with movies with Joe Pesci and Robert De Niro. Or female trumpet players. You construct a query by combining <em>properties</em> and <em>items</em> into <em>claims</em>. Let's start with a simple example: <a v-bind:href="'#' + encodeURIComponent(examples[0].query)">click here to find all cats on Wikidata</a>.
+            <p class="intro">This tool allows you to query Wikidata, the database of all things in the world. For example, you could get a list of world heritage sites in your country. A list with movies with Joe Pesci and Robert De Niro. Or female trumpet players. You construct a query by combining <em>properties</em> and <em>items</em> into <em>rules</em>. Let's start with a simple example: <a v-bind:href="'#' + encodeURIComponent(examples[0].query)">click here to find all cats on Wikidata</a>.</p>
 
-        </p>
+            <p class="intro text-muted">Note for advanced users: you can use the input box to enter variables and strings as well. Just prefix your variables with a question mark, or put quotes around your strings and press enter.</p>
+        </section>
 
         <div class="alert alert-danger" v-show="error">
             Sorry, something went wrong. Either your query was wrong, or there were no results.
@@ -97,9 +99,17 @@
 
         <modal v-model="modal.show"
                v-bind:title="modal.title"
-               v-on:hide="removeRules"
                size="sm">
             <p>{{modal.text}}</p>
+
+            <div slot="footer">
+                <button type="button"
+                        class="btn btn-default"
+                        v-on:click="modal.show = false">Cancel</button>
+                <button type="button"
+                        class="btn btn-danger"
+                        v-on:click="removeAllRules">Remove all rules</button>
+            </div>
         </modal>
 
         <div class="results" v-show="results.length">

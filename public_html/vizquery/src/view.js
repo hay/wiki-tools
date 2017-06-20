@@ -78,12 +78,11 @@ export default function(selector) {
                 window.location.hash = encodeURIComponent(query);
             },
 
-            removeRules : function(msg) {
-                if (msg === 'ok') {
-                    this.query.triples = [];
-                    this.results = [];
-                    this.hadResults = false;
-                }
+            removeAllRules : function(msg) {
+                this.query.triples = [];
+                this.results = [];
+                this.hadResults = false;
+                this.modal.show = false;
             },
 
             showRemoveRulesModal : function() {
