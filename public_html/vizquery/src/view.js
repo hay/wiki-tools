@@ -9,6 +9,7 @@ import entityEntry from "./components/entity-entry.vue";
 import displayTable from "./components/display-table.vue";
 import displayGrid from "./components/display-grid.vue";
 import subjectEntry from "./components/subject-entry.vue";
+import { Modal } from "uiv";
 
 // Custom code
 import { $ } from "./util";
@@ -24,7 +25,8 @@ export default function(selector) {
             'entity-entry' : entityEntry,
             'display-table' : displayTable,
             'display-grid' : displayGrid,
-            'subject-entry' : subjectEntry
+            'subject-entry' : subjectEntry,
+            Modal
         },
 
         data : {
@@ -44,7 +46,12 @@ export default function(selector) {
 
             loading : false,
 
-            examples : EXAMPLES
+            examples : EXAMPLES,
+
+            modal : {
+                show : false,
+                title : null
+            }
         },
 
         mounted : function() {
@@ -69,6 +76,20 @@ export default function(selector) {
             doQuery : function() {
                 const query = this.query.stringify();
                 window.location.hash = encodeURIComponent(query);
+            },
+
+            removeRules : function(msg) {
+                if (msg === 'ok') {
+                    this.query.triples = [];
+                    this.results = [];
+                    this.hadResults = false;
+                }
+            },
+
+            showRemoveRulesModal : function() {
+                this.modal.title = "Remove all rules";
+                this.modal.show = true;
+                this.modal.text = "Are you sure you want to remove all rules?";
             },
 
             setDisplay : function(type) {

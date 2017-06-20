@@ -51,7 +51,8 @@
                     v-bind:minlength="2"
                     v-model="triple.object"></entity-entry>
 
-                <button class="btn btn-default" v-on:click="query.removeTriple(triple)">
+                <button class="btn btn-default"
+                        v-on:click="query.removeTriple(triple)">
                     <span class="glyphicon glyphicon-minus"></span>
                     Remove rule
                 </button>
@@ -61,6 +62,13 @@
                 <button class="btn btn-default" v-on:click="addRule">
                     <span class="glyphicon glyphicon-plus"></span>
                     Add rule
+                </button>
+
+                <button class="btn btn-default"
+                        v-on:click="showRemoveRulesModal"
+                        v-show="!!query.triples && query.triples.length">
+                    <span class="glyphicon glyphicon-trash"></span>
+                    Remove all rules
                 </button>
             </section>
 
@@ -86,6 +94,13 @@
         <div class="alert alert-info" v-show="results.length == 0 && !loading && hadResults">
             No results
         </div>
+
+        <modal v-model="modal.show"
+               v-bind:title="modal.title"
+               v-on:hide="removeRules"
+               size="sm">
+            <p>{{modal.text}}</p>
+        </modal>
 
         <div class="results" v-show="results.length">
             <h3 v-show="results">
