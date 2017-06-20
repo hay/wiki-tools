@@ -19,15 +19,11 @@
             <input class="entity-entry__search form-control"
                    type="search"
                    v-on:keyup.esc="searching = false"
+                   v-on:keyup.enter="setString"
                    v-bind:placeholder="type"
                    v-model="search" />
 
             <div class="input-group-btn">
-                <button class="btn btn-default"
-                        v-on:click="setVariable">
-                    <span class="glyphicon glyphicon-question-sign"></span> Variable
-                </button>
-
                 <button class="btn btn-default"
                         v-on:click="searching = false">&times;</button>
             </div>
@@ -54,7 +50,11 @@ import {
     MIN_INPUT_LENGTH,
     LANGUAGE,
     WIKIDATA_PROPERTY,
-    WIKIDATA_ITEM
+    WIKIDATA_ITEM,
+    ENTITIY_REGEX,
+    ENTITY_URI,
+    VARIABLE_REGEX,
+    STRING_REGEX
 } from "../conf";
 import Vue from "vue";
 
@@ -70,7 +70,7 @@ export default {
     },
 
     created : function() {
-        if (this.value && this.value[0] === '?') {
+        if (this.value && !this.isEntity(this.value)) {
             this.entity = {
                 label : this.value
             };
@@ -89,15 +89,25 @@ export default {
             });
         },
 
+        isEntity : function(val) {
+            return ENTITIY_REGEX.test(val) || val.indexOf(ENTITY_URI) === 0;
+        },
+
         resetSearch : function() {
             this.suggestions = [];
             this.searching = false;
         },
 
-        setVariable: function() {
-            this.$emit('input', '?' + this.search);
-            this.entity = { label : '?' + this.search };
-            this.resetSearch();
+        setString: function() {
+            // Check if this is a valid string
+            if (
+                VARIABLE_REGEX.test(this.search) ||
+                STRING_REGEX.test(this.search)
+            ) {
+                this.$emit('input', this.search);
+                this.entity = { label : this.search };
+                this.resetSearch();
+            }
         },
 
         setSearch : function(q) {

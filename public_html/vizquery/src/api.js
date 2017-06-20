@@ -4,7 +4,7 @@ import { LANGUAGE, WIKIDATA_PROPERTY, SPARQL_ENDPOINT } from "./conf";
 function transformProperty(item) {
     // This is a hack because for some reason the search API gives
     // back properties in the 'entity' form instead of property form
-    if (item.datatype === 'wikibase-item' && item.id[0] === 'P') {
+    if (item.id[0] === 'P') {
         item.concepturi = WIKIDATA_PROPERTY + item.id;
     }
 
