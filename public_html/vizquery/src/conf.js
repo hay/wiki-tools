@@ -11,4 +11,4 @@ export const WIKIDATA_PROPERTY = 'http://www.wikidata.org/prop/direct/';
 export const ENTITIY_REGEX = /(Q|P)\d+/g;
 export const VARIABLE_REGEX = /\?[\w|\d]+/g;
 export const STRING_REGEX = /".+"/g
-export const ENTITY_URI = 'http://www.wikidata.org/entity/';
+export const ENTITY_URI = 'http://www.wikidata.org/';

@@ -85,17 +85,23 @@ export default {
 
             Vue.nextTick(() => {
                 this.$el.querySelector('input').focus();
-                this.setSearch(this.search);
+
+                if (this.isEntity(this.value)) {
+                    this.setSearch(this.entity.label);
+                } else {
+                    this.search = this.value;
+                }
             });
         },
 
         isEntity : function(val) {
-            return ENTITIY_REGEX.test(val) || val.indexOf(ENTITY_URI) === 0;
+            return val && (ENTITIY_REGEX.test(val) || val.indexOf(ENTITY_URI) === 0);
         },
 
         resetSearch : function() {
             this.suggestions = [];
             this.searching = false;
+            this.search = null;
         },
 
         setString: function() {

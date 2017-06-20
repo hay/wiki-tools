@@ -43,6 +43,9 @@ const EXAMPLES = `
       wdt:P1303 wd:Q8338 ;
       wdt:P21 wd:Q6581072 .
 
+# Items with VIAF number 113230702
+?item wdt:P214 "113230702".
+
 # Cities with female mayors
 ?item wdt:P31 wd:Q515 ;
       wdt:P6 ?person .
