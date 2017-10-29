@@ -68,7 +68,7 @@
 
     <h2 id="addtool">Add your tool to the directory</h2>
 
-    <p class="lead">Note that your tool <strong>does not</strong> have to be hosted on WMF Labs. If you have a tool living on your own server, a Javascript gadget on a wiki, or a non-web tool such as a bot feel free to add it using the methods mentioned below.</p>
+    <p class="lead">Note that your tool <strong>does not</strong> have to be hosted on Wikimedia Cloud Services/Toolforge. If you have a tool living on your own server, a Javascript gadget on a wiki, or a non-web tool such as a bot feel free to add it using the methods mentioned below.</p>
 
     <h3>Step 1</h3>
 
