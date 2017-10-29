@@ -59,7 +59,7 @@ import {
 import Vue from "vue";
 
 export default {
-    data : function() {
+    data() {
         return {
             suggestions : [],
             loading : false,

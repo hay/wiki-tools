@@ -12,7 +12,7 @@
 
 <script>
 export default {
-    data : function() {
+    data() {
         return {
             item : this.value
         };

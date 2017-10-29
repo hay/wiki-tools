@@ -52,6 +52,10 @@ export function search(type, q) {
 };
 
 export function searchAndGet(type, q) {
+    // The wbsearchentities method doesn't return results anymore for the
+    // direct link to property or entity, so this is a bit of a hack
+    q = q.split('/').pop();
+
     return search(type, q).then((d) => {
         return new Promise((resolve, reject) => {
             const items = d.filter((i) => Object.values(i).includes(q));
