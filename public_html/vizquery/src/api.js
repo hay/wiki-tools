@@ -21,6 +21,10 @@ export function query(query) {
             results = results.results.bindings.map((d) => {
                 if (d.image) {
                     d.thumb = d.image.value + '?width=300';
+
+                    // For some reason WD Query gives back http links to
+                    // Commons, let's convert those to https
+                    d.thumb = d.thumb.replace('http://', 'https://');
                 }
 
                 if (d.item) {
