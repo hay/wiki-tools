@@ -37,7 +37,7 @@
     },
     {
         "title" : "Wikidata Translate",
-        "description" : "Use the power of Wikidata to translate a term between two languages.",
+        "description" : "Use the power of Wikidata to translate a term between two or more languages.",
         "name" : "hay-wdtranslate",
         "author" : "Hay Kranen",
         "repository" : "https://github.com/hay/wiki-tools.git",
