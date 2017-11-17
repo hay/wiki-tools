@@ -4,6 +4,8 @@ Source code for all of my [wiki tools](http://tools.wmflabs.org/hay/)
 ## Running it
 * Create a `config.php` file (use `config-sample.php` as an example) in the `lib` directory.
 * Do a `composer install` in the lib/ directory. For this you need [Composer](http://getcomposer.org).
+* Do a `bower init` in the root directory
+* Some tools (like VizQuery) need a `npm install` in their root as well. VizQuery also needs a 'npm run build' to build the bundle.
 
 ## Remarks
 * To generate the `props.html` file that is used in the Wikidata Property browser, either:
