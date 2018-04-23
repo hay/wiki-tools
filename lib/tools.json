@@ -25,6 +25,11 @@
         "url" : "http://sum.bykr.org"
     },
 
+    "multisearch" : {
+        "title" : "MultiSearch",
+        "description" : "Search for up to 50 page titles or items in a Wikimedia project."
+    },
+
     "wdtranslate" : {
         "title" : "Wikidata Translate",
         "description" : "Use the power of Wikidata to translate a term between two or more languages."

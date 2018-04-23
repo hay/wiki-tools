@@ -1,0 +1,30 @@
+{
+  "name": "vizquery",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "webpack --progress --colors",
+    "watch": "webpack --progress --colors --watch"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
+  "dependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-env": "^1.5.2",
+    "css-loader": "^0.28.4",
+    "handlebars": "^4.0.10",
+    "lodash": "^4.17.5",
+    "papaparse": "^4.3.3",
+    "sparqljs": "^1.5.1",
+    "uiv": "^0.11.4",
+    "underscore": "^1.8.3",
+    "vue": "^2.3.4",
+    "vue-loader": "^12.2.1",
+    "vue-template-compiler": "^2.3.4",
+    "webpack": "^2.6.1"
+  }
+}
