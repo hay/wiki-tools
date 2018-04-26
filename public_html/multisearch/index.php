@@ -24,10 +24,10 @@
 
         <div class="alert alert-danger" v-show="error">
             Sorry, something went wrong. Either your query was wrong, or there were no results.
-            <p v-if="error">{{error}}</p>
+            <p v-if="!isEmpty(error)"><em>Error: </em> <code>{{error}}</code></p>
         </div>
 
-        <form v-show="!results.length">
+        <form v-show="!showResults">
             <h3>Enter project name</h3>
 
             <div class="col-md-3 input-group buffer-bottom">
@@ -59,7 +59,7 @@
                 rows="50"></textarea>
         </form>
 
-        <div v-show="!!results.length">
+        <div v-show="showResults">
             <menu class="cells cells-menu">
                 <button
                     type="button"

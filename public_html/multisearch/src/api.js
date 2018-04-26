@@ -46,8 +46,6 @@ function parseQuery(data) {
 }
 
 export function resultsToTable(results, project) {
-    console.log(results, project);
-
     return results.map((r) => {
         return {
             'available' : r.available,
@@ -60,7 +58,7 @@ export function resultsToTable(results, project) {
 }
 
 export function query({project, titles}) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         titles = encodeURIComponent(titles.join('|'));
 
         const url = cleanupUrl(`
@@ -76,6 +74,6 @@ export function query({project, titles}) {
         fetchJson(url).then((data) => {
             data = parseQuery(data["query"]);
             resolve(data);
-        });
+        }).catch(err => reject(err));
     });
 }

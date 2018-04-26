@@ -1,5 +1,6 @@
 import Vue from "vue";
 import saveCsv from 'save-csv';
+import { isEmpty } from 'lodash';
 import { parseQuery } from './util.js';
 import { query, resultsToTable } from './api.js'
 
@@ -19,6 +20,10 @@ export default function(selector) {
                 return resultsToTable(this.results, this.project);
             },
 
+            showResults() {
+                return !!this.results.length;
+            },
+
             titles() {
                 const text = this.titlesText.trim();
 
@@ -36,8 +41,10 @@ export default function(selector) {
             },
 
             edit() {
-
+                this.results = [];
             },
+
+            isEmpty,
 
             query() {
                 query({
@@ -45,7 +52,7 @@ export default function(selector) {
                     titles : this.titles
                 }).then((results) => {
                     this.results = results;
-                });
+                }).catch(err => this.error = err);
             },
 
             search() {
