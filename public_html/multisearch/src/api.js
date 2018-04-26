@@ -1,5 +1,5 @@
 import { cleanupUrl, fetchJson } from './util.js';
-import { fromPairs } from 'lodash';
+import { fromPairs, values } from 'lodash';
 
 function parseQuery(data) {
     let parsed = [];
@@ -45,14 +45,23 @@ function parseQuery(data) {
     return parsed;
 }
 
+export function resultsToCsv(results) {
+    const header = Object.keys(results[0]).join('\t') + '\n';
+    const csv = results.map((r) => {
+        return values(r).join('\t');
+    }).join('\n');
+
+    return header + csv;
+}
+
 export function resultsToTable(results, project) {
     return results.map((r) => {
         return {
-            'available' : r.available,
             'title' : r.title,
             'wikidata_id' : r.wikibase_item ? r.wikibase_item : null,
             'wikidata_link' : r.wikibase_item ? `http://www.wikidata.org/entity/${r.wikibase_item}` : null,
-            'wikipedia_link' : r.available ? `https://${project}.org/wiki/${r.title}` : null
+            'wikipedia_link' : r.available ? `https://${project}.org/wiki/${r.title}` : null,
+            'available' : r.available
         };
     });
 }

@@ -16,7 +16,7 @@
             <a href="<?= $hay->getUrl(); ?>"><?php $hay->title(); ?></a>
         </h1>
 
-        <section v-show="!showResults">
+        <section v-show="state === 'edit'">
             <p class="lead">
                 <?php $hay->description(); ?>
             </p>
@@ -27,7 +27,7 @@
             <p v-if="!isEmpty(error)"><em>Error: </em> <code>{{error}}</code></p>
         </div>
 
-        <form v-show="!showResults">
+        <form v-show="state === 'edit'">
             <h3>Enter project name</h3>
 
             <div class="col-md-3 input-group buffer-bottom">
@@ -59,13 +59,20 @@
                 rows="50"></textarea>
         </form>
 
-        <div v-show="showResults">
+        <div v-show="state === 'results'">
             <menu class="cells cells-menu">
                 <button
                     type="button"
                     class="btn btn-default"
                     v-on:click="download">
                     Download CSV
+                </button>
+
+                <button
+                    type="button"
+                    class="btn btn-default"
+                    v-on:click="copy">
+                    Copy CSV
                 </button>
 
                 <button
@@ -115,6 +122,20 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+
+        <div v-show="state === 'copy'">
+            <button
+                type="button"
+                class="btn btn-primary buffer-bottom"
+                v-on:click="closeCopy">
+                Back to results
+            </button>
+
+            <textarea
+                class="csv form-control"
+                v-copy
+                rows="10">{{csvRaw}}</textarea>
         </div>
     </div>
 <?php

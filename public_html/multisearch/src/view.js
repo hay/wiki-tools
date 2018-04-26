@@ -2,17 +2,28 @@ import Vue from "vue";
 import saveCsv from 'save-csv';
 import { isEmpty } from 'lodash';
 import { parseQuery } from './util.js';
-import { query, resultsToTable } from './api.js'
+import { query, resultsToCsv, resultsToTable } from './api.js'
 
 export default function(selector) {
     return new Vue({
         el : selector,
 
         data : {
+            csvRaw : null,
             error : false,
             project : null,
             results : [],
             titlesText : ''
+        },
+
+        directives : {
+            copy(el) {
+                el.addEventListener('click', (e) => {
+                    el.focus();
+                    el.select();
+                    document.execCommand('copy');
+                });
+            }
         },
 
         computed : {
@@ -20,8 +31,14 @@ export default function(selector) {
                 return resultsToTable(this.results, this.project);
             },
 
-            showResults() {
-                return !!this.results.length;
+            state() {
+                if (this.csvRaw) {
+                    return 'copy';
+                } else if (!!this.results.length) {
+                    return 'results';
+                } else {
+                    return 'edit';
+                }
             },
 
             titles() {
@@ -36,6 +53,14 @@ export default function(selector) {
         },
 
         methods : {
+            closeCopy() {
+                this.csvRaw = null;
+            },
+
+            copy() {
+                this.csvRaw = resultsToCsv(this.resultsTable);
+            },
+
             download() {
                 saveCsv(this.resultsTable);
             },

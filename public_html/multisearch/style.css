@@ -37,3 +37,8 @@
 .buffer-bottom {
     margin-bottom: 3rem;
 }
+
+.csv {
+    width: 100%;
+    font-family: monospace;
+}
