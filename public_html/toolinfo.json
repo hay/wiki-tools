@@ -1,5 +1,14 @@
 [
     {
+        "title" : "MultiSearch",
+        "description" : "Search for up to 50 page titles or items in a Wikimedia project and export to CSV.",
+        "name" : "hay-multisearch",
+        "author" : "Hay Kranen",
+        "repository" : "https://github.com/hay/wiki-tools.git",
+        "url" : "http://tools.wmflabs.org/hay/multisearch",
+        "keywords" : "wikidata, search, api, csv, wikipedia"
+    },
+    {
         "title" : "VizQuery",
         "description" : "A visual way to query Wikidata without having to use SPARQL.",
         "name" : "hay-vizquery",

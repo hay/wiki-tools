@@ -16,7 +16,7 @@
             <a href="<?= $hay->getUrl(); ?>"><?php $hay->title(); ?></a>
         </h1>
 
-        <section v-show="!results">
+        <section v-show="!showResults">
             <p class="lead">
                 <?php $hay->description(); ?>
             </p>
@@ -42,7 +42,7 @@
             </div>
 
             <div class="cells cells-spaced">
-                <h3>Input your page / item titles (up to 50)</h3>
+                <h3>Input your page / item titles (up to 50), separated by newlines.</h3>
 
                 <button
                     type="button"

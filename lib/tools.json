@@ -27,7 +27,7 @@
 
     "multisearch" : {
         "title" : "MultiSearch",
-        "description" : "Search for up to 50 page titles or items in a Wikimedia project."
+        "description" : "Search for up to 50 page titles or items in a Wikimedia project and export to CSV."
     },
 
     "wdtranslate" : {
