@@ -27,7 +27,7 @@
             <p v-if="error">{{error}}</p>
         </div>
 
-        <form v-show="!results">
+        <form v-show="!results.length">
             <h3>Enter project name</h3>
 
             <div class="col-md-3 input-group buffer-bottom">
@@ -41,13 +41,13 @@
                 <span class="input-group-addon">.org</span>
             </div>
 
-            <div class="cells">
+            <div class="cells cells-spaced">
                 <h3>Input your page / item titles (up to 50)</h3>
 
                 <button
                     type="button"
                     class="btn btn-primary"
-                    v-bind:disabled="!project"
+                    v-bind:disabled="!project || !titles.length"
                     v-on:click="search">
                     Search
                 </button>
@@ -59,23 +59,63 @@
                 rows="50"></textarea>
         </form>
 
-        <table
-            class="table table-striped table-hover table-condensed table-responsive"
-            v-show="!!results">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Result</th>
-                </tr>
-            </thead>
+        <div v-show="!!results.length">
+            <menu class="cells cells-menu">
+                <button
+                    type="button"
+                    class="btn btn-default"
+                    v-on:click="download">
+                    Download CSV
+                </button>
 
-            <tbody>
-                <tr v-for="row in results">
-                    <td>{{row.title}}</td>
-                    <td v-html="row.result"></td>
-                </tr>
-            </tbody>
-        </table>
+                <button
+                    type="button"
+                    class="btn btn-default"
+                    v-on:click="edit">
+                    Edit query
+                </button>
+            </menu>
+
+            <table
+                class="table table-striped table-hover table-condensed table-responsive">
+                <thead>
+                    <tr>
+                        <th>Search query</th>
+                        <th>Page</th>
+                        <th>Wikidata item</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr
+                        v-for="row in resultsTable"
+                        v-bind:class="{
+                            'success' : row.available,
+                            'danger' : !row.available
+                        }">
+                        <td><code>{{row.title}}</code></td>
+                        <td>
+                            <a v-if="row.available"
+                               v-bind:href="row.wikipedia_link"
+                               target="blank">
+                               {{row.title}}
+                            </a>
+
+                            <span v-if="!row.available">Not available</span>
+                        </td>
+                        <td>
+                            <a v-if="row.wikidata_id"
+                               v-bind:href="row.wikidata_link"
+                               target="blank">
+                               {{row.wikidata_id}}
+                            </a>
+
+                            <span v-if="!row.wikidata_id">Not available</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 <?php
     $hay->footer();

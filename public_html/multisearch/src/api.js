@@ -33,10 +33,30 @@ function parseQuery(data) {
             item["normalized"] = normalized[item["redirect"]];
         }
 
+        item["available"] = (!("missing" in page) && !("invalid" in page));
+
+        if ("pageprops" in page && "wikibase_item" in page["pageprops"]) {
+            item["wikibase_item"] = page["pageprops"]["wikibase_item"];
+        }
+
         parsed.push(item);
     }
 
     return parsed;
+}
+
+export function resultsToTable(results, project) {
+    console.log(results, project);
+
+    return results.map((r) => {
+        return {
+            'available' : r.available,
+            'title' : r.title,
+            'wikidata_id' : r.wikibase_item ? r.wikibase_item : null,
+            'wikidata_link' : r.wikibase_item ? `http://www.wikidata.org/entity/${r.wikibase_item}` : null,
+            'wikipedia_link' : r.available ? `https://${project}.org/wiki/${r.title}` : null
+        };
+    });
 }
 
 export function query({project, titles}) {
@@ -55,7 +75,6 @@ export function query({project, titles}) {
 
         fetchJson(url).then((data) => {
             data = parseQuery(data["query"]);
-            console.log(data);
             resolve(data);
         });
     });

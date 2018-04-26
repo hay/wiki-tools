@@ -22,8 +22,16 @@
 
 .cells {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    padding: 0;
+}
+
+.cells-menu > * {
+    margin-right: 1rem;
+}
+
+.cells-spaced {
+    justify-content: space-between;
 }
 
 .buffer-bottom {

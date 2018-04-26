@@ -1,6 +1,7 @@
 import Vue from "vue";
+import saveCsv from 'save-csv';
 import { parseQuery } from './util.js';
-import { query } from './api.js'
+import { query, resultsToTable } from './api.js'
 
 export default function(selector) {
     return new Vue({
@@ -14,12 +15,30 @@ export default function(selector) {
         },
 
         computed : {
+            resultsTable() {
+                return resultsToTable(this.results, this.project);
+            },
+
             titles() {
-                return this.titlesText.split('\n').map(s => s.trim());
+                const text = this.titlesText.trim();
+
+                if (!!text.length) {
+                    return text.split('\n').map(s => s.trim()).filter(s => !!s);
+                } else {
+                    return [];
+                }
             }
         },
 
         methods : {
+            download() {
+                saveCsv(this.resultsTable);
+            },
+
+            edit() {
+
+            },
+
             query() {
                 query({
                     project : this.project,
@@ -36,9 +55,12 @@ export default function(selector) {
 
         mounted() {
             const q = parseQuery(window.location.search);
-            this.project = q.project;
-            this.titlesText = q.titles;
-            this.query();
+
+            if ('project' in q && 'titles' in q) {
+                this.project = q.project;
+                this.titlesText = q.titles;
+                this.query();
+            }
         }
     });
 };
