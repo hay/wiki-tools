@@ -1,8 +1,28 @@
 {
   "name": "propbrowse",
   "version": "0.1.0",
+  "scripts": {
+    "build": "npm run build:js",
+    "build:js": "webpack -d",
+    "postinstall" : "npm run build",
+    "watch": "webpack -dw"
+  },
   "dependencies": {
-    "superagent": "^3.5.2",
-    "vue": "^2.2.5"
+    "es6-promise": "^4.2.4",
+    "mdn-polyfills": "^5.6.0",
+    "regenerator-runtime": "^0.11.1",
+    "vue": "^2.5.16",
+    "whatwg-fetch": "^2.0.4"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
+    "vue-loader": "^15.0.9",
+    "vue-template-compiler": "^2.5.16",
+    "webpack": "^4.8.1",
+    "webpack-cli": "^2.1.3"
   }
 }

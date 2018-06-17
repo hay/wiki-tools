@@ -38,12 +38,12 @@ def parseprop(item):
     types = prop.get("claims/P31/mainsnak/datavalue/value/numeric-id")
 
     if isinstance(types, list):
-        data["types"] = filter(None, [TYPES.get("Q%s" % qid) for qid in types])
+        data["types"] = [_f for _f in [TYPES.get("Q%s" % qid) for qid in types] if _f]
 
     return data
 
 def get_prop_info(ids):
-    print "get_prop_info %s" % ",".join(ids)
+    print("get_prop_info %s" % ",".join(ids))
 
     params = {
         "action" : "wbgetentities",
@@ -55,10 +55,10 @@ def get_prop_info(ids):
     }
 
     r = requests.get(ENDPOINT, params = params)
-    return r.json()["entities"].values()
+    return list(r.json()["entities"].values())
 
 def get_prop_ids(cont = None):
-    print "get_prop_ids %s" % cont
+    print("get_prop_ids %s" % cont)
 
     params = {
         "action" : "query",
@@ -96,7 +96,7 @@ def get_all_prop_ids():
 def main():
     props = []
 
-    print "Getting all property ids"
+    print("Getting all property ids")
     propids = get_all_prop_ids()
 
     maxrange = ceil( len(propids) / float(QUERY_LIMIT) )
@@ -112,7 +112,7 @@ def main():
     props = sorted(props, key = itemgetter("label"))
 
     jsonpath = SAVE_DIRECTORY + "props.json"
-    print("Saving to " + jsonpath)
+    print(("Saving to " + jsonpath))
 
     with open(jsonpath, "w") as jsonprops:
         jsonprops.write(json.dumps(props))
