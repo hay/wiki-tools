@@ -1,16 +1,20 @@
 import Vue from 'vue';
 import Model from './model.js';
+import { ProgressBar } from 'uiv';
 
 export default function() {
     return new Vue({
-        el : "#content",
+        el : "#app",
+
+        components : {
+            ProgressBar
+        },
 
         mounted() {
             this.model = new Model();
 
             this.model.on('progress', (p) => {
-                this.progress = p;
-                console.log(p);
+                this.loadingProgress = Math.round(p);
             });
 
             this.model.on('ready', () => {
@@ -21,6 +25,7 @@ export default function() {
         },
 
         data : {
+            loadingProgress : 0,
             model : null,
             properties : null,
             q : '',
@@ -57,6 +62,7 @@ export default function() {
                 }
             }
         },
+
         methods : {
             sortBy : function(key) {
                 this.properties = this.properties.sort(function(a, b) {
