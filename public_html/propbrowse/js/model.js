@@ -12,8 +12,6 @@ function transformProp(prop) {
 
     prop.url = 'https://www.wikidata.org/wiki/Property:' + prop.id;
 
-    prop.visible = true;
-
     prop.index = [prop.id, prop.label, prop.description].join(' ').toLowerCase();
 
     return prop;

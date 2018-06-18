@@ -22,10 +22,10 @@
     <p class="lead"><?php $hay->description(); ?></p>
 
     <div id="app" v-cloak>
-        <p v-show="!properties">Loading...</p>
+        <p v-show="!properties.length">Loading...</p>
 
         <div class="progress"
-             v-show="!properties">
+             v-show="!properties.length">
             <div
                 class="progress-bar progress-bar-striped active"
                 v-bind:style="{ width : loadingProgress + '%', 'min-width' : '3em' }">
@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        <div v-show="properties">
+        <div v-show="properties.length">
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
                     <div class="input-group">
@@ -42,7 +42,7 @@
                         </span>
                         <input class="form-control"
                                type="search"
-                               placeholder="Filter all properties"
+                               v-bind:placeholder="'Type at least ' + MINIMUM_QUERY_LENGTH + ' characters to start filtering'"
                                v-model.trim="q" />
                     </div>
                 </div>
@@ -69,8 +69,8 @@
 
             <br>
 
-            <div class="text-center" v-show="q.length > 2">
-                <span class="spacing-btn">Found {{shownProperties}} results</span>
+            <div class="text-center" v-show="q.length >= MINIMUM_QUERY_LENGTH">
+                <span class="spacing-btn">Found {{properties.length}} results</span>
 
                 <button class="btn btn-text" v-on:click="resetFilter">Reset filter</button>
 
@@ -106,21 +106,22 @@
                 </li>
             </ul>
 
-            <table class="table" v-if="view === 'detailed'">
+            <table
+                class="table"
+                v-if="view === 'detailed'">
                 <thead>
                     <tr>
-                        <th v-on:click="sortBy('id')">ID</th>
-                        <th v-on:click="sortBy('label')">Label</th>
-                        <th v-on:click="sortBy('description')">Description</th>
-                        <th v-on:click="sortBy('types')">Use</th>
-                        <th v-on:click="sortBy('datatype')">Type</th>
-                        <th v-on:click="sortBy('aliases')">Aliases</th>
+                        <th v-on:click="setSort('id')">ID</th>
+                        <th v-on:click="setSort('label')">Label</th>
+                        <th v-on:click="setSort('description')">Description</th>
+                        <th v-on:click="setSort('types')">Use</th>
+                        <th v-on:click="setSort('datatype')">Type</th>
+                        <th v-on:click="setSort('aliases')">Aliases</th>
                         <th>Example</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="prop in properties"
-                        v-show="prop.visible">
+                    <tr v-for="prop in properties.slice(0, MAX_DETAILED_LIST_LENGTH)">
                         <td>
                             <a v-bind:href="prop.url"
                                target="_blank">{{prop.id}}</a>
@@ -139,6 +140,12 @@
                         </td>
                     </tr>
                 </tbody>
+                <div
+                    class="alert alert-warning"
+                    v-show="properties.length > MAX_DETAILED_LIST_LENGTH">
+                    Not showing more than {{MAX_DETAILED_LIST_LENGTH}} results (of {{properties.length}}).
+                    Filter your selection to use detailed view.
+                </div>
             </table>
         </div>
     </div>

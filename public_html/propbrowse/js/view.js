@@ -1,15 +1,13 @@
 import Vue from 'vue';
-import { ProgressBar } from 'uiv';
 import { each, filter, fromPairs } from 'lodash';
 import Model from './model.js';
+
+const MINIMUM_QUERY_LENGTH = 4;
+const MAX_DETAILED_LIST_LENGTH = 250;
 
 export default function() {
     return new Vue({
         el : "#app",
-
-        components : {
-            ProgressBar
-        },
 
         mounted() {
             this.model = new Model();
@@ -31,11 +29,14 @@ export default function() {
             allproperties : null,
             datatypes : {},
             loadingProgress : 0,
+            MAX_DETAILED_LIST_LENGTH,
+            MINIMUM_QUERY_LENGTH,
             model : null,
             q : '',
             showDatatypes : false,
             shownProperties : null,
             sortDirection : 1,
+            sortKey : 'label',
             view : 'compact'
         },
 
@@ -45,7 +46,23 @@ export default function() {
                     return [];
                 }
 
-                return this.allproperties.filter(p => this.shownDatatypes.includes(p.datatype));
+                const q = this.q.toLowerCase();
+
+                // Only start filtering when q has a minimum amount of characters
+                if (q.length < MINIMUM_QUERY_LENGTH) {
+                    return this.allproperties;
+                }
+
+                let props = this.allproperties.filter((p) => {
+                    return this.shownDatatypes.includes(p.datatype) &&
+                           p.index.includes(q);
+                });
+
+                if (this.sortKey) {
+                    props = this.sortBy(this.sortKey, props);
+                }
+
+                return props;
             },
 
             shownDatatypes() {
@@ -55,26 +72,10 @@ export default function() {
 
         watch : {
             q(q) {
-                this.view = q.length < 3 ? 'compact' : 'detailed';
+                this.view = q.length < MINIMUM_QUERY_LENGTH ? 'compact' : 'detailed';
 
-                if (q.length < 3) {
-                    this.properties = this.properties.map(p => p.visible = true);
-                    this.shownProperties = this.properties.length;
+                if (q.length < MINIMUM_QUERY_LENGTH) {
                     this.resetDatatypes();
-                } else {
-                    this.shownProperties = 0;
-
-                    this.properties = this.properties.map((p) => {
-                        var isVisible = p.index.indexOf(q.toLowerCase()) !== -1;
-
-                        if (isVisible) {
-                            this.shownProperties += 1;
-                        }
-
-                        p.visible = isVisible;
-
-                        return p;
-                    });
                 }
             }
         },
@@ -91,10 +92,15 @@ export default function() {
                 this.resetDatatypes();
             },
 
-            sortBy(key) {
-                this.properties = this.properties.sort((a, b) => {
-                    a = a[key];
-                    b = b[key];
+            setSort(key) {
+                this.sortKey = key;
+                this.sortDirection = this.sortDirection * -1;
+            },
+
+            sortBy(key, properties) {
+                return properties.sort((a, b) => {
+                    a = a[key].toLowerCase();
+                    b = b[key].toLowerCase();
 
                     if (key === 'id') {
                         a = parseInt(a.replace('P', ''));
@@ -103,8 +109,6 @@ export default function() {
 
                     return a > b ? (1 * this.sortDirection) : -1 * this.sortDirection;
                 });
-
-                this.sortDirection = this.sortDirection * -1;
             },
 
             toggleDatatypes() {
