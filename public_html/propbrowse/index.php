@@ -15,8 +15,6 @@
 <section id="content">
     <div class="flexrow">
         <h1><?php $hay->title(); ?></h1>
-
-        <a href="props.json" download class="btn btn-primary">Download as JSON</a>
     </div>
 
     <p class="lead"><?php $hay->description(); ?></p>
@@ -159,6 +157,8 @@
             </div>
         </div>
     </div>
+
+    <a href="props.json" download class="center-block btn btn-link">Download all properties as JSON</a>
 </section>
 <?php
     $hay->footer();
