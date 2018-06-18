@@ -73,7 +73,7 @@
             <div class="alert alert-info buffer-top-3"
                  v-if="!hasLength && allproperties">
                 Filter through {{allproperties.length}} properties by typing
-                something in the box above.
+                something in the box above. Or <span class="text-link" v-on:click="showAll = true">show all properties</span> (can be slow).
             </div>
 
             <br />

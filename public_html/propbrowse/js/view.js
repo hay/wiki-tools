@@ -33,6 +33,7 @@ export default function() {
             MINIMUM_QUERY_LENGTH,
             model : null,
             q : '',
+            showAll : false,
             showDatatypes : false,
             sortDirection : 1,
             sortKey : 'label',
@@ -41,7 +42,7 @@ export default function() {
 
         computed : {
             hasLength() {
-                return this.q.length >= MINIMUM_QUERY_LENGTH;
+                return this.q.length >= MINIMUM_QUERY_LENGTH || this.showAll;
             },
 
             loading() {
@@ -49,7 +50,7 @@ export default function() {
             },
 
             properties() {
-                if (!this.hasLength) {
+                if (!this.hasLength || !this.allproperties) {
                     return [];
                 }
 

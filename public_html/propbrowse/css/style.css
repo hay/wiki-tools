@@ -49,3 +49,9 @@ th:hover {
 .spacing-btn {
     padding: 6px 12px;
 }
+
+.text-link {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
