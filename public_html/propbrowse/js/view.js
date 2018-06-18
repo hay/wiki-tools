@@ -20,6 +20,7 @@ export default function() {
                 const datatypes = this.model.getDatatypes();
                 this.allproperties = this.model.getProperties();
                 this.datatypes = fromPairs(datatypes.map((type) => [type, true]));
+                this.loading = false;
             });
 
             this.model.load();
@@ -28,6 +29,7 @@ export default function() {
         data : {
             allproperties : null,
             datatypes : {},
+            loading : true,
             loadingProgress : 0,
             MAX_DETAILED_LIST_LENGTH,
             MINIMUM_QUERY_LENGTH,
@@ -43,10 +45,6 @@ export default function() {
         computed : {
             hasLength() {
                 return this.q.length >= MINIMUM_QUERY_LENGTH || this.showAll;
-            },
-
-            loading() {
-                return this.loadingProgress !== 100;
             },
 
             properties() {
