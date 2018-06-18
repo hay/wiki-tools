@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { ProgressBar } from 'uiv';
-import { filter, fromPairs } from 'lodash';
+import { each, filter, fromPairs } from 'lodash';
 import Model from './model.js';
 
 export default function() {
@@ -60,6 +60,7 @@ export default function() {
                 if (q.length < 3) {
                     this.properties = this.properties.map(p => p.visible = true);
                     this.shownProperties = this.properties.length;
+                    this.resetDatatypes();
                 } else {
                     this.shownProperties = 0;
 
@@ -79,6 +80,17 @@ export default function() {
         },
 
         methods : {
+            resetDatatypes() {
+                for (const key in this.datatypes) {
+                    this.datatypes[key] = true;
+                }
+            },
+
+            resetFilter() {
+                this.q = '';
+                this.resetDatatypes();
+            },
+
             sortBy(key) {
                 this.properties = this.properties.sort((a, b) => {
                     a = a[key];

@@ -45,25 +45,6 @@
                                placeholder="Filter all properties"
                                v-model.trim="q" />
                     </div>
-
-                    <button
-                        class="btn btn-link"
-                        v-on:click="toggleDatatypes">
-                        Filter datatypes
-                    </button>
-
-                    <ul v-show="showDatatypes">
-                        <li
-                            v-for="(bool, datatype) in datatypes"
-                            class="checkbox">
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    v-model="datatypes[datatype]" />
-                                    {{datatype}}
-                            </label>
-                        </li>
-                    </ul>
                 </div>
 
                 <div class="col-md-3">
@@ -89,8 +70,28 @@
             <br>
 
             <div class="text-center" v-show="q.length > 2">
-                <span>Found {{shownProperties}} results</span>
-                <a class="btn btn-text" v-on:click="q = ''">Reset filter</a>
+                <span class="spacing-btn">Found {{shownProperties}} results</span>
+
+                <button class="btn btn-text" v-on:click="resetFilter">Reset filter</button>
+
+                <button
+                    class="btn btn-link"
+                    v-on:click="toggleDatatypes">
+                    Filter by datatype
+                </button>
+
+                <ul v-show="showDatatypes">
+                    <li
+                        v-for="(bool, datatype) in datatypes"
+                        class="checkbox">
+                        <label>
+                            <input
+                                type="checkbox"
+                                v-model="datatypes[datatype]" />
+                                {{datatype}}
+                        </label>
+                    </li>
+                </ul>
             </div>
 
             <p>Click on the column headers to sort by that column.</p>

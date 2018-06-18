@@ -41,3 +41,7 @@ th:hover {
 [v-cloak] > * {
     display: none;
 }
+
+.spacing-btn {
+    padding: 6px 12px;
+}
