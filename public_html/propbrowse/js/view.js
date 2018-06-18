@@ -1,6 +1,7 @@
 import Vue from 'vue';
-import Model from './model.js';
 import { ProgressBar } from 'uiv';
+import { filter, fromPairs } from 'lodash';
+import Model from './model.js';
 
 export default function() {
     return new Vue({
@@ -18,37 +19,51 @@ export default function() {
             });
 
             this.model.on('ready', () => {
-                this.properties = this.model.getProperties();
+                const datatypes = this.model.getDatatypes();
+                this.allproperties = this.model.getProperties();
+                this.datatypes = fromPairs(datatypes.map((type) => [type, true]));
             });
 
             this.model.load();
         },
 
         data : {
+            allproperties : null,
+            datatypes : {},
             loadingProgress : 0,
             model : null,
-            properties : null,
             q : '',
+            showDatatypes : false,
             shownProperties : null,
             sortDirection : 1,
             view : 'compact'
         },
 
+        computed : {
+            properties() {
+                if (!this.allproperties) {
+                    return [];
+                }
+
+                return this.allproperties.filter(p => this.shownDatatypes.includes(p.datatype));
+            },
+
+            shownDatatypes() {
+                return Object.keys(this.datatypes).filter(d => this.datatypes[d]);
+            }
+        },
+
         watch : {
-            q : function(q) {
+            q(q) {
                 this.view = q.length < 3 ? 'compact' : 'detailed';
 
                 if (q.length < 3) {
-                    this.properties = this.properties.map(function(p) {
-                        p.visible = true;
-                        return p;
-                    });
-
+                    this.properties = this.properties.map(p => p.visible = true);
                     this.shownProperties = this.properties.length;
                 } else {
                     this.shownProperties = 0;
 
-                    this.properties = this.properties.map(function(p) {
+                    this.properties = this.properties.map((p) => {
                         var isVisible = p.index.indexOf(q.toLowerCase()) !== -1;
 
                         if (isVisible) {
@@ -58,14 +73,14 @@ export default function() {
                         p.visible = isVisible;
 
                         return p;
-                    }, this );
+                    });
                 }
             }
         },
 
         methods : {
-            sortBy : function(key) {
-                this.properties = this.properties.sort(function(a, b) {
+            sortBy(key) {
+                this.properties = this.properties.sort((a, b) => {
                     a = a[key];
                     b = b[key];
 
@@ -75,9 +90,13 @@ export default function() {
                     }
 
                     return a > b ? (1 * this.sortDirection) : -1 * this.sortDirection;
-                }.bind(this));
+                });
 
                 this.sortDirection = this.sortDirection * -1;
+            },
+
+            toggleDatatypes() {
+                this.showDatatypes = !this.showDatatypes;
             }
         }
     });

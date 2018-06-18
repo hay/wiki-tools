@@ -45,6 +45,25 @@
                                placeholder="Filter all properties"
                                v-model.trim="q" />
                     </div>
+
+                    <button
+                        class="btn btn-link"
+                        v-on:click="toggleDatatypes">
+                        Filter datatypes
+                    </button>
+
+                    <ul v-show="showDatatypes">
+                        <li
+                            v-for="(bool, datatype) in datatypes"
+                            class="checkbox">
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    v-model="datatypes[datatype]" />
+                                    {{datatype}}
+                            </label>
+                        </li>
+                    </ul>
                 </div>
 
                 <div class="col-md-3">

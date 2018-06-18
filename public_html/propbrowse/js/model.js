@@ -1,4 +1,5 @@
 import request from 'superagent';
+import { map, uniq } from 'lodash';
 
 function transformProp(prop) {
     if (prop.types) {
@@ -22,6 +23,10 @@ export default class {
     constructor() {
         this.properties = null;
         this.callbacks = {};
+    }
+
+    getDatatypes() {
+        return uniq(map(this.properties, 'datatype')).sort();
     }
 
     getProperties() {
