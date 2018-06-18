@@ -2,7 +2,7 @@ import Vue from 'vue';
 import { each, filter, fromPairs } from 'lodash';
 import Model from './model.js';
 
-const MINIMUM_QUERY_LENGTH = 4;
+const MINIMUM_QUERY_LENGTH = 3;
 const MAX_DETAILED_LIST_LENGTH = 250;
 
 export default function() {
@@ -34,24 +34,26 @@ export default function() {
             model : null,
             q : '',
             showDatatypes : false,
-            shownProperties : null,
             sortDirection : 1,
             sortKey : 'label',
             view : 'compact'
         },
 
         computed : {
+            hasLength() {
+                return this.q.length >= MINIMUM_QUERY_LENGTH;
+            },
+
+            loading() {
+                return this.loadingProgress !== 100;
+            },
+
             properties() {
-                if (!this.allproperties) {
+                if (!this.hasLength) {
                     return [];
                 }
 
                 const q = this.q.toLowerCase();
-
-                // Only start filtering when q has a minimum amount of characters
-                if (q.length < MINIMUM_QUERY_LENGTH) {
-                    return this.allproperties;
-                }
 
                 let props = this.allproperties.filter((p) => {
                     return this.shownDatatypes.includes(p.datatype) &&

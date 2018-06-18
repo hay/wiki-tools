@@ -22,10 +22,10 @@
     <p class="lead"><?php $hay->description(); ?></p>
 
     <div id="app" v-cloak>
-        <p v-show="!properties.length">Loading...</p>
+        <p v-show="loading">Loading...</p>
 
         <div class="progress"
-             v-show="!properties.length">
+             v-show="loading">
             <div
                 class="progress-bar progress-bar-striped active"
                 v-bind:style="{ width : loadingProgress + '%', 'min-width' : '3em' }">
@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        <div v-show="properties.length">
+        <div v-show="!loading">
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
                     <div class="input-group">
@@ -47,7 +47,8 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-3"
+                     v-show="hasLength">
                     <div class="btn-group pull-right" id="listview">
                         <button type="button"
                                 v-bind:class="[ view === 'detailed' ? 'active' : '']"
@@ -67,9 +68,18 @@
                 </div>
             </div>
 
-            <br>
+            <br />
 
-            <div class="text-center" v-show="q.length >= MINIMUM_QUERY_LENGTH">
+            <div class="alert alert-info buffer-top-3"
+                 v-if="!hasLength && allproperties">
+                Filter through {{allproperties.length}} properties by typing
+                something in the box above.
+            </div>
+
+            <br />
+
+            <div class="text-center"
+                 v-show="properties && hasLength">
                 <span class="spacing-btn">Found {{properties.length}} results</span>
 
                 <button class="btn btn-text" v-on:click="resetFilter">Reset filter</button>
@@ -94,7 +104,7 @@
                 </ul>
             </div>
 
-            <p>Click on the column headers to sort by that column.</p>
+            <p v-show="hasLength">Click on the column headers to sort by that column.</p>
 
             <ul class="list" v-if="view === 'compact'">
                 <li v-for="prop in properties">
@@ -106,47 +116,47 @@
                 </li>
             </ul>
 
-            <table
-                class="table"
-                v-if="view === 'detailed'">
-                <thead>
-                    <tr>
-                        <th v-on:click="setSort('id')">ID</th>
-                        <th v-on:click="setSort('label')">Label</th>
-                        <th v-on:click="setSort('description')">Description</th>
-                        <th v-on:click="setSort('types')">Use</th>
-                        <th v-on:click="setSort('datatype')">Type</th>
-                        <th v-on:click="setSort('aliases')">Aliases</th>
-                        <th>Example</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="prop in properties.slice(0, MAX_DETAILED_LIST_LENGTH)">
-                        <td>
-                            <a v-bind:href="prop.url"
-                               target="_blank">{{prop.id}}</a>
-                        </td>
-                        <td>{{prop.label}}</td>
-                        <td>{{prop.description}}</td>
-                        <td>{{prop.types}}</td>
-                        <td>{{prop.datatype}}</td>
-                        <td>{{prop.aliases}}</td>
-                        <td>
-                            <ul v-if="prop.example">
-                                <li v-for="ex in prop.example">
-                                    <a v-bind:href="'https://www.wikidata.org/wiki/Q' + ex">Q{{ex}}</a>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
+            <div v-if="view === 'detailed'">
                 <div
                     class="alert alert-warning"
                     v-show="properties.length > MAX_DETAILED_LIST_LENGTH">
-                    Not showing more than {{MAX_DETAILED_LIST_LENGTH}} results (of {{properties.length}}).
-                    Filter your selection to use detailed view.
+                    Showing {{MAX_DETAILED_LIST_LENGTH}} items of {{properties.length}}.
                 </div>
-            </table>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th v-on:click="setSort('id')">ID</th>
+                            <th v-on:click="setSort('label')">Label</th>
+                            <th v-on:click="setSort('description')">Description</th>
+                            <th v-on:click="setSort('types')">Use</th>
+                            <th v-on:click="setSort('datatype')">Type</th>
+                            <th v-on:click="setSort('aliases')">Aliases</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="prop in properties.slice(0, MAX_DETAILED_LIST_LENGTH)">
+                            <td>
+                                <a v-bind:href="prop.url"
+                                   target="_blank">{{prop.id}}</a>
+                            </td>
+                            <td>{{prop.label}}</td>
+                            <td>{{prop.description}}</td>
+                            <td>{{prop.types}}</td>
+                            <td>{{prop.datatype}}</td>
+                            <td>{{prop.aliases}}</td>
+                            <td>
+                                <ul v-if="prop.example">
+                                    <li v-for="ex in prop.example">
+                                        <a v-bind:href="'https://www.wikidata.org/wiki/Q' + ex">Q{{ex}}</a>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </section>

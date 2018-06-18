@@ -2,6 +2,10 @@
     max-width: inherit;
 }
 
+main {
+    min-height: 100vh;
+}
+
 th {
     text-decoration: underline;
 }
