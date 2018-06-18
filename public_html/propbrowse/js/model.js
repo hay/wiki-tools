@@ -1,3 +1,5 @@
+import request from 'superagent';
+
 function transformProp(prop) {
     if (prop.types) {
         prop.types = prop.types.join(', ');
@@ -16,8 +18,30 @@ function transformProp(prop) {
     return prop;
 }
 
-export async function getProperties() {
-    const req = await fetch('./props.json');
-    let properties = await req.json();
-    return properties.map(transformProp);
+export default class {
+    constructor() {
+        this.properties = null;
+        this.callbacks = {};
+    }
+
+    getProperties() {
+        return this.properties;
+    }
+
+    async load() {
+        request
+            .get('./props.json')
+            .on('progress', e => {
+                this.callbacks['progress'](e.percent);
+            })
+            .then((res) => {
+                const properties = JSON.parse(res.text).map(transformProp);
+                this.properties = properties;
+                this.callbacks['ready']();
+            });
+    }
+
+    on(event, callback) {
+        this.callbacks[event] = callback;
+    }
 }

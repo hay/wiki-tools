@@ -1,15 +1,32 @@
 import Vue from 'vue';
+import Model from './model.js';
 
-export default function(properties) {
+export default function() {
     return new Vue({
         el : "#content",
 
+        mounted() {
+            this.model = new Model();
+
+            this.model.on('progress', (p) => {
+                this.progress = p;
+                console.log(p);
+            });
+
+            this.model.on('ready', () => {
+                this.properties = this.model.getProperties();
+            });
+
+            this.model.load();
+        },
+
         data : {
-            properties : properties,
-            sortDirection : 1,
-            view : 'compact',
+            model : null,
+            properties : null,
             q : '',
-            shownProperties : properties.length
+            shownProperties : null,
+            sortDirection : 1,
+            view : 'compact'
         },
 
         watch : {
