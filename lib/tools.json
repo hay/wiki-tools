@@ -93,11 +93,6 @@
         "description" : "A tool to do a mass search in the <a href=\"http://www.gahetna.nl\">Dutch National Archive</a> photo collection"
     },
 
-    "streetwiki" : {
-        "title" : "Streetwiki",
-        "description" : "View Wikipedia articles in Google Maps &amp; Street View."
-    },
-
     "sgdtransform" : {
         "title" : "SGD Transform",
         "description" : "Add a source URL to XML files provided by the <a href=\"http://www.statengeneraaldigitaal.nl/\">Staten Generaal Digitaal</a> API."

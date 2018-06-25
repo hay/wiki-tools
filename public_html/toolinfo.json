@@ -99,15 +99,6 @@
 		"repository" : "https://github.com/hay/wiki-tools.git"
     },
     {
-        "name" : "hay-streetwiki",
-        "title" : "Streetwiki",
-        "description" : "View Wikipedia articles in Google Maps & Street View.",
-        "url" : "http://tools.wmflabs.org/hay/streetwiki",
-        "keywords" : "wikipedia, google maps, maps, visual, reuse, streetview",
-        "author" : "Hay Kranen",
-		"repository" : "https://github.com/hay/wiki-tools.git"
-    },
-    {
         "name" : "hay-sgdtransform",
         "title" : "SGD Transform",
         "description" : "Add a source URL to XML files provided by the Staten Generaal Digitaal API.",
