@@ -69,13 +69,19 @@ export default {
         };
     },
 
-    created : function() {
+    created() {
         if (this.value && !this.isEntity(this.value)) {
             this.entity = {
                 label : this.value
             };
         } else if (this.value) {
             searchAndGet(this.type, this.value).then((item) => this.entity = item);
+        }
+    },
+
+    mounted() {
+        if (this.focused) {
+            this.goSearch();
         }
     },
 
@@ -137,16 +143,23 @@ export default {
     },
 
     watch : {
-        search : function(q) {
+        search(q) {
             this.setSearch(q);
         }
     },
 
     props : {
+        focused : {
+            type : Boolean,
+            default : false
+        },
+
         minlength : Number,
+
         type : {
             validator : (type) => ['item', 'property'].includes(type)
         },
+
         value : {
             validator : (val) => typeof val === 'string' || val === null
         }

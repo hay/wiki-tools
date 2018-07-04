@@ -11,6 +11,11 @@
     display: block;
 }
 
+.menu-bar {
+    padding: 0;
+    margin-top: 6rem;
+}
+
 .form section {
     display: flex;
     margin-bottom: 10px;

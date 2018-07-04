@@ -18,14 +18,8 @@ export default {
         };
     },
 
-    methods : {
-        update : function(val) {
-            console.log(val);
-        }
-    },
-
     watch : {
-        item : function(value) {
+        item(value) {
             this.$emit('input', value);
         }
     },
@@ -36,6 +30,3 @@ export default {
     }
 };
 </script>
-
-<style scoped>
-</style>

@@ -1,5 +1,5 @@
-import { fetchJson, unique } from "./util";
-import { LANGUAGE, WIKIDATA_PROPERTY, SPARQL_ENDPOINT } from "./conf";
+import { fetchJson, unique } from "./util.js";
+import { LANGUAGE, WIKIDATA_PROPERTY, SPARQL_ENDPOINT } from "./conf.js";
 
 function transformProperty(item) {
     // This is a hack because for some reason the search API gives
@@ -15,9 +15,13 @@ export function query(query) {
     const url = SPARQL_ENDPOINT.replace('%s', encodeURIComponent(query));
 
     return new Promise((resolve, reject) => {
-        fetch(url).then(function(res) {
+        fetch(url).then((res) => {
+            if (!res.ok) {
+                reject(res.statusText);
+            }
+
             return res.json();
-        }).then(function(results) {
+        }).then((results) => {
             results = results.results.bindings.map((d) => {
                 if (d.image) {
                     d.thumb = d.image.value + '?width=300';
@@ -35,6 +39,8 @@ export function query(query) {
             });
 
             resolve(results);
+        }).catch((err) => {
+            reject(err);
         });
     });
 }

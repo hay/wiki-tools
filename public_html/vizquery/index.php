@@ -20,17 +20,46 @@
                 <?php $hay->description(); ?>
             </p>
 
-            <p class="intro">This tool allows you to query Wikidata, the database of all things in the world. For example, you could get a list of world heritage sites in your country. A list with movies with Joe Pesci and Robert De Niro. Or female trumpet players. You construct a query by combining <em>properties</em> and <em>items</em> into <em>rules</em>. Let's start with a simple example: <a v-bind:href="'#' + encodeURIComponent(examples[0].query)">click here to find all cats on Wikidata</a>.</p>
+            <div class="intro">
+                <p>
+                    This tool allows you to query <a href="https://www.wikidata.org/wiki/Wikidata:Main_Page" target="_blank">Wikidata</a>, the database of all things in the world.
+                    <a
+                        class="text-link"
+                        v-show="!show.extendedIntro"
+                        v-on:click="show.extendedIntro = true">
+                        Read more...
+                    </a>
+                </p>
 
-            <p class="intro text-muted">Note for advanced users: you can use the input box to enter variables and strings as well. Just prefix your variables with a question mark, or put quotes around your strings and press enter.</p>
+                <div v-show="show.extendedIntro">
+                    <p>For example, you could get a list of world heritage sites in your country. A list with movies with Joe Pesci and Robert De Niro. Or female trumpet players. You construct a query by combining <em>properties</em> and <em>items</em> into <em>rules</em>. Let's start with a simple example: <a v-bind:href="'#' + encodeURIComponent(examples[0].query)">click here to find all cats on Wikidata</a>.</p>
+
+                    <p class="text-muted">Note for advanced users: you can use the input box to enter variables and strings as well. Just prefix your variables with a question mark, or put quotes around your strings and press enter.</p>
+                </div>
+            </div>
         </section>
 
         <div class="alert alert-danger" v-show="error">
-            Sorry, something went wrong. Either your query was wrong, or there were no results.
-            <p v-if="error">{{error}}</p>
+            <p>Sorry, something went wrong. Either your query was wrong, or there were no results.</p>
+            <p v-if="error">
+                <strong>Error message:</strong> {{error}}
+            </p>
+            <a href="#">Reset query</a>
         </div>
 
-        <div class="form">
+        <div class="form"
+             v-show="!show.queryBuilder && !hadResults && !loading">
+            <h3>Query for...</h3>
+
+            <entity-entry
+                type="item"
+                v-bind:minlength="2"
+                focused
+                v-model="introItem"></entity-entry>
+        </div>
+
+        <div class="form"
+             v-show="show.queryBuilder || hadResults">
             <h3>Select items where...</h3>
 
             <section v-for="triple in query.triples"
@@ -65,13 +94,6 @@
                     <span class="glyphicon glyphicon-plus"></span>
                     Add rule
                 </button>
-
-                <button class="btn btn-default"
-                        v-on:click="showRemoveRulesModal"
-                        v-show="!!query.triples && query.triples.length">
-                    <span class="glyphicon glyphicon-trash"></span>
-                    Remove all rules
-                </button>
             </section>
 
             <section>
@@ -90,7 +112,8 @@
         </div>
 
         <div class="alert alert-info" v-show="loading">
-            Loading...
+            Loading (this can take a couple of seconds)
+            <img src="img/loader.gif" alt="Loading..." />
         </div>
 
         <div class="alert alert-info" v-show="results.length == 0 && !loading && hadResults">
@@ -106,9 +129,9 @@
                 <button type="button"
                         class="btn btn-default"
                         v-on:click="modal.show = false">Cancel</button>
-                <button type="button"
-                        class="btn btn-danger"
-                        v-on:click="removeAllRules">Remove all rules</button>
+                <a
+                    href="#"
+                    class="btn btn-danger">Remove all rules</a>
             </div>
         </modal>
 
@@ -158,13 +181,32 @@
             </details>
         </div>
 
-        <h3>Example queries</h3>
+        <menu class="menu-bar">
+            <button
+                v-show="show.queryBuilder == false && !hadResults"
+                v-on:click="show.queryBuilder = true"
+                class="btn btn-default">
+                Use the advanced query builder
+            </button>
 
-        <ul>
-            <li v-for="e in examples">
-                <a v-bind:href="'#' + encodeURIComponent(e.query)">{{e.description}}</a>
-            </li>
-        </ul>
+            <button
+                v-on:click="show.exampleQueries = true"
+                v-show="!show.exampleQueries && !hadResults"
+                class="btn btn-default">
+                Show example queries
+            </button>
+        </menu>
+
+
+        <div v-show="show.exampleQueries && !hadResults">
+            <h3>Example queries</h3>
+
+            <ul>
+                <li v-for="e in examples">
+                    <a v-bind:href="'#' + encodeURIComponent(e.query)">{{e.description}}</a>
+                </li>
+            </ul>
+        </div>
     </div>
 <?php
     $hay->footer();

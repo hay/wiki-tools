@@ -12,10 +12,11 @@ import subjectEntry from "./components/subject-entry.vue";
 import { Modal } from "uiv";
 
 // Custom code
-import { $ } from "./util";
-import Query from "./query";
-import parseCsv from "./csv";
-import { query as fetchQuery } from "./api";
+import { $ } from "./util.js";
+import Query from "./query.js";
+import parseCsv from "./csv.js";
+import { query as fetchQuery } from "./api.js";
+import { INTRO_QUERY } from './examples.js';
 
 export default function(selector) {
     return new Vue({
@@ -30,31 +31,39 @@ export default function(selector) {
         },
 
         data : {
-            state : 'search',
-
-            results : [],
-
-            hadResults : false,
-
-            query : new Query(),
-
-            queryString : null,
-
             display : 'grid',
-
             error : false,
-
-            loading : false,
-
             examples : EXAMPLES,
-
+            hadResults : false,
+            introItem: null,
+            loading : false,
             modal : {
                 show : false,
                 title : null
+            },
+            query : new Query(),
+            queryString : null,
+            results : [],
+            show : {
+                exampleQueries : false,
+                extendedIntro : false,
+                queryBuilder : false
+            },
+            state : 'search'
+        },
+
+        watch : {
+            introItem(item) {
+                const entity = item.replace('http://www.wikidata.org/entity/', '');
+                const triple = `?item wdt:P31 wd:${entity} .`;
+                const query = INTRO_QUERY.replace('%query%', triple);
+                this.show.queryBuilder = true;
+                this.introItem = null;
+                window.location.hash = `${encodeURIComponent(query)}`;
             }
         },
 
-        mounted : function() {
+        mounted() {
             if (!!window.location.hash) {
                 this.parseHash();
             }
@@ -69,30 +78,13 @@ export default function(selector) {
         },
 
         methods : {
-            addRule : function() {
+            addRule() {
                 this.query.addEmptyTriple();
             },
 
-            doQuery : function() {
+            doQuery() {
                 const query = this.query.stringify();
                 window.location.hash = encodeURIComponent(query);
-            },
-
-            removeAllRules : function(msg) {
-                this.query.triples = [];
-                this.results = [];
-                this.hadResults = false;
-                this.modal.show = false;
-            },
-
-            showRemoveRulesModal : function() {
-                this.modal.title = "Remove all rules";
-                this.modal.show = true;
-                this.modal.text = "Are you sure you want to remove all rules?";
-            },
-
-            setDisplay : function(type) {
-                this.display = type;
             },
 
             parseHash : function() {
@@ -100,15 +92,13 @@ export default function(selector) {
 
                 const query = decodeURIComponent(window.location.hash.slice(1));
 
-                this.queryString = query;
-
                 this.results = [];
+                this.query = new Query();
                 this.loading = true;
+                this.queryString = query;
 
                 // This whole query resetting and then doing a nextTick
                 // feels pretty voodoo to me, but it is necessary...
-                this.query = new Query();
-
                 Vue.nextTick(() => {
                     this.query = new Query(query);
 
@@ -116,8 +106,21 @@ export default function(selector) {
                         this.results = results;
                         this.loading = false;
                         this.hadResults = true;
+                    }).catch((e) => {
+                        this.error = e.message;
+                        this.loading = false;
                     });
                 });
+            },
+
+            showRemoveRulesModal() {
+                this.modal.title = "Remove all rules";
+                this.modal.show = true;
+                this.modal.text = "Are you sure you want to remove all rules?";
+            },
+
+            setDisplay(type) {
+                this.display = type;
             }
         }
     });
