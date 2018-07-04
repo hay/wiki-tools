@@ -32,7 +32,7 @@
                 </p>
 
                 <div v-show="show.extendedIntro">
-                    <p>For example, you could get a list of world heritage sites in your country. A list with movies with Joe Pesci and Robert De Niro. Or female trumpet players. You construct a query by combining <em>properties</em> and <em>items</em> into <em>rules</em>. Let's start with a simple example: <a v-bind:href="'#' + encodeURIComponent(examples[0].query)">click here to find all cats on Wikidata</a>.</p>
+                    <p>For example, you could get a list of world heritage sites in your country. A list with movies with Joe Pesci and Robert De Niro. Or female trumpet players. You construct a query by combining <em>properties</em> and <em>items</em> into <em>rules</em>. Let's start with a simple example: <query-link v-bind:query="examples[0].query">click here to find all cats on Wikidata</query-link>.</p>
 
                     <p class="text-muted">Note for advanced users: you can use the input box to enter variables and strings as well. Just prefix your variables with a question mark, or put quotes around your strings and press enter.</p>
                 </div>
@@ -50,6 +50,17 @@
         <div class="form"
              v-show="!show.queryBuilder && !hadResults && !loading">
             <h3>Query for...</h3>
+
+            <p>
+                Try one of these:
+
+                <query-link
+                    v-for="(query, index) in introQueries"
+                    v-bind:key="index"
+                    v-bind:query="query.query">
+                    {{query.description}}<span v-if="index < introQueries.length - 1">,</span>
+                </query-link>
+            </p>
 
             <entity-entry
                 type="item"
@@ -134,6 +145,10 @@
                     class="btn btn-danger">Remove all rules</a>
             </div>
         </modal>
+
+        <div class="alert alert-info" v-show="slowQuery">
+            You're only seeing identifiers because you've got a slow query. Try being more specific (e.g., don't search for all humans)
+        </div>
 
         <div class="results" v-show="results.length">
             <h3 v-show="results">

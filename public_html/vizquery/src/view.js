@@ -5,9 +5,10 @@ import EXAMPLES from "./examples";
 import Vue from "vue";
 
 // Components
-import entityEntry from "./components/entity-entry.vue";
 import displayTable from "./components/display-table.vue";
 import displayGrid from "./components/display-grid.vue";
+import entityEntry from "./components/entity-entry.vue";
+import queryLink from "./components/query-link.vue";
 import subjectEntry from "./components/subject-entry.vue";
 import { Modal } from "uiv";
 
@@ -16,7 +17,8 @@ import { $ } from "./util.js";
 import Query from "./query.js";
 import parseCsv from "./csv.js";
 import { query as fetchQuery } from "./api.js";
-import { INTRO_QUERY } from './examples.js';
+import { INTRO_FAST_QUERY, INTRO_QUERY, introQueries } from './examples.js';
+import { INSTANCE_OF_TOP } from './conf.js';
 
 export default function(selector) {
     return new Vue({
@@ -26,6 +28,7 @@ export default function(selector) {
             'entity-entry' : entityEntry,
             'display-table' : displayTable,
             'display-grid' : displayGrid,
+            'query-link' : queryLink,
             'subject-entry' : subjectEntry,
             Modal
         },
@@ -36,6 +39,7 @@ export default function(selector) {
             examples : EXAMPLES,
             hadResults : false,
             introItem: null,
+            introQueries,
             loading : false,
             modal : {
                 show : false,
@@ -49,14 +53,21 @@ export default function(selector) {
                 extendedIntro : false,
                 queryBuilder : false
             },
+            slowQuery : false,
             state : 'search'
         },
 
         watch : {
             introItem(item) {
+                if (!item) return;
+
                 const entity = item.replace('http://www.wikidata.org/entity/', '');
                 const triple = `?item wdt:P31 wd:${entity} .`;
-                const query = INTRO_QUERY.replace('%query%', triple);
+
+                // If this is a 'slow' query, use the fast query template
+                const slowQuery = INSTANCE_OF_TOP.includes(entity);
+                const queryTemplate = slowQuery ? INTRO_FAST_QUERY : INTRO_QUERY;
+                let query = queryTemplate.replace('%query%', triple);
                 this.show.queryBuilder = true;
                 this.introItem = null;
                 window.location.hash = `${encodeURIComponent(query)}`;
@@ -96,6 +107,7 @@ export default function(selector) {
                 this.query = new Query();
                 this.loading = true;
                 this.queryString = query;
+                this.slowQuery = false;
 
                 // This whole query resetting and then doing a nextTick
                 // feels pretty voodoo to me, but it is necessary...

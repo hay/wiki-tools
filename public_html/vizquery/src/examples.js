@@ -1,3 +1,4 @@
+import { INTRO_QUERIES } from './conf.js';
 import Query from "./query";
 
 const BASE_QUERY = `
@@ -29,6 +30,16 @@ SELECT ?item ?itemLabel ?itemDescription ?image WHERE {
   %query%
   OPTIONAL { ?item wdt:P18 ?image. }
   SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+}
+LIMIT 50
+`
+
+const INTRO_FAST_QUERY = `
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+
+SELECT ?item WHERE {
+  %query%
 }
 LIMIT 50
 `
@@ -112,5 +123,13 @@ function parseExamples(data) {
     });
 }
 
+const introQueries = INTRO_QUERIES.map((q) => {
+    const triple = `?item wdt:P31 wd:${q.id}.`
+    return {
+        description : q.label,
+        query : INTRO_QUERY.replace('%query%', triple)
+    }
+});
+
 export default parseExamples(EXAMPLES);
-export { BASE_QUERY, INTRO_QUERY };
+export { BASE_QUERY, INTRO_FAST_QUERY, INTRO_QUERY, introQueries };
