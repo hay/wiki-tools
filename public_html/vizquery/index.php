@@ -198,6 +198,13 @@
 
         <menu class="menu-bar">
             <button
+                v-show="show.queryBuilder == true && !hadResults"
+                v-on:click="show.queryBuilder = false"
+                class="btn btn-default">
+                Query for items of type...
+            </button>
+
+            <button
                 v-show="show.queryBuilder == false && !hadResults"
                 v-on:click="show.queryBuilder = true"
                 class="btn btn-default">

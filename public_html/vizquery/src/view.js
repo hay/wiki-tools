@@ -51,7 +51,7 @@ export default function(selector) {
             show : {
                 exampleQueries : false,
                 extendedIntro : false,
-                queryBuilder : false
+                queryBuilder : true
             },
             slowQuery : false,
             state : 'search'
@@ -79,12 +79,22 @@ export default function(selector) {
                 this.parseHash();
             }
 
+            // Make sure that there's always *one* triple on an empty
+            // query builder
+            if (this.numberOfTriples === 0) {
+                this.query.addEmptyTriple();
+            }
+
             window.addEventListener('hashchange', this.parseHash.bind(this));
         },
 
         computed : {
-            csv : function() {
+            csv() {
                 return parseCsv(this.results);
+            },
+
+            numberOfTriples() {
+                return this.query.triples.length;
             }
         },
 
