@@ -1,7 +1,26 @@
 import { SPARQL_ENDPOINT, WIKIDATA_ITEM, WIKIDATA_PROPERTY } from "./conf";
 import getBaseQuery from "./baseQuery";
 import SparqlJs from "sparqljs";
+import { uniq } from 'lodash';
+import { compose } from 'lodash/fp';
 import { clone, hashString } from "./util";
+
+function addVariablesToQuery(query, variables) {
+    variables.forEach((v) => {
+        const vLabel = `${v}Label`;
+
+        if (!query.variables.includes(v)) {
+            query.variables.push(v, vLabel);
+
+            query.group.push(
+                { expression : v },
+                { expression : vLabel }
+            );
+        }
+    });
+
+    return query;
+}
 
 function getEmptyTriple() {
     return {
@@ -10,6 +29,23 @@ function getEmptyTriple() {
         "object": null
     };
 }
+
+function getTriples(query) {
+    const triples = query.where.filter((d) => d.triples);
+    return !!triples.length ? triples[0].triples : null;
+}
+
+function getVariablesFromTriples(triples) {
+    let  variables = [];
+
+    triples.forEach((triple) => {
+        variables = variables.concat(Object.values(triple));
+    });
+
+    return uniq(variables).filter(v => v[0] === '?');
+}
+
+const getTripleVariablesFromQuery = compose(getVariablesFromTriples, getTriples);
 
 export default class Query {
     constructor(query = false) {
@@ -33,6 +69,16 @@ export default class Query {
     hashTriple(triple) {
         const string = Object.values(triple).join('-');
         return hashString(string);
+    }
+
+    get query() {
+        return this._query;
+    }
+
+    set query(query) {
+        const variables = getTripleVariablesFromQuery(query);
+        query = addVariablesToQuery(query, variables);
+        this._query = query;
     }
 
     removeTriple(triple) {
@@ -62,8 +108,7 @@ export default class Query {
     }
 
     get triples() {
-        const triples = this.query.where.filter((d) => d.triples);
-        return !!triples.length ? triples[0].triples : null;
+        return getTriples(this.query);
     }
 
     set triples(triples) {

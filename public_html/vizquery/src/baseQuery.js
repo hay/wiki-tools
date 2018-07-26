@@ -11,6 +11,7 @@ export default function() {
       "?item",
       "?itemLabel",
       "?itemDescription",
+      "?sitelink",
       {
         "expression": {
           "expression": "?image",
@@ -19,8 +20,7 @@ export default function() {
           "distinct": false
         },
         "variable": "?image"
-      },
-      "?sitelink"
+      }
     ],
     "distinct": true,
     "where": [
