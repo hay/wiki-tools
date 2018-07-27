@@ -1,5 +1,10 @@
 import { getBrowserLanguage } from "./util";
 
+export const CONDITION_OPTIONS = {
+    'bgp'      : 'must have',
+    'minus'    : "must not have",
+    'optional' : 'may have'
+};
 export const DEFAULT_RESULT_LIMIT = 50;
 export const ENTITIY_REGEX = /(Q|P)\d+/g;
 export const ENTITY_URI = 'http://www.wikidata.org/';

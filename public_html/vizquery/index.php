@@ -79,7 +79,10 @@
                     v-model="triple.subject"
                     v-bind:subjects="query.subjects"></subject-entry>
 
-                <p>has a property</p>
+                <condition-entry
+                    v-model="triple.condition"></condition-entry>
+
+                <p>a property</p>
 
                 <entity-entry
                     type="property"

@@ -5,6 +5,7 @@ import EXAMPLES from "./examples";
 import Vue from "vue";
 
 // Components
+import conditionEntry from './components/condition-entry.vue';
 import displayTable from "./components/display-table.vue";
 import displayGrid from "./components/display-grid.vue";
 import entityEntry from "./components/entity-entry.vue";
@@ -25,6 +26,7 @@ export default function(selector) {
         el : selector,
 
         components : {
+            'condition-entry' : conditionEntry,
             'entity-entry' : entityEntry,
             'display-table' : displayTable,
             'display-grid' : displayGrid,

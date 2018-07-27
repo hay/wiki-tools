@@ -1,15 +1,39 @@
-import { SPARQL_ENDPOINT, WIKIDATA_ITEM, WIKIDATA_PROPERTY } from "./conf";
+import {
+    CONDITION_OPTIONS,
+    SPARQL_ENDPOINT,
+    WIKIDATA_ITEM,
+    WIKIDATA_PROPERTY
+} from "./conf";
 import getBaseQuery from "./baseQuery";
 import SparqlJs from "sparqljs";
 import { uniq } from 'lodash';
 import { compose } from 'lodash/fp';
 import { clone, hashString } from "./util";
 
+const conditionOptions = Object.keys(CONDITION_OPTIONS);
+
 function addVariablesToQuery(query, variables) {
+    // The variables array can have both strings and objects with a
+    // 'value' object that contains the string as the property 'value',
+    // so we need to check for both
+    function includes(needle) {
+        for (let val of variables) {
+            if (typeof val !== 'string') {
+                val = val.value;
+            }
+
+            if (val === needle) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     variables.forEach((v) => {
         const vLabel = `${v}Label`;
 
-        if (!query.variables.includes(v)) {
+        if (!includes(v)) {
             query.variables.push(v, vLabel);
 
             query.group.push(
@@ -24,15 +48,40 @@ function addVariablesToQuery(query, variables) {
 
 function getEmptyTriple() {
     return {
-        "subject": "?item",
+        "object": null,
         "predicate": null,
-        "object": null
+        "subject": "?item"
     };
 }
 
 function getTriples(query) {
-    const triples = query.where.filter((d) => d.triples);
-    return !!triples.length ? triples[0].triples : null;
+    const triples = [];
+
+    query.where.forEach((where) => {
+        if (where.triples) {
+            where.triples.forEach((triple) => {
+                if (conditionOptions.includes(where.type)) {
+                    triple.condition = where.type;
+                    triples.push(triple);
+                }
+            });
+        }
+
+        if (where.patterns) {
+            where.patterns.forEach((pattern) => {
+                if (pattern.triples) {
+                    pattern.triples.forEach((triple) => {
+                        if (conditionOptions.includes(where.type)) {
+                            triple.condition = where.type;
+                            triples.push(triple);
+                        }
+                    });
+                }
+            });
+        }
+    });
+
+    return triples;
 }
 
 function getVariablesFromTriples(triples) {
@@ -78,6 +127,7 @@ export default class Query {
     set query(query) {
         const variables = getTripleVariablesFromQuery(query);
         query = addVariablesToQuery(query, variables);
+        console.log(query);
         this._query = query;
     }
 
@@ -108,7 +158,9 @@ export default class Query {
     }
 
     get triples() {
-        return getTriples(this.query);
+        const triples = getTriples(this.query);
+        console.log('triples', triples);
+        return triples;
     }
 
     set triples(triples) {
