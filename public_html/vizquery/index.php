@@ -47,8 +47,7 @@
             <a href="#">Reset query</a>
         </div>
 
-        <div class="form"
-             v-show="show.queryBuilder || hadResults">
+        <div class="form">
             <h3>Select items where...</h3>
 
             <section v-for="triple in query.triples"

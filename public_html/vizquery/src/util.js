@@ -33,6 +33,31 @@ export function hashString(string) {
     return hash;
 }
 
+export function parseExamples(data) {
+    const examples = [];
+    let e = false;
+
+    data.trim().split('\n').forEach((line) => {
+        if (line[0] === '#') {
+            if (e) {
+                examples.push(e);
+            }
+
+            e = {
+                query : ''
+            };
+
+            e.description = line.replace('#', '').trim();
+        } else {
+            e.query += line + '\n';
+        }
+    });
+
+    examples.push(e);
+
+    return examples;
+}
+
 // Comparable to Underscore's _.uniq
 export function unique(array, check) {
     const has = [];

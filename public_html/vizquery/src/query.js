@@ -4,7 +4,7 @@ import {
     WIKIDATA_ITEM,
     WIKIDATA_PROPERTY
 } from "./conf";
-import getBaseQuery from "./baseQuery";
+import { BASE_QUERY } from "./queries.js";
 import SparqlJs from "sparqljs";
 import { uniq } from 'lodash';
 import { compose } from 'lodash/fp';
@@ -97,10 +97,10 @@ function getVariablesFromTriples(triples) {
 const getTripleVariablesFromQuery = compose(getVariablesFromTriples, getTriples);
 
 export default class Query {
-    constructor(query = false) {
+    constructor(query = BASE_QUERY) {
         this.generator = new SparqlJs.Generator();
         this.parser = new SparqlJs.Parser();
-        this.query = query ? this.parser.parse(query) : getBaseQuery();
+        this.query = this.parser.parse(query);
     }
 
     addEmptyTriple() {

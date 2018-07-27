@@ -1,26 +1,51 @@
-import { INTRO_QUERIES } from './conf.js';
-import Query from "./query";
+import {
+  DEFAULT_RESULT_LIMIT,
+  LABEL_LANGUAGES,
+  LANGUAGE
+} from "./conf";
 
-const BASE_QUERY = `
+import { parseExamples } from './util.js';
+
+const NAMESPACES = `
 PREFIX wd: <http://www.wikidata.org/entity/>
 PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 PREFIX wikibase: <http://wikiba.se/ontology#>
 PREFIX schema: <http://schema.org/>
 PREFIX bd: <http://www.bigdata.com/rdf#>
-SELECT DISTINCT ?item ?itemLabel ?itemDescription (SAMPLE(?image) AS ?image) ?sitelink WHERE {
-  %query%
-  OPTIONAL { ?item wdt:P18 ?image. }
-  OPTIONAL {
-    ?sitelink schema:about ?item.
-    ?sitelink schema:isPartOf <https://en.wikipedia.org/>.
-  }
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en,fr,es,de,ru,it,nl,ja,zh,pl,cs". }
-}
-GROUP BY ?item ?itemLabel ?itemDescription ?sitelink
-LIMIT 50
 `;
 
-const EXAMPLES = `
+const LABEL_SERVICE = `
+SERVICE wikibase:label { bd:serviceParam wikibase:language "${LABEL_LANGUAGES}". }
+`;
+
+const LIMIT = `LIMIT ${DEFAULT_RESULT_LIMIT}`;
+
+const SITELINK_TRIPLE = `
+OPTIONAL {
+  ?sitelink schema:about ?item.
+  ?sitelink schema:isPartOf <https://${LANGUAGE}.wikipedia.org/>.
+}`;
+
+const IMAGE_TRIPLE = `
+OPTIONAL { ?item wdt:P18 ?image. }
+`;
+
+function baseQuery(triples = '') {
+    return `
+${NAMESPACES}
+SELECT DISTINCT ?item ?itemLabel ?itemDescription (SAMPLE(?image) AS ?image) ?sitelink WHERE {
+    ${triples}
+    ${IMAGE_TRIPLE}
+    ${SITELINK_TRIPLE}
+    ${LABEL_SERVICE}
+} GROUP BY ?item ?itemLabel ?itemDescription ?sitelink
+${LIMIT}
+    `;
+}
+
+const BASE_QUERY = baseQuery();
+
+const EXAMPLES = parseExamples(`
 # Cats
 ?item wdt:P31 wd:Q146 .
 
@@ -69,35 +94,9 @@ const EXAMPLES = `
       wdt:P1576 wd:Q18338317;
       wdt:P26 ?spouse.
 ?spouse wdt:P1576 wd:Q18338317.
-`;
+`).map((e) => {
+    e.query = baseQuery(e.query).trim();
+    return e;
+});
 
-function parseExamples(data) {
-    const examples = [];
-    let e = false;
-
-    data.trim().split('\n').forEach((line) => {
-        if (line[0] === '#') {
-            if (e) {
-                examples.push(e);
-            }
-
-            e = {
-                query : ''
-            };
-
-            e.description = line.replace('#', '').trim();
-        } else {
-            e.query += line + '\n';
-        }
-    });
-
-    examples.push(e);
-
-    return examples.map((e) => {
-        e.query = BASE_QUERY.replace('%query%', e.query);
-        return e;
-    });
-}
-
-export default parseExamples(EXAMPLES);
-export { BASE_QUERY };
+export { BASE_QUERY, EXAMPLES };

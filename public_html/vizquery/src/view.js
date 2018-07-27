@@ -1,5 +1,5 @@
 // Constants
-import EXAMPLES from "./examples";
+import { EXAMPLES } from "./queries.js";
 
 // Libraries
 import Vue from "vue";
