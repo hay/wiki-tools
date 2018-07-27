@@ -20,30 +20,6 @@ GROUP BY ?item ?itemLabel ?itemDescription ?sitelink
 LIMIT 50
 `;
 
-const INTRO_QUERY = `
-PREFIX bd: <http://www.bigdata.com/rdf#>
-PREFIX wd: <http://www.wikidata.org/entity/>
-PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-PREFIX wikibase: <http://wikiba.se/ontology#>
-
-SELECT ?item ?itemLabel ?itemDescription ?image WHERE {
-  %query%
-  OPTIONAL { ?item wdt:P18 ?image. }
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-}
-LIMIT 50
-`
-
-const INTRO_FAST_QUERY = `
-PREFIX wd: <http://www.wikidata.org/entity/>
-PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-
-SELECT ?item WHERE {
-  %query%
-}
-LIMIT 50
-`
-
 const EXAMPLES = `
 # Cats
 ?item wdt:P31 wd:Q146 .
@@ -123,13 +99,5 @@ function parseExamples(data) {
     });
 }
 
-const introQueries = INTRO_QUERIES.map((q) => {
-    const triple = `?item wdt:P31 wd:${q.id}.`
-    return {
-        description : q.label,
-        query : INTRO_QUERY.replace('%query%', triple)
-    }
-});
-
 export default parseExamples(EXAMPLES);
-export { BASE_QUERY, INTRO_FAST_QUERY, INTRO_QUERY, introQueries };
+export { BASE_QUERY };

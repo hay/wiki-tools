@@ -48,28 +48,6 @@
         </div>
 
         <div class="form"
-             v-show="!show.queryBuilder && !hadResults && !loading">
-            <h3>Query for...</h3>
-
-            <p>
-                Try one of these:
-
-                <query-link
-                    v-for="(query, index) in introQueries"
-                    v-bind:key="index"
-                    v-bind:query="query.query">
-                    {{query.description}}<span v-if="index < introQueries.length - 1">,</span>
-                </query-link>
-            </p>
-
-            <entity-entry
-                type="item"
-                v-bind:minlength="2"
-                focused
-                v-model="introItem"></entity-entry>
-        </div>
-
-        <div class="form"
              v-show="show.queryBuilder || hadResults">
             <h3>Select items where...</h3>
 
@@ -149,10 +127,6 @@
             </div>
         </modal>
 
-        <div class="alert alert-info" v-show="slowQuery">
-            You're only seeing identifiers because you've got a slow query. Try being more specific (e.g., don't search for all humans)
-        </div>
-
         <div class="results" v-show="results.length">
             <h3 v-show="results">
                 Results <small>{{results.length}}</small>
@@ -200,20 +174,6 @@
         </div>
 
         <menu class="menu-bar">
-            <button
-                v-show="show.queryBuilder == true && !hadResults"
-                v-on:click="show.queryBuilder = false"
-                class="btn btn-default">
-                Query for items of type...
-            </button>
-
-            <button
-                v-show="show.queryBuilder == false && !hadResults"
-                v-on:click="show.queryBuilder = true"
-                class="btn btn-default">
-                Use the advanced query builder
-            </button>
-
             <button
                 v-on:click="show.exampleQueries = true"
                 v-show="!show.exampleQueries && !hadResults"

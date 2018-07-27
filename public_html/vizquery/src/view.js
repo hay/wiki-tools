@@ -18,8 +18,6 @@ import { $ } from "./util.js";
 import Query from "./query.js";
 import parseCsv from "./csv.js";
 import { query as fetchQuery } from "./api.js";
-import { INTRO_FAST_QUERY, INTRO_QUERY, introQueries } from './examples.js';
-import { INSTANCE_OF_TOP } from './conf.js';
 
 export default function(selector) {
     return new Vue({
@@ -40,8 +38,6 @@ export default function(selector) {
             error : false,
             examples : EXAMPLES,
             hadResults : false,
-            introItem: null,
-            introQueries,
             loading : false,
             modal : {
                 show : false,
@@ -51,29 +47,9 @@ export default function(selector) {
             queryString : null,
             results : [],
             show : {
-                exampleQueries : false,
-                extendedIntro : false,
-                queryBuilder : true
+                exampleQueries : false
             },
-            slowQuery : false,
             state : 'search'
-        },
-
-        watch : {
-            introItem(item) {
-                if (!item) return;
-
-                const entity = item.replace('http://www.wikidata.org/entity/', '');
-                const triple = `?item wdt:P31 wd:${entity} .`;
-
-                // If this is a 'slow' query, use the fast query template
-                const slowQuery = INSTANCE_OF_TOP.includes(entity);
-                const queryTemplate = slowQuery ? INTRO_FAST_QUERY : INTRO_QUERY;
-                let query = queryTemplate.replace('%query%', triple);
-                this.show.queryBuilder = true;
-                this.introItem = null;
-                window.location.hash = `${encodeURIComponent(query)}`;
-            }
         },
 
         mounted() {
