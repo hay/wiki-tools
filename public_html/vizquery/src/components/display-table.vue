@@ -5,6 +5,8 @@
                 <th v-for="key in header">
                     {{formatKey(key)}}
                 </th>
+
+                <th>Article</th>
             </tr>
         </thead>
 
@@ -18,6 +20,13 @@
 
                 <td v-for="key in keys">
                     {{key in row ? row[key].value || '' : ''}}
+                </td>
+
+                <td v-if="row.sitelink">
+                    <a v-bind:href="row.sitelink.value"
+                       target="_blank">
+                       Wikipedia article
+                    </a>
                 </td>
             </tr>
         </tbody>

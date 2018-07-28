@@ -56,10 +56,7 @@
                     v-model="triple.subject"
                     v-bind:subjects="query.subjects"></subject-entry>
 
-                <condition-entry
-                    v-model="triple.condition"></condition-entry>
-
-                <p>a property</p>
+                <p>has a property</p>
 
                 <entity-entry
                     type="property"
@@ -95,7 +92,7 @@
             <section>
                 <button class="btn btn-primary"
                         v-on:click="doQuery"
-                        v-bind:disabled="!query.triples || !query.triples.length">
+                        v-bind:disabled="!query.validTriples">
                     <span class="glyphicon glyphicon-search"></span>
                     Query
                 </button>

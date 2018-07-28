@@ -57,20 +57,3 @@ export function parseExamples(data) {
 
     return examples;
 }
-
-// Comparable to Underscore's _.uniq
-export function unique(array, check) {
-    const has = [];
-    const result = [];
-
-    array.forEach((item) => {
-        const checkitem = check(item);
-
-        if (!has.includes(checkitem)) {
-            result.push(item);
-            has.push(checkitem);
-        }
-    });
-
-    return result;
-}

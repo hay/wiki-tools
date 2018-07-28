@@ -1,4 +1,4 @@
-import { fetchJson, unique } from "./util.js";
+import { fetchJson } from "./util.js";
 import { LANGUAGE, WIKIDATA_PROPERTY, SPARQL_ENDPOINT } from "./conf.js";
 
 function transformProperty(item) {

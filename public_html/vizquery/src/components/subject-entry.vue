@@ -6,7 +6,7 @@
                     v-for="subject in subjects">{{subject}}</option>
         </select>
 
-        <p v-if="subjects.length === 1">item</p>
+        <p v-if="subjects.length === 1">it</p>
     </div>
 </template>
 
