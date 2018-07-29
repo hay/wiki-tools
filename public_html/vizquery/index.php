@@ -172,14 +172,14 @@
         <menu class="menu-bar">
             <button
                 v-on:click="show.exampleQueries = true"
-                v-show="!show.exampleQueries && !hadResults"
+                v-show="!show.exampleQueries"
                 class="btn btn-default">
                 Show example queries
             </button>
         </menu>
 
 
-        <div v-show="show.exampleQueries && !hadResults">
+        <div v-show="show.exampleQueries">
             <h3>Example queries</h3>
 
             <ul>

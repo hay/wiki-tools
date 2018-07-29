@@ -77,23 +77,17 @@ const EXAMPLES = parseExamples(`
       wdt:P6 ?person .
 ?person wdt:P21 wd:Q6581072 .
 
-# Paintings of women by Vincent van Gogh in the Van Gogh museum
-?item wdt:P31 wd:Q3305213 ;
-      wdt:P170 wd:Q5582 ;
-      wdt:P921 wd:Q467 ;
+# Self-portraits of Van Gogh in the Van Gogh museum in Amsterdam
+?item wdt:P31 wd:Q3305213;
+      wdt:P170 wd:Q5582;
+      wdt:P136 wd:Q192110;
       wdt:P276 wd:Q224124 .
-
-# World heritage sites of countries with a female head of government
-?item wdt:P1435 wd:Q9259;
-      wdt:P17 ?country.
-?country wdt:P6 ?person.
-?person wdt:P21 wd:Q6581072.
 
 # Vegetarians who are married to a vegeterian
 ?item wdt:P31 wd:Q5;
-      wdt:P1576 wd:Q18338317;
+      wdt:P1576 wd:Q83364;
       wdt:P26 ?spouse.
-?spouse wdt:P1576 wd:Q18338317.
+?spouse wdt:P1576 wd:Q83364.
 `).map((e) => {
     e.query = baseQuery(e.query).trim();
     return e;
