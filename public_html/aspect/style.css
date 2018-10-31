@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#image {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+}
+
+form {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 10px;
+    background: white;
+}
+
+output {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 10px;
+    background: white;
+    font-family: monospace;
+    font-size: 10px;
+}
