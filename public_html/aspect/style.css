@@ -3,6 +3,10 @@
     padding: 0;
 }
 
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
 #image {
     width: 100vw;
     height: 100vh;
@@ -25,4 +29,12 @@ output {
     background: white;
     font-family: monospace;
     font-size: 10px;
+}
+
+#logo {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    background: white;
 }

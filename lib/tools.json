@@ -93,6 +93,11 @@
         "description" : "A tool to do a mass search in the <a href=\"http://www.gahetna.nl\">Dutch National Archive</a> photo collection"
     },
 
+    "aspect" : {
+        "title" : "Responsive WD images",
+        "description" : "Use the 'aspect' property on Wikipedia to serve responsive images"
+    },
+
     "sgdtransform" : {
         "title" : "SGD Transform",
         "description" : "Add a source URL to XML files provided by the <a href=\"http://www.statengeneraaldigitaal.nl/\">Staten Generaal Digitaal</a> API."
