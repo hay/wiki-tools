@@ -4,7 +4,7 @@
     $hay = new Hay("vizquery", [
         "styles" => [ 'style.css' ],
         "scripts" => [
-            'dist.js'
+            'bundle.js'
         ]
     ]);
 
