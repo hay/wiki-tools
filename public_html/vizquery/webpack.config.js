@@ -1,26 +1,36 @@
+const path = require('path');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+
 module.exports = {
-  entry: './src/main.js',
-  output: {
-    path: __dirname,
-    filename: 'dist.js'
-  },
-  devtool : 'source-map',
-  module: {
-    rules: [
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader'
-      },
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
-      }
-    ]
-  },
-  resolve : {
-    alias : {
-      'vue' : 'vue/dist/vue.common.js'
+    entry: [
+        './src/polyfills.js',
+        './src/main.js'
+    ],
+    module : {
+        rules : [
+            {
+                test : /\.js$/,
+                exclude : /node_modules/,
+                use : {
+                    loader : 'babel-loader'
+                }
+            },
+            {
+                test : /\.vue$/,
+                loader : 'vue-loader'
+            }
+        ]
+    },
+    plugins : [
+        new VueLoaderPlugin()
+    ],
+    resolve: {
+        alias: {
+            'vue$': 'vue/dist/vue.esm.js'
+        }
+    },
+    output: {
+        filename: './bundle.js',
+        path: path.resolve(__dirname, '.')
     }
-  }
-}
+};
