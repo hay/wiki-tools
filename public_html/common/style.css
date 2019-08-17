@@ -49,6 +49,12 @@ hr, .footer {
     overflow: hidden;
 }
 
+@media (max-width: 800px) {
+    .tools-item {
+        border-right-width: 0;
+    }
+}
+
 .tools-item h4 {
     font-size: 16px;
     font-weight: normal;
@@ -82,4 +88,17 @@ hr, .footer {
 .flexgroup > div,
 .flexgroup > input {
     padding: 10px;
+}
+
+@media (min-width: 800px) {
+    .pull-right-responsive {
+        float: right;
+    }
+}
+
+@media (max-width: 800px) {
+    .pull-right-responsive {
+        text-align: center;
+        margin: 20px auto;
+    }
 }

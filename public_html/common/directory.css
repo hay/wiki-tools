@@ -29,3 +29,8 @@ span[tooltip] {
 .tooltip {
     text-align: left;
 }
+
+/* Make sure URL's don't break layout */
+code {
+    word-wrap: break-word;
+}
