@@ -46,7 +46,7 @@
         </div>
 
         <div class="col-md-6">
-            <a href="#addtool" class="btn btn-primary pull-right">Add your tool</a>
+            <a href="#addtool" class="btn btn-primary pull-right-responsive">Add your tool</a>
         </div>
     </div>
 
@@ -119,6 +119,14 @@
     <h4>Step 5</h4>
 
     <p>There is no step 5. Enjoy! If you have any bugs or questions please submit them to the <a href="https://github.com/hay/wiki-tools">Github repo</a>.</p>
+
+    <h2>Notes</h2>
+
+    <ul>
+        <li>You can get a JSON file with all the data on this page <a href="api.php">right here</a>.</li>
+        <li>If you want to search for more than one tag just separate them by space.</li>
+
+    </ul>
 
     <?php if (file_exists("last-update.txt")): ?>
         <p class="text-right">
