@@ -1,8 +1,23 @@
+// This is a bit hacky, but will give the user language if it is something else
+// than English
+function getLanguage() {
+    const DEFAULT_LANG = 'en';
+    const languages = window.navigator.languages || [window.navigator.language || window.navigator.userLanguage];
+
+    for (const lang of languages) {
+        if (lang !== DEFAULT_LANG) {
+            return lang;
+        }
+    }
+
+    return DEFAULT_LANG;
+}
+
 function getSparqlQuery({
     lat,
     lon,
     radius = 1,
-    lang = 'en',
+    lang = getLanguage(),
     limit = 100
 }) {
 return `
@@ -16,6 +31,10 @@ return `
         }
         minus { ?place wdt:P31/wdt:P279* wd:Q34442. }
         optional { ?place wdt:P18 ?image. }
+        optional {
+          ?article schema:about ?place .
+          ?article schema:isPartOf <https://en.wikipedia.org/>.
+        }
         optional {
           ?article schema:about ?place .
           ?article schema:isPartOf <https://${lang}.wikipedia.org/>.
