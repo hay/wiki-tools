@@ -1,0 +1,122 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+
+html {
+  font-size: 10px; }
+  @media (max-width: 767px) {
+    html {
+      font-size: 8px; } }
+  @media (max-height: 650px) {
+    html {
+      font-size: 8px; } }
+
+body {
+  background-color: white;
+  color: black;
+  overflow-x: hidden; }
+
+img {
+  border: 0; }
+
+button {
+  outline: none;
+  cursor: pointer;
+  background: none;
+  border: 0; }
+
+input, select, textarea, button {
+  font: inherit; }
+
+body {
+  font-family: 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+  overflow-x: hidden;
+  font-size: 2rem;
+  color: #333; }
+
+a {
+  color: #337ab7;
+  text-decoration: none; }
+
+#app {
+  min-height: 100vh;
+  position: relative; }
+  #app[v-cloak]:before {
+    font-family: sans-serif;
+    content: 'Loading...';
+    color: black;
+    font-size: 5rem;
+    padding: 1rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    text-align: center;
+    padding: 1rem; }
+  #app[v-cloak] > * {
+    display: none; }
+  #app:before {
+    content: '';
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    background-image: url("img/bg.png");
+    background-size: cover;
+    -webkit-filter: blur(2px);
+            filter: blur(2px);
+    opacity: 0.4; }
+
+.screen {
+  position: absolute;
+  background: white;
+  margin: 0 auto;
+  max-width: 600px;
+  -webkit-transition: 1s;
+  transition: 1s;
+  border-radius: 1rem;
+  padding: 1rem;
+  top: 2rem;
+  left: 2rem;
+  right: 2rem;
+  min-height: calc(100vh - 4rem); }
+  .screen[is-app] {
+    max-width: 100vw; }
+  .screen p {
+    padding: 2rem 0; }
+  .screen--app {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    max-width: 100vw;
+    min-height: calc(100vh - 4rem); }
+  .screen__app {
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1; }
+  .screen header {
+    font-weight: bold;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem; }
+  .screen h2 {
+    font-weight: 300; }
+
+.button {
+  background: #337ab7;
+  color: white;
+  padding: 1rem;
+  border-radius: 1rem; }
