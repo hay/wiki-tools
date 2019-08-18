@@ -1,6 +1,6 @@
 // This is a bit hacky, but will give the user language if it is something else
 // than English
-function getLanguage() {
+export function getLanguage() {
     const DEFAULT_LANG = 'en';
     const languages = window.navigator.languages || [window.navigator.language || window.navigator.userLanguage];
 
@@ -22,7 +22,7 @@ function getSparqlQuery({
 }) {
 return `
     #defaultView:Map{"hide":["?location","?distance"]}
-    SELECT ?place ?placeDescription ?location ?distance ?placeLabel ?image ?article WHERE {
+    SELECT ?place ?placeDescription ?location ?distance ?placeLabel (sample(?image) as ?img) ?article WHERE {
         SERVICE wikibase:around {
           ?place wdt:P625 ?location .
           bd:serviceParam wikibase:center "Point(${lon} ${lat})"^^geo:wktLiteral .
@@ -33,14 +33,16 @@ return `
         optional { ?place wdt:P18 ?image. }
         optional {
           ?article schema:about ?place .
-          ?article schema:isPartOf <https://en.wikipedia.org/>.
+          ?article schema:isPartOf <https://${lang}.wikipedia.org/>.
         }
         optional {
           ?article schema:about ?place .
-          ?article schema:isPartOf <https://${lang}.wikipedia.org/>.
+          ?article schema:isPartOf <https://en.wikipedia.org/>.
         }
-        SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en,${lang}". }
-    } ORDER BY ?distance LIMIT ${limit}
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],${lang},en". }
+    } group by ?place ?placeDescription ?location ?distance ?placeLabel ?img ?article
+      order BY ?distance
+      limit ${limit}
 `;
 }
 
