@@ -1,11 +1,17 @@
 import Vue from 'vue';
-import { getLocation, getIframeSrc } from './api.js';
+import LanguageSelector from '../components/language-selector.vue';
+import { getLanguage, getLocation, getIframeSrc } from './api.js';
 
 new Vue({
     el : "#app",
 
+    components : {
+        LanguageSelector
+    },
+
     data : {
         iframeSrc : null,
+        language : getLanguage(),
         loading : false
     },
 

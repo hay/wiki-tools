@@ -33,6 +33,12 @@
                     <span v-if="!loading">What's close to me?</span>
                     <span v-if="loading">One moment...</span>
                 </button>
+
+                <fieldset>
+                    <legend>Options</legend>
+                    Show me information in English and
+                    <language-selector v-model="language"></language-selector>.
+                </fieldset>
             </div>
 
             <div class="screen--app" v-show="iframeSrc">
