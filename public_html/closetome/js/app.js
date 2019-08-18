@@ -1,18 +1,14 @@
 import Vue from 'vue';
-import LanguageSelector from '../components/language-selector.vue';
 import { getLanguage, getLocation, getIframeSrc } from './api.js';
 
 new Vue({
     el : "#app",
 
-    components : {
-        LanguageSelector
-    },
-
     data : {
         iframeSrc : null,
         language : getLanguage(),
-        loading : false
+        loading : false,
+        radius : 1
     },
 
     methods : {
@@ -22,7 +18,9 @@ new Vue({
             const location = await getLocation();
 
             this.iframeSrc = getIframeSrc({
-                location
+                location,
+                language : this.language,
+                radius : parseFloat(this.radius)
             });
         }
     }

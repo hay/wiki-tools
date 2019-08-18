@@ -23,8 +23,7 @@
                 <h1><?php $hay->title(); ?></h1>
                 <h2><?php $hay->description(); ?></h2>
 
-                <p>Click on the button below to give your location (this won't be saved).
-                This will give you a map of all Wikidata items around you.</p>
+                <p>Click on the button to get a map of all Wikidata items around you.</p>
 
                 <button
                     v-on:click="go"
@@ -34,11 +33,31 @@
                     <span v-if="loading">One moment...</span>
                 </button>
 
-                <fieldset>
-                    <legend>Options</legend>
-                    Show me information in English and
-                    <language-selector v-model="language"></language-selector>.
-                </fieldset>
+                <section>
+                    <h3>Options</h3>
+
+                    <label for="language">
+                        <span>Language</span>
+                        <input
+                            type="text"
+                            autocorrect="off"
+                            autocapitalize="none"
+                            v-model="language" />
+                    </label>
+
+                    <label for="radius">
+                        <span>Radius</span>
+
+                        <input
+                            type="range"
+                            min="0.5"
+                            max="3"
+                            step="0.5"
+                            v-model="radius" />
+
+                        <span>&nbsp;{{radius}} km</span>
+                    </label>
+                </section>
             </div>
 
             <div class="screen--app" v-show="iframeSrc">

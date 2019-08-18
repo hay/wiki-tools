@@ -40,4 +40,26 @@
     h2 {
         font-weight: 300;
     }
+
+    section {
+        margin-top: 3rem;
+    }
+
+    section > * {
+        margin-bottom: 1rem;
+    }
+
+    label {
+        display: flex;
+        align-items: center;
+        color: $c-4;
+    }
+
+    label :first-child {
+        width: 10rem;
+    }
+
+    input[type="text"] {
+        padding: 0 .5rem;
+    }
 }

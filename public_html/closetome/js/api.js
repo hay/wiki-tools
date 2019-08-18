@@ -17,7 +17,7 @@ function getSparqlQuery({
     lat,
     lon,
     radius = 1,
-    lang = getLanguage(),
+    language = getLanguage(),
     limit = 100
 }) {
 return `
@@ -33,13 +33,13 @@ return `
         optional { ?place wdt:P18 ?image. }
         optional {
           ?article schema:about ?place .
-          ?article schema:isPartOf <https://${lang}.wikipedia.org/>.
+          ?article schema:isPartOf <https://${language}.wikipedia.org/>.
         }
         optional {
           ?article schema:about ?place .
           ?article schema:isPartOf <https://en.wikipedia.org/>.
         }
-        SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],${lang},en". }
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],${language},en". }
     } group by ?place ?placeDescription ?location ?distance ?placeLabel ?img ?article
       order BY ?distance
       limit ${limit}
@@ -57,10 +57,11 @@ export async function getLocation() {
     });
 }
 
-export function getIframeSrc({ location }) {
+export function getIframeSrc({ location, radius, language }) {
     const query = getSparqlQuery({
         lat : location.lat,
-        lon : location.lon
+        lon : location.lon,
+        radius, language
     });
 
     return `https://query.wikidata.org/embed.html#${encodeURIComponent(query)}`;
