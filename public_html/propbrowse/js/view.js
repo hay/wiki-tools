@@ -83,14 +83,18 @@ export default function() {
 
         methods : {
             resetDatatypes() {
-                for (const key in this.datatypes) {
-                    this.datatypes[key] = true;
-                }
+                this.setDatatypes(true);
             },
 
             resetFilter() {
                 this.q = '';
                 this.resetDatatypes();
+            },
+
+            setDatatypes(bool) {
+                for (const key in this.datatypes) {
+                    this.datatypes[key] = bool;
+                }
             },
 
             setSort(key) {

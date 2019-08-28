@@ -88,18 +88,33 @@
                     Filter by datatype
                 </button>
 
-                <ul v-show="showDatatypes">
-                    <li
-                        v-for="(bool, datatype) in datatypes"
-                        class="checkbox">
-                        <label>
-                            <input
-                                type="checkbox"
-                                v-model="datatypes[datatype]" />
-                                {{datatype}}
-                        </label>
-                    </li>
-                </ul>
+                <div>
+                    <button
+                        class="btn btn-link"
+                        v-on:click="setDatatypes(true)">
+                        Select all
+                    </button>
+
+                    <button
+                        class="btn btn-link"
+                        v-on:click="setDatatypes(false)">
+                        Deselect all
+                    </button>
+
+                    <ul v-show="showDatatypes"
+                        class="list-datatypes">
+                        <li
+                            v-for="(bool, datatype) in datatypes"
+                            class="checkbox">
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    v-model="datatypes[datatype]" />
+                                    {{datatype}}
+                            </label>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
             <p v-show="hasLength">Click on the column headers to sort by that column.</p>
