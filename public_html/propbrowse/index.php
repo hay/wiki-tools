@@ -88,7 +88,7 @@
                     Filter by datatype
                 </button>
 
-                <div>
+                <div v-show="showDatatypes">
                     <button
                         class="btn btn-link"
                         v-on:click="setDatatypes(true)">
@@ -101,8 +101,7 @@
                         Deselect all
                     </button>
 
-                    <ul v-show="showDatatypes"
-                        class="list-datatypes">
+                    <ul class="list-datatypes">
                         <li
                             v-for="(bool, datatype) in datatypes"
                             class="checkbox">
