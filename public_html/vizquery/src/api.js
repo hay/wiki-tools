@@ -1,5 +1,10 @@
 import { fetchJson } from "./util.js";
-import { LANGUAGE, WIKIDATA_PROPERTY, SPARQL_ENDPOINT } from "./conf.js";
+import { LANGUAGE, WIKIDATA_PROPERTY, SPARQL_ENDPOINT, USES_COMMONS } from "./conf.js";
+
+function transformCommons(item) {
+    // console.log(item);
+    return item;
+}
 
 function transformProperty(item) {
     // This is a hack because for some reason the search API gives
@@ -33,6 +38,10 @@ export function query(query) {
 
                 if (d.item) {
                     d.id = d.item.value.replace('http://www.wikidata.org/entity/', '');
+                }
+
+                if (USES_COMMONS) {
+                    d = transformCommons(d);
                 }
 
                 return d;
