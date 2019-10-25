@@ -17,6 +17,7 @@ import { $ } from "./util.js";
 import Query from "./query.js";
 import parseCsv from "./csv.js";
 import { query as fetchQuery } from "./api.js";
+import { USES_COMMONS } from './conf.js';
 
 export default function(selector) {
     return new Vue({
@@ -48,7 +49,8 @@ export default function(selector) {
                 exampleQueries : false,
                 extendedIntro : false
             },
-            state : 'search'
+            state : 'search',
+            usesCommons : USES_COMMONS
         },
 
         mounted() {

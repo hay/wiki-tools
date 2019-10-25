@@ -16,8 +16,14 @@
         </h1>
 
         <section v-show="!hadResults">
-            <p class="lead">
+            <p v-if="!usesCommons"
+               class="lead">
                 <?php $hay->description(); ?>
+            </p>
+
+            <p v-if="usesCommons"
+               class="lead">
+                🎂🎂🎂 Query Wikimedia Commons visually 🎂🎂🎂
             </p>
 
             <div class="intro">
@@ -188,6 +194,15 @@
                 </li>
             </ul>
         </div>
+
+        <p>
+            <a v-if="!usesCommons"
+               href="?commons">Use the Wikimedia Commons SPARQL endpoint (experimental)</a>
+
+            <a v-if="usesCommons" href="?">
+                Go back to regular VizQuery
+            </a>
+        </p>
     </div>
 <?php
     $hay->footer();
