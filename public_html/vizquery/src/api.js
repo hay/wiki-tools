@@ -6,7 +6,12 @@ function transformCommons(d) {
         // Change the URL to correct endpoint
         // http://commons.wikimedia.org/entity/M79181723
         // https://commons.wikimedia.org/wiki/Special:EntityData/M79181723
-        d.item.value = d.item.value.replace(/entity/, 'wiki/Special:EntityData');
+        const mid = d.item.value.replace('http://commons.wikimedia.org/entity/', '');
+        const url = d.item.value.replace(/entity/, 'wiki/Special:EntityData');
+
+        // This is a godawful hack
+        d.thumb = `https://projects.haykranen.nl/test/commonsthumb.php?mid=${mid}`;
+        d.item.value = url;
     }
 
     return d;
