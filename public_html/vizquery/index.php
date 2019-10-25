@@ -12,7 +12,12 @@
 ?>
     <div id="app" v-cloak>
         <h1>
-            <a href="<?= $hay->getUrl(); ?>">Wikidata <?php $hay->title(); ?></a>
+            <a href="<?= $hay->getUrl(); ?>">
+                <?php $hay->title(); ?>
+                <span v-if="usesCommons">
+                    Commons <sup>(experimental)</sup>
+                </span>
+            </a>
         </h1>
 
         <section v-show="!hadResults">
@@ -23,10 +28,11 @@
 
             <p v-if="usesCommons"
                class="lead">
-                🎂🎂🎂 Query Wikimedia Commons visually 🎂🎂🎂
+                Query Wikimedia Commons visually
             </p>
 
-            <div class="intro">
+            <div class="intro"
+                 v-if="!usesCommons">
                 <p>
                     This tool allows you to query <a href="https://www.wikidata.org/wiki/Wikidata:Main_Page" target="_blank">Wikidata</a>, the database of all things in the world.
                     <a
@@ -197,7 +203,9 @@
 
         <p>
             <a v-if="!usesCommons"
-               href="?commons">Use the Wikimedia Commons SPARQL endpoint (experimental)</a>
+               v-bind:href="COMMONS_URL_FLAG">
+                Use the Wikimedia Commons SPARQL endpoint (experimental)
+            </a>
 
             <a v-if="usesCommons" href="?">
                 Go back to regular VizQuery

@@ -1,6 +1,8 @@
 import { getBrowserLanguage } from "./util";
 
-let usesCommons = window.location.href.includes('?commons');
+export const COMMONS_URL_FLAG = '?endpoint=commons';
+
+let usesCommons = window.location.href.includes(COMMONS_URL_FLAG);
 
 export const CONDITION_OPTIONS = {
     'bgp'      : 'must have',

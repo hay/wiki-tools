@@ -45,6 +45,22 @@ ${LIMIT}
 
 const BASE_QUERY = baseQuery();
 
+const COMMONS_EXAMPLES = parseExamples(`
+# Cats
+?item wdt:P180 wd:Q146.
+
+# Bridges at sunset
+?item wdt:P180 wd:Q12280;
+      wdt:P180 wd:Q166564.
+
+# Rijksmonumenten in Amsterdam
+?item wdt:P1435 wd:Q916333;
+      wdt:P276 wd:Q727.
+`).map((e) => {
+    e.query = baseQuery(e.query).trim();
+    return e;
+});
+
 const EXAMPLES = parseExamples(`
 # Cats
 ?item wdt:P31 wd:Q146 .
@@ -93,4 +109,4 @@ const EXAMPLES = parseExamples(`
     return e;
 });
 
-export { BASE_QUERY, EXAMPLES };
+export { BASE_QUERY, COMMONS_EXAMPLES, EXAMPLES };

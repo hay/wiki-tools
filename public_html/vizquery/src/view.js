@@ -1,5 +1,6 @@
 // Constants
-import { EXAMPLES } from "./queries.js";
+import { COMMONS_URL_FLAG, USES_COMMONS } from './conf.js';
+import { COMMONS_EXAMPLES, EXAMPLES } from "./queries.js";
 
 // Libraries
 import Vue from "vue";
@@ -17,7 +18,6 @@ import { $ } from "./util.js";
 import Query from "./query.js";
 import parseCsv from "./csv.js";
 import { query as fetchQuery } from "./api.js";
-import { USES_COMMONS } from './conf.js';
 
 export default function(selector) {
     return new Vue({
@@ -33,9 +33,10 @@ export default function(selector) {
         },
 
         data : {
+            COMMONS_URL_FLAG,
             display : 'grid',
             error : false,
-            examples : EXAMPLES,
+            examples : USES_COMMONS ? COMMONS_EXAMPLES : EXAMPLES,
             hadResults : false,
             loading : false,
             modal : {
@@ -87,7 +88,7 @@ export default function(selector) {
                 window.location.hash = encodeURIComponent(query);
             },
 
-            parseHash : function() {
+            async parseHash() {
                 window.scrollTo(0, 0);
 
                 const query = decodeURIComponent(window.location.hash.slice(1));
@@ -100,18 +101,21 @@ export default function(selector) {
 
                 // This whole query resetting and then doing a nextTick
                 // feels pretty voodoo to me, but it is necessary...
-                Vue.nextTick(() => {
-                    this.query = new Query(query);
+                await Vue.nextTick();
 
-                    fetchQuery(this.query.stringify()).then((results) => {
-                        this.results = results;
-                        this.loading = false;
-                        this.hadResults = true;
-                    }).catch((e) => {
-                        this.error = e.message;
-                        this.loading = false;
-                    });
-                });
+                this.query = new Query(query);
+
+                const results = await fetchQuery(this.query.stringify());
+
+                if (!results) {
+                    this.error = 'Something went wrong...';
+                    this.loading = false;
+                    return;
+                }
+
+                this.results = results;
+                this.loading = false;
+                this.hadResults = true;
             },
 
             showRemoveRulesModal() {
