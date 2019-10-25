@@ -1,9 +1,15 @@
 import { fetchJson } from "./util.js";
 import { LANGUAGE, WIKIDATA_PROPERTY, SPARQL_ENDPOINT, USES_COMMONS } from "./conf.js";
 
-function transformCommons(item) {
-    // console.log(item);
-    return item;
+function transformCommons(d) {
+    if (d.item.value) {
+        // Change the URL to correct endpoint
+        // http://commons.wikimedia.org/entity/M79181723
+        // https://commons.wikimedia.org/wiki/Special:EntityData/M79181723
+        d.item.value = d.item.value.replace(/entity/, 'wiki/Special:EntityData');
+    }
+
+    return d;
 }
 
 function transformProperty(item) {
