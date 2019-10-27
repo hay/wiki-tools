@@ -1,0 +1,30 @@
+#! /usr/bin/env python3
+from pathlib import Path
+import sys
+import subprocess
+
+if len(sys.argv) != 2:
+    sys.exit("Invalid argument")
+
+project = sys.argv[1]
+
+ROOT = Path(__file__).resolve().parent.parent / "public_html" / project
+
+if not ROOT.is_dir():
+    sys.exit("Not a directory")
+
+cmd = f"cd {ROOT}"
+
+if (ROOT / "package.json").exists():
+    cmd += "\nnpm run dist"
+
+cmd += """
+rsync --exclude yarn* --exclude .git --exclude config.php exclude node_modules -av --del * tools:tools/
+
+# Copy files
+ssh tools <<'ENDSSH'
+cp -r tools/* /data/project/hay/
+ENDSSH
+
+
+subprocess.check_call(cmd, shell = True)
