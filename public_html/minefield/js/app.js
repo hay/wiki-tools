@@ -1,12 +1,9 @@
+import { chunk } from 'lodash';
 import Papa from 'papaparse';
 import saveCsv from 'save-csv';
 import Vue from 'vue';
 
-const TEST_TITLES = [
-    "https://commons.wikimedia.org/wiki/File:Championnat_de_vacances.jpg",
-    "https://commons.wikimedia.org/wiki/File:Tbilisi-Jumah-Moschee-04-2019-gje.jpg",
-    "https://commons.wikimedia.org/wiki/File:%D0%90%D0%BF%D1%82%D0%B5%D0%BA%D0%B0%D1%80%D1%81%D0%BA%D0%B8%D0%B9_%D0%BF%D0%B5%D1%80%D0%B5%D1%83%D0%BB%D0%BE%D0%BA,_6._%D0%A2%D0%BE%D0%BC%D1%81%D0%BA._04.jpg"
-];
+const MAX_TITLES_PER_CALL = 50;
 
 async function loadJson(url) {
     const req = await window.fetch(url);
@@ -41,32 +38,51 @@ function toCsv(data) {
 async function getMidsForFilepages(filepages) {
     // First make sure we get the urls without the domain and stuff and encode
     filepages = filepages.map(getCommonsFilepage).map(window.encodeURIComponent);
-    const url = getApiCall(filepages);
-    const data = await loadJson(url);
 
-    // Convert the results to an array with objects
-    if (data.error) {
-        throw Error(data.error.info);
-    }
+    // Now we need to chunk the filepages to the maximum allowed titles
+    const chunks = chunk(filepages, MAX_TITLES_PER_CALL);
 
-    return Object.values(data.query.pages).map((item) => {
-        const mid = `M${item.pageid}`;
+    // And create a final return array
+    let results = [];
 
-        let ret = {
-            mid : mid,
-            status : 'ok',
-            title : item.title,
-            url : `https://commons.wikimedia.org/wiki/Special:EntityData/${mid}`
-        };
+    for (let pages of chunks) {
+        const url = getApiCall(pages);
+        const data = await loadJson(url);
 
-        if (!item.pageid) {
-            ret.status = 'error';
-            ret.mid = '-';
-            ret.url = '-';
+        console.log('Calling: ' + url);
+
+        // Convert the results to an array with objects
+        if (data.error) {
+            throw Error(data.error.info);
         }
 
-        return ret;
-    });
+        for (let item of Object.values(data.query.pages)) {
+            let mid = `M${item.pageid}`;
+
+            let ret = {
+                mid : mid,
+                status : 'ok',
+                title : item.title,
+                url : `https://commons.wikimedia.org/wiki/Special:EntityData/${mid}`
+            };
+
+            if (!item.pageid) {
+                ret.status = 'error';
+                ret.mid = '-';
+                ret.url = '-';
+            }
+
+            results.push(ret);
+        }
+    }
+
+    return results;
+}
+
+async function getPagesFromPagepile(id) {
+    const url = `https://tools.wmflabs.org/pagepile/api.php?id=${id}&action=get_data&format=json&doit1`;
+    const results = await loadJson(url);
+    return results.pages;
 }
 
 new Vue({
@@ -76,10 +92,11 @@ new Vue({
         csv : '',
         error : false,
         loading : false,
+        pagepileInput : null,
         results : '',
+        showPagepile : false,
         state : 'edit',
         titles : []
-        // titles : TEST_TITLES.join('\n')
     },
 
     methods : {
@@ -92,15 +109,24 @@ new Vue({
             this.error = false;
         },
 
+        displayPagepile(e) {
+            e.preventDefault();
+            this.showPagepile = true;
+        },
+
         download() {
             saveCsv(this.results);
         },
 
-        async go() {
+        go() {
+            this.populate(this.titles.split('\n'));
+        },
+
+        async populate(filepages) {
             this.loading = true;
 
             try {
-                this.results = await getMidsForFilepages(this.titles.split('\n'));
+                this.results = await getMidsForFilepages(filepages);
             } catch (e) {
                 this.error = e.toString();
                 this.loading = false;
@@ -109,6 +135,12 @@ new Vue({
 
             this.csv = toCsv(this.results);
             this.loading = false;
+        },
+
+        async setPagepile(e) {
+            e.preventDefault();
+            const pages = await getPagesFromPagepile(this.pagepileInput);
+            this.populate(pages);
         }
     }
 });

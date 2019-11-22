@@ -189,3 +189,13 @@ input, select, textarea, button {
   font-family: 'Comic Sans MS', sans-serif;
   -webkit-animation: bouncy 200ms infinite alternate;
           animation: bouncy 200ms infinite alternate; }
+
+.text-link {
+  text-decoration: underline; }
+
+.pagepile-input {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 1rem;
+  max-width: 30rem; }

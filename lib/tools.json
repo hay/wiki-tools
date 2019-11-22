@@ -37,7 +37,7 @@
 
     "minefield" : {
         "title" : "Minefield",
-        "description" : "Convert Commons file page titles to media ID's and vice versa"
+        "description" : "Convert Commons file page titles to media ids"
     },
 
     "wdtranslate" : {

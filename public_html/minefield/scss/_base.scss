@@ -32,3 +32,13 @@
     font-family: 'Comic Sans MS', sans-serif;
     animation: bouncy 200ms infinite alternate;
 }
+
+.text-link {
+    text-decoration: underline;
+}
+
+.pagepile-input {
+    display: flex;
+    margin-bottom: 1rem;
+    max-width: 30rem;
+}

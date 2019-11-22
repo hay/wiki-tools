@@ -1,7 +1,7 @@
 [
     {
         "title" : "Minefield",
-        "description" : "Convert Commons file page titles to media ID's and vice versa",
+        "description" : "Convert Commons file page titles to media ids",
         "name" : "hay-minefield",
         "author" : "Hay Kranen",
         "repository" : "https://github.com/hay/wiki-tools.git",

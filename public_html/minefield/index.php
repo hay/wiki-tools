@@ -27,14 +27,36 @@
         </div>
 
         <div class="alert" v-show="loading">
-            <p class="loading">Getting your results...</p>
+            <p class="loading">Getting your results 😴...</p>
         </div>
 
         <form v-show="!results && !loading">
             <div class="cells cells-spaced">
                 <p class="text-info">
-                    Input your Commons file page titles (up to 50), separated by newlines.
+                    Input your Commons file page titles separated by newlines.
+                    <button
+                        class="text-link"
+                        v-show="!showPagepile"
+                        v-on:click="displayPagepile($event)">
+                        Or use a PagePile ID
+                    </button>
                 </p>
+            </div>
+
+            <div
+                v-show="showPagepile"
+                class="pagepile-input">
+                <input
+                    class="form-control"
+                    placeholder="Enter PagePile ID"
+                    v-model="pagepileInput" />
+
+                <button
+                    class="btn btn-primary"
+                    v-bind:disabled="!pagepileInput"
+                    v-on:click="setPagepile($event)">
+                    Go
+                </button>
             </div>
 
             <textarea
