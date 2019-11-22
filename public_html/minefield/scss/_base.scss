@@ -1,0 +1,17 @@
+#wrapper {
+    max-width: inherit;
+}
+
+.intro {
+    max-width: 600px;
+    display: block;
+}
+
+#app[v-cloak] > * {
+    display: none;
+}
+
+#app[v-cloak]:before {
+    content: "Loading...";
+    font-size: 20px;
+}

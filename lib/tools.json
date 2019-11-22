@@ -35,6 +35,11 @@
         "description" : "Search for up to 50 page titles or items in a Wikimedia project and export to CSV. Handy for alignments."
     },
 
+    "minefield" : {
+        "title" : "Minefield",
+        "description" : "Convert Commons file page titles to media ID's and vice versa"
+    },
+
     "wdtranslate" : {
         "title" : "Wikidata Translate",
         "description" : "Use the power of Wikidata to translate a term between two or more languages."
