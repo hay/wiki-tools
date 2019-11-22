@@ -122,6 +122,16 @@ new Vue({
             this.populate(this.titles.split('\n'));
         },
 
+        parseHash() {
+            const loc = window.location;
+
+            if (!!loc.hash && String(loc).includes('pagepile=')) {
+                const hash = loc.hash.slice(1);
+                const id = hash.replace('pagepile=', '');
+                this.populateByPagepile(id);
+            }
+        },
+
         async populate(filepages) {
             this.loading = true;
 
@@ -137,10 +147,19 @@ new Vue({
             this.loading = false;
         },
 
-        async setPagepile(e) {
-            e.preventDefault();
-            const pages = await getPagesFromPagepile(this.pagepileInput);
+        async populateByPagepile(id) {
+            const pages = await getPagesFromPagepile(id);
             this.populate(pages);
+        },
+
+        setPagepile(e) {
+            e.preventDefault();
+            this.populateByPagepile(this.pagepileInput);
         }
+    },
+
+    mounted() {
+        window.addEventListener('hashchange', this.parseHash.bind(this));
+        this.parseHash();
     }
 });
