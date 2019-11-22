@@ -21,8 +21,9 @@
         </section>
 
         <div class="alert alert-danger" v-show="error">
-            Sorry, something went wrong. Either your query was wrong, or there were no results.
-            <em>Error: </em> <code>{{error}}</code>
+            <p>Sorry, something went wrong. Here's an error message:</p>
+
+            <p><code>{{error}}</code></p>
         </div>
 
         <div class="alert" v-show="loading">
@@ -32,7 +33,7 @@
         <form v-show="!results && !loading">
             <div class="cells cells-spaced">
                 <p class="text-info">
-                    Input your Commons file page titles (up to 500), separated by newlines.
+                    Input your Commons file page titles (up to 50), separated by newlines.
                 </p>
             </div>
 

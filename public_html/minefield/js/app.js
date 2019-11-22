@@ -15,7 +15,13 @@ async function loadJson(url) {
 }
 
 function getCommonsFilepage(str) {
+    // URL's
     str = str.replace(/https?:\/\/commons.wikimedia.org\/wiki\//, '');
+
+    // This weird stuff is what we get from the WD query service
+    // < https://phabricator.wikimedia.org/T238908#5684054 >
+    str = str.replace('Special:FilePath/', 'File:');
+
     return str;
 }
 
@@ -39,6 +45,10 @@ async function getMidsForFilepages(filepages) {
     const data = await loadJson(url);
 
     // Convert the results to an array with objects
+    if (data.error) {
+        throw Error(data.error.info);
+    }
+
     return Object.values(data.query.pages).map((item) => {
         const mid = `M${item.pageid}`;
 
@@ -68,7 +78,8 @@ new Vue({
         loading : false,
         results : '',
         state : 'edit',
-        titles : TEST_TITLES.join('\n')
+        titles : []
+        // titles : TEST_TITLES.join('\n')
     },
 
     methods : {
@@ -78,6 +89,7 @@ new Vue({
 
         clear() {
             this.titles = [];
+            this.error = false;
         },
 
         download() {
@@ -86,7 +98,15 @@ new Vue({
 
         async go() {
             this.loading = true;
-            this.results = await getMidsForFilepages(this.titles.split('\n'));
+
+            try {
+                this.results = await getMidsForFilepages(this.titles.split('\n'));
+            } catch (e) {
+                this.error = e.toString();
+                this.loading = false;
+                return;
+            }
+
             this.csv = toCsv(this.results);
             this.loading = false;
         }
