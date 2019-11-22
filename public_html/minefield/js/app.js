@@ -42,11 +42,20 @@ async function getMidsForFilepages(filepages) {
     return Object.values(data.query.pages).map((item) => {
         const mid = `M${item.pageid}`;
 
-        return {
+        let ret = {
             mid : mid,
+            status : 'ok',
             title : item.title,
             url : `https://commons.wikimedia.org/wiki/Special:EntityData/${mid}`
         };
+
+        if (!item.pageid) {
+            ret.status = 'error';
+            ret.mid = '-';
+            ret.url = '-';
+        }
+
+        return ret;
     });
 }
 

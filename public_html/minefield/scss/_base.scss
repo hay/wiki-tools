@@ -1,3 +1,13 @@
+@keyframes bouncy {
+    from {
+        transform: translateY(-1rem);
+    }
+
+    to {
+        transform: translateY(0rem);
+    }
+}
+
 #wrapper {
     max-width: inherit;
 }
@@ -14,4 +24,11 @@
 #app[v-cloak]:before {
     content: "Loading...";
     font-size: 20px;
+}
+
+.loading {
+    font-size: 3rem;
+    color: purple;
+    font-family: 'Comic Sans MS', sans-serif;
+    animation: bouncy 200ms infinite alternate;
 }

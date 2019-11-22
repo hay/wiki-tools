@@ -26,13 +26,13 @@
         </div>
 
         <div class="alert" v-show="loading">
-            Getting your results...
+            <p class="loading">Getting your results...</p>
         </div>
 
-        <form v-show="!results">
+        <form v-show="!results && !loading">
             <div class="cells cells-spaced">
                 <p class="text-info">
-                    Input your Commons file page titles (up to 50), separated by newlines.
+                    Input your Commons file page titles (up to 500), separated by newlines.
                 </p>
             </div>
 
