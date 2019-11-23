@@ -16,6 +16,10 @@ class DirectoryCrawl {
         date_default_timezone_set("UTC");
         $this->api = new DirectoryApi("DatabaseToolProvider");
         $now = time();
+
+        // Let's start the crawl. Delete the old crawler log
+        // because it gets too big otherwise
+        $this->emptyLog();
         $this->log("Starting new crawl");
 
         $this->crawllist = $this->getCrawlList();
@@ -81,8 +85,12 @@ class DirectoryCrawl {
         $this->log("Crawl finished in $seconds seconds");
     }
 
+    private function emptyLog() {
+        file_put_contents(self::LOG_FILE, "");
+    }
+
     private function getToolInfo($url) {
-        $req = Request::get($url)->send();
+        $req = Request::get($url)->followRedirects(true)->send();
 
         if (isset($req->raw_body)) {
             $json = json_decode($req->raw_body);
