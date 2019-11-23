@@ -114,7 +114,9 @@
 
     <h4>Step 4</h4>
 
-    <p>Wait :). The crawler parses all toolinfo.json files every 60 minutes and saves them to a local database. If after a few hours your tool doesn't appear on this page maybe there was an error somewhere. Check the <a href="crawler.log">crawler logs</a> (latest crawls are at the bottom).</p>
+    <p>
+        Wait :). The crawler parses all toolinfo.json files every 60 minutes and saves them to a local database. If after a few hours your tool doesn't appear on this page maybe there was an error somewhere. Check the <a href="crawler.log">crawler logs</a>. Logs are only kept for the latest crawl.
+    </p>
 
     <h4>Step 5</h4>
 

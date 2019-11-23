@@ -1,9 +1,9 @@
 <?php
     require '../../lib/vendor/autoload.php';
     require '../../lib/config.php';
-    require 'lib/class-api.php';
+    require '../../lib/class-directoryapi.php';
 
-    $api = new Api();
+    $api = new DirectoryApi("DatabaseToolProvider");
 
     function listtools() {
         global $api;
