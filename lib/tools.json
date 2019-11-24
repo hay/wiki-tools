@@ -1,17 +1,17 @@
 {
     "directory" : {
         "title" : "Tools Directory",
-        "description" : "Discover Wikimedia-related tools"
+        "description" : "Discover Wikimedia-related tools."
     },
 
     "vizquery" : {
         "title" : "VizQuery",
-        "description" : "Query Wikidata visually"
+        "description" : "Query Wikidata visually."
     },
 
     "propbrowse" : {
         "title" : "Wikidata Propbrowse",
-        "description" : "Browse and view all properties on Wikidata"
+        "description" : "Browse and view all properties on Wikidata."
     },
 
     "exturl" : {
@@ -25,24 +25,34 @@
         "url" : "http://sum.bykr.org"
     },
 
-    "closetome" : {
-        "title" : "Close to me",
-        "description" : "See Wikidata items close to you"
-    },
-
-    "multisearch" : {
-        "title" : "MultiSearch",
-        "description" : "Search for up to 50 page titles or items in a Wikimedia project and export to CSV. Handy for alignments."
+    "chantek" : {
+        "title" : "Chantek",
+        "description" : "An unaspiring HTTP API server written in Python with lots of Wikimedia-related commands.",
+        "url" : "https://github.com/hay/chantek"
     },
 
     "minefield" : {
         "title" : "Minefield",
-        "description" : "Convert Commons file page titles to media ids"
+        "description" : "Convert Commons file page titles to media ids."
     },
 
     "wdtranslate" : {
         "title" : "Wikidata Translate",
         "description" : "Use the power of Wikidata to translate a term between two or more languages."
+    },
+
+    "closetome" : {
+        "title" : "Close to me",
+        "description" : "See Wikidata items close to you."
+    },
+
+    "deprecated" : {
+
+    },
+
+    "multisearch" : {
+        "title" : "MultiSearch",
+        "description" : "Search for up to 50 page titles or items in a Wikimedia project and export to CSV. Handy for alignments."
     },
 
     "langviews"  : {
@@ -53,12 +63,6 @@
     "wdskim" : {
         "title" : "Wikidata Skim",
         "description" : "A (very) limited, visual, replacement for <a href=\"http://wdq.wmflabs.org\">Wikidata Query</a> which just does one claim, based on the 'linkshere' method of the <a href=\"http://wikidata.org/w/api.php\">Wikidata API</a>."
-    },
-
-    "chantek" : {
-        "title" : "Chantek",
-        "description" : "An unaspiring HTTP API server written in Python with lots of Wikimedia-related commands.",
-        "url" : "https://github.com/hay/chantek"
     },
 
     "gwtcook" : {
