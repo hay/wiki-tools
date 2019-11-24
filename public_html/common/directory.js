@@ -77,7 +77,7 @@ window._scripts.push(function() {
             $("#q").val(value);
 
             count = forTools(function(tool) {
-                return tool.fulltext.indexOf(value) !== -1;
+                return tool.fulltext.indexOf(value.toLowerCase()) !== -1;
             });
 
             if (count > 0) {
