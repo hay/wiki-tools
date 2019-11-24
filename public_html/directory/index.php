@@ -70,6 +70,10 @@
 
     <p class="lead">Note that your tool <strong>does not</strong> have to be hosted on Wikimedia Cloud Services/Toolforge. If you have a tool living on your own server, a Javascript gadget on a wiki, or a non-web tool such as a bot feel free to add it using the methods mentioned below.</p>
 
+    <p class="text-info">
+        If your tool is hosted on Toolforge, you can also easily be included in this directory by using <a href="https://toolsadmin.wikimedia.org/tools/">Tools admin</a> to add the needed fields.
+    </p>
+
     <h3>Step 1</h3>
 
     <p>Add a <code>toolinfo.json</code> file to your tool. Your JSON file should look something like this. <strong>Hover over the properties to see a description.</strong></p>
