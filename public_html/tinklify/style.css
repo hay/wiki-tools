@@ -1,0 +1,208 @@
+.buffer-0 {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important; }
+
+.buffer-top-0 {
+  margin-top: 0px !important; }
+
+.buffer-bottom-0 {
+  margin-bottom: 0px !important; }
+
+.buffer-1 {
+  margin-top: 5px !important;
+  margin-bottom: 5px !important; }
+
+.buffer-top-1 {
+  margin-top: 10px !important; }
+
+.buffer-bottom-1 {
+  margin-bottom: 10px !important; }
+
+.buffer-2 {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important; }
+
+.buffer-top-2 {
+  margin-top: 20px !important; }
+
+.buffer-bottom-2 {
+  margin-bottom: 20px !important; }
+
+.buffer-3 {
+  margin-top: 15px !important;
+  margin-bottom: 15px !important; }
+
+.buffer-top-3 {
+  margin-top: 30px !important; }
+
+.buffer-bottom-3 {
+  margin-bottom: 30px !important; }
+
+.buffer-4 {
+  margin-top: 20px !important;
+  margin-bottom: 20px !important; }
+
+.buffer-top-4 {
+  margin-top: 40px !important; }
+
+.buffer-bottom-4 {
+  margin-bottom: 40px !important; }
+
+.buffer-5 {
+  margin-top: 25px !important;
+  margin-bottom: 25px !important; }
+
+.buffer-top-5 {
+  margin-top: 50px !important; }
+
+.buffer-bottom-5 {
+  margin-bottom: 50px !important; }
+
+.buffer-6 {
+  margin-top: 30px !important;
+  margin-bottom: 30px !important; }
+
+.buffer-top-6 {
+  margin-top: 60px !important; }
+
+.buffer-bottom-6 {
+  margin-bottom: 60px !important; }
+
+.buffer-7 {
+  margin-top: 35px !important;
+  margin-bottom: 35px !important; }
+
+.buffer-top-7 {
+  margin-top: 70px !important; }
+
+.buffer-bottom-7 {
+  margin-bottom: 70px !important; }
+
+.buffer-8 {
+  margin-top: 40px !important;
+  margin-bottom: 40px !important; }
+
+.buffer-top-8 {
+  margin-top: 80px !important; }
+
+.buffer-bottom-8 {
+  margin-bottom: 80px !important; }
+
+.buffer-9 {
+  margin-top: 45px !important;
+  margin-bottom: 45px !important; }
+
+.buffer-top-9 {
+  margin-top: 90px !important; }
+
+.buffer-bottom-9 {
+  margin-bottom: 90px !important; }
+
+.buffer-10 {
+  margin-top: 50px !important;
+  margin-bottom: 50px !important; }
+
+.buffer-top-10 {
+  margin-top: 100px !important; }
+
+.buffer-bottom-10 {
+  margin-bottom: 100px !important; }
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important; }
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+
+html {
+  font-size: 10px; }
+  @media (max-width: 767px) {
+    html {
+      font-size: 8px; } }
+  @media (max-height: 650px) {
+    html {
+      font-size: 8px; } }
+
+body {
+  background-color: white;
+  color: black;
+  overflow-x: hidden; }
+
+img {
+  border: 0; }
+
+button {
+  outline: none;
+  cursor: pointer;
+  background: none;
+  border: 0; }
+
+input, select, textarea, button {
+  font: inherit; }
+
+@-webkit-keyframes bouncy {
+  from {
+    -webkit-transform: translateY(-1rem);
+            transform: translateY(-1rem); }
+  to {
+    -webkit-transform: translateY(0rem);
+            transform: translateY(0rem); } }
+
+@keyframes bouncy {
+  from {
+    -webkit-transform: translateY(-1rem);
+            transform: translateY(-1rem); }
+  to {
+    -webkit-transform: translateY(0rem);
+            transform: translateY(0rem); } }
+
+#wrapper {
+  max-width: inherit; }
+
+.intro {
+  max-width: 600px;
+  display: block; }
+
+#app[v-cloak] > * {
+  display: none; }
+
+#app[v-cloak]:before {
+  content: "Loading...";
+  font-size: 20px; }
+
+.loading {
+  font-size: 3rem;
+  color: purple;
+  font-family: 'Comic Sans MS', sans-serif;
+  -webkit-animation: bouncy 200ms infinite alternate;
+          animation: bouncy 200ms infinite alternate; }
+
+.text-link {
+  text-decoration: underline; }
+
+.pagepile-input {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 1rem;
+  max-width: 30rem; }
+
+.input-with-button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  max-width: 60rem; }
+  .input-with-button button {
+    margin-top: 0 !important; }

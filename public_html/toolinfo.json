@@ -1,5 +1,14 @@
 [
     {
+        "title" : "Tinklify",
+        "description" : "Get all links from a Wikimedia page and transform to Wikidata items (QIDs)",
+        "name" : "hay-tinklify",
+        "author" : "Hay Kranen",
+        "repository" : "https://github.com/hay/wiki-tools.git",
+        "url" : "http://tools.wmflabs.org/hay/tinklify",
+        "keywords" : "wikidata, links, transform, convert"
+    },
+    {
         "title" : "Minefield",
         "description" : "Convert Commons file page titles to media ids",
         "name" : "hay-minefield",

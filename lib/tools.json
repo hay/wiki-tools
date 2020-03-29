@@ -19,16 +19,15 @@
         "description" : "A better <a href=\"https://meta.wikimedia.org/wiki/Help:Linksearch\">External links search</a>. Collates all the links so you can view which Wikipedia pages have the most external links to a pattern."
     },
 
-    "sum" : {
-        "title" : "Sum of all Knowledge",
-        "description" : "A project to visualize the knowledge getting added to Wikidata, Wikipedia and Wikimedia Commons.",
-        "url" : "http://sum.bykr.org"
-    },
-
     "chantek" : {
         "title" : "Chantek",
         "description" : "An unaspiring HTTP API server written in Python with lots of Wikimedia-related commands.",
         "url" : "https://github.com/hay/chantek"
+    },
+
+    "tinklify" : {
+        "title" : "Tinklify",
+        "description" : "Get all links from a Wikimedia page and transform to Wikidata items (QIDs)"
     },
 
     "minefield" : {
@@ -48,6 +47,12 @@
 
     "deprecated" : {
 
+    },
+
+    "sum" : {
+        "title" : "Sum of all Knowledge",
+        "description" : "A project to visualize the knowledge getting added to Wikidata, Wikipedia and Wikimedia Commons.",
+        "url" : "http://sum.bykr.org"
     },
 
     "multisearch" : {
