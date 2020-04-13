@@ -11,6 +11,17 @@ async function loadJson(url) {
     return json;
 }
 
+// Welcome in the special section of hell that is called URL encoding
+// https://www.mediawiki.org/wiki/Manual:PAGENAMEE_encoding#PAGENAME
+function encodePageTitle(title) {
+    title = title.replace(/ /g, '_')
+                 .replace(/&/g, '%26')
+                 .replace(/"/g, '%22')
+                 .replace(/'/g, '%27');
+
+    return window.encodeURIComponent(title);
+}
+
 function getCommonsFilepage(str) {
     // URL's, note that we also take into account pasting from other
     // sites like Wikipedia
@@ -38,7 +49,7 @@ function toCsv(data) {
 // https://commons.wikimedia.org/w/api.php?action=query&titles=File:Albert%20Einstein%20Head.jpg|File:Cat.jpg&format=json
 async function getMidsForFilepages(filepages) {
     // First make sure we get the urls without the domain and stuff and encode
-    filepages = filepages.map(getCommonsFilepage).map(window.encodeURIComponent);
+    filepages = filepages.map(getCommonsFilepage).map(encodePageTitle);
 
     // Now we need to chunk the filepages to the maximum allowed titles
     const chunks = chunk(filepages, MAX_TITLES_PER_CALL);
