@@ -12,8 +12,9 @@ async function loadJson(url) {
 }
 
 function getCommonsFilepage(str) {
-    // URL's
-    str = str.replace(/https?:\/\/commons.wikimedia.org\/wiki\//, '');
+    // URL's, note that we also take into account pasting from other
+    // sites like Wikipedia
+    str = str.replace(/https?:\/\/.+\/wiki\//, '');
 
     // This weird stuff is what we get from the WD query service
     // < https://phabricator.wikimedia.org/T238908#5684054 >
