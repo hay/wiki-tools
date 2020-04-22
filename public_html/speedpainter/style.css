@@ -152,22 +152,6 @@ button {
 input, select, textarea, button {
   font: inherit; }
 
-@-webkit-keyframes bouncy {
-  from {
-    -webkit-transform: translateY(-1rem);
-            transform: translateY(-1rem); }
-  to {
-    -webkit-transform: translateY(0rem);
-            transform: translateY(0rem); } }
-
-@keyframes bouncy {
-  from {
-    -webkit-transform: translateY(-1rem);
-            transform: translateY(-1rem); }
-  to {
-    -webkit-transform: translateY(0rem);
-            transform: translateY(0rem); } }
-
 #wrapper {
   max-width: inherit; }
 
@@ -181,28 +165,3 @@ input, select, textarea, button {
 #app[v-cloak]:before {
   content: "Loading...";
   font-size: 20px; }
-
-.loading {
-  font-size: 3rem;
-  color: purple;
-  font-family: 'Comic Sans MS', sans-serif;
-  -webkit-animation: bouncy 200ms infinite alternate;
-          animation: bouncy 200ms infinite alternate; }
-
-.text-link {
-  text-decoration: underline; }
-
-.pagepile-input {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin-bottom: 1rem;
-  max-width: 30rem; }
-
-.input-with-button {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  max-width: 60rem; }
-  .input-with-button button {
-    margin-top: 0 !important; }

@@ -1,7 +1,7 @@
 <?php
     require '../../lib/class-hay.php';
 
-    $hay = new Hay("templater", [
+    $hay = new Hay(basename(dirname(__FILE__)), [
         "styles" => [ 'style.css' ],
         "scripts" => [ 'bundle.js' ]
     ]);
