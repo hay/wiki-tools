@@ -41,11 +41,11 @@ class Parser:
                 elif cmd == "quote":
                     val = f'"{val}"'
                 elif cmd == "year":
-                    val = f"{val}-00-00T00:00:00Z/9"
+                    val = f"+{val}-00-00T00:00:00Z/9"
                 elif cmd == "month":
-                    val = f"{val}-00T00:00:00Z/10"
+                    val = f"+{val}-00T00:00:00Z/10"
                 elif cmd == "date":
-                    val = f"{val}T00:00:00Z/11"
+                    val = f"+{val}T00:00:00Z/11"
                 elif cmd == "def":
                     # Define a macro
                     curdef = val
