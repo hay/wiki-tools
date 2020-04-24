@@ -1,0 +1,88 @@
+$c-1: #337ab7;
+$c-2: #eee;
+$c-3: #333;
+$spacing: 1.5rem;
+
+html {
+    font-size: 10px;
+}
+
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: $c-3;
+}
+
+a {
+    color: $c-1;
+    text-decoration: none;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.tools-header {
+    display: flex;
+    justify-content: space-between;
+    margin: $spacing;
+    padding-bottom: $spacing;
+    border-bottom: 1px solid $c-2;
+
+    a {
+        text-decoration: none;
+        color: $c-1;
+    }
+}
+
+.tools-nav {
+    order: 1;
+    list-style: none;
+    display: flex;
+    align-items: flex-end;
+
+    > * {
+        margin-left: 3rem;
+    }
+
+    a {
+        font-size: 1.4rem;
+    }
+}
+
+.tools-title {
+    font-size: 2.4rem;
+    font-weight: 500;
+}
+
+.app {
+    padding: 0 $spacing;
+}
+
+.app-title {
+    font-size: 3.6rem;
+    font-weight: 500;
+}
+
+.app-lead {
+    font-size: 1.6rem;
+    font-weight: 300;
+    line-height: 1.4;
+}
+
+.footer {
+    padding-top: $spacing;
+    margin: auto $spacing $spacing $spacing;
+    border-top: 1px solid $c-2;
+
+    small {
+        font-size: 1.2rem;
+        line-height: 1.5;
+    }
+
+    a {
+        color: $c-1;
+        text-decoration: none;
+    }
+}

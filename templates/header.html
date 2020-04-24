@@ -44,14 +44,17 @@
 </head>
 <body>
 <div id="wrapper" class="container">
-    <header>
-        <ul class="nav nav-header nav-pills pull-right">
+    <header class="tools-header">
+        <ul class="nav nav-header nav-pills pull-right tools-nav">
             <li><a href="../">Home</a></li>
             <li><a href="https://github.com/hay/wiki-tools">Source</a></li>
         </ul>
-        <h3 class="text-muted"><a href="../">Hay's tools</a></h3>
+
+        <h3 class="tools-title text-muted"><a href="../">Hay's tools</a></h3>
     </header>
 
+    {% if not opts.bare %}
     <hr />
+    {% endif %}
 
     <main>

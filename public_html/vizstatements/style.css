@@ -1,124 +1,3 @@
-.buffer-0 {
-  margin-top: 0px !important;
-  margin-bottom: 0px !important; }
-
-.buffer-top-0 {
-  margin-top: 0px !important; }
-
-.buffer-bottom-0 {
-  margin-bottom: 0px !important; }
-
-.buffer-1 {
-  margin-top: 5px !important;
-  margin-bottom: 5px !important; }
-
-.buffer-top-1 {
-  margin-top: 10px !important; }
-
-.buffer-bottom-1 {
-  margin-bottom: 10px !important; }
-
-.buffer-2 {
-  margin-top: 10px !important;
-  margin-bottom: 10px !important; }
-
-.buffer-top-2 {
-  margin-top: 20px !important; }
-
-.buffer-bottom-2 {
-  margin-bottom: 20px !important; }
-
-.buffer-3 {
-  margin-top: 15px !important;
-  margin-bottom: 15px !important; }
-
-.buffer-top-3 {
-  margin-top: 30px !important; }
-
-.buffer-bottom-3 {
-  margin-bottom: 30px !important; }
-
-.buffer-4 {
-  margin-top: 20px !important;
-  margin-bottom: 20px !important; }
-
-.buffer-top-4 {
-  margin-top: 40px !important; }
-
-.buffer-bottom-4 {
-  margin-bottom: 40px !important; }
-
-.buffer-5 {
-  margin-top: 25px !important;
-  margin-bottom: 25px !important; }
-
-.buffer-top-5 {
-  margin-top: 50px !important; }
-
-.buffer-bottom-5 {
-  margin-bottom: 50px !important; }
-
-.buffer-6 {
-  margin-top: 30px !important;
-  margin-bottom: 30px !important; }
-
-.buffer-top-6 {
-  margin-top: 60px !important; }
-
-.buffer-bottom-6 {
-  margin-bottom: 60px !important; }
-
-.buffer-7 {
-  margin-top: 35px !important;
-  margin-bottom: 35px !important; }
-
-.buffer-top-7 {
-  margin-top: 70px !important; }
-
-.buffer-bottom-7 {
-  margin-bottom: 70px !important; }
-
-.buffer-8 {
-  margin-top: 40px !important;
-  margin-bottom: 40px !important; }
-
-.buffer-top-8 {
-  margin-top: 80px !important; }
-
-.buffer-bottom-8 {
-  margin-bottom: 80px !important; }
-
-.buffer-9 {
-  margin-top: 45px !important;
-  margin-bottom: 45px !important; }
-
-.buffer-top-9 {
-  margin-top: 90px !important; }
-
-.buffer-bottom-9 {
-  margin-bottom: 90px !important; }
-
-.buffer-10 {
-  margin-top: 50px !important;
-  margin-bottom: 50px !important; }
-
-.buffer-top-10 {
-  margin-top: 100px !important; }
-
-.buffer-bottom-10 {
-  margin-bottom: 100px !important; }
-
-.sr-only {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
-  white-space: nowrap !important;
-  border: 0 !important; }
-
 * {
   margin: 0;
   padding: 0;
@@ -151,6 +30,84 @@ button {
 
 input, select, textarea, button {
   font: inherit; }
+
+html {
+  font-size: 10px; }
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333; }
+
+a {
+  color: #337ab7;
+  text-decoration: none; }
+
+.container {
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column; }
+
+.tools-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee; }
+  .tools-header a {
+    text-decoration: none;
+    color: #337ab7; }
+
+.tools-nav {
+  -webkit-box-ordinal-group: 2;
+      -ms-flex-order: 1;
+          order: 1;
+  list-style: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end; }
+  .tools-nav > * {
+    margin-left: 3rem; }
+  .tools-nav a {
+    font-size: 1.4rem; }
+
+.tools-title {
+  font-size: 2.4rem;
+  font-weight: 500; }
+
+.app {
+  padding: 0 1.5rem; }
+
+.app-title {
+  font-size: 3.6rem;
+  font-weight: 500; }
+
+.app-lead {
+  font-size: 1.6rem;
+  font-weight: 300;
+  line-height: 1.4; }
+
+.footer {
+  padding-top: 1.5rem;
+  margin: auto 1.5rem 1.5rem 1.5rem;
+  border-top: 1px solid #eee; }
+  .footer small {
+    font-size: 1.2rem;
+    line-height: 1.5; }
+  .footer a {
+    color: #337ab7;
+    text-decoration: none; }
 
 #wrapper {
   max-width: inherit; }

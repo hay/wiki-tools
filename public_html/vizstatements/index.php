@@ -10,16 +10,15 @@
     $hay->header();
 ?>
     <div id="app"
+         class="app"
          v-cloak>
-        <h1>
+        <h1 class="app-title">
             <a href="<?= $hay->getUrl(); ?>"><?php $hay->title(); ?></a>
         </h1>
 
-        <section>
-            <p class="lead">
-                <?php $hay->description(); ?>
-            </p>
-        </section>
+        <p class="app-lead">
+            <?php $hay->description(); ?>
+        </p>
 
         <viz-statements></viz-statements>
     </div>
