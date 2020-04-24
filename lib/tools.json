@@ -19,9 +19,9 @@
         "description" : "A better <a href=\"https://meta.wikimedia.org/wiki/Help:Linksearch\">External links search</a>. Collates all the links so you can view which Wikipedia pages have the most external links to a pattern."
     },
 
-    "speedpainter" : {
-        "title" : "Speedpainter",
-        "description" : "Swiftly create artwork items on Wikidata using a template"
+    "vizstatements" : {
+        "title" : "VizStatements",
+        "description" : "Create <a href=\"https://tools.wmflabs.org/quickstatements/\">QuickStatements</a> batches visually"
     },
 
     "chantek" : {

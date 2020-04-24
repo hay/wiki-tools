@@ -1,5 +1,13 @@
 <!doctype html>
+
+{% if opts.bare %}
+
+<html>
+{% else %}
+
 <html ng-app="{{toolname}}">
+{% endif %}
+
 <head>
  <!-- __                                    __                   ___
      /\ \                                  /\ \__               /\_ \
@@ -13,15 +21,19 @@
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{title}}</title>
+    <title>{{title}} - Hay's tools</title>
+
+    {% if not opts.bare %}
 
     <link rel="stylesheet" href="{{root}}/vendor/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="{{root}}/common/style.css" />
+    {% endif %}
 
     {% if opts.styles %}
-      {% for style in opts.styles %}
-      <link rel="stylesheet" href="{{root}}/{{toolname}}/{{style}}">
-      {% endfor %}
+    {% for style in opts.styles %}
+
+    <link rel="stylesheet" href="{{root}}/{{toolname}}/{{style}}">
+    {% endfor %}
     {% endif %}
 
     {% if not opts.scripts is defined %}

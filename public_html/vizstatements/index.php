@@ -2,8 +2,9 @@
     require '../../lib/class-hay.php';
 
     $hay = new Hay(basename(dirname(__FILE__)), [
-        "styles" => [ 'style.css' ],
-        "scripts" => [ 'bundle.js' ]
+        "bare" => true,
+        "scripts" => [ 'bundle.js' ],
+        "styles" => [ 'style.css' ]
     ]);
 
     $hay->header();
@@ -19,6 +20,8 @@
                 <?php $hay->description(); ?>
             </p>
         </section>
+
+        <viz-statements></viz-statements>
     </div>
 <?php
     $hay->footer();

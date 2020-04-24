@@ -7,6 +7,7 @@ class Hay {
     const DEFAULT_TITLE = "Hay's tools";
     private $toolname, $tools, $tooldata, $title;
     private $description, $titletag, $path, $opts;
+    private $version;
 
     public function __construct($toolname = false, $opts = []) {
         $this->path = realpath(dirname(__FILE__));
