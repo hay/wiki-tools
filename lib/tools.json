@@ -21,7 +21,8 @@
 
     "vizstatements" : {
         "title" : "VizStatements",
-        "description" : "Create <a href=\"https://tools.wmflabs.org/quickstatements/\">QuickStatements</a> batches visually"
+        "description" : "Create <a href=\"https://tools.wmflabs.org/quickstatements/\">QuickStatements</a> batches visually",
+        "hidden" : true
     },
 
     "chantek" : {
