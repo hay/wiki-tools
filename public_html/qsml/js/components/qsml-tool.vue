@@ -1,10 +1,21 @@
 <template>
     <div class="qsml-tool">
-        <button v-on:click="convert">Convert</button>
+        <button
+            v-show="!output"
+            v-on:click="convert">Convert</button>
+
+        <button
+            v-show="output"
+            v-on:click="reset">Reset</button>
 
         <textarea
+            v-show="!output"
             v-model="input"
             rows="50"></textarea>
+
+        <textarea
+            v-show="output"
+            rows="50">{{output}}</textarea>
     </div>
 </template>
 
@@ -14,14 +25,19 @@
     export default {
         data() {
             return {
-                input : ''
+                input : '',
+                output : null
             }
         },
 
         methods : {
             convert() {
                 const parser = new Parser(this.input);
-                console.log(parser.getData());
+                this.output = parser.getData();
+            },
+
+            reset() {
+                this.output = null;
             }
         }
     }

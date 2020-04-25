@@ -14,7 +14,7 @@ export default class Parser {
             line = line.filter(l => !!l);
 
             // And only write lines that have something
-            if (!!line) {
+            if (line.length) {
                 data += line.join('\t') + '\n';
             }
         }
@@ -85,13 +85,13 @@ export default class Parser {
                 } else {
                     row.push(val);
                 }
-
-                curdef = false;
-                this.data.push(row);
             }
 
-            // Remove empty lines and cells
-            this.data = this.data.filter(row => !!row);
+            curdef = false;
+            this.data.push(row);
         }
+
+        // Remove empty lines and cells
+        this.data = this.data.filter(row => !!row);
     }
 }
