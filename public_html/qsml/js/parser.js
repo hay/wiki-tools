@@ -1,33 +1,50 @@
+const DEFAULT_OPTS = {
+    cellSep : '\t',
+    commandSep : '\n',
+    urlCellSep : '|',
+    urlCommandSep : '||'
+};
+
+const QS_ENDPOINT = "https://tools.wmflabs.org/quickstatements/#v1=";
+
+function encodeUrl(url) {
+    return url
+        .replace(/\t/g, '%09')
+        .replace(/"/g, '%22')
+        .replace(/ /g, '%20')
+        .replace(/\n/g, '%0A')
+        .replace(/\//g, '%2F')
+}
+
 export default class Parser {
-    constructor(input) {
+    constructor(input, opts = {}) {
         this.input = input;
+        this.opts = Object.assign(DEFAULT_OPTS, opts);
         this.data = [];
         this.defs = {};
         this.parse();
     }
 
     getData() {
-        let data = '';
+        return this.data
+            .map(line => line.join(this.opts.cellSep))
+            .join(this.opts.commandSep);
+    }
 
-        for (let line of this.data) {
-            // Remove falsy values
-            line = line.filter(l => !!l);
+    getUrl() {
+        const arg = this.data
+            .map(line => line.join(this.opts.urlCellSep))
+            .join(this.opts.urlCommandSep);
 
-            // And only write lines that have something
-            if (line.length) {
-                data += line.join('\t') + '\n';
-            }
-        }
-
-        return data;
+        return QS_ENDPOINT + encodeUrl(arg);
     }
 
     parse() {
-        for (const line of this.input.split('\n')) {
+        for (const line of this.input.split(this.opts.commandSep)) {
             let row = [];
             let curdef = false;
 
-            for (let cell of line.split('\t')) {
+            for (let cell of line.split(this.opts.cellSep)) {
                 cell = cell.trim();
 
                 // If we have a backslash as the very first character, it's
@@ -88,10 +105,13 @@ export default class Parser {
             }
 
             curdef = false;
+
+            // Remove any falsy values before adding
+            row = row.filter(row => !!row);
             this.data.push(row);
         }
 
         // Remove empty lines and cells
-        this.data = this.data.filter(row => !!row);
+        this.data = this.data.filter(row => !!row && row.length);
     }
 }

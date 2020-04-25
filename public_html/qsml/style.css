@@ -102,14 +102,20 @@ a {
 
 .qsml-tool {
   margin-top: 1rem; }
-  .qsml-tool button {
+  .qsml-tool button,
+  .qsml-tool .button {
     background: #337ab7;
     color: white;
-    padding: 1rem;
-    font-size: 1.8rem; }
+    padding: 1rem 1.2rem;
+    font-size: 1.8rem;
+    border-radius: 4px; }
   .qsml-tool textarea {
     margin-top: 1rem;
     width: 100%;
     padding: 1rem;
     font-size: 1.4rem;
     font-family: monospace; }
+  .qsml-tool menu {
+    display: flex; }
+  .qsml-tool menu > * {
+    margin-right: 1rem; }
