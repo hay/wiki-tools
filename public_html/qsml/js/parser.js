@@ -85,6 +85,9 @@ export default class Parser {
                     val = `+${val}-00T00:00:00Z/10`;
                 } else if (cmd === 'date') {
                     val = `+${val}T00:00:00Z/11`
+                } else if (cmd === 'today') {
+                    const now = new Date().toISOString().slice(0, 10);
+                    val = `+${now}T00:00:00Z/11`
                 } else if (cmd === 'def') {
                     // Define a macro
                     curdef = val;

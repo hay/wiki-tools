@@ -10,6 +10,20 @@
 .qsml-tool {
     margin-top: 1rem;
 
+    h2 {
+        font-weight: 500;
+        font-size: 1.8rem;
+    }
+
+    h2 + table {
+        margin-top: .5rem;
+    }
+
+    p code {
+        background: white;
+        padding: 0 .5rem;
+    }
+
     button,
     .button {
         background: $c-1;
@@ -28,10 +42,64 @@
     }
 
     menu {
+        margin-top: 2rem;
         display: flex;
     }
 
     menu > * {
         margin-right: 1rem;
+    }
+
+    details {
+        max-width: 100rem;
+    }
+
+    summary {
+        font-size: 1.6rem;
+        font-weight: 300;
+        line-height: 1.4;
+        color: $c-1;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    section {
+        margin-top: .5rem;
+        padding: 1rem;
+        background: $c-2;
+        font-size: 1.6rem;
+    }
+
+    section > * + * {
+        margin-top: 2rem;
+    }
+
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        overflow-x: scroll;
+    }
+
+    td, th, tr {
+        padding: .4rem .8rem;
+    }
+
+    thead {
+        background: $c-1;
+        color: white;
+    }
+
+    tbody tr:nth-child(odd) {
+        background: white;
+    }
+
+    td:nth-child(1) {
+        font-weight: bold;
+    }
+
+    td:nth-child(1),
+    td:nth-child(3),
+    td:nth-child(4) {
+        font-family: monospace;
     }
 }

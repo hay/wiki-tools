@@ -102,6 +102,14 @@ a {
 
 .qsml-tool {
   margin-top: 1rem; }
+  .qsml-tool h2 {
+    font-weight: 500;
+    font-size: 1.8rem; }
+  .qsml-tool h2 + table {
+    margin-top: .5rem; }
+  .qsml-tool p code {
+    background: white;
+    padding: 0 .5rem; }
   .qsml-tool button,
   .qsml-tool .button {
     background: #337ab7;
@@ -116,6 +124,40 @@ a {
     font-size: 1.4rem;
     font-family: monospace; }
   .qsml-tool menu {
+    margin-top: 2rem;
     display: flex; }
   .qsml-tool menu > * {
     margin-right: 1rem; }
+  .qsml-tool details {
+    max-width: 100rem; }
+  .qsml-tool summary {
+    font-size: 1.6rem;
+    font-weight: 300;
+    line-height: 1.4;
+    color: #337ab7;
+    text-decoration: underline;
+    cursor: pointer; }
+  .qsml-tool section {
+    margin-top: .5rem;
+    padding: 1rem;
+    background: #eee;
+    font-size: 1.6rem; }
+  .qsml-tool section > * + * {
+    margin-top: 2rem; }
+  .qsml-tool table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    overflow-x: scroll; }
+  .qsml-tool td, .qsml-tool th, .qsml-tool tr {
+    padding: .4rem .8rem; }
+  .qsml-tool thead {
+    background: #337ab7;
+    color: white; }
+  .qsml-tool tbody tr:nth-child(odd) {
+    background: white; }
+  .qsml-tool td:nth-child(1) {
+    font-weight: bold; }
+  .qsml-tool td:nth-child(1),
+  .qsml-tool td:nth-child(3),
+  .qsml-tool td:nth-child(4) {
+    font-family: monospace; }

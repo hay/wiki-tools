@@ -1,5 +1,6 @@
 <template>
     <div class="qsml-tool">
+        <qsml-help></qsml-help>
 
         <menu>
             <button
@@ -29,9 +30,12 @@
 </template>
 
 <script>
+    import QsmlHelp from './qsml-help.vue';
     import Parser from '../parser.js';
 
     export default {
+        components : { QsmlHelp },
+
         computed : {
             output() {
                 return this.parser ? this.parser.getData() : null;
