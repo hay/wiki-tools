@@ -21,14 +21,22 @@ export default class Parser {
         this.input = input;
         this.opts = Object.assign(DEFAULT_OPTS, opts);
         this.data = [];
+        this.line = 0;
         this.defs = {};
-        this.parse();
     }
 
     getData() {
         return this.data
             .map(line => line.join(this.opts.cellSep))
             .join(this.opts.commandSep);
+    }
+
+    getDateType(date) {
+        if (/\d{4}-\d{2}-\d{2}$/.test(date)) return 'date';
+        if (/\d{4}-\d{2}$/.test(date)) return 'month';
+        if (/\d{4}$/.test(date)) return 'year';
+
+        return false;
     }
 
     getUrl() {
@@ -43,6 +51,7 @@ export default class Parser {
         for (const line of this.input.split(this.opts.commandSep)) {
             let row = [];
             let curdef = false;
+            this.line++;
 
             for (let cell of line.split(this.opts.cellSep)) {
                 cell = cell.trim();
@@ -79,15 +88,11 @@ export default class Parser {
                     continue;
                 } else if (cmd === 'quote') {
                     val = `"${val}"`;
-                } else if (cmd === 'year') {
-                    val = `+${val}-00-00T00:00:00Z/9`;
-                } else if (cmd === 'month') {
-                    val = `+${val}-00T00:00:00Z/10`;
                 } else if (cmd === 'date') {
-                    val = `+${val}T00:00:00Z/11`
+                    val = this.parseDate(val);
                 } else if (cmd === 'today') {
                     const now = new Date().toISOString().slice(0, 10);
-                    val = `+${now}T00:00:00Z/11`
+                    val = this.parseDate(now);
                 } else if (cmd === 'def') {
                     // Define a macro
                     curdef = val;
@@ -116,5 +121,15 @@ export default class Parser {
 
         // Remove empty lines and cells
         this.data = this.data.filter(row => !!row && row.length);
+    }
+
+    parseDate(val) {
+        const type = this.getDateType(val);
+
+        if (!type) throw new Error('Invalid date');
+
+        if (type === 'year') return `+${val}-00-00T00:00:00Z/9`;
+        if (type === 'month') return `+${val}-00T00:00:00Z/10`;
+        if (type === 'date') return `+${val}T00:00:00Z/11`;
     }
 }

@@ -117,6 +117,10 @@ a {
     padding: 1rem 1.2rem;
     font-size: 1.8rem;
     border-radius: 4px; }
+    .qsml-tool button[disabled],
+    .qsml-tool .button[disabled] {
+      background: #ccc;
+      cursor: not-allowed; }
   .qsml-tool textarea {
     margin-top: 1rem;
     width: 100%;
@@ -161,3 +165,8 @@ a {
   .qsml-tool td:nth-child(3),
   .qsml-tool td:nth-child(4) {
     font-family: monospace; }
+  .qsml-tool .error {
+    margin-top: 1rem;
+    padding: 1rem;
+    font-size: 1.8rem;
+    background: #f99; }

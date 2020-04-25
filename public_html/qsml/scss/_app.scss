@@ -31,6 +31,11 @@
         padding: 1rem 1.2rem;
         font-size: 1.8rem;
         border-radius: 4px;
+
+        &[disabled] {
+            background: #ccc;
+            cursor: not-allowed;
+        }
     }
 
     textarea {
@@ -101,5 +106,12 @@
     td:nth-child(3),
     td:nth-child(4) {
         font-family: monospace;
+    }
+
+    .error {
+        margin-top: 1rem;
+        padding: 1rem;
+        font-size: 1.8rem;
+        background: #f99;
     }
 }

@@ -5,6 +5,7 @@
         <menu>
             <button
                 v-show="!output"
+                v-bind:disabled="!input.length"
                 v-on:click="convert">Convert</button>
 
             <button
@@ -16,6 +17,9 @@
                target="_blank"
                v-bind:href="url">Send to QuickStatements</a>
         </menu>
+
+        <p v-if="error"
+           class="error">{{error}}</p>
 
         <textarea
             v-show="!output"
@@ -48,6 +52,7 @@
 
         data() {
             return {
+                error : false,
                 input : '',
                 parser: null
             }
@@ -55,7 +60,15 @@
 
         methods : {
             convert() {
+                this.error = false;
                 this.parser = new Parser(this.input);
+
+                try {
+                    this.parser.parse();
+                } catch (e) {
+                    this.error = `Parser error at line ${this.parser.line}: ${e.message}`;
+                    this.reset();
+                }
             },
 
             reset() {

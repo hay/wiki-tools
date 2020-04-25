@@ -33,11 +33,16 @@
 
             <p>Other commands work in the same way. For example, to add a year you do:</p>
 
-            <p><code>\year 1858</code></p>
+            <p><code>\date 1858</code></p>
 
             <p>Which converts to</p>
 
             <p><code>+1858-00-00T00:00:00Z/9</code></p>
+
+            <p>
+                <code>\date</code> automatically detects whether you're giving it a year, date or month,
+                as long as you give it in ISO 8601 (YYYY-MM-DD) format.
+            </p>
 
             <h2>Macros</h2>
 
@@ -107,24 +112,10 @@
                     </tr>
 
                     <tr>
-                        <td>\year</td>
-                        <td>Converts a year in the format YYYY to a QS-compatible timestamp.</td>
-                        <td>\year 1858</td>
-                        <td>+1858-00-00T00:00:00Z/9</td>
-                    </tr>
-
-                    <tr>
-                        <td>\month</td>
-                        <td>Converts timestamp in the format YYYY-MM to a QS-compatible timestamp.</td>
-                        <td>\month 1830-12</td>
-                        <td>+1830-12-00T00:00:00Z/10</td>
-                    </tr>
-
-                    <tr>
                         <td>\date</td>
                         <td>Converts timestamp in the format YYYY-MM-DD to a QS-compatible timestamp.</td>
-                        <td>\date 2020-04-26</td>
-                        <td>+2020-04-26T00:00:00Z/11</td>
+                        <td>\date 1983-06</td>
+                        <td>+1983-06-00T00:00:00Z/10</td>
                     </tr>
 
                     <tr>
