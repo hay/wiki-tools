@@ -4,15 +4,14 @@
 
         <section>
             <p>
-                <strong>QSML</strong> is a strict superset of the <a href="https://www.wikidata.org/wiki/Help:QuickStatements">QuickStatements</a> (QS) 'command sequence' syntax, also known as the 'V1' syntax. Everything that works in regular QS will also work in QSML.
-                QSML gives you a couple of extra commands (or 'macros') that make working with QS
-                easier and faster. This tool is aimed at users who are already familiair with QS, and assumes you already have some experience using it.
+                <strong>QSML</strong> is a superset of the <a href="https://www.wikidata.org/wiki/Help:QuickStatements">QuickStatements</a> (QS) 'command sequence' syntax, also known as the 'V1' syntax. Everything that works in regular QS will also work in QSML.
+                QSML gives you extra commands and a way to define macros for simplifying repetitive and cumbersome tasks. This tool is intended for users who are already familiair with QS.
             </p>
 
             <h2>Basic usage</h2>
 
             <p>
-                For QSML, it is assumed you're using a spreadsheet like LibreOffice, OpenOffice, Excel or Google Spreadsheets or a text editor to do your editing and pasting it in the import textbox below.
+                For QSML, it is assumed you're using a spreadsheet like LibreOffice, OpenOffice, Excel or Google Spreadsheets or a text editor to do your editing. Paste your commands in the textbox below.
             </p>
 
             <p>
@@ -25,13 +24,13 @@
 
             <p><code>\quote painting by Louis Dubois</code></p>
 
-            <p>Which will convert to</p>
+            <p>Which converts to</p>
 
             <p><code>"painting by Louis Dubois"</code></p>
 
             <p>Because all strings need to be quoted in QS, but quotes can be difficult to manage in most spreadsheet software, the <code>\quote</code> command will save you a lot of irritation.</p>
 
-            <p>Other commands work in the same way. For example, to add a year you do:</p>
+            <p>Other commands work in the same way. For example, to add a year you use <code>\date</code>:</p>
 
             <p><code>\date 1858</code></p>
 
@@ -47,7 +46,7 @@
             <h2>Macros</h2>
 
             <p>
-                Macros are a bit more complex, but can be very powerful. They allow you to define a list of QS commands and repeat them wherever you like in your code. This can be very useful to reuse a reference many times in your QS batch.
+                Macros are a bit more complex, but can be very powerful. They allow you to define a list of QS commands and repeat them wherever you like in your code. A useful application for a macro is to reuse a reference.
             </p>
 
             <p>
@@ -91,22 +90,22 @@
                 <tbody>
                     <tr>
                         <td>\def</td>
-                        <td>Defines a macro: all the following cells in the same row will become the macro.
-                            To use the macro, use <code>\name</code> anywhere after defining it. For example, to define a reference with the name <code>'ref1'</code> use <code>\def ref1</code>.</td>
+                        <td>Defines a macro: all subsequent cells in the same row will become part of the macro.
+                            To use the macro, use <code>\name</code> anywhere after defining it. For example, to define a reference with the name <code>'ref1'</code> use <code>\def ref1</code>, then use <code>\ref1</code> to use it.</td>
                         <td>\ref1</td>
                         <td>S813  +2020-04-21T00:00:00Z/11 S407 Q7411</td>
                     </tr>
 
                     <tr>
                         <td>\quote</td>
-                        <td>Quote all the text that follows.</td>
+                        <td>Quote all subsequent text.</td>
                         <td>\quote painting by Louis Dubois</td>
                         <td>"painting by Louis Dubois"</td>
                     </tr>
 
                     <tr>
                         <td>\rem</td>
-                        <td>Add a comment that will not be shown in the result.</td>
+                        <td>Add a comment that will not be shown in the converted QS commands.</td>
                         <td>\rem This line adds an instance of (P31) claim</td>
                         <td>(nothing)</td>
                     </tr>
