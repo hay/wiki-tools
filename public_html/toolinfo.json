@@ -1,5 +1,14 @@
 [
     {
+        "title" : "QSML",
+        "description" : "QuickStatements Macro Language: speed up your QuickStatements by using macros",
+        "name" : "hay-qsml",
+        "author" : "Hay Kranen",
+        "repository" : "https://github.com/hay/wiki-tools.git",
+        "url" : "http://tools.wmflabs.org/hay/qsml",
+        "keywords" : "wikidata, quickstatements, template"
+    },
+    {
         "title" : "Tinklify",
         "description" : "Get all links from a Wikimedia page and transform to Wikidata items (QIDs)",
         "name" : "hay-tinklify",
