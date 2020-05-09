@@ -1,0 +1,17 @@
+CREATE
+LAST	Lnl	"De straat van de zangers"
+LAST	Lfr	"La rue des chanteurs"
+LAST	Len	"The Street of the Singers"
+LAST	Dnl	"schilderij uit 1884 van Guillaume Vogels"
+LAST	Den	1884 painting by Guillaume Vogels
+LAST	P31	Q3305213
+LAST	P571	+1884-00-00T00:00:00Z/9	S854	"https://www.fine-arts-museum.be/nl/de-collectie/guillaume-vogels-de-straat-van-de-zangers"	S813	+2020-04-23T00:00:00Z/11	S407	Q7411
+LAST	P170	Q1553930	S854	"https://www.fine-arts-museum.be/nl/de-collectie/guillaume-vogels-de-straat-van-de-zangers"	S813	+2020-04-23T00:00:00Z/11	S407	Q7411
+LAST	P195	Q377500	S854	"https://www.fine-arts-museum.be/nl/de-collectie/guillaume-vogels-de-straat-van-de-zangers"	S813	+2020-04-23T00:00:00Z/11	S407	Q7411
+LAST	P217	"4467"	P195	Q377500	S854	"https://www.fine-arts-museum.be/nl/de-collectie/guillaume-vogels-de-straat-van-de-zangers"	S813	+2020-04-23T00:00:00Z/11	S407	Q7411
+LAST	P186	Q12321255	P518	Q861259	S854	"https://www.fine-arts-museum.be/nl/de-collectie/guillaume-vogels-de-straat-van-de-zangers"	S813	+2020-04-23T00:00:00Z/11	S407	Q7411
+LAST	P186	Q296955	S854	"https://www.fine-arts-museum.be/nl/de-collectie/guillaume-vogels-de-straat-van-de-zangers"	S813	+2020-04-23T00:00:00Z/11	S407	Q7411
+LAST	P276	Q377500
+LAST	P136	Q7766995
+LAST	P2049	54U174728	S854	"https://www.fine-arts-museum.be/nl/de-collectie/guillaume-vogels-de-straat-van-de-zangers"	S813	+2020-04-23T00:00:00Z/11	S407	Q7411
+LAST	P2048	83U174728	S854	"https://www.fine-arts-museum.be/nl/de-collectie/guillaume-vogels-de-straat-van-de-zangers"	S813	+2020-04-23T00:00:00Z/11	S407	Q7411
