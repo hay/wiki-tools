@@ -7,7 +7,7 @@ var conf = {
 };
 
 function Api() {
-    this.endpoint = "http://api.haykranen.nl";
+    this.endpoint = "api.php";
 }
 
 Api.prototype = {
