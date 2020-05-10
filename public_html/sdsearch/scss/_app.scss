@@ -6,3 +6,12 @@
     content: "Loading...";
     font-size: 20px;
 }
+
+.container {
+    max-width: 100rem;
+    @include margin-center;
+}
+
+.app > h2 {
+    color: $c-1;
+}

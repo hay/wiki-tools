@@ -1,4 +1,4 @@
-$c-1: #337ab7;
+$c-1: #36c;
 $c-2: #eee;
 $c-3: #333;
 $spacing: 1.5rem;
@@ -84,5 +84,18 @@ a {
     a {
         color: $c-1;
         text-decoration: none;
+    }
+}
+
+@mixin button {
+    background: $c-1;
+    color: white;
+    padding: 1rem 1.2rem;
+    font-size: 1.8rem;
+    border-radius: 4px;
+
+    &[disabled] {
+        background: #ccc;
+        cursor: not-allowed;
     }
 }
