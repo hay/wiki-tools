@@ -2,7 +2,7 @@
     <div class="app">
         <div class="search">
             <div class="search__claim"
-                 v-for="claim in query">
+                 v-for="(claim, claimIndex) in query">
                 <div class="search__prop">
                     <entity-entry
                         classPrefix="search__prop-"
@@ -11,14 +11,25 @@
                 </div>
 
                 <div class="search__items">
-                    <template v-for="(item, index) in claim.items">
-                        <entity-entry
-                            class="search__item"
-                            classPrefix="search__item-"
-                            type="item"
-                            v-bind:key="index"
-                            v-model="claim.items[index]"></entity-entry>
+                    <template v-for="(item, itemIndex) in claim.items">
+                        <div class="search__item">
+                            <entity-entry
+                                classPrefix="search__item-"
+                                type="item"
+                                v-bind:key="itemIndex"
+                                v-model="claim.items[itemIndex]"></entity-entry>
+
+                            <button class="search__del-item"
+                                    @click="removeItem(claimIndex, itemIndex)">
+                                <span>˗</span>
+                            </button>
+                        </div>
                     </template>
+
+                    <div class="search__add-item"
+                         @click="addItem(claimIndex)">
+                        <span>+</span>
+                    </div>
                 </div>
             </div>
 
@@ -58,10 +69,12 @@
 
         data() {
             return {
+                loading : false,
+
                 query : [
                     {
                         prop : 'P180',
-                        items : ['Q146']
+                        items : ['']
                     }
                 ],
 
@@ -70,6 +83,20 @@
         },
 
         methods : {
+            addItem(claimIndex) {
+                this.query[claimIndex].items.push('');
+            },
+
+            removeItem(claimIndex, itemIndex) {
+                const itemToRemove = this.query[claimIndex].items[itemIndex];
+                console.log(claimIndex, itemToRemove);
+
+                this.query[claimIndex].items = this.query[claimIndex].items.filter((item) => {
+                    console.log(item.label, itemToRemove.label, item === itemToRemove);
+                    return item !== itemToRemove;
+                });
+            },
+
             async search() {
                 this.loading = true;
                 this.results = [];

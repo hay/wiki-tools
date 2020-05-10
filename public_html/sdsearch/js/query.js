@@ -44,20 +44,24 @@ export default class Query {
     }
 
     parseQuery(query) {
-        let q = '';
+        let q = [];
 
         for (const claim of query) {
             for (const item of claim.items) {
-                q += `haswbstatement:${claim.prop.id}=${item.id}`;
+                q.push(`haswbstatement:${claim.prop.id}=${item.id}`);
             }
         }
 
-        return q;
+        return q.join(' ');
     }
 
     async search() {
         const query = this.parseQuery(this.query);
-        const results = await this.api.search(query, { 'namespace' : 6 });
+        const results = await this.api.search(query, {
+            namespace : 6,
+            limit : 100
+        });
+
         return results;
     }
 }

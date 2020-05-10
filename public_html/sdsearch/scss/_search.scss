@@ -9,11 +9,26 @@
 
     &__prop {
         display: flex;
+        position: relative;
         background: $c-1;
         color: white;
         padding: 1rem;
         border-top-left-radius: 1rem;
         border-bottom-left-radius: 1rem;
+    }
+
+    &__prop-input {
+        display: flex;
+    }
+
+    &__prop-search {
+        font-size: 2rem;
+    }
+
+    &__prop-button {
+        color: white;
+        font-size: 2rem;
+        margin-left: 1rem;
     }
 
     &__prop-label {
@@ -27,6 +42,26 @@
         display: none;
     }
 
+    &__prop-suggestions {
+        list-style: none;
+        margin-top: 5px;
+        position: absolute;
+        width: 100rem;
+        max-width: 35rem;
+        font-size: 2rem;
+    }
+
+    &__prop-suggestions li {
+        text-decoration: none;
+        background: #2a4b8d;
+        color: white;
+        padding: .5rem;
+    }
+
+    &__prop-suggestions li:nth-child(odd) {
+        background: #36c;
+    }
+
     &__items {
         width: 100%;
         background: #eaecf0;
@@ -37,7 +72,8 @@
         padding: 0 1rem;
     }
 
-    &__item {
+    &__item,
+    &__add-item {
         font-size: 1.8rem;
         padding: .5rem 1rem;
         border: 1px solid #72777d;
@@ -45,6 +81,22 @@
         margin-right: 1rem;
         height: 3.5rem;
         cursor: pointer;
+        display: flex;
+    }
+
+    &__del-item {
+        @include wh(2rem);
+        border-radius: 2rem;
+        border: 1px solid #72777d;
+        color: #72777d;
+        margin-left: 1rem;
+        @include flex-center;
+    }
+
+    &__del-item span {
+        font-size: 3rem;
+        font-weight: bold;
+        height: 4.3rem;
     }
 
     &__item-label {
