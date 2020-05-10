@@ -1,6 +1,6 @@
 <template>
     <div class="search-keyword"
-         v-bind:expanded="expanded > 0">
+         v-bind:expanded="expanded">
         <button class="search-keyword__button">
             <span class="icon"
                   v-bind:data-icon="keyword.icon"></span>
@@ -14,27 +14,12 @@
                    v-bind:value="keyword.value" />
         </div>
 
-        <template v-if="keyword.type === 'wbstatement'">
-            <div class="search-keyword__value">
-                <entity-entry
-                    class="entity"
-                    classPrefix="entity__"
-                    type="property"
-                    v-on:start-searching="expand(true)"
-                    v-on:stop-searching="expand(false)"
-                    v-model="keyword.prop"></entity-entry>
-            </div>
-
-            <div class="search-keyword__value">
-                <entity-entry
-                    class="entity"
-                    classPrefix="entity__"
-                    type="item"
-                    v-on:start-searching="expand(true)"
-                    v-on:stop-searching="expand(false)"
-                    v-model="keyword.value"></entity-entry>
-            </div>
-        </template>
+        <wbstatement-entry
+            v-if="keyword.type === 'wbstatement'"
+            v-on:expand="expanded = true"
+            v-on:contract="expanded = false"
+            v-on:input="input($event)"
+            v-bind:value="keyword.value"></wbstatement-entry>
 
         <button class="search-keyword__button"
                 v-on:click="remove">
@@ -45,18 +30,18 @@
 </template>
 
 <script>
-    import { EntityEntry } from 'wikidata-ux';
+    import WbstatementEntry from './wbstatement-entry.vue';
 
     function parseKeyword(keyword) {
         keyword = keyword.trim();
 
         if (keyword.startsWith('haswbstatement')) {
-            const [ query, prop, value ] = keyword.match(/haswbstatement:(.+)=(.+)/);
+            // const [ query, prop, value ] = keyword.match(/haswbstatement:(.+)=(.+)/);
 
             return {
                 icon : 'tag',
                 type : 'wbstatement',
-                prop, value
+                value : keyword
             };
         } else {
             return {
@@ -68,7 +53,7 @@
     }
 
     export default {
-        components : { EntityEntry },
+        components : { WbstatementEntry },
 
         computed : {
             keyword() {
@@ -78,18 +63,18 @@
 
         data() {
             return {
-                expanded : 0
-            }
+                expanded : false
+            };
         },
 
         methods : {
-            expand(expand) {
-                this.expanded += expand ? 1 : -1;
-            },
-
             input(e) {
                 if (this.keyword.type === 'text') {
                     this.$emit('input', e.target.value);
+                }
+
+                if (this.keyword.type === 'wbstatement') {
+                    this.$emit('input', e);
                 }
             },
 

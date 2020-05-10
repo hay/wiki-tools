@@ -308,6 +308,8 @@ a {
     padding-top: 1rem; }
   .search-keyword__input {
     padding: 0 .5rem; }
+  .search-keyword__wbstatement-entry {
+    display: contents; }
   .search-keyword__value {
     cursor: pointer;
     background: white;

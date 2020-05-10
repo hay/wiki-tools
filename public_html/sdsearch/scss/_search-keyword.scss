@@ -29,6 +29,10 @@ $icons: add, crosshair, remove, search, tag, text, zap;
         padding: 0 .5rem;
     }
 
+    &__wbstatement-entry {
+        display: contents; // FIXME: we should so something better than this
+    }
+
     &__value {
         cursor: pointer;
         background: white;
