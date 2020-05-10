@@ -1,7 +1,7 @@
 <template>
     <div class="search-keyword"
-         v-bind:class="'search-keyword--' + keyword.type">
-        <button>
+         v-bind:expanded="expanded > 0">
+        <button class="search-keyword__button">
             <span class="icon"
                   v-bind:data-icon="keyword.icon"></span>
         </button>
@@ -13,16 +13,31 @@
                    v-on:input="input($event)"
                    v-bind:value="keyword.value" />
         </div>
-<!--
-        <div class="search-keyword__value">
-            <strong>depicts</strong>
-        </div>
 
-        <div class="search-keyword__value">
-            <span>cat</span>
-        </div>
- -->
-        <button v-on:click="remove">
+        <template v-if="keyword.type === 'wbstatement'">
+            <div class="search-keyword__value">
+                <entity-entry
+                    class="entity"
+                    classPrefix="entity__"
+                    type="property"
+                    v-on:start-searching="expand(true)"
+                    v-on:stop-searching="expand(false)"
+                    v-model="keyword.prop"></entity-entry>
+            </div>
+
+            <div class="search-keyword__value">
+                <entity-entry
+                    class="entity"
+                    classPrefix="entity__"
+                    type="item"
+                    v-on:start-searching="expand(true)"
+                    v-on:stop-searching="expand(false)"
+                    v-model="keyword.value"></entity-entry>
+            </div>
+        </template>
+
+        <button class="search-keyword__button"
+                v-on:click="remove">
             <span class="icon"
                   data-icon="remove"></span>
         </button>
@@ -30,6 +45,8 @@
 </template>
 
 <script>
+    import { EntityEntry } from 'wikidata-ux';
+
     function parseKeyword(keyword) {
         keyword = keyword.trim();
 
@@ -51,13 +68,25 @@
     }
 
     export default {
+        components : { EntityEntry },
+
         computed : {
             keyword() {
                 return parseKeyword(this.value);
             }
         },
 
+        data() {
+            return {
+                expanded : 0
+            }
+        },
+
         methods : {
+            expand(expand) {
+                this.expanded += expand ? 1 : -1;
+            },
+
             input(e) {
                 if (this.keyword.type === 'text') {
                     this.$emit('input', e.target.value);

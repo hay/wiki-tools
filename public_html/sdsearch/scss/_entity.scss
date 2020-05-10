@@ -1,0 +1,42 @@
+.entity {
+    &__wrapper {
+        padding: 1rem 0;
+    }
+
+    &[data-entity-type="property"] &__label {
+        color: $c-2;
+        font-weight: 500;
+        position: relative;
+        top: -1px;
+    }
+
+    &__label-id {
+        display: none;
+    }
+
+    &__input {
+        display: flex;
+    }
+
+    &__button {
+        width: 4rem;
+    }
+
+    &__search {
+        font-size: 1.8rem;
+        padding: 0 0.5rem;
+    }
+
+    &__suggestions {
+        list-style: none;
+    }
+
+    &__suggestions li {
+        padding: 1rem;
+        background: $c-5;
+    }
+
+    &__suggestions li:nth-child(odd) {
+        background: $c-6;
+    }
+}

@@ -8,8 +8,21 @@ $icons: add, crosshair, remove, search, tag, text, zap;
     background: $c-3;
     border-radius: 1rem;
 
-    > div {
-        cursor: pointer;
+    &[expanded] {
+        height: inherit;
+        align-items: flex-start;
+    }
+
+    &[expanded] &__value {
+        height: 100%;
+        align-items: flex-start;
+    }
+
+    &[expanded] &__button {
+        flex-shrink: 0;
+        height: 100%;
+        justify-content: flex-start;
+        padding-top: 1rem;
     }
 
     &__input {
@@ -17,23 +30,26 @@ $icons: add, crosshair, remove, search, tag, text, zap;
     }
 
     &__value {
+        cursor: pointer;
         background: white;
-        @include flex-center;
+        display: flex;
+        align-items: center;
         padding: 0 .5rem;
     }
 
-    &__value strong {
-        color: $c-2;
-        font-weight: 500;
-        position: relative;
-        top: -1px;
+    &__value:first-of-type {
+        padding-left: 1rem;
     }
 
-    html.has-mouse &__value:hover {
+    &__value:last-of-type {
+        padding-right: 1rem;
+    }
+
+    html.has-mouse &:not([expanded]) .search-keyword__value:hover {
         text-decoration: underline;
     }
 
-    button {
+    &__button {
         @include wh(4rem, $search-keyword-size);
         @include flex-center;
     }
