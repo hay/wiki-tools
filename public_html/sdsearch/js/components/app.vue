@@ -2,9 +2,10 @@
     <div class="app__content">
         <div class="search">
             <div class="search__keywords">
-                <search-keyword></search-keyword>
-                <search-keyword></search-keyword>
-                <search-keyword></search-keyword>
+                <search-keyword
+                    v-for="(keyword, index) in keywords"
+                    v-bind:key="index"
+                    v-model="keywords[index]"></search-keyword>
             </div>
             <!--
 
@@ -78,14 +79,9 @@
 
         data() {
             return {
-                loading : false,
+                keywords : ['haswbstatement:P180=Q146', 'kitten'],
 
-                query : [
-                    {
-                        prop : 'P180',
-                        items : ['']
-                    }
-                ],
+                loading : false,
 
                 results : []
             }

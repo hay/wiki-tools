@@ -1,25 +1,33 @@
 <template>
     <div class="search-keyword">
-        <div class="search-keyword__type">
-            <button data-icon="tag" data-color="red"></button>
-        </div>
+        <button>
+            <span class="icon"
+                  v-bind:data-icon="keyword.type"></span>
+        </button>
 
         <div class="search-keyword__action">
-            depicts
+            <span>depicts</span>
         </div>
 
         <div class="search-keyword__value">
-            cat
+            <span>cat</span>
         </div>
 
-        <div class="search__keyword__remove">
-            <button data-icon="remove"></button>
-        </div>
+        <button>
+            <span class="icon"
+                  data-icon="remove"></span>
+        </button>
     </div>
 </template>
 
 <script>
     export default {
-
+        computed : {
+            keyword() {
+                return {
+                    type : 'tag'
+                }
+            }
+        }
     }
 </script>

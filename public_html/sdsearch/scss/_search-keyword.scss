@@ -5,23 +5,9 @@ $icons: add, crosshair, remove, search, tag, text, zap;
     display: flex;
     height: $search-keyword-size;
     font-size: 1.8rem;
-
-    &:before,
-    &:after {
-        content: '';
-        @include wh(1rem, 100%);
-        background: $c-1;
-    }
-
-    &:before {
-        border-top-left-radius: 1rem;
-        border-bottom-left-radius: 1rem;
-    }
-
-    &:after {
-        border-top-right-radius: 1rem;
-        border-bottom-right-radius: 1rem;
-    }
+    border: 1px solid $c-4;
+    background: $c-3;
+    border-radius: 1rem;
 
     > div {
         cursor: pointer;
@@ -29,40 +15,35 @@ $icons: add, crosshair, remove, search, tag, text, zap;
 
     &__action,
     &__value {
+        background: white;
         @include flex-center;
-        padding: 0 1rem;
+        padding: 0 .5rem;
     }
 
     &__action {
-        background: $c-2;
-        color: white;
+        color: $c-2;
+        font-weight: 500;
     }
 
-    html.has-mouse &__action:hover {
-        background: $c-1;
+    &__action > span {
+        position: relative;
+        top: -1px;
     }
 
-    &__value {
-        background: $c-5;
-    }
-
+    html.has-mouse &__action:hover,
     html.has-mouse &__value:hover {
-        background: white;
+        text-decoration: underline;
     }
 
     [data-icon] {
-        background: $c-4;
         @include wh(4rem, $search-keyword-size);
-    }
-
-    html.has-mouse & [data-icon]:hover {
-        background: $c-6;
+        @include flex-center;
     }
 
     [data-icon]:before {
         content: '';
         display: block;
-        height: 1.8rem;
+        @include wh(1.8rem);
         @include background-center(contain);
     }
 
