@@ -108,6 +108,10 @@ a {
 .app > h2 {
   color: #36c; }
 
+.loading {
+  font-size: 2rem;
+  margin-top: 1rem; }
+
 .search {
   display: flex;
   flex-direction: column; }
@@ -153,7 +157,8 @@ a {
     list-style: none;
     margin-top: 5px;
     border: 1px solid #72777d;
-    border-top: 1px solid #eaecf0; }
+    border-top: 1px solid #eaecf0;
+    position: relative; }
   .search__item-suggestions li {
     text-decoration: none;
     background: white;
@@ -183,3 +188,15 @@ a {
     .search__button[disabled] {
       background: #ccc;
       cursor: not-allowed; }
+
+.results {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  grid-gap: 1rem;
+  margin-top: 2rem; }
+  .results__image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #eaecf0; }

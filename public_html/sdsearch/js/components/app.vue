@@ -30,6 +30,22 @@
                 </button>
             </menu>
         </div>
+
+        <p v-show="loading"
+            class="loading">Loading...</p>
+
+        <ul v-if="results.length"
+            class="results">
+            <li v-for="result in results"
+                class="results__item">
+                <a v-bind:href="result.url"
+                   class="results__link">
+                    <img v-bind:src="result.thumb"
+                         v-bind:alt="result.snippet"
+                         class="results__image" />
+                </a>
+            </li>
+        </ul>
     </div>
 </template>
 
@@ -55,8 +71,11 @@
 
         methods : {
             async search() {
+                this.loading = true;
+                this.results = [];
                 const query = new Query(this.query);
                 this.results = await query.search();
+                this.loading = false;
             }
         }
     }

@@ -1,0 +1,13 @@
+.results {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    grid-gap: 1rem;
+    margin-top: 2rem;
+
+    &__image {
+        @include wh(100%);
+        object-fit: contain;
+        background: #eaecf0;
+    }
+}
