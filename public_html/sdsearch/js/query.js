@@ -38,28 +38,14 @@ class CommonsApi extends MediawikiApi {
 // https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch=haswbstatement:P180=Q146&srnamespace=*&srlimit=500&format=json
 
 export default class Query {
-    constructor(query) {
-        this.query = query;
+    constructor() {
         this.api = new CommonsApi();
     }
 
-    parseQuery(query) {
-        let q = [];
-
-        for (const claim of query) {
-            for (const item of claim.items) {
-                q.push(`haswbstatement:${claim.prop.id}=${item.id}`);
-            }
-        }
-
-        return q.join(' ');
-    }
-
-    async search() {
-        const query = this.parseQuery(this.query);
+    async search(query) {
         const results = await this.api.search(query, {
             namespace : 6,
-            limit : 100
+            limit : 20
         });
 
         return results;

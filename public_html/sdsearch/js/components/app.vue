@@ -16,46 +16,14 @@
             </div>
 
             <pre style="font-size:20px;">{{queryString}}</pre>
-            <!--
-
-            <div class="search__claim"
-                 v-for="(claim, claimIndex) in query">
-                <div class="search__prop">
-                    <entity-entry
-                        classPrefix="search__prop-"
-                        type="property"
-                        v-model="claim.prop"></entity-entry>
-                </div>
-
-                <div class="search__items">
-                    <template v-for="(item, itemIndex) in claim.items">
-                        <div class="search__item">
-                            <entity-entry
-                                classPrefix="search__item-"
-                                type="item"
-                                v-bind:key="itemIndex"
-                                v-model="claim.items[itemIndex]"></entity-entry>
-
-                            <button class="search__del-item"
-                                    @click="removeItem(claimIndex, itemIndex)">
-                                <span>˗</span>
-                            </button>
-                        </div>
-                    </template>
-
-                    <div class="search__add-item"
-                         @click="addItem(claimIndex)">
-                        <span>+</span>
-                    </div>
-                </div>
-            </div>
-
-            -->
 
             <menu class="search__actions">
                 <button class="search__button"
-                        @click="search">
-                    <span class="search__icon">🔍</span>
+                        v-on:click="search">
+                    <span
+                        class="icon"
+                        data-icon="search"></span>
+
                     <span>Search</span>
                 </button>
             </menu>
@@ -82,6 +50,7 @@
 <script>
     import SearchKeyword from './search-keyword.vue';
     import Query from '../query.js';
+    const query = new Query();
 
     export default {
         components : { SearchKeyword },
@@ -116,8 +85,7 @@
             async search() {
                 this.loading = true;
                 this.results = [];
-                const query = new Query(this.query);
-                this.results = await query.search();
+                this.results = await query.search(this.queryString);
                 this.loading = false;
             }
         }
