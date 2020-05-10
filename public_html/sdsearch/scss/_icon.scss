@@ -1,0 +1,11 @@
+.icon {
+    display: block;
+    @include wh(1.8rem);
+    @include background-center(contain);
+
+    @each $icon in $icons {
+        &[data-icon="#{$icon}"] {
+            background-image: url('img/icon-#{$icon}.svg');
+        }
+    }
+}

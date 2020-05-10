@@ -117,123 +117,164 @@ a {
 
 .search {
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+  /*
+
+    &__claim {
+        display: flex;
+    }
+
+    &__prop {
+        display: flex;
+        position: relative;
+        background: $c-1;
+        color: white;
+        padding: 1rem;
+        border-top-left-radius: 1rem;
+        border-bottom-left-radius: 1rem;
+    }
+
+    &__prop-input {
+        display: flex;
+    }
+
+    &__prop-search {
+        font-size: 2rem;
+    }
+
+    &__prop-button {
+        color: white;
+        font-size: 2rem;
+        margin-left: 1rem;
+    }
+
+    &__prop-label {
+        font-size: 2rem;
+        text-decoration: underline;
+        cursor: pointer;
+        margin-left: .5rem;
+    }
+
+    &__prop-label-id {
+        display: none;
+    }
+
+    &__prop-suggestions {
+        list-style: none;
+        margin-top: 5px;
+        position: absolute;
+        width: 100rem;
+        max-width: 35rem;
+        font-size: 2rem;
+    }
+
+    &__prop-suggestions li {
+        text-decoration: none;
+        background: #2a4b8d;
+        color: white;
+        padding: .5rem;
+    }
+
+    &__prop-suggestions li:nth-child(odd) {
+        background: #36c;
+    }
+
+    &__items {
+        width: 100%;
+        background: #eaecf0;
+        border-top-right-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+        display: flex;
+        align-items: center;
+        padding: 0 1rem;
+    }
+
+    &__item,
+    &__add-item {
+        font-size: 1.8rem;
+        padding: .5rem 1rem;
+        border: 1px solid #72777d;
+        border-radius: 1rem;
+        margin-right: 1rem;
+        height: 3.5rem;
+        cursor: pointer;
+        display: flex;
+    }
+
+    &__del-item {
+        @include wh(2rem);
+        border-radius: 2rem;
+        border: 1px solid #72777d;
+        color: #72777d;
+        margin-left: 1rem;
+        @include flex-center;
+    }
+
+    &__del-item span {
+        font-size: 3rem;
+        font-weight: bold;
+        height: 4.3rem;
+    }
+
+    &__item-label {
+        text-decoration: underline;
+    }
+
+    &__item-search {
+        margin-right: 1rem;
+    }
+
+    &__item-suggestions {
+        list-style: none;
+        margin-top: 5px;
+        border: 1px solid #72777d;
+        border-top: 1px solid #eaecf0;
+        position: relative;
+    }
+
+    &__item-suggestions li {
+        text-decoration: none;
+        background: white;
+        padding: .5rem;
+    }
+
+    &__item-suggestions li:nth-child(odd) {
+        background: #eaecf0;
+    }
+
+    &__item-label-id {
+        display: none;
+    }
+
+    &__icon {
+        font-size: 1.5rem;
+        color: white;
+        @include flex-center;
+    }
+
+    &__button {
+        @include button;
+        @include flex-center(row);
+        border-radius: 1rem;
+    }
+    */ }
   .search > * + * {
     margin-top: 1rem; }
   .search__keywords {
-    display: flex; }
+    display: flex;
+    flex-wrap: wrap; }
   .search__keywords > * {
-    margin-right: 2rem; }
-  .search__claim {
-    display: flex; }
-  .search__prop {
-    display: flex;
-    position: relative;
-    background: #36c;
-    color: white;
-    padding: 1rem;
-    border-top-left-radius: 1rem;
-    border-bottom-left-radius: 1rem; }
-  .search__prop-input {
-    display: flex; }
-  .search__prop-search {
-    font-size: 2rem; }
-  .search__prop-button {
-    color: white;
-    font-size: 2rem;
-    margin-left: 1rem; }
-  .search__prop-label {
-    font-size: 2rem;
-    text-decoration: underline;
-    cursor: pointer;
-    margin-left: .5rem; }
-  .search__prop-label-id {
-    display: none; }
-  .search__prop-suggestions {
-    list-style: none;
-    margin-top: 5px;
-    position: absolute;
-    width: 100rem;
-    max-width: 35rem;
-    font-size: 2rem; }
-  .search__prop-suggestions li {
-    text-decoration: none;
-    background: #2a4b8d;
-    color: white;
-    padding: .5rem; }
-  .search__prop-suggestions li:nth-child(odd) {
-    background: #36c; }
-  .search__items {
-    width: 100%;
-    background: #eaecf0;
-    border-top-right-radius: 1rem;
-    border-bottom-right-radius: 1rem;
-    display: flex;
-    align-items: center;
-    padding: 0 1rem; }
-  .search__item, .search__add-item {
-    font-size: 1.8rem;
-    padding: .5rem 1rem;
-    border: 1px solid #72777d;
-    border-radius: 1rem;
-    margin-right: 1rem;
-    height: 3.5rem;
-    cursor: pointer;
-    display: flex; }
-  .search__del-item {
-    width: 2rem;
-    height: 2rem;
-    border-radius: 2rem;
-    border: 1px solid #72777d;
-    color: #72777d;
-    margin-left: 1rem;
+    margin: 1rem 2rem 0 0; }
+  .search__add-keyword {
+    width: 4rem;
+    height: 4rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column; }
-  .search__del-item span {
-    font-size: 3rem;
-    font-weight: bold;
-    height: 4.3rem; }
-  .search__item-label {
-    text-decoration: underline; }
-  .search__item-search {
-    margin-right: 1rem; }
-  .search__item-suggestions {
-    list-style: none;
-    margin-top: 5px;
-    border: 1px solid #72777d;
-    border-top: 1px solid #eaecf0;
-    position: relative; }
-  .search__item-suggestions li {
-    text-decoration: none;
-    background: white;
-    padding: .5rem; }
-  .search__item-suggestions li:nth-child(odd) {
-    background: #eaecf0; }
-  .search__item-label-id {
-    display: none; }
-  .search__icon {
-    font-size: 1.5rem;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column; }
-  .search__button {
-    background: #36c;
-    color: white;
-    padding: 1rem 1.2rem;
-    font-size: 1.8rem;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
+    flex-direction: column;
+    border: 1px solid #202122;
+    background: #eaf3ff;
     border-radius: 1rem; }
-    .search__button[disabled] {
-      background: #ccc;
-      cursor: not-allowed; }
 
 .results {
   list-style: none;
@@ -256,48 +297,48 @@ a {
   border-radius: 1rem; }
   .search-keyword > div {
     cursor: pointer; }
-  .search-keyword__action, .search-keyword__value {
+  .search-keyword__input {
+    padding: 0 .5rem; }
+  .search-keyword__value {
     background: white;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     padding: 0 .5rem; }
-  .search-keyword__action {
+  .search-keyword__value strong {
     color: #2a4b8d;
-    font-weight: 500; }
-  .search-keyword__action > span {
+    font-weight: 500;
     position: relative;
     top: -1px; }
-  html.has-mouse .search-keyword__action:hover,
   html.has-mouse .search-keyword__value:hover {
     text-decoration: underline; }
-  .search-keyword [data-icon] {
+  .search-keyword button {
     width: 4rem;
     height: 4rem;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column; }
-  .search-keyword [data-icon]:before {
-    content: '';
-    display: block;
-    width: 1.8rem;
-    height: 1.8rem;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center; }
-  .search-keyword [data-icon="add"]:before {
+
+.icon {
+  display: block;
+  width: 1.8rem;
+  height: 1.8rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center; }
+  .icon[data-icon="add"] {
     background-image: url("img/icon-add.svg"); }
-  .search-keyword [data-icon="crosshair"]:before {
+  .icon[data-icon="crosshair"] {
     background-image: url("img/icon-crosshair.svg"); }
-  .search-keyword [data-icon="remove"]:before {
+  .icon[data-icon="remove"] {
     background-image: url("img/icon-remove.svg"); }
-  .search-keyword [data-icon="search"]:before {
+  .icon[data-icon="search"] {
     background-image: url("img/icon-search.svg"); }
-  .search-keyword [data-icon="tag"]:before {
+  .icon[data-icon="tag"] {
     background-image: url("img/icon-tag.svg"); }
-  .search-keyword [data-icon="text"]:before {
+  .icon[data-icon="text"] {
     background-image: url("img/icon-text.svg"); }
-  .search-keyword [data-icon="zap"]:before {
+  .icon[data-icon="zap"] {
     background-image: url("img/icon-zap.svg"); }

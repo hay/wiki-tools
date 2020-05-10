@@ -1,4 +1,3 @@
-$search-keyword-size: 4rem;
 $icons: add, crosshair, remove, search, tag, text, zap;
 
 .search-keyword {
@@ -13,43 +12,29 @@ $icons: add, crosshair, remove, search, tag, text, zap;
         cursor: pointer;
     }
 
-    &__action,
+    &__input {
+        padding: 0 .5rem;
+    }
+
     &__value {
         background: white;
         @include flex-center;
         padding: 0 .5rem;
     }
 
-    &__action {
+    &__value strong {
         color: $c-2;
         font-weight: 500;
-    }
-
-    &__action > span {
         position: relative;
         top: -1px;
     }
 
-    html.has-mouse &__action:hover,
     html.has-mouse &__value:hover {
         text-decoration: underline;
     }
 
-    [data-icon] {
+    button {
         @include wh(4rem, $search-keyword-size);
         @include flex-center;
-    }
-
-    [data-icon]:before {
-        content: '';
-        display: block;
-        @include wh(1.8rem);
-        @include background-center(contain);
-    }
-
-    @each $icon in $icons {
-        [data-icon="#{$icon}"]:before {
-            background-image: url('img/icon-#{$icon}.svg');
-        }
     }
 }

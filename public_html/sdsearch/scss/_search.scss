@@ -5,11 +5,22 @@
 
     &__keywords {
         display: flex;
+        flex-wrap: wrap;
     }
 
     &__keywords > * {
-        margin-right: 2rem;
+        margin: 1rem 2rem 0 0;
     }
+
+    &__add-keyword {
+        @include wh($search-keyword-size);
+        @include flex-center;
+        border: 1px solid $c-4;
+        background: $c-3;
+        border-radius: 1rem;
+    }
+
+    /*
 
     &__claim {
         display: flex;
@@ -148,4 +159,5 @@
         @include flex-center(row);
         border-radius: 1rem;
     }
+    */
 }

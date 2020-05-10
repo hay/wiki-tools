@@ -5,8 +5,17 @@
                 <search-keyword
                     v-for="(keyword, index) in keywords"
                     v-bind:key="index"
+                    v-on:remove="removeItem(index)"
                     v-model="keywords[index]"></search-keyword>
+
+                <button
+                    class="search__add-keyword"
+                    v-on:click="addKeyword">
+                    <span class="icon" data-icon="add"></span>
+                </button>
             </div>
+
+            <pre style="font-size:20px;">{{queryString}}</pre>
             <!--
 
             <div class="search__claim"
@@ -77,6 +86,12 @@
     export default {
         components : { SearchKeyword },
 
+        computed : {
+            queryString() {
+                return this.keywords.join(' ');
+            }
+        },
+
         data() {
             return {
                 keywords : ['haswbstatement:P180=Q146', 'kitten'],
@@ -88,17 +103,13 @@
         },
 
         methods : {
-            addItem(claimIndex) {
-                this.query[claimIndex].items.push('');
+            addKeyword() {
+                this.keywords.push('');
             },
 
-            removeItem(claimIndex, itemIndex) {
-                const itemToRemove = this.query[claimIndex].items[itemIndex];
-                console.log(claimIndex, itemToRemove);
-
-                this.query[claimIndex].items = this.query[claimIndex].items.filter((item) => {
-                    console.log(item.label, itemToRemove.label, item === itemToRemove);
-                    return item !== itemToRemove;
+            removeItem(indexToRemove) {
+                this.keywords = this.keywords.filter((keyword, index) => {
+                    return index !== indexToRemove;
                 });
             },
 
