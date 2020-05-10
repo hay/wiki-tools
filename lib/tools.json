@@ -14,6 +14,11 @@
         "description" : "Browse and view all properties on Wikidata."
     },
 
+    "sdsearch" : {
+        "title" : "Structured Search",
+        "description" : "Search media items on Wikimedia Commons using structured data."
+    },
+
     "exturl" : {
         "title" : "External URL stats",
         "description" : "A better <a href=\"https://meta.wikimedia.org/wiki/Help:Linksearch\">External links search</a>. Collates all the links so you can view which Wikipedia pages have the most external links to a pattern."
@@ -22,12 +27,6 @@
     "qsml" : {
         "title" : "QSML",
         "description" : "QuickStatements Macro Language: speed up your <a href=\"https://tools.wmflabs.org/quickstatements/\">QuickStatements</a> by using macros."
-    },
-
-    "vizstatements" : {
-        "title" : "VizStatements",
-        "description" : "Create <a href=\"https://tools.wmflabs.org/quickstatements/\">QuickStatements</a> batches visually",
-        "hidden" : true
     },
 
     "chantek" : {

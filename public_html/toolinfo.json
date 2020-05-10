@@ -1,5 +1,14 @@
 [
     {
+        "title" : "Structured Search",
+        "description" : "Search media items on Wikimedia Commons using structured data",
+        "name" : "hay-sdsearch",
+        "author" : "Hay Kranen",
+        "repository" : "https://github.com/hay/wiki-tools.git",
+        "url" : "http://tools.wmflabs.org/hay/sdsearch",
+        "keywords" : "wikidata, query, search, commons, sdoc, structured-data"
+    },
+    {
         "title" : "QSML",
         "description" : "QuickStatements Macro Language: speed up your QuickStatements by using macros",
         "name" : "hay-qsml",

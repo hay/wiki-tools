@@ -3,6 +3,14 @@
     flex-direction: column;
     @include child-margins(1rem);
 
+    &__keywords {
+        display: flex;
+    }
+
+    &__keywords > * {
+        margin-right: 2rem;
+    }
+
     &__claim {
         display: flex;
     }

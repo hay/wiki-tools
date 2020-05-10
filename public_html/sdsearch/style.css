@@ -108,6 +108,9 @@ a {
 .app > h2 {
   color: #36c; }
 
+.app__content {
+  margin-top: 1rem; }
+
 .loading {
   font-size: 2rem;
   margin-top: 1rem; }
@@ -117,6 +120,10 @@ a {
   flex-direction: column; }
   .search > * + * {
     margin-top: 1rem; }
+  .search__keywords {
+    display: flex; }
+  .search__keywords > * {
+    margin-right: 2rem; }
   .search__claim {
     display: flex; }
   .search__prop {
@@ -239,3 +246,63 @@ a {
     height: 100%;
     object-fit: contain;
     background: #eaecf0; }
+
+.search-keyword {
+  display: flex;
+  height: 4rem;
+  font-size: 1.8rem; }
+  .search-keyword:before, .search-keyword:after {
+    content: '';
+    width: 1rem;
+    height: 100%;
+    background: #36c; }
+  .search-keyword:before {
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem; }
+  .search-keyword:after {
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem; }
+  .search-keyword > div {
+    cursor: pointer; }
+  .search-keyword__action, .search-keyword__value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 1rem; }
+  .search-keyword__action {
+    background: #2a4b8d;
+    color: white; }
+  html.has-mouse .search-keyword__action:hover {
+    background: #36c; }
+  .search-keyword__value {
+    background: #eaecf0; }
+  html.has-mouse .search-keyword__value:hover {
+    background: white; }
+  .search-keyword [data-icon] {
+    background: #14866d;
+    width: 4rem;
+    height: 4rem; }
+  html.has-mouse .search-keyword [data-icon]:hover {
+    background: #00af89; }
+  .search-keyword [data-icon]:before {
+    content: '';
+    display: block;
+    height: 1.8rem;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center; }
+  .search-keyword [data-icon="add"]:before {
+    background-image: url("img/icon-add.svg"); }
+  .search-keyword [data-icon="crosshair"]:before {
+    background-image: url("img/icon-crosshair.svg"); }
+  .search-keyword [data-icon="remove"]:before {
+    background-image: url("img/icon-remove.svg"); }
+  .search-keyword [data-icon="search"]:before {
+    background-image: url("img/icon-search.svg"); }
+  .search-keyword [data-icon="tag"]:before {
+    background-image: url("img/icon-tag.svg"); }
+  .search-keyword [data-icon="text"]:before {
+    background-image: url("img/icon-text.svg"); }
+  .search-keyword [data-icon="zap"]:before {
+    background-image: url("img/icon-zap.svg"); }

@@ -1,6 +1,13 @@
 <template>
-    <div class="app">
+    <div class="app__content">
         <div class="search">
+            <div class="search__keywords">
+                <search-keyword></search-keyword>
+                <search-keyword></search-keyword>
+                <search-keyword></search-keyword>
+            </div>
+            <!--
+
             <div class="search__claim"
                  v-for="(claim, claimIndex) in query">
                 <div class="search__prop">
@@ -33,6 +40,8 @@
                 </div>
             </div>
 
+            -->
+
             <menu class="search__actions">
                 <button class="search__button"
                         @click="search">
@@ -61,11 +70,11 @@
 </template>
 
 <script>
-    import { EntityEntry } from 'wikidata-ux';
+    import SearchKeyword from './search-keyword.vue';
     import Query from '../query.js';
 
     export default {
-        components : { EntityEntry },
+        components : { SearchKeyword },
 
         data() {
             return {

@@ -1,0 +1,74 @@
+$search-keyword-size: 4rem;
+$icons: add, crosshair, remove, search, tag, text, zap;
+
+.search-keyword {
+    display: flex;
+    height: $search-keyword-size;
+    font-size: 1.8rem;
+
+    &:before,
+    &:after {
+        content: '';
+        @include wh(1rem, 100%);
+        background: $c-1;
+    }
+
+    &:before {
+        border-top-left-radius: 1rem;
+        border-bottom-left-radius: 1rem;
+    }
+
+    &:after {
+        border-top-right-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+    }
+
+    > div {
+        cursor: pointer;
+    }
+
+    &__action,
+    &__value {
+        @include flex-center;
+        padding: 0 1rem;
+    }
+
+    &__action {
+        background: $c-2;
+        color: white;
+    }
+
+    html.has-mouse &__action:hover {
+        background: $c-1;
+    }
+
+    &__value {
+        background: $c-5;
+    }
+
+    html.has-mouse &__value:hover {
+        background: white;
+    }
+
+    [data-icon] {
+        background: $c-4;
+        @include wh(4rem, $search-keyword-size);
+    }
+
+    html.has-mouse & [data-icon]:hover {
+        background: $c-6;
+    }
+
+    [data-icon]:before {
+        content: '';
+        display: block;
+        height: 1.8rem;
+        @include background-center(contain);
+    }
+
+    @each $icon in $icons {
+        [data-icon="#{$icon}"]:before {
+            background-image: url('img/icon-#{$icon}.svg');
+        }
+    }
+}

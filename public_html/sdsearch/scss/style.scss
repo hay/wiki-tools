@@ -1,7 +1,7 @@
 @import "../node_modules/valenski/valenski-reset";
-// @import "../node_modules/wikidata-ux/dist/wikidata-ux";
 @import "../../common/common";
+@import "values";
 @import "app";
 @import "search";
-
 @import "results";
+@import "search-keyword";
