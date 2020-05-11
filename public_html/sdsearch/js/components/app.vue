@@ -2,26 +2,17 @@
     <div class="app__content">
         <div class="search">
             <menu class="search__actions">
-                <button
-                    class="search__add-keyword"
-                    v-on:click="addKeyword('haswbstatement:P180=null')">
-                    <span class="icon" data-icon="image"></span>
-                    <span>Add depicts</span>
-                </button>
+                <wm-button
+                    v-on:click="addKeyword('haswbstatement:P180=null')"
+                    icon="image">Add depicts</wm-button>
 
-                <button
-                    class="search__add-keyword"
-                    v-on:click="addKeyword('haswbstatement')">
-                    <span class="icon" data-icon="tag"></span>
-                    <span>Add claim</span>
-                </button>
+                <wm-button
+                    v-on:click="addKeyword('')"
+                    icon="text">Add text</wm-button>
 
-                <button
-                    class="search__add-keyword"
-                    v-on:click="addKeyword('')">
-                    <span class="icon" data-icon="text"></span>
-                    <span>Add text</span>
-                </button>
+                <wm-button
+                    v-on:click="addKeyword('haswbstatement')"
+                    icon="tag">Add claim</wm-button>
             </menu>
 
             <div class="search__keywords">
@@ -33,32 +24,44 @@
             </div>
 
             <menu class="search__actions">
-                <button class="search__button"
-                        v-on:click="setSearch">
-                    <span
-                        class="icon"
-                        data-icon="search"></span>
-
-                    <span>Search</span>
-                </button>
+                <wm-button
+                    flair="action"
+                    v-on:click="setSearch"
+                    icon="search">Search</wm-button>
             </menu>
         </div>
 
         <p v-show="loading"
             class="loading">Loading...</p>
 
-        <ul v-if="results.length"
-            class="results">
-            <li v-for="result in results"
-                class="results__item">
-                <a v-bind:href="result.url"
-                   class="results__link">
-                    <img v-bind:src="result.thumb"
-                         v-bind:alt="result.snippet"
-                         class="results__image" />
-                </a>
-            </li>
-        </ul>
+        <div class="results"
+             v-if="results">
+            <menu class="results__stats">
+                <p>Found <strong>{{results.count}}</strong> items</p>
+            </menu>
+
+            <ul class="results__grid">
+                <li v-for="result in results.items"
+                    class="results__item">
+                    <a v-bind:href="result.url"
+                       class="results__link">
+                        <img v-bind:src="result.thumb"
+                             v-bind:alt="result.snippet"
+                             class="results__image" />
+                    </a>
+                </li>
+            </ul>
+
+<!--             <menu class="results__nav">
+                <a class="results__nav"
+                   v-bind:href="results.prevLink">
+                    <span
+                        class="icon"
+                        data-icon="arrow-left"></span>
+
+                    <span></span>
+            </menu> -->
+        </div>
     </div>
 </template>
 
@@ -82,7 +85,7 @@
 
                 loading : false,
 
-                results : []
+                results : false
             }
         },
 
@@ -117,7 +120,7 @@
                 }
 
                 this.loading = true;
-                this.results = [];
+                this.results = false;
                 this.results = await query.search(this.queryString);
                 this.loading = false;
             },

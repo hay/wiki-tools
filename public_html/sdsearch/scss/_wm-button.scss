@@ -1,0 +1,27 @@
+.wm-button {
+    @include flex-center(row);
+    height: $button-height;
+    border: 1px solid $c-4;
+    background: $c-3;
+    border-radius: 1rem;
+    padding: 1rem;
+    font-size: 1.8rem;
+
+    &--flair {
+        background: $c-2;
+        border: 0;
+        color: white;
+    }
+
+    &__icon {
+        margin-right: .5rem;
+    }
+
+    html.has-mouse &:hover {
+        background: white;
+    }
+
+    html.has-mouse &--flair:hover {
+        background: $c-1;
+    }
+}

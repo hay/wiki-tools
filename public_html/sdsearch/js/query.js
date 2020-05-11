@@ -26,12 +26,17 @@ class CommonsApi extends MediawikiApi {
             'srlimit' : opts.limit
         });
 
-        return results.query.search.map((item) => {
+        const items = results.query.search.map((item) => {
             const title = item.title.replace("File:", "");
             item.thumb = this.addThumb(title, opts.thumbSize);
             item.url = `https://commons.wikimedia.org/wiki/${item.title}`;
             return item;
         });
+
+        return {
+            count : results.query.searchinfo.totalhits,
+            items : items
+        }
     }
 }
 

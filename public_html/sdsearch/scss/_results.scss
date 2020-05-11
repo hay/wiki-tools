@@ -1,9 +1,17 @@
 .results {
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-    grid-gap: 1rem;
     margin-top: 2rem;
+
+    &__stats {
+        font-size: 1.6rem;
+    }
+
+    &__grid {
+        margin-top: 1rem;
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+        grid-gap: 1rem;
+    }
 
     &__image {
         @include wh(100%);

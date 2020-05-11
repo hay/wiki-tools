@@ -36,8 +36,10 @@
         keyword = keyword.trim();
 
         if (keyword.startsWith('haswbstatement')) {
+            const icon = keyword.startsWith('haswbstatement:P180') ? 'image' : 'tag';
+
             return {
-                icon : 'tag',
+                icon : icon,
                 type : 'wbstatement',
                 value : keyword
             };
