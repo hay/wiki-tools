@@ -23,6 +23,7 @@
 
     &__link {
         @include wh(100%);
+        display: block;
     }
 
     &__image {

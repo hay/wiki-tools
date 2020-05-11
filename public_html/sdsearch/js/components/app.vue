@@ -18,7 +18,7 @@
             <div class="search__keywords">
                 <search-keyword
                     v-for="(keyword, index) in keywords"
-                    v-bind:key="index + ':' + keyword"
+                    v-bind:key="index"
                     v-on:remove="removeItem(index)"
                     v-model="keywords[index]"></search-keyword>
             </div>
@@ -52,12 +52,13 @@
                 <ul class="results__grid">
                     <li v-for="result in results.items"
                         class="results__item">
-                        <button v-on:click="detail = result"
-                                class="results__link">
+                        <a v-on:click="setDetail($event, result)"
+                           v-bind:href="result.url"
+                           class="results__link">
                             <img v-bind:src="result.thumb"
                                  v-bind:alt="result.snippet"
                                  class="results__image" />
-                        </button>
+                        </a>
                     </li>
                 </ul>
 
@@ -76,7 +77,7 @@
 
                     <a v-bind:href="detail.url"
                        target="_blank">
-                        <img v-bind:src="detail.thumb"
+                        <img v-bind:src="detail.largeThumb"
                              v-bind:alt="detail.snippet"
                              class="results__detail-img" />
                     </a>
@@ -116,7 +117,9 @@
     import SearchExamples from './search-examples.vue';
     import SearchKeyword from './search-keyword.vue';
     import Query from '../query.js';
+    import CommonsApi from '../commons-api.js';
 
+    const commonsApi = new CommonsApi();
     const query = new Query();
 
     export default {
@@ -143,9 +146,7 @@
 
                 offset : 0,
 
-                results : null,
-
-                showDetail : null
+                results : null
             }
         },
 
@@ -198,6 +199,12 @@
                 this.results = false;
                 this.results = await query.search(this.queryString, this.offset);
                 this.loading = false;
+            },
+
+            setDetail(e, detail) {
+                e.preventDefault();
+                detail.largeThumb = commonsApi.getThumb(detail.filename, 500);
+                this.detail = detail;
             },
 
             setSearch() {
