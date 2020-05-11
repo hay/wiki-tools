@@ -143,7 +143,7 @@ a {
     margin-top: 1rem;
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(calc(min(20rem, 45%)), 1fr));
     grid-gap: 1rem; }
   .results__image {
     width: 100%;
@@ -162,7 +162,7 @@ a {
   border: 1px solid #202122;
   background: #eaf3ff;
   border-radius: 1rem;
-  max-width: 40rem;
+  max-width: calc(min(100%, 40rem));
   overflow: hidden; }
   .search-keyword[expanded] {
     height: inherit;

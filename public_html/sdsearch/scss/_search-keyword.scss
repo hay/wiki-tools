@@ -5,7 +5,7 @@
     border: 1px solid $c-4;
     background: $c-3;
     border-radius: 1rem;
-    max-width: min(100vw, 40rem);
+    max-width: calc(min(100%, 40rem)); // calc() here is needed because SASS fucks it up
     overflow: hidden;
 
     &[expanded] {
