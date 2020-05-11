@@ -38,6 +38,13 @@
              v-if="results">
             <menu class="results__stats">
                 <p>Found <strong>{{results.count}}</strong> items</p>
+
+                <wm-button
+                    type="anchor"
+                    flair="link"
+                    icon="link"
+                    target="_blank"
+                    v-bind:href="commonsLink">View on Commons</wm-button>
             </menu>
 
             <ul class="results__grid">
@@ -79,6 +86,11 @@
         components : { SearchKeyword },
 
         computed : {
+            commonsLink() {
+                const q = window.encodeURIComponent(this.queryString);
+                return `https://commons.wikimedia.org/w/index.php?search=${q}`;
+            },
+
             queryString() {
                 return this.keywords.join(' ');
             }

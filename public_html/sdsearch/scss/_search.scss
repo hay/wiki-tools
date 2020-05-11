@@ -5,10 +5,11 @@
 
     &__actions {
         display: flex;
+        flex-wrap: wrap;
     }
 
     &__actions > * {
-        margin-right: 1rem;
+        margin: 1rem 1rem 0 0;
     }
 
     &__keywords {

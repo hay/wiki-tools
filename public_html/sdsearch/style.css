@@ -109,7 +109,8 @@ a {
   color: #36c; }
 
 .app__content {
-  margin-top: 1rem; }
+  margin-top: 1rem;
+  margin-bottom: 2rem; }
 
 .loading {
   font-size: 2rem;
@@ -121,9 +122,10 @@ a {
   .search > * + * {
     margin-top: 1rem; }
   .search__actions {
-    display: flex; }
+    display: flex;
+    flex-wrap: wrap; }
   .search__actions > * {
-    margin-right: 1rem; }
+    margin: 1rem 1rem 0 0; }
   .search__keywords {
     display: flex;
     flex-wrap: wrap; }
@@ -133,12 +135,15 @@ a {
 .results {
   margin-top: 2rem; }
   .results__stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: 1.6rem; }
   .results__grid {
     margin-top: 1rem;
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
     grid-gap: 1rem; }
   .results__image {
     width: 100%;
@@ -182,8 +187,6 @@ a {
     padding-left: 1rem; }
   .search-keyword__value:last-of-type {
     padding-right: 1rem; }
-  html.has-mouse .search-keyword:not([expanded]) .search-keyword__value:hover {
-    text-decoration: underline; }
   .search-keyword__button {
     width: 4rem;
     height: 4rem;
@@ -209,6 +212,8 @@ a {
     background-image: url("img/icon-crosshair.svg"); }
   .icon[data-icon="image"] {
     background-image: url("img/icon-image.svg"); }
+  .icon[data-icon="link"] {
+    background-image: url("img/icon-link.svg"); }
   .icon[data-icon="remove"] {
     background-image: url("img/icon-remove.svg"); }
   .icon[data-icon="search"] {
@@ -269,6 +274,10 @@ a {
     background: #2a4b8d;
     border: 0;
     color: white; }
+  .wm-button--link {
+    background: inherit;
+    border: 0;
+    padding: 1rem 0; }
   .wm-button__icon {
     margin-right: .5rem; }
   html.has-mouse .wm-button:hover {

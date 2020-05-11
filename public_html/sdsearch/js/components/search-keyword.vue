@@ -33,8 +33,6 @@
     import WbstatementEntry from './wbstatement-entry.vue';
 
     function parseKeyword(keyword) {
-        keyword = keyword.trim();
-
         if (keyword.startsWith('haswbstatement')) {
             const icon = keyword.startsWith('haswbstatement:P180') ? 'image' : 'tag';
 

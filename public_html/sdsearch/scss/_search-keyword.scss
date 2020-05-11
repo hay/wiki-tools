@@ -47,10 +47,6 @@
         padding-right: 1rem;
     }
 
-    html.has-mouse &:not([expanded]) .search-keyword__value:hover {
-        text-decoration: underline;
-    }
-
     &__button {
         @include wh(4rem, $search-keyword-size);
         @include flex-center;
