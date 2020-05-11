@@ -14,6 +14,15 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(calc(min(20rem, 45%)), 1fr));
         grid-gap: 1rem;
+        width: 100%;
+    }
+
+    html.has-mouse &__item:hover {
+        transform: scale(1.05);
+    }
+
+    &__link {
+        @include wh(100%);
     }
 
     &__image {
@@ -26,5 +35,50 @@
         display: flex;
         justify-content: space-between;
         margin-top: 2rem;
+    }
+
+    &--detail &__content {
+        display: flex;
+    }
+
+    // Obviously, this is awful
+    &__detail-spacer {
+        width: 100%;
+        max-width: 50rem;
+    }
+
+    &__detail {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background: $c-4;
+        color: white;
+        padding: 2rem;
+        width: 100%;
+        max-width: 50rem;
+        margin-left: 1rem;
+        @include child-margins(2rem);
+        font-size: 2rem;
+        overflow-y: auto;
+    }
+
+    &__detail-close {
+        @include margin-center;
+    }
+
+    &__detail-img {
+        width: 100%;
+        max-height: 50vh;
+        object-fit: contain;
+        margin-top: 2rem;
+    }
+
+    &__detail-caption {
+        @include child-margins(1rem);
+    }
+
+    &__detail-caption a {
+        text-decoration: underline;
     }
 }

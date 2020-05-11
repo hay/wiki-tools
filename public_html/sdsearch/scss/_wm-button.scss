@@ -17,6 +17,12 @@
         color: white;
     }
 
+    &--dark {
+        background: inherit;
+        border-color: white;
+        color: white;
+    }
+
     &--link {
         background: inherit;
         border: 0;
@@ -33,5 +39,9 @@
 
     html.has-mouse &--action:hover {
         background: $c-1;
+    }
+
+    html.has-mouse &--dark:hover {
+        background: inherit;
     }
 }

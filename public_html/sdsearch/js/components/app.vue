@@ -35,6 +35,7 @@
             class="loading">Loading...</p>
 
         <div class="results"
+             v-bind:class="{ 'results--detail' : !!detail }"
              v-if="results">
             <menu class="results__stats">
                 <p>Found <strong>{{results.count}}</strong> items</p>
@@ -47,17 +48,49 @@
                     v-bind:href="commonsLink">View on Commons</wm-button>
             </menu>
 
-            <ul class="results__grid">
-                <li v-for="result in results.items"
-                    class="results__item">
-                    <a v-bind:href="result.url"
-                       class="results__link">
-                        <img v-bind:src="result.thumb"
-                             v-bind:alt="result.snippet"
-                             class="results__image" />
+            <div class="results__content">
+                <ul class="results__grid">
+                    <li v-for="result in results.items"
+                        class="results__item">
+                        <button v-on:click="detail = result"
+                                class="results__link">
+                            <img v-bind:src="result.thumb"
+                                 v-bind:alt="result.snippet"
+                                 class="results__image" />
+                        </button>
+                    </li>
+                </ul>
+
+                <div v-if="detail"
+                     class="results__detail-spacer"></div>
+
+                <figure
+                    v-if="detail"
+                    class="results__detail">
+
+                    <wm-button
+                        class="results__detail-close"
+                        flair="dark"
+                        icon="close"
+                        v-on:click="detail = false">Close detail</wm-button>
+
+                    <a v-bind:href="detail.url"
+                       target="_blank">
+                        <img v-bind:src="detail.thumb"
+                             v-bind:alt="detail.snippet"
+                             class="results__detail-img" />
                     </a>
-                </li>
-            </ul>
+
+                    <figcaption class="results__detail-caption">
+                        <a v-bind:href="detail.url"
+                           target="_blank">
+                           {{detail.title}}
+                        </a>
+
+                        <p>{{detail.snippet}}</p>
+                    </figcaption>
+                </figure>
+            </div>
 
             <menu class="results__nav"
                   v-if="results.count > results.limit">
@@ -102,13 +135,17 @@
 
         data() {
             return {
+                detail : false,
+
                 keywords : [],
 
                 loading : false,
 
                 offset : 0,
 
-                results : false
+                results : null,
+
+                showDetail : null
             }
         },
 
