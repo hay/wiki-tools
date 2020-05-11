@@ -145,6 +145,10 @@ a {
     height: 100%;
     object-fit: contain;
     background: #eaecf0; }
+  .results__nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem; }
 
 .search-keyword {
   display: flex;
@@ -197,6 +201,10 @@ a {
   background-position: center center; }
   .icon[data-icon="add"] {
     background-image: url("img/icon-add.svg"); }
+  .icon[data-icon="arrow-left"] {
+    background-image: url("img/icon-arrow-left.svg"); }
+  .icon[data-icon="arrow-right"] {
+    background-image: url("img/icon-arrow-right.svg"); }
   .icon[data-icon="crosshair"] {
     background-image: url("img/icon-crosshair.svg"); }
   .icon[data-icon="image"] {
@@ -255,7 +263,9 @@ a {
   border-radius: 1rem;
   padding: 1rem;
   font-size: 1.8rem; }
-  .wm-button--flair {
+  .wm-button[hidden] {
+    visibility: hidden; }
+  .wm-button--action {
     background: #2a4b8d;
     border: 0;
     color: white; }
@@ -263,5 +273,5 @@ a {
     margin-right: .5rem; }
   html.has-mouse .wm-button:hover {
     background: white; }
-  html.has-mouse .wm-button--flair:hover {
+  html.has-mouse .wm-button--action:hover {
     background: #36c; }

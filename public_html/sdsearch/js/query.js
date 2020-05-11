@@ -19,11 +19,12 @@ class CommonsApi extends MediawikiApi {
         }, opts);
 
         const results = await this.call({
-            'action' : 'query',
-            'list' : 'search',
-            'srsearch' : query,
-            'srnamespace' : opts.namespace,
-            'srlimit' : opts.limit
+            action : 'query',
+            list : 'search',
+            srlimit : opts.limit,
+            srnamespace : opts.namespace,
+            sroffset : opts.sroffset,
+            srsearch : query
         });
 
         const items = results.query.search.map((item) => {
@@ -33,9 +34,16 @@ class CommonsApi extends MediawikiApi {
             return item;
         });
 
+        const hasNext = !!results.continue;
+
         return {
             count : results.query.searchinfo.totalhits,
-            items : items
+            hasNext : hasNext,
+            items : items,
+            limit : opts.limit,
+            // Note how we substract the limit from the offset, the Mediawiki API
+            // really makes no sense
+            offset : hasNext ? results.continue.sroffset - opts.limit : 0
         }
     }
 }
@@ -47,10 +55,11 @@ export default class Query {
         this.api = new CommonsApi();
     }
 
-    async search(query) {
+    async search(query, offset = 0) {
         const results = await this.api.search(query, {
             namespace : 6,
-            limit : 20
+            limit : 20,
+            sroffset : offset
         });
 
         return results;

@@ -52,15 +52,20 @@
                 </li>
             </ul>
 
-<!--             <menu class="results__nav">
-                <a class="results__nav"
-                   v-bind:href="results.prevLink">
-                    <span
-                        class="icon"
-                        data-icon="arrow-left"></span>
+            <menu class="results__nav"
+                  v-if="results.count > results.limit">
+                <wm-button
+                    v-bind:hidden="!(offset > 0)"
+                    type="anchor"
+                    icon="arrow-left"
+                    v-bind:href="navLink(-1)">Previous page</wm-button>
 
-                    <span></span>
-            </menu> -->
+                <wm-button
+                    v-bind:hidden="!results.hasNext"
+                    type="anchor"
+                    icon="arrow-right"
+                    v-bind:href="navLink(1)">Next page</wm-button>
+            </menu>
         </div>
     </div>
 </template>
@@ -85,6 +90,8 @@
 
                 loading : false,
 
+                offset : 0,
+
                 results : false
             }
         },
@@ -94,14 +101,29 @@
                 this.keywords.push(keyword);
             },
 
-            parseHash() {
-                const parts = String(window.location).match(/#q=(.+)/);
+            navLink(delta) {
+                const offset = this.offset + (this.results.limit * delta);
+                return `#offset=${offset}&q=${this.queryString}`;
+            },
 
-                if (parts) {
-                    this.keywords = window.decodeURIComponent(parts[1]).split(' ');
-                } else {
-                    // Default keywords
+            parseHash() {
+                const parts = window.location.hash.slice(1).split('&');
+
+                for (const part of parts) {
+                    if (part.startsWith('q=')) {
+                        const q = part.slice(2);
+                        this.keywords = window.decodeURIComponent(q).split(' ');
+                    }
+
+                    if (part.startsWith('offset=')) {
+                        this.offset = Number(part.replace('offset=', ''));
+                    }
+                }
+
+                if (!this.keywords.length) {
+                    // Default keywords, don't search
                     this.keywords = ['haswbstatement:P180=null'];
+                    return;
                 }
 
                 this.search();
@@ -121,7 +143,7 @@
 
                 this.loading = true;
                 this.results = false;
-                this.results = await query.search(this.queryString);
+                this.results = await query.search(this.queryString, this.offset);
                 this.loading = false;
             },
 

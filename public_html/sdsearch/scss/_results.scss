@@ -18,4 +18,10 @@
         object-fit: contain;
         background: #eaecf0;
     }
+
+    &__nav {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2rem;
+    }
 }

@@ -7,7 +7,11 @@
     padding: 1rem;
     font-size: 1.8rem;
 
-    &--flair {
+    &[hidden] {
+        visibility: hidden;
+    }
+
+    &--action {
         background: $c-2;
         border: 0;
         color: white;
@@ -21,7 +25,7 @@
         background: white;
     }
 
-    html.has-mouse &--flair:hover {
+    html.has-mouse &--action:hover {
         background: $c-1;
     }
 }
