@@ -1,0 +1,23 @@
+.examples {
+    background: $c-3;
+    margin-top: 2rem;
+    padding: 1rem;
+
+    h2 {
+        color: $c-4;
+        font-size: 1.8rem;
+        font-weight: 500;
+    }
+
+    ul {
+        margin-left: 2rem;
+    }
+
+    li {
+        margin-top: .5rem;
+    }
+
+    a {
+        font-size: 1.8rem;
+    }
+}

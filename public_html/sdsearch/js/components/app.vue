@@ -18,7 +18,7 @@
             <div class="search__keywords">
                 <search-keyword
                     v-for="(keyword, index) in keywords"
-                    v-bind:key="index"
+                    v-bind:key="index + ':' + keyword"
                     v-on:remove="removeItem(index)"
                     v-model="keywords[index]"></search-keyword>
             </div>
@@ -74,16 +74,20 @@
                     v-bind:href="navLink(1)">Next page</wm-button>
             </menu>
         </div>
+
+        <search-examples v-if="!results"></search-examples>
     </div>
 </template>
 
 <script>
+    import SearchExamples from './search-examples.vue';
     import SearchKeyword from './search-keyword.vue';
     import Query from '../query.js';
+
     const query = new Query();
 
     export default {
-        components : { SearchKeyword },
+        components : { SearchExamples, SearchKeyword },
 
         computed : {
             commonsLink() {
