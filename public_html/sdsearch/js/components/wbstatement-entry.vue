@@ -29,12 +29,17 @@
         components : { EntityEntry },
 
         data() {
-            const [ query, prop, item ] = this.value.match(/haswbstatement:(.+)=(.+)/);
+            const matches = this.value.match(/haswbstatement:(.+)=(.+)/);
+
+            // HACK FIXME
+            if (!!matches && matches[2] === 'null') {
+                matches[2] = null;
+            }
 
             return {
                 expanded : 0,
-                item : item,
-                prop : prop
+                item : !!matches ? matches[2] : null,
+                prop : !!matches ? matches[1] : null
             }
         },
 
@@ -46,7 +51,7 @@
             },
 
             input() {
-                if (this.prop.id && this.item.id) {
+                if (this.prop && this.item && this.prop.id && this.item.id) {
                     const input = `haswbstatement:${this.prop.id}=${this.item.id}`;
                     this.$emit('input', input);
                 }

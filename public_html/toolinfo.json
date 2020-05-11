@@ -1,7 +1,7 @@
 [
     {
         "title" : "Structured Search",
-        "description" : "Search media items on Wikimedia Commons using structured data",
+        "description" : "Search media on Wikimedia Commons using structured data",
         "name" : "hay-sdsearch",
         "author" : "Hay Kranen",
         "repository" : "https://github.com/hay/wiki-tools.git",

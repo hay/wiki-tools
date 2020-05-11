@@ -36,8 +36,6 @@
         keyword = keyword.trim();
 
         if (keyword.startsWith('haswbstatement')) {
-            // const [ query, prop, value ] = keyword.match(/haswbstatement:(.+)=(.+)/);
-
             return {
                 icon : 'tag',
                 type : 'wbstatement',

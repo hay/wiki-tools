@@ -120,21 +120,30 @@ a {
   flex-direction: column; }
   .search > * + * {
     margin-top: 1rem; }
+  .search__actions {
+    display: flex; }
+  .search__actions > * {
+    margin-right: 1rem; }
   .search__keywords {
     display: flex;
     flex-wrap: wrap; }
   .search__keywords > * {
     margin: 1rem 2rem 0 0; }
   .search__add-keyword {
-    width: 4rem;
     height: 4rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
+    flex-direction: row;
     border: 1px solid #202122;
     background: #eaf3ff;
-    border-radius: 1rem; }
+    border-radius: 1rem;
+    padding: 1rem;
+    font-size: 1.8rem; }
+  .search__add-keyword .icon {
+    margin-right: .5rem; }
+  html.has-mouse .search__add-keyword:hover {
+    background: white; }
   .search__button {
     background: #36c;
     color: white;
@@ -150,7 +159,7 @@ a {
       background: #ccc;
       cursor: not-allowed; }
   .search__button .icon {
-    margin-right: 1rem; }
+    margin-right: .5rem; }
 
 .results {
   list-style: none;
@@ -217,6 +226,8 @@ a {
     background-image: url("img/icon-add.svg"); }
   .icon[data-icon="crosshair"] {
     background-image: url("img/icon-crosshair.svg"); }
+  .icon[data-icon="image"] {
+    background-image: url("img/icon-image.svg"); }
   .icon[data-icon="remove"] {
     background-image: url("img/icon-remove.svg"); }
   .icon[data-icon="search"] {
