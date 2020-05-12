@@ -165,8 +165,8 @@
 
                 for (const part of parts) {
                     if (part.startsWith('q=')) {
-                        const q = part.slice(2);
-                        this.keywords = window.decodeURIComponent(q).split(' ');
+                        const q = window.decodeURIComponent(part.slice(2));
+                        this.keywords = q.split(/(haswbstatement:[^ ]+)/).filter(k => !!k).map(k => k.trim());
                     }
 
                     if (part.startsWith('offset=')) {
