@@ -213,7 +213,16 @@
         },
 
         mounted() {
-            window.addEventListener('hashchange', this.parseHash.bind(this));
+            window.addEventListener('hashchange', () => {
+                this.parseHash();
+
+                // FIXME: for some reason wbstatement-entry components don't
+                // get filled with the correct prop/claim when having a hashchange,
+                // but this does work if we reload the page. Obviously
+                // this is a hack.
+                window.location.reload();
+            });
+
             this.parseHash();
         }
     }
