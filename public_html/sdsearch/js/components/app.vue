@@ -34,13 +34,13 @@
         <p v-show="loading"
             class="loading">Loading...</p>
 
+        <search-examples v-if="!results"></search-examples>
+
         <results-grid
             v-if="results"
             v-bind:results="results"
             v-bind:offset="offset"
             v-bind:queryString="queryString"></results-grid>
-
-        <search-examples v-if="!results"></search-examples>
     </div>
 </template>
 
@@ -48,11 +48,10 @@
     import ResultsGrid from './results-grid.vue';
     import SearchExamples from './search-examples.vue';
     import SearchKeyword from './search-keyword.vue';
-    import Query from '../query.js';
+    import { parseHash, searchCommons } from '../api.js';
     import CommonsApi from '../commons-api.js';
 
     const commonsApi = new CommonsApi();
-    const query = new Query();
 
     export default {
         components : { ResultsGrid, SearchExamples, SearchKeyword },
@@ -81,26 +80,17 @@
             },
 
             parseHash() {
-                const parts = window.location.hash.slice(1).split('&');
+                const { keywords, offset } = parseHash(window.location.hash.slice(1));
 
-                for (const part of parts) {
-                    if (part.startsWith('q=')) {
-                        const q = window.decodeURIComponent(part.slice(2));
-                        this.keywords = q.split(/(haswbstatement:[^ ]+)/).filter(k => !!k).map(k => k.trim());
-                    }
+                this.offset = offset;
 
-                    if (part.startsWith('offset=')) {
-                        this.offset = Number(part.replace('offset=', ''));
-                    }
-                }
-
-                if (!this.keywords.length) {
+                if (!keywords.length) {
                     // Default keywords, don't search
                     this.keywords = ['haswbstatement:P180=null'];
-                    return;
+                } else {
+                    this.keywords = keywords;
+                    this.search();
                 }
-
-                this.search();
             },
 
             removeItem(indexToRemove) {
@@ -117,7 +107,7 @@
 
                 this.loading = true;
                 this.results = false;
-                this.results = await query.search(this.queryString, this.offset);
+                this.results = await searchCommons(this.queryString, this.offset);
                 this.loading = false;
             },
 

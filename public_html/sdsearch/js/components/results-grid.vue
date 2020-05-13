@@ -76,6 +76,10 @@
 </template>
 
 <script>
+    import CommonsApi from '../commons-api.js';
+
+    const commonsApi = new CommonsApi();
+
     export default {
         computed : {
             commonsLink() {
