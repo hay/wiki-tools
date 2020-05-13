@@ -24,22 +24,28 @@
 
 <script>
     import { EntityEntry } from 'wikidata-ux';
+    import { makeHasbwstatement, parseHaswbstatement } from '../api.js';
+
+    function entityToString(entity) {
+        if (!entity) {
+            return null;
+        } else if (typeof entity === 'str') {
+            return entity;
+        } else {
+            return entity.id;
+        }
+    }
 
     export default {
         components : { EntityEntry },
 
         data() {
-            const matches = this.value.match(/haswbstatement:(.+)=(.+)/);
-
-            // HACK FIXME
-            if (!!matches && matches[2] === 'null') {
-                matches[2] = null;
-            }
+            const entity = parseHaswbstatement(this.value);
 
             return {
                 expanded : 0,
-                item : !!matches ? matches[2] : null,
-                prop : !!matches ? matches[1] : null
+                item : entity.item,
+                prop : entity.prop
             }
         },
 
@@ -51,10 +57,19 @@
             },
 
             input() {
-                if (this.prop && this.item && this.prop.id && this.item.id) {
-                    const input = `haswbstatement:${this.prop.id}=${this.item.id}`;
-                    this.$emit('input', input);
-                }
+                // We do some magic here, item and prop can either be a string
+                // 'P180', or a complete object, depending on where we are
+                // However, we always want to give back a haswbstatement to
+                // the parent
+
+                const input = makeHasbwstatement({
+                    item : entityToString(this.item),
+                    prop : entityToString(this.prop)
+                });
+
+                console.log('hoi', input);
+
+                this.$emit('input', input);
             }
         },
 

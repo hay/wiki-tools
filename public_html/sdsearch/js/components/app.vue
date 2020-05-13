@@ -49,9 +49,6 @@
     import SearchExamples from './search-examples.vue';
     import SearchKeyword from './search-keyword.vue';
     import { parseHash, searchCommons } from '../api.js';
-    import CommonsApi from '../commons-api.js';
-
-    const commonsApi = new CommonsApi();
 
     export default {
         components : { ResultsGrid, SearchExamples, SearchKeyword },
@@ -86,7 +83,7 @@
 
                 if (!keywords.length) {
                     // Default keywords, don't search
-                    this.keywords = ['haswbstatement:P180=null'];
+                    this.keywords = ['haswbstatement:P180'];
                 } else {
                     this.keywords = keywords;
                     this.search();
@@ -124,7 +121,7 @@
                 // get filled with the correct prop/claim when having a hashchange,
                 // but this does work if we reload the page. Obviously
                 // this is a hack.
-                window.location.reload();
+                // window.location.reload();
             });
 
             this.parseHash();

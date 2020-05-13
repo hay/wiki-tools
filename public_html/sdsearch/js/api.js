@@ -1,5 +1,15 @@
 import CommonsApi from './commons-api.js';
 
+export function makeHasbwstatement(entity) {
+    let str = `haswbstatement:${entity.prop}`;
+
+    if (entity.item) {
+        str += `=${entity.item}`;
+    }
+
+    return str;
+}
+
 export function parseHash(hash) {
     let keywords = [];
     let offset = 0;
@@ -17,6 +27,23 @@ export function parseHash(hash) {
     }
 
     return { keywords, offset }
+}
+
+export function parseHaswbstatement(str) {
+    // Curently, haswbstatement:* is not valid
+    const matches = str.match(/haswbstatement:(P\d*)=?(.*)/);
+
+    if (!matches) {
+        return {
+            item : null,
+            prop : null
+        }
+    } else {
+        return {
+            item : !!matches[2] ? matches[2] : null,
+            prop : matches[1]
+        }
+    }
 }
 
 export async function searchCommons(query, offset = 0) {
