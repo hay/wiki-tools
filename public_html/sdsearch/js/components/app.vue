@@ -121,7 +121,7 @@
                 // get filled with the correct prop/claim when having a hashchange,
                 // but this does work if we reload the page. Obviously
                 // this is a hack.
-                // window.location.reload();
+                window.location.reload();
             });
 
             this.parseHash();
