@@ -24,17 +24,7 @@
 
 <script>
     import { EntityEntry } from 'wikidata-ux';
-    import { makeHasbwstatement, parseHaswbstatement } from '../api.js';
-
-    function entityToString(entity) {
-        if (!entity) {
-            return null;
-        } else if (typeof entity === 'str') {
-            return entity;
-        } else {
-            return entity.id;
-        }
-    }
+    import { entityToString, makeHasbwstatement, parseHaswbstatement } from '../api.js';
 
     export default {
         components : { EntityEntry },
@@ -61,13 +51,10 @@
                 // 'P180', or a complete object, depending on where we are
                 // However, we always want to give back a haswbstatement to
                 // the parent
-
                 const input = makeHasbwstatement({
                     item : entityToString(this.item),
                     prop : entityToString(this.prop)
                 });
-
-                console.log('hoi', input);
 
                 this.$emit('input', input);
             }

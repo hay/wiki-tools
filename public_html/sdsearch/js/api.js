@@ -1,5 +1,15 @@
 import CommonsApi from './commons-api.js';
 
+export function entityToString(entity) {
+    if (!entity) {
+        return null;
+    } else if (typeof entity === 'str') {
+        return entity;
+    } else {
+        return entity.id;
+    }
+}
+
 export function makeHasbwstatement(entity) {
     let str = `haswbstatement:${entity.prop}`;
 
