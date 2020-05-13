@@ -3,7 +3,7 @@
         <div class="search">
             <menu class="search__actions">
                 <wm-button
-                    v-on:click="addKeyword('haswbstatement:P180=null')"
+                    v-on:click="addKeyword('haswbstatement:P180')"
                     icon="image">Add depicts</wm-button>
 
                 <wm-button
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+    import Vue from 'vue';
     import ResultsGrid from './results-grid.vue';
     import SearchExamples from './search-examples.vue';
     import SearchKeyword from './search-keyword.vue';
@@ -114,14 +115,18 @@
         },
 
         mounted() {
-            window.addEventListener('hashchange', () => {
-                this.parseHash();
+            window.addEventListener('hashchange', async () => {
+                // Why this stuff? When we have a hashchange, we manually clean
+                // out the keywords array and wait for nextTick because otherwise
+                // the wbstatement-entry component doesn't update itself because
+                // of (i guess) how Vue manages updates in the virtual DOM,
+                // i could probably fix this with better :key handling, but i'm
+                // not sure how wihout FU the text input field, the older hack
+                // was to reload the page, but that's even uglier
+                this.keywords = [];
+                await Vue.nextTick();
 
-                // FIXME: for some reason wbstatement-entry components don't
-                // get filled with the correct prop/claim when having a hashchange,
-                // but this does work if we reload the page. Obviously
-                // this is a hack.
-                window.location.reload();
+                this.parseHash();
             });
 
             this.parseHash();

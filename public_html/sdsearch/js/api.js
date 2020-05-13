@@ -28,7 +28,7 @@ export function parseHash(hash) {
     for (const part of parts) {
         if (part.startsWith('q=')) {
             const q = window.decodeURIComponent(part.slice(2));
-            keywords = q.split(/(haswbstatement:[^ ]+)/).filter(k => !!k).map(k => k.trim());
+            keywords = q.split(/(haswbstatement:[^ ]+)/).map(k => k.trim()).filter(k => !!k);
         }
 
         if (part.startsWith('offset=')) {
