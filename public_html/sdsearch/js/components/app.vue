@@ -18,9 +18,9 @@
             <div class="search__keywords">
                 <search-keyword
                     v-for="(keyword, index) in keywords"
-                    v-bind:key="index"
-                    v-on:remove="removeItem(index)"
-                    v-model="keywords[index]"></search-keyword>
+                    v-bind:key="keyword.id"
+                    v-on:remove="removeItem(keyword.id)"
+                    v-model="keywords[index].keyword"></search-keyword>
             </div>
 
             <menu class="search__actions">
@@ -56,7 +56,7 @@
 
         computed : {
             queryString() {
-                return this.keywords.join(' ');
+                return this.keywords.map(k => k.keyword).join(' ');
             }
         },
 
@@ -68,33 +68,39 @@
 
                 offset : 0,
 
+                refIndex : 0,
+
                 results : null
             }
         },
 
         methods : {
             addKeyword(keyword) {
-                this.keywords.push(keyword);
+                this.refIndex += 1;
+
+                this.keywords.push({
+                    id : this.refIndex,
+                    keyword : keyword
+                });
             },
 
             parseHash() {
                 const { keywords, offset } = parseHash(window.location.hash.slice(1));
 
+                this.keywords = [];
                 this.offset = offset;
 
                 if (!keywords.length) {
                     // Default keywords, don't search
-                    this.keywords = ['haswbstatement:P180'];
+                    this.addKeyword('haswbstatement:P180');
                 } else {
-                    this.keywords = keywords;
+                    keywords.forEach(k => this.addKeyword(k));
                     this.search();
                 }
             },
 
-            removeItem(indexToRemove) {
-                this.keywords = this.keywords.filter((keyword, index) => {
-                    return index !== indexToRemove;
-                });
+            removeItem(idToRemove) {
+                this.keywords = this.keywords.filter(k => k.id !== idToRemove);
             },
 
             async search() {
@@ -116,16 +122,6 @@
 
         mounted() {
             window.addEventListener('hashchange', async () => {
-                // Why this stuff? When we have a hashchange, we manually clean
-                // out the keywords array and wait for nextTick because otherwise
-                // the wbstatement-entry component doesn't update itself because
-                // of (i guess) how Vue manages updates in the virtual DOM,
-                // i could probably fix this with better :key handling, but i'm
-                // not sure how wihout FU the text input field, the older hack
-                // was to reload the page, but that's even uglier
-                this.keywords = [];
-                await Vue.nextTick();
-
                 this.parseHash();
             });
 
