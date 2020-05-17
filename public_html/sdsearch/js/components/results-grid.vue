@@ -42,7 +42,7 @@
 
                 <a v-bind:href="detail.url"
                    target="_blank">
-                    <img v-bind:src="detail.largeThumb"
+                    <img v-bind:src="detailThumb"
                          v-bind:alt="detail.snippet"
                          class="results__detail-img" />
                 </a>
@@ -77,6 +77,7 @@
 
 <script>
     import CommonsApi from '../commons-api.js';
+    import { loadImage } from '../util.js';
 
     const commonsApi = new CommonsApi();
 
@@ -90,7 +91,8 @@
 
         data() {
             return {
-                detail : false
+                detail : false,
+                detailThumb : null
             };
         },
 
@@ -100,10 +102,20 @@
                 return `#offset=${offset}&q=${this.queryString}`;
             },
 
-            setDetail(e, detail) {
+            async setDetail(e, detail) {
                 e.preventDefault();
-                detail.largeThumb = commonsApi.getThumb(detail.filename, 500);
+                this.detailThumb = detail.thumb;
                 this.detail = detail;
+
+                // Load the larger thumb in the background
+                const largeThumb = commonsApi.getThumb(detail.filename, 500);
+                await loadImage(largeThumb);
+
+                // Only switch if the detail thumb is still the same one as we
+                // set
+                if (this.detailThumb === detail.thumb) {
+                    this.detailThumb = largeThumb;
+                }
             }
         },
 
