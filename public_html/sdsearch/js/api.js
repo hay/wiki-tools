@@ -79,7 +79,7 @@ export async function searchCommons(query, offset = 0) {
 
     const results = await api.search(query, {
         namespace : 6,
-        limit : 20,
+        limit : 40,
         sroffset : offset
     });
 
