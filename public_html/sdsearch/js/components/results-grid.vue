@@ -53,7 +53,15 @@
                        {{detail.title}}
                     </a>
 
-                    <p>{{detail.snippet}}</p>
+                    <template v-if="detail.meta">
+                        <section v-html="detail.meta.Artist"></section>
+                        <section v-html="detail.meta.Credit"></section>
+                        <section v-html="detail.meta.License"></section>
+                        <section v-html="detail.meta.ImageDescription"></section>
+                        <section v-html="detail.meta.ObjectName"></section>
+                    </template>
+
+                    <p v-if="!detail.description">{{detail.snippet}}</p>
                 </figcaption>
             </figure>
         </div>
@@ -77,6 +85,7 @@
 
 <script>
     import CommonsApi from '../commons-api.js';
+    import { getImageInfo } from '../api.js';
     import { loadImage } from '../util.js';
 
     const commonsApi = new CommonsApi();
@@ -97,6 +106,23 @@
         },
 
         methods : {
+            async loadImageInfo() {
+                const info = await getImageInfo(this.detail.title);
+                this.detail.meta = info;
+            },
+
+            async loadLargeThumb() {
+                // Load the larger thumb in the background
+                const largeThumb = commonsApi.getThumb(this.detail.filename, 500);
+                await loadImage(largeThumb);
+
+                // Only switch if the detail thumb is still the same one as we
+                // set
+                if (this.detailThumb === this.detail.thumb) {
+                    this.detailThumb = largeThumb;
+                }
+            },
+
             navLink(delta) {
                 const offset = this.offset + (this.results.limit * delta);
                 return `#offset=${offset}&q=${this.queryString}`;
@@ -106,16 +132,8 @@
                 e.preventDefault();
                 this.detailThumb = detail.thumb;
                 this.detail = detail;
-
-                // Load the larger thumb in the background
-                const largeThumb = commonsApi.getThumb(detail.filename, 500);
-                await loadImage(largeThumb);
-
-                // Only switch if the detail thumb is still the same one as we
-                // set
-                if (this.detailThumb === detail.thumb) {
-                    this.detailThumb = largeThumb;
-                }
+                this.loadLargeThumb();
+                this.loadImageInfo();
             }
         },
 

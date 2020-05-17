@@ -10,6 +10,22 @@ export function entityToString(entity) {
     }
 }
 
+export async function getImageInfo(title) {
+    const api = new CommonsApi();
+
+    const results = await api.imageinfo(title, {
+        iiprop : 'extmetadata'
+    });
+
+    const data = Object.values(results.query.pages)[0].imageinfo[0].extmetadata;
+
+    for (const key in data) {
+        data[key] = data[key].value;
+    }
+
+    return data;
+}
+
 export function makeHasbwstatement(entity) {
     let str = `haswbstatement:${entity.prop}`;
 
