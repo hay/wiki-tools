@@ -27,9 +27,38 @@ export default class CommonsApi extends MediawikiApi {
             entities.push(prop);
 
             for (const stat of stats[prop]) {
-                const qid = stat.mainsnak.datavalue.value.id;
-                data[prop].push(qid);
-                entities.push(qid);
+                // Non-datavalues are not supported yet
+                if (!stat.mainsnak.datavalue) {
+                    continue;
+                }
+
+                const datavalue = stat.mainsnak.datavalue;
+
+                if (datavalue.type === 'wikibase-entityid') {
+                    const qid = datavalue.value.id;
+
+                    data[prop].push({
+                        type : datavalue.type,
+                        value : qid
+                    });
+
+                    entities.push(qid);
+                } else if (datavalue.type === 'time') {
+                    data[prop].push({
+                        type : datavalue.type,
+                        value : datavalue.value.time
+                    })
+                } else if (datavalue.type === 'globecoordinate') {
+                    data[prop].push({
+                        type : datavalue.type,
+                        value : `${datavalue.value.latitude},${datavalue.value.longitude}`
+                    });
+                } else {
+                    data[prop].push({
+                        type : 'unsupported',
+                        value : null
+                    });
+                }
             }
         }
 
@@ -43,9 +72,18 @@ export default class CommonsApi extends MediawikiApi {
             data[prop] = {
                 propLabel : labels[prop],
                 items : items.map((item) => {
+                    let label;
+
+                    if (item.type === 'wikibase-entityid') {
+                        label = labels[item.value];
+                    } else {
+                        label = item.value;
+                    }
+
                     return {
-                        item : item,
-                        label : labels[item]
+                        label : label,
+                        type : item.type,
+                        value : item.value
                     };
                 })
             };
@@ -57,7 +95,7 @@ export default class CommonsApi extends MediawikiApi {
     async getEntityLabels(entities) {
         const opts = {
             action : 'wbgetentities',
-            ids : entities.join('|'),
+            ids : entities.filter(e => !!e).join('|'),
             props : 'labels',
             languages : this.language
         };

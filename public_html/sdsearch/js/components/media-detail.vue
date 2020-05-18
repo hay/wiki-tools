@@ -113,8 +113,14 @@
                     const entity = statements[prop];
 
                     entity.itemLinks = entity.items.map((item) => {
-                        return `<a href="#q=haswbstatement:${prop}=${item.item}">${item.label}</a>`;
-                    }).join(', ');
+                        if (item.type === 'wikibase-entityid') {
+                            return `<a href="#q=haswbstatement:${prop}=${item.value}">${item.label}</a>`;
+                        } else if (item.type === 'unsupported') {
+                            return false;
+                        } else {
+                            return item.value;
+                        }
+                    }).filter(i => !!i).join(', ');
                 }
 
                 this.statements = statements;

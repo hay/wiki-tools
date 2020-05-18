@@ -47,6 +47,8 @@
         font-weight: normal;
         margin-right: 1rem;
         color: $c-5;
+        max-width: 35%;
+        flex-shrink: 0;
     }
 
     &__meta a {
