@@ -30,40 +30,11 @@
             <div v-if="detail"
                  class="results__detail-spacer"></div>
 
-            <figure
+            <media-detail
                 v-if="detail"
-                class="results__detail">
-
-                <wm-button
-                    class="results__detail-close"
-                    flair="dark"
-                    icon="close"
-                    v-on:click="detail = false">Close detail</wm-button>
-
-                <a v-bind:href="detail.url"
-                   target="_blank">
-                    <img v-bind:src="detailThumb"
-                         v-bind:alt="detail.snippet"
-                         class="results__detail-img" />
-                </a>
-
-                <figcaption class="results__detail-caption">
-                    <a v-bind:href="detail.url"
-                       target="_blank">
-                       {{detail.title}}
-                    </a>
-
-                    <template v-if="detail.meta">
-                        <section v-html="detail.meta.Artist"></section>
-                        <section v-html="detail.meta.Credit"></section>
-                        <section v-html="detail.meta.License"></section>
-                        <section v-html="detail.meta.ImageDescription"></section>
-                        <section v-html="detail.meta.ObjectName"></section>
-                    </template>
-
-                    <p v-if="!detail.description">{{detail.snippet}}</p>
-                </figcaption>
-            </figure>
+                v-bind:key="detail.url"
+                v-bind:detail="detail"
+                v-on:close="detail = false"></media-detail>
         </div>
 
         <menu class="results__nav"
@@ -84,13 +55,12 @@
 </template>
 
 <script>
-    import CommonsApi from '../commons-api.js';
-    import { getImageInfo } from '../api.js';
-    import { loadImage, numberWithCommas } from '../util.js';
-
-    const commonsApi = new CommonsApi();
+    import MediaDetail from './media-detail.vue';
+    import { numberWithCommas } from '../util.js';
 
     export default {
+        components : { MediaDetail },
+
         computed : {
             commonsLink() {
                 const q = window.encodeURIComponent(this.queryString);
@@ -100,29 +70,11 @@
 
         data() {
             return {
-                detail : false,
-                detailThumb : null
+                detail : false
             };
         },
 
         methods : {
-            async loadImageInfo() {
-                const info = await getImageInfo(this.detail.title);
-                this.detail.meta = info;
-            },
-
-            async loadLargeThumb() {
-                // Load the larger thumb in the background
-                const largeThumb = commonsApi.getThumb(this.detail.filename, 500);
-                await loadImage(largeThumb);
-
-                // Only switch if the detail thumb is still the same one as we
-                // set
-                if (this.detailThumb === this.detail.thumb) {
-                    this.detailThumb = largeThumb;
-                }
-            },
-
             numberWithCommas,
 
             navLink(delta) {
@@ -132,10 +84,7 @@
 
             async setDetail(e, detail) {
                 e.preventDefault();
-                this.detailThumb = detail.thumb;
                 this.detail = detail;
-                this.loadLargeThumb();
-                this.loadImageInfo();
             }
         },
 
