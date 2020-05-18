@@ -3,7 +3,7 @@
          v-bind:class="{ 'results--detail' : !!detail }"
          v-if="results">
         <menu class="results__stats">
-            <p>Found <strong>{{results.count}}</strong> items</p>
+            <p>Found <strong>{{numberWithCommas(results.count)}}</strong> items</p>
 
             <wm-button
                 type="anchor"
@@ -86,7 +86,7 @@
 <script>
     import CommonsApi from '../commons-api.js';
     import { getImageInfo } from '../api.js';
-    import { loadImage } from '../util.js';
+    import { loadImage, numberWithCommas } from '../util.js';
 
     const commonsApi = new CommonsApi();
 
@@ -122,6 +122,8 @@
                     this.detailThumb = largeThumb;
                 }
             },
+
+            numberWithCommas,
 
             navLink(delta) {
                 const offset = this.offset + (this.results.limit * delta);
