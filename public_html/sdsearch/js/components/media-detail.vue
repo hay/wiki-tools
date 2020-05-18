@@ -32,6 +32,17 @@
                    class="media-detail__title"
                    v-html="meta.ImageDescription"></p>
 
+                <ul v-if="statements"
+                    class="media-detail__metalist">
+                    <li v-for="(entity, prop) in statements"
+                        class="media-detail__metafield">
+                        <strong class="media-detail__metakey">{{entity.propLabel}}</strong>
+
+                        <div class="media-detail__metacontent"
+                             v-html="entity.itemLinks"></div>
+                    </li>
+                </ul>
+
                 <ul v-if="meta"
                     class="media-detail__metalist">
                     <li v-for="(field, key) in metaFields"
@@ -71,6 +82,11 @@
                         html: (m) => `${m.Artist}, ${m.Credit}`
                     },
 
+                    Created : {
+                        check: (m) => m.DateTimeOriginal,
+                        html: (m) => m.DateTimeOriginal
+                    },
+
                     License : {
                         check : (m) => m.LicenseShortName && m.LicenseUrl,
                         html: (m) => `<a href="${m.LicenseUrl}" target="_blank">${m.LicenseShortName}</a>`
@@ -80,13 +96,28 @@
                         check : () => true,
                         html: () => `<a href="${this.detail.url}" target="_blank">${this.detail.title}</a>`
                     }
-                }
+                },
+                statements : null,
             }
         },
 
         methods : {
             close() {
                 this.$emit('close');
+            },
+
+            async loadEntityData() {
+                const statements = await commonsApi.entityStatements(this.detail.mid);
+
+                for (const prop in statements) {
+                    const entity = statements[prop];
+
+                    entity.itemLinks = entity.items.map((item) => {
+                        return `<a href="#q=haswbstatement:${prop}=${item.item}">${item.label}</a>`;
+                    }).join(', ');
+                }
+
+                this.statements = statements;
             },
 
             async loadImageInfo() {
@@ -103,6 +134,7 @@
 
         mounted() {
             this.loadLargeThumb();
+            this.loadEntityData();
             this.loadImageInfo();
         },
 
