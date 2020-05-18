@@ -95,8 +95,11 @@
                     this.addKeyword('haswbstatement:P180');
                 } else {
                     keywords.forEach(k => this.addKeyword(k));
-                    this.search();
                 }
+
+                // Also search when we have something to show pretty stuff
+                // on screen
+                this.search();
             },
 
             removeItem(idToRemove) {

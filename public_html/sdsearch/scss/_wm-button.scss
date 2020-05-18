@@ -17,7 +17,8 @@
         color: white;
     }
 
-    &--dark {
+    &--dark,
+    &--darklink {
         background: inherit;
         border-color: white;
         color: white;
@@ -41,7 +42,9 @@
         background: $c-1;
     }
 
-    html.has-mouse &--dark:hover {
+    html.has-mouse &--dark:hover,
+    html.has-mouse &--darklink:hover {
         background: inherit;
+        text-decoration: underline;
     }
 }

@@ -74,7 +74,7 @@ export function parseHaswbstatement(str) {
 
 export async function searchCommons(query, offset = 0) {
     const api = new CommonsApi({
-        thumbSize : 150
+        thumbSize : 250
     });
 
     const results = await api.search(query, {

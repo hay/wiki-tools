@@ -28,7 +28,29 @@
         @include child-margins(1rem);
     }
 
-    &__caption a {
+    &__title {
+        font-size: 1.8rem;
+    }
+
+    &__metalist {
+        font-size: 1.6rem;
+        list-style: none;
+        margin-top: 2rem;
+        @include child-margins(.5rem);
+    }
+
+    &__metafield {
+        display: flex;
+    }
+
+    &__metakey {
+        font-weight: normal;
+        margin-right: 1rem;
+        color: $c-5;
+    }
+
+    &__meta a {
+        color: white;
         text-decoration: underline;
     }
 }

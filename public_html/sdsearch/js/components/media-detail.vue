@@ -17,20 +17,32 @@
         </a>
 
         <figcaption class="media-detail__caption">
-            <a v-bind:href="detail.url"
-               target="_blank">
-               {{detail.title}}
-            </a>
+            <wm-button
+                type="anchor"
+                flair="darklink"
+                icon="link-inverted"
+                target="_blank"
+                v-bind:href="detail.url">View on Commons</wm-button>
 
-            <template v-if="meta">
-                <section v-html="meta.Artist"></section>
-                <section v-html="meta.Credit"></section>
-                <section v-html="meta.License"></section>
-                <section v-html="meta.ImageDescription"></section>
-                <section v-html="meta.ObjectName"></section>
-            </template>
+            <p v-if="!meta">Loading details...</p>
 
-            <p v-if="!detail.description">{{detail.snippet}}</p>
+            <div class="media-detail__meta"
+                 v-if="meta">
+                <p v-if="meta.ImageDescription"
+                   class="media-detail__title"
+                   v-html="meta.ImageDescription"></p>
+
+                <ul v-if="meta"
+                    class="media-detail__metalist">
+                    <li v-for="(field, key) in metaFields"
+                        v-if="field.check(meta)"
+                        class="media-detail__metafield">
+                        <strong class="media-detail__metakey">{{key}}</strong>
+                        <div v-html="field.html(meta)"
+                             class="media-detail__metacontent"></div>
+                    </li>
+                </ul>
+            </div>
         </figcaption>
     </figure>
 </template>
@@ -52,7 +64,23 @@
         data() {
             return {
                 largeThumb : null,
-                meta : null
+                meta : null,
+                metaFields : {
+                    Author: {
+                        check: (m) => m.Artist && m.Credit,
+                        html: (m) => `${m.Artist}, ${m.Credit}`
+                    },
+
+                    License : {
+                        check : (m) => m.LicenseShortName && m.LicenseUrl,
+                        html: (m) => `<a href="${m.LicenseUrl}" target="_blank">${m.LicenseShortName}</a>`
+                    },
+
+                    Filename : {
+                        check : () => true,
+                        html: () => `<a href="${this.detail.url}" target="_blank">${this.detail.title}</a>`
+                    }
+                }
             }
         },
 
