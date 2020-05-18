@@ -1,10 +1,10 @@
 <template>
     <figure
         v-if="detail"
-        class="results__detail">
+        class="media-detail">
 
         <wm-button
-            class="results__detail-close"
+            class="media-detail__close"
             flair="dark"
             icon="close"
             v-on:click="close">Close detail</wm-button>
@@ -13,10 +13,10 @@
            target="_blank">
             <img v-bind:src="thumb"
                  v-bind:alt="detail.snippet"
-                 class="results__detail-img" />
+                 class="media-detail__img" />
         </a>
 
-        <figcaption class="results__detail-caption">
+        <figcaption class="media-detail__caption">
             <a v-bind:href="detail.url"
                target="_blank">
                {{detail.title}}
