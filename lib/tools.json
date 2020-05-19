@@ -16,7 +16,7 @@
 
     "sdsearch" : {
         "title" : "Structured Search",
-        "description" : "Search media on <a href=\"https://commons.wikimedia.org\">Wikimedia Commons</a> using structured data."
+        "description" : "Search media on <a href=\"https://commons.wikimedia.org\">Wikimedia Commons</a> using <a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">structured data</a>."
     },
 
     "exturl" : {
