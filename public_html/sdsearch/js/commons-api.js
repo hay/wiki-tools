@@ -131,6 +131,28 @@ export default class CommonsApi extends MediawikiApi {
         return results;
     }
 
+    async opensearch(query, opts = {}) {
+        opts = Object.assign({
+            action : 'opensearch',
+            namespace : '*',
+            limit : 10,
+            search : query
+        }, opts);
+
+        const results = await this.call(opts);
+
+        return {
+            query : query,
+            results : results[1].map((label, index) => {
+                return {
+                    label : label,
+                    description : results[2][index],
+                    url : results[3][index]
+                }
+            })
+        };
+    }
+
     async search(query, opts = {}) {
         opts = Object.assign({
             limit : 20,

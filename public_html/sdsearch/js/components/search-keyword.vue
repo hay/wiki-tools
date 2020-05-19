@@ -10,9 +10,17 @@
              v-if="keyword.type === 'text'">
             <input type="text"
                    class="search-keyword__input"
-                   v-on:input="input($event)"
+                   v-on:input="input($event.target.value)"
                    v-bind:value="keyword.value" />
         </div>
+
+        <category-entry
+            v-if="keyword.type === 'category'"
+            class="search-keyword__value"
+            v-on:expand="expanded = true"
+            v-on:contract="expanded = false"
+            v-on:input="input($event)"
+            v-bind:value="keyword.value"></category-entry>
 
         <wbstatement-entry
             v-if="keyword.type === 'wbstatement'"
@@ -30,6 +38,7 @@
 </template>
 
 <script>
+    import CategoryEntry from './category-entry.vue';
     import WbstatementEntry from './wbstatement-entry.vue';
 
     function parseKeyword(keyword) {
@@ -41,6 +50,12 @@
                 type : 'wbstatement',
                 value : keyword
             };
+        } else if (keyword.startsWith('deepcat') || keyword.startsWith('incategory')) {
+            return {
+                icon : 'category',
+                type : 'category',
+                value : keyword
+            }
         } else {
             return {
                 icon : 'text',
@@ -51,7 +66,7 @@
     }
 
     export default {
-        components : { WbstatementEntry },
+        components : { CategoryEntry, WbstatementEntry },
 
         computed : {
             keyword() {
@@ -66,14 +81,8 @@
         },
 
         methods : {
-            input(e) {
-                if (this.keyword.type === 'text') {
-                    this.$emit('input', e.target.value);
-                }
-
-                if (this.keyword.type === 'wbstatement') {
-                    this.$emit('input', e);
-                }
+            input(value) {
+                this.$emit('input', value);
             },
 
             remove() {

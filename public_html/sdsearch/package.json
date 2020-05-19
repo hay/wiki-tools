@@ -14,7 +14,8 @@
   "dependencies": {
     "regenerator-runtime": "^0.13.5",
     "valenski": "^1.4.0",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-simple-suggest": "^1.10.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

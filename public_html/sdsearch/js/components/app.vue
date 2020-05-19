@@ -11,6 +11,10 @@
                     icon="text">Add text</wm-button>
 
                 <wm-button
+                    v-on:click="addKeyword('deepcat')"
+                    icon="category">Add category</wm-button>
+
+                <wm-button
                     v-on:click="addKeyword('haswbstatement')"
                     icon="tag">Add claim</wm-button>
             </menu>

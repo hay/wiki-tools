@@ -1,0 +1,23 @@
+.category-entry {
+    &__input {
+        padding: .5rem;
+    }
+
+    &__search {
+        font-size: 1.8rem;
+        padding: 0 0.5rem;
+    }
+
+    &__suggestions {
+        list-style: none;
+    }
+
+    &__suggestion {
+        padding: 1rem;
+        background: $c-5;
+    }
+
+    &__suggestions > :nth-child(odd) {
+        background: $c-6;
+    }
+}

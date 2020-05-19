@@ -1,4 +1,5 @@
 import CommonsApi from './commons-api.js';
+const commonsApi = new CommonsApi();
 
 export function entityToString(entity) {
     if (!entity) {
@@ -84,4 +85,8 @@ export async function searchCommons(query, offset = 0) {
     });
 
     return results;
+}
+
+export async function commonsSuggest(query) {
+    return await commonsApi.opensearch(query);
 }
