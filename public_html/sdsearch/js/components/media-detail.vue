@@ -92,6 +92,15 @@
                         html: (m) => `<a href="${m.LicenseUrl}" target="_blank">${m.LicenseShortName}</a>`
                     },
 
+                    Categories : {
+                        check : (m) => m.Categories,
+                        html: (m) => {
+                            return m.Categories.split('|').map((cat) => {
+                                return `<a href='#q=incategory:"${cat}"'>${cat}</a>`;
+                            }).join(', ');
+                        }
+                    },
+
                     Filename : {
                         check : () => true,
                         html: () => `<a href="${this.detail.url}" target="_blank">${this.detail.title}</a>`
