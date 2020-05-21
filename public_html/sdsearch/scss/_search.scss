@@ -5,7 +5,13 @@
 
     &__actions {
         display: flex;
+        align-items: center;
         flex-wrap: wrap;
+    }
+
+    &__actions-label {
+        font-size: 1.8rem;
+        font-weight: 500;
     }
 
     &__actions > * {

@@ -2,21 +2,23 @@
     <div class="app__content">
         <div class="search">
             <menu class="search__actions">
+                <p class="search__actions-label">Search using</p>
+
                 <wm-button
                     v-on:click="addKeyword('haswbstatement:P180')"
-                    icon="image">Add depicts</wm-button>
+                    icon="image">Depicts</wm-button>
 
                 <wm-button
                     v-on:click="addKeyword('')"
-                    icon="text">Add text</wm-button>
+                    icon="text">Text</wm-button>
 
                 <wm-button
                     v-on:click="addKeyword('deepcat')"
-                    icon="category">Add category</wm-button>
+                    icon="category">Categories</wm-button>
 
                 <wm-button
                     v-on:click="addKeyword('haswbstatement')"
-                    icon="tag">Add claim</wm-button>
+                    icon="tag">Claims</wm-button>
             </menu>
 
             <div class="search__keywords">
@@ -26,6 +28,8 @@
                     v-on:remove="removeItem(keyword.id)"
                     v-model="keywords[index].keyword"></search-keyword>
             </div>
+
+            <pre v-if="debug">{{queryString}}</pre>
 
             <menu class="search__actions">
                 <wm-button
@@ -59,6 +63,10 @@
         components : { ResultsGrid, SearchExamples, SearchKeyword },
 
         computed : {
+            debug() {
+                return window.location.search.includes('debug');
+            },
+
             queryString() {
                 return this.keywords.map(k => k.keyword).join(' ');
             }

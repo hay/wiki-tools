@@ -37,6 +37,20 @@ export function makeHasbwstatement(entity) {
     return str;
 }
 
+export function parseCategory(keyword) {
+    const matches = keyword.match(/(incategory|deepcat):(.+)/);
+
+    if (!matches) {
+        return false;
+    }
+
+    return {
+        category : matches[2],
+        categoryClean : matches[2].replace(/"/g, ''),
+        type : matches[1]
+    }
+}
+
 export function parseHash(hash) {
     let keywords = [];
     let offset = 0;

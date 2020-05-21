@@ -1,6 +1,5 @@
 <template>
     <div class="category-entry">
-        <button v-on:click="test">hoi</button>
         <vue-simple-suggest
             ref="input"
             v-model="category"
@@ -18,14 +17,16 @@
 
 <script>
     import VueSimpleSuggest from 'vue-simple-suggest/dist/es7'
-    import { commonsSuggest } from '../api.js';
+    import { commonsSuggest, parseCategory } from '../api.js';
 
     export default {
         components : { VueSimpleSuggest },
 
         data() {
+            const cat = parseCategory(this.value);
+
             return {
-                category : this.value.split(':')[1],
+                category : cat.categoryClean,
 
                 styles : {
                     vueSimpleSuggest: "category-entry__input",
@@ -49,13 +50,8 @@
                 return suggestions;
             },
 
-            input() {
-                // this.$refs.input.blur();
-                this.$emit('input', 'deepcat:' + this.category);
-            },
-
-            test() {
-                this.$refs.input.showList();
+            async input(e) {
+                this.$emit('input', `incategory:"${e.cleanLabel}"`);
             }
         },
 
