@@ -6,8 +6,7 @@
     background: $c-4;
     color: white;
     padding: 2rem;
-    width: 100%;
-    max-width: 50rem;
+    width: $media-detail-width;
     margin-left: 1rem;
     @include child-margins(2rem);
     font-size: 2rem;
@@ -55,5 +54,11 @@
     &__meta a {
         color: white;
         text-decoration: underline;
+    }
+
+    // On < 980px just put detail over the whole screen
+    @include respond-until($screen-md) {
+        left: 0;
+        width: 100%;
     }
 }

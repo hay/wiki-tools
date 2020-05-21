@@ -38,13 +38,17 @@
         margin-top: 2rem;
     }
 
+    &--detail &__nav {
+        margin-right: $media-detail-width;
+    }
+
     &--detail &__content {
         display: flex;
     }
 
     // Obviously, this is awful
     &__detail-spacer {
-        width: 100%;
-        max-width: 50rem;
+        width: $media-detail-width;
+        flex-shrink: 0;
     }
 }
