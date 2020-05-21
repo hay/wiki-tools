@@ -29,10 +29,7 @@ export async function getImageInfo(title) {
 
 export function isStatement(keyword) {
     keyword = keyword.trim();
-
-    return keyword.startsWith('haswbstatement:') ||
-           keyword.startsWith('deepcat:') ||
-           keyword.startsWith('incategory:');
+    return !!keyword.match(/^-?(deepcat|incategory|haswbstatement):/);
 }
 
 export function makeHasbwstatement(entity) {
@@ -101,11 +98,21 @@ export function parseQuery(query) {
     let token = '';
     let IN_STATEMENT = false;
 
+    // TODO: this is pretty hairy, could be easier!
     for (const keyword of parts) {
         if (isStatement(keyword)) {
-            IN_STATEMENT = true;
-            token = keyword;
-            continue;
+            keywords.push(token);
+
+            if (keyword.includes('"')) {
+                IN_STATEMENT = true;
+                token = keyword;
+                continue;
+            } else {
+                IN_STATEMENT = false;
+                keywords.push(keyword);
+                token = '';
+                continue;
+            }
         }
 
         if (IN_STATEMENT) {
@@ -114,23 +121,22 @@ export function parseQuery(query) {
             if (keyword.includes('"')) {
                 // End of statement
                 IN_STATEMENT = false;
+                keywords.push(token);
+                token = '';
             } else {
                 continue;
             }
         } else {
-            token = keyword;
+            token += ` ${keyword}`;
+            continue;
         }
-
-        keywords.push(token);
     }
 
-    if (IN_STATEMENT) {
+    if (keywords.slice(-1) !== token) {
         keywords.push(token);
     }
 
     keywords = keywords.map(k => k.trim()).filter(k => !!k);
-
-    console.log(keywords);
 
     return keywords;
 }
