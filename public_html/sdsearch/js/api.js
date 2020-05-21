@@ -27,6 +27,14 @@ export async function getImageInfo(title) {
     return data;
 }
 
+export function isStatement(keyword) {
+    keyword = keyword.trim();
+
+    return keyword.startsWith('haswbstatement:') ||
+           keyword.startsWith('deepcat:') ||
+           keyword.startsWith('incategory:');
+}
+
 export function makeHasbwstatement(entity) {
     let str = `haswbstatement:${entity.prop}`;
 
@@ -59,7 +67,7 @@ export function parseHash(hash) {
     for (const part of parts) {
         if (part.startsWith('q=')) {
             const q = window.decodeURIComponent(part.slice(2));
-            keywords = q.split(/(haswbstatement:[^ ]+)/).map(k => k.trim()).filter(k => !!k);
+            keywords = parseQuery(q);
         }
 
         if (part.startsWith('offset=')) {
@@ -85,6 +93,46 @@ export function parseHaswbstatement(str) {
             prop : matches[1]
         }
     }
+}
+
+export function parseQuery(query) {
+    const parts = query.trim().split(' ');
+    let keywords = [];
+    let token = '';
+    let IN_STATEMENT = false;
+
+    for (const keyword of parts) {
+        if (isStatement(keyword)) {
+            IN_STATEMENT = true;
+            token = keyword;
+            continue;
+        }
+
+        if (IN_STATEMENT) {
+            token += ` ${keyword}`;
+
+            if (keyword.includes('"')) {
+                // End of statement
+                IN_STATEMENT = false;
+            } else {
+                continue;
+            }
+        } else {
+            token = keyword;
+        }
+
+        keywords.push(token);
+    }
+
+    if (IN_STATEMENT) {
+        keywords.push(token);
+    }
+
+    keywords = keywords.map(k => k.trim()).filter(k => !!k);
+
+    console.log(keywords);
+
+    return keywords;
 }
 
 export async function searchCommons(query, offset = 0) {
