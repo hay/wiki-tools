@@ -7,7 +7,7 @@
             class="media-detail__close"
             flair="dark"
             icon="close"
-            v-on:click="close">Close detail</wm-button>
+            v-on:click="close">{{$t('close_detail')}}</wm-button>
 
         <a v-bind:href="detail.url"
            target="_blank">
@@ -22,9 +22,9 @@
                 flair="darklink"
                 icon="link-inverted"
                 target="_blank"
-                v-bind:href="detail.url">View on Commons</wm-button>
+                v-bind:href="detail.url">{{$t('view_on_commons')}}</wm-button>
 
-            <p v-if="!meta">Loading details...</p>
+            <p v-if="!meta">{{$('loading_details')}}</p>
 
             <div class="media-detail__meta"
                  v-if="meta">

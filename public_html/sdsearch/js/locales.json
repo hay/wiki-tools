@@ -1,0 +1,36 @@
+{
+    "en": {
+        "search_using": "Search using",
+        "depicts": "Depicts",
+        "text": "Text",
+        "categories": "Categories",
+        "claims": "Claims",
+        "search": "Search",
+        "close_detail": "Close detail",
+        "view_on_commons": "View on Commons",
+        "loading_details": "Loading details...",
+        "found_results": "Found no results | Found 1 result | Found {count} results",
+        "previous_page": "Previous page",
+        "next_page": "Next page",
+        "loading": "Loading...",
+        "structured_search": "Structured Search",
+        "tool_description": "Search media on <a href=\"https://commons.wikimedia.org\">Wikimedia Commons</a> using <a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">structured data</a>."
+    },
+    "nl": {
+        "categories": "Categorieën",
+        "claims": "Verklaringen",
+        "close_detail": "Sluit detail",
+        "found_results": "Geen resultaten gevonden | 1 resultaat gevonden | {count} resultaten gevonden",
+        "loading": "Laden...",
+        "loading_details": "Details laden...",
+        "next_page": "Volgende pagina",
+        "previous_page": "Vorige pagina",
+        "search": "Zoek",
+        "search_using": "Zoek met",
+        "view_on_commons": "Bekijk op Commons",
+        "structured_search": "Gestructureerd zoeken",
+        "tool_description": "Zoek media op <a href=\"https://commons.wikimedia.org\">Wikimedia Commons</a> met <a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">gestructureerde data</a>.",
+        "depicts": "Beeldt af",
+        "text": "Tekst"
+    }
+}

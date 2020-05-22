@@ -2,23 +2,23 @@
     <div class="app__content">
         <div class="search">
             <menu class="search__actions">
-                <p class="search__actions-label">Search using</p>
+                <p class="search__actions-label">{{$t('search_using')}}</p>
 
                 <wm-button
                     v-on:click="addKeyword('haswbstatement:P180')"
-                    icon="image">Depicts</wm-button>
+                    icon="image">{{$t('depicts')}}</wm-button>
 
                 <wm-button
                     v-on:click="addKeyword('')"
-                    icon="text">Text</wm-button>
+                    icon="text">{{$t('text')}}</wm-button>
 
                 <wm-button
                     v-on:click="addKeyword('deepcat')"
-                    icon="category">Categories</wm-button>
+                    icon="category">{{$t('categories')}}</wm-button>
 
                 <wm-button
                     v-on:click="addKeyword('haswbstatement')"
-                    icon="tag">Claims</wm-button>
+                    icon="tag">{{$t('claims')}}</wm-button>
             </menu>
 
             <div class="search__keywords">
@@ -35,12 +35,12 @@
                 <wm-button
                     flair="action"
                     v-on:click="setSearch"
-                    icon="search">Search</wm-button>
+                    icon="search">{{$t('search')}}</wm-button>
             </menu>
         </div>
 
         <p v-show="loading"
-            class="loading">Loading...</p>
+            class="loading">{{$t('loading')}}</p>
 
         <search-examples v-if="!results"></search-examples>
 

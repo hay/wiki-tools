@@ -13,10 +13,10 @@
          class="app"
          v-cloak>
         <h1 class="app-title">
-            <a href="<?= $hay->getUrl(); ?>"><?php $hay->title(); ?></a>
+            <a id="app-title" href="<?= $hay->getUrl(); ?>"><?php $hay->title(); ?></a>
         </h1>
 
-        <p class="app-lead">
+        <p id="app-lead" class="app-lead">
             <?php $hay->description(); ?>
         </p>
 

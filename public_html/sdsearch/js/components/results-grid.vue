@@ -3,14 +3,14 @@
          v-bind:class="{ 'results--detail' : !!detail }"
          v-if="results">
         <menu class="results__stats">
-            <p>Found <strong>{{numberWithCommas(results.count)}}</strong> items</p>
+            <p>{{$tc('found_results', numberWithCommas(results.count))}}</p>
 
             <wm-button
                 type="anchor"
                 flair="link"
                 icon="link"
                 target="_blank"
-                v-bind:href="commonsLink">View on Commons</wm-button>
+                v-bind:href="commonsLink">{{$t('view_on_commons')}}</wm-button>
         </menu>
 
         <div class="results__content">
@@ -43,13 +43,13 @@
                 v-bind:hidden="!(offset > 0)"
                 type="anchor"
                 icon="arrow-left"
-                v-bind:href="navLink(-1)">Previous page</wm-button>
+                v-bind:href="navLink(-1)">{{$t('previous_page')}}</wm-button>
 
             <wm-button
                 v-bind:hidden="!results.hasNext"
                 type="anchor"
                 icon="arrow-right"
-                v-bind:href="navLink(1)">Next page</wm-button>
+                v-bind:href="navLink(1)">{{$t('next_page')}}</wm-button>
         </menu>
     </div>
 </template>
