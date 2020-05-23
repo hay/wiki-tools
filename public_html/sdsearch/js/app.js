@@ -8,11 +8,12 @@ import { getLocale } from './util.js';
 Vue.use(VueI18n);
 
 const $ = document.querySelector.bind(document);
+const LOCALE = getLocale();
 
 const i18n = new VueI18n({
-    locale : getLocale(),
+    locale : LOCALE,
     fallbackLocale: 'en',
-    messages : locales
+    messages : locales.messages
 });
 
 Vue.component('wm-button', WmButton);

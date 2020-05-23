@@ -2,7 +2,6 @@ import { MediawikiApi } from 'wikidata-ux';
 
 export default class CommonsApi extends MediawikiApi {
     constructor(opts = {}, language = 'en') {
-        if (language === 'en') debugger;
         super('https://commons.wikimedia.org/w/api.php', language);
         this.thumbSize = opts.thumbSize || 300;
     }

@@ -1,5 +1,9 @@
 <template>
     <div class="app__content">
+        <language-selector
+            v-bind:languages="languages"
+            v-model="locale"></language-selector>
+
         <div class="search">
             <menu class="search__actions">
                 <p class="search__actions-label">{{$t('search_using')}}</p>
@@ -54,13 +58,16 @@
 
 <script>
     import Vue from 'vue';
+    import LanguageSelector from './language-selector.vue';
     import ResultsGrid from './results-grid.vue';
     import SearchExamples from './search-examples.vue';
     import SearchKeyword from './search-keyword.vue';
     import { parseHash, searchCommons } from '../api.js';
+    import locales from '../locales.json';
+    import { getLocale } from '../util.js';
 
     export default {
-        components : { ResultsGrid, SearchExamples, SearchKeyword },
+        components : { LanguageSelector, ResultsGrid, SearchExamples, SearchKeyword },
 
         computed : {
             debug() {
@@ -75,6 +82,10 @@
         data() {
             return {
                 keywords : [],
+
+                languages : locales.languages,
+
+                locale : getLocale(),
 
                 loading : false,
 
@@ -141,6 +152,12 @@
             });
 
             this.parseHash();
+        },
+
+        watch : {
+            locale() {
+                this.$i18n.locale = this.locale;
+            }
         }
     }
 </script>
