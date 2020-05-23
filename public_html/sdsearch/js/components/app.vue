@@ -4,6 +4,8 @@
             v-bind:languages="languages"
             v-model="locale"></language-selector>
 
+        <app-header></app-header>
+
         <div class="search">
             <menu class="search__actions">
                 <p class="search__actions-label">{{$t('search_using')}}</p>
@@ -58,6 +60,7 @@
 
 <script>
     import Vue from 'vue';
+    import AppHeader from './app-header.vue';
     import LanguageSelector from './language-selector.vue';
     import ResultsGrid from './results-grid.vue';
     import SearchExamples from './search-examples.vue';
@@ -67,7 +70,9 @@
     import { getLocale } from '../util.js';
 
     export default {
-        components : { LanguageSelector, ResultsGrid, SearchExamples, SearchKeyword },
+        components : {
+            AppHeader, LanguageSelector, ResultsGrid, SearchExamples, SearchKeyword
+        },
 
         computed : {
             debug() {

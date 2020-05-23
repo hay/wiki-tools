@@ -1,9 +1,7 @@
 .language-selector {
     display: flex;
     align-items: center;
-    padding: .5rem 1rem;
-    border: 1px solid $c-7;
-    border-radius: 2px;
+    padding: .5rem;
     width: min-content;
 
     &__select {

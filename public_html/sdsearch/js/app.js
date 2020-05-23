@@ -31,10 +31,4 @@ function addTouchClasses() {
     $('html').classList.add('has-' + inputDevice);
 }
 
-function addTitleDescription() {
-    $("#app-title").innerHTML = i18n.t('structured_search');
-    $("#app-lead").innerHTML = i18n.t('tool_description');
-}
-
-addTitleDescription();
 addTouchClasses();

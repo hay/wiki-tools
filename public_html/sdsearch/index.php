@@ -12,14 +12,6 @@
     <div id="app"
          class="app"
          v-cloak>
-        <h1 class="app-title">
-            <a id="app-title" href="<?= $hay->getUrl(); ?>"><?php $hay->title(); ?></a>
-        </h1>
-
-        <p id="app-lead" class="app-lead">
-            <?php $hay->description(); ?>
-        </p>
-
         <app></app>
     </div>
 <?php
