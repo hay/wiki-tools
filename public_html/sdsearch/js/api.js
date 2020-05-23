@@ -146,6 +146,8 @@ export async function searchCommons(query, offset = 0) {
         thumbSize : 250
     }, getLocale());
 
+    // Note that even with imageinfo query we still get *loads* of HTTP 429
+    // requests
     const results = await api.search(query, {
         namespace : 6,
         limit : 20, // 40 seems to give a HTTP 429 too many requests

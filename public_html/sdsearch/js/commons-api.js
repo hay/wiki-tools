@@ -117,6 +117,7 @@ export default class CommonsApi extends MediawikiApi {
     }
 
     getThumb(title, size = null) {
+        // So many HTTP 429 requests, even if we use the imageinfo API call
         size = !!size ? size : this.thumbSize;
         return `https://commons.wikimedia.org/wiki/Special:FilePath/${title}?width=${size}`;
     }
