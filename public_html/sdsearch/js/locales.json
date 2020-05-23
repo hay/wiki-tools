@@ -30,7 +30,8 @@
             "created": "Created",
             "license": "License",
             "filename": "Filename",
-            "translate_this_tool": "Translate this tool"
+            "translate_this_tool": "Translate this tool",
+            "open_in": "Open in"
         },
         "nl": {
             "claims": "Verklaringen",
@@ -52,7 +53,8 @@
             "created": "Datum",
             "license": "Licentie",
             "filename": "Bestandsnaam",
-            "translate_this_tool": "Vertaal deze applicatie"
+            "translate_this_tool": "Vertaal deze applicatie",
+            "open_in": "Openen in"
         }
     }
 }

@@ -2,15 +2,36 @@
     <div class="results"
          v-bind:class="{ 'results--detail' : !!detail }"
          v-if="results">
+
         <menu class="results__stats">
             <p>{{$tc('found_results', results.count, { count : numberWithCommas(results.count) } )}}</p>
 
-            <wm-button
-                type="anchor"
-                flair="link"
-                icon="link"
-                target="_blank"
-                v-bind:href="commonsLink">{{$t('view_on_commons')}}</wm-button>
+            <menu class="results__stats-actions">
+                <wm-button
+                    type="anchor"
+                    flair="link"
+                    icon="link"
+                    target="_blank"
+                    v-bind:href="commonsLink">{{$t('view_on_commons')}}</wm-button>
+
+                <wm-button
+                    flair="icon"
+                    v-on:click="toggleTools"
+                    icon="ellipsis"></wm-button>
+            </menu>
+        </menu>
+
+        <menu
+            v-show="showTools"
+            class="results__tools">
+
+            <p>{{$t('open_in')}}:</p>
+
+            <a v-for="tool in tools"
+               v-bind:href="tool.link"
+               target="_blank">
+               {{tool.label}}
+            </a>
         </menu>
 
         <div class="results__content">
@@ -63,14 +84,27 @@
 
         computed : {
             commonsLink() {
-                const q = window.encodeURIComponent(this.queryString);
-                return `https://commons.wikimedia.org/w/index.php?search=${q}`;
+                return `https://commons.wikimedia.org/w/index.php?search=${this.queryStringEncoded}`;
+            },
+
+            queryStringEncoded() {
+                return window.encodeURIComponent(this.queryString);
+            },
+
+            tools() {
+                return [
+                    {
+                        label : 'Petscan',
+                        link : `https://petscan.wmflabs.org/?search_query=${this.queryStringEncoded}&search_wiki=commonswiki&ns[6]=1`
+                    }
+                ];
             }
         },
 
         data() {
             return {
-                detail : false
+                detail : false,
+                showTools : false
             };
         },
 
@@ -85,6 +119,10 @@
             async setDetail(e, detail) {
                 e.preventDefault();
                 this.detail = detail;
+            },
+
+            toggleTools() {
+                this.showTools = !this.showTools;
             }
         },
 

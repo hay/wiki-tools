@@ -8,6 +8,21 @@
         font-size: 1.6rem;
     }
 
+    &__stats-actions {
+        display: flex;
+    }
+
+    &__tools {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        font-size: 1.6rem;
+    }
+
+    &__tools > * {
+        margin-left: 1rem;
+    }
+
     &__grid {
         margin-top: 1rem;
         list-style: none;
