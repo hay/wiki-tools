@@ -3,7 +3,6 @@
         "search_using": "Search using",
         "depicts": "Depicts",
         "text": "Text",
-        "categories": "Categories",
         "claims": "Claims",
         "search": "Search",
         "close_detail": "Close detail",
@@ -14,10 +13,14 @@
         "next_page": "Next page",
         "loading": "Loading...",
         "structured_search": "Structured Search",
-        "tool_description": "Search media on <a href=\"https://commons.wikimedia.org\">Wikimedia Commons</a> using <a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">structured data</a>."
+        "tool_description": "Search media on <a href=\"https://commons.wikimedia.org\">Wikimedia Commons</a> using <a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">structured data</a>.",
+        "categories": "Category | Categories",
+        "author": "Author",
+        "created": "Created",
+        "license": "License",
+        "filename": "Filename"
     },
     "nl": {
-        "categories": "Categorieën",
         "claims": "Verklaringen",
         "close_detail": "Sluit detail",
         "found_results": "Geen resultaten gevonden | 1 resultaat gevonden | {count} resultaten gevonden",
@@ -31,6 +34,11 @@
         "structured_search": "Gestructureerd zoeken",
         "tool_description": "Zoek media op <a href=\"https://commons.wikimedia.org\">Wikimedia Commons</a> met <a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">gestructureerde data</a>.",
         "depicts": "Beeldt af",
-        "text": "Tekst"
+        "text": "Tekst",
+        "categories": "Categorie | Categorieën",
+        "author": "Auteur",
+        "created": "Datum",
+        "license": "Licentie",
+        "filename": "Bestandsnaam"
     }
 }

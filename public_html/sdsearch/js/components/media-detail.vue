@@ -48,7 +48,7 @@
                     <li v-for="(field, key) in metaFields"
                         v-if="field.check(meta)"
                         class="media-detail__metafield">
-                        <strong class="media-detail__metakey">{{key}}</strong>
+                        <strong class="media-detail__metakey">{{$tc(key, 1)}}</strong>
                         <div v-html="field.html(meta)"
                              class="media-detail__metacontent"></div>
                     </li>
@@ -77,22 +77,22 @@
                 largeThumb : null,
                 meta : null,
                 metaFields : {
-                    Author: {
+                    author: {
                         check: (m) => m.Artist && m.Credit,
                         html: (m) => `${m.Artist}, ${m.Credit}`
                     },
 
-                    Created : {
+                    created : {
                         check: (m) => m.DateTimeOriginal,
                         html: (m) => m.DateTimeOriginal
                     },
 
-                    License : {
+                    license : {
                         check : (m) => m.LicenseShortName && m.LicenseUrl,
                         html: (m) => `<a href="${m.LicenseUrl}" target="_blank">${m.LicenseShortName}</a>`
                     },
 
-                    Categories : {
+                    categories : {
                         check : (m) => m.Categories,
                         html: (m) => {
                             return m.Categories.split('|').map((cat) => {
@@ -101,7 +101,7 @@
                         }
                     },
 
-                    Filename : {
+                    filename : {
                         check : () => true,
                         html: () => `<a href="${this.detail.url}" target="_blank">${this.detail.title}</a>`
                     }

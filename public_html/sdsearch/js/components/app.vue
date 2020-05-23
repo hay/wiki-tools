@@ -14,7 +14,7 @@
 
                 <wm-button
                     v-on:click="addKeyword('deepcat')"
-                    icon="category">{{$t('categories')}}</wm-button>
+                    icon="category">{{$tc('categories', 2)}}</wm-button>
 
                 <wm-button
                     v-on:click="addKeyword('haswbstatement')"
