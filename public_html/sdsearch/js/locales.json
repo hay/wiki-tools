@@ -29,7 +29,8 @@
             "author": "Author",
             "created": "Created",
             "license": "License",
-            "filename": "Filename"
+            "filename": "Filename",
+            "translate_this_tool": "Translate this tool"
         },
         "nl": {
             "claims": "Verklaringen",
@@ -50,7 +51,8 @@
             "author": "Auteur",
             "created": "Datum",
             "license": "Licentie",
-            "filename": "Bestandsnaam"
+            "filename": "Bestandsnaam",
+            "translate_this_tool": "Vertaal deze applicatie"
         }
     }
 }

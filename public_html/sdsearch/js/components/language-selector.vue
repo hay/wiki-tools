@@ -6,10 +6,16 @@
             v-on:change="change($event.target.value)"
             class="language-selector__select">
             <option
-                v-for="lang in languages"
-                v-bind:selected="lang.code === lang"
-                v-bind:value="lang.code">
-                {{lang.label}}
+                v-if="link"
+                value="external-link">
+                {{link.label}}
+            </option>
+
+            <option
+                v-for="l in languages"
+                v-bind:selected="l.code === lang"
+                v-bind:value="l.code">
+                {{l.label}}
             </option>
         </select>
     </div>
@@ -25,7 +31,11 @@
 
         methods : {
             change(lang) {
-                this.$emit('input', lang);
+                if (lang === 'external-link') {
+                    window.location = this.link.link;
+                } else {
+                    this.$emit('input', lang);
+                }
             }
         },
 
@@ -33,6 +43,11 @@
             languages : {
                 type : Array,
                 required : true
+            },
+
+            link : {
+                type : Object,
+                required : false
             },
 
             value : {

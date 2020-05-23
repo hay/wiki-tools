@@ -2,6 +2,7 @@
     <div class="app__content">
         <language-selector
             v-bind:languages="languages"
+            v-bind:link="transateLink"
             v-model="locale"></language-selector>
 
         <app-header></app-header>
@@ -98,7 +99,12 @@
 
                 refIndex : 0,
 
-                results : null
+                results : null,
+
+                transateLink : {
+                    link : 'https://tools.wmflabs.org/tooltranslate/#tool=48',
+                    label : this.$t('translate_this_tool')
+                }
             }
         },
 
