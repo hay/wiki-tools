@@ -1,5 +1,7 @@
 import CommonsApi from './commons-api.js';
-const commonsApi = new CommonsApi();
+import { getLocale } from './util.js';
+
+const commonsApi = new CommonsApi({}, getLocale());
 
 export function entityToString(entity) {
     if (!entity) {
@@ -12,9 +14,7 @@ export function entityToString(entity) {
 }
 
 export async function getImageInfo(title) {
-    const api = new CommonsApi();
-
-    const results = await api.imageinfo(title, {
+    const results = await commonsApi.imageinfo(title, {
         iiprop : 'extmetadata'
     });
 
@@ -144,7 +144,7 @@ export function parseQuery(query) {
 export async function searchCommons(query, offset = 0) {
     const api = new CommonsApi({
         thumbSize : 250
-    });
+    }, getLocale());
 
     const results = await api.search(query, {
         namespace : 6,

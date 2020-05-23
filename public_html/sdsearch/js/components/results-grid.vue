@@ -3,7 +3,7 @@
          v-bind:class="{ 'results--detail' : !!detail }"
          v-if="results">
         <menu class="results__stats">
-            <p>{{$tc('found_results', numberWithCommas(results.count))}}</p>
+            <p>{{$tc('found_results', results.count, { count : numberWithCommas(results.count) } )}}</p>
 
             <wm-button
                 type="anchor"

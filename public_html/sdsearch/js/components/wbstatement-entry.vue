@@ -5,6 +5,7 @@
                 class="entity"
                 classPrefix="entity__"
                 type="property"
+                v-bind:lang="$i18n.locale"
                 v-on:start-searching="expand(true)"
                 v-on:stop-searching="expand(false)"
                 v-model="prop"></entity-entry>
@@ -15,6 +16,7 @@
                 class="entity"
                 classPrefix="entity__"
                 type="item"
+                v-bind:lang="$i18n.locale"
                 v-on:start-searching="expand(true)"
                 v-on:stop-searching="expand(false)"
                 v-model="item"></entity-entry>

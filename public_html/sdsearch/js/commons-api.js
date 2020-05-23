@@ -1,8 +1,9 @@
 import { MediawikiApi } from 'wikidata-ux';
 
 export default class CommonsApi extends MediawikiApi {
-    constructor(opts = {}) {
-        super('https://commons.wikimedia.org/w/api.php');
+    constructor(opts = {}, language = 'en') {
+        if (language === 'en') debugger;
+        super('https://commons.wikimedia.org/w/api.php', language);
         this.thumbSize = opts.thumbSize || 300;
     }
 
@@ -97,15 +98,20 @@ export default class CommonsApi extends MediawikiApi {
             action : 'wbgetentities',
             ids : entities.filter(e => !!e).join('|'),
             props : 'labels',
-            languages : this.language
+            languages : this.language === 'en' ? 'en' : `${this.language}|en`
         };
 
         const results = await this.call(opts);
         const labels = {};
 
         for (const entity in results.entities) {
-            const label = results.entities[entity].labels[this.language].value;
-            labels[entity] = label;
+            const allLabels = results.entities[entity].labels;
+
+            if (allLabels[this.language]) {
+                labels[entity] = allLabels[this.language].value;
+            } else {
+                labels[entity] = allLabels['en'].value;
+            }
         }
 
         return labels;

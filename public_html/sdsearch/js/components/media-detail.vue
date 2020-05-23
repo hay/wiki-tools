@@ -24,7 +24,7 @@
                 target="_blank"
                 v-bind:href="detail.url">{{$t('view_on_commons')}}</wm-button>
 
-            <p v-if="!meta">{{$('loading_details')}}</p>
+            <p v-if="!meta">{{$t('loading_details')}}</p>
 
             <div class="media-detail__meta"
                  v-if="meta">
@@ -61,9 +61,9 @@
 <script>
     import CommonsApi from '../commons-api.js';
     import { getImageInfo } from '../api.js';
-    import { loadImage } from '../util.js';
+    import { getLocale, loadImage } from '../util.js';
 
-    const commonsApi = new CommonsApi();
+    const commonsApi = new CommonsApi({}, getLocale());
 
     export default {
         computed : {
