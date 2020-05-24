@@ -1,9 +1,14 @@
 <template>
     <div class="search-keyword"
          v-bind:expanded="expanded">
-        <button class="search-keyword__button">
+        <button class="search-keyword__button"
+                v-bind:is-minus="isMinus"
+                v-on:click="toggleMinus">
             <span class="icon"
                   v-bind:data-icon="keyword.icon"></span>
+
+            <span class="search-keyword__button-text"
+                v-show="isMinus">{{$t('minus')}}</span>
         </button>
 
         <div class="search-keyword__value"
@@ -41,7 +46,23 @@
     import CategoryEntry from './category-entry.vue';
     import WbstatementEntry from './wbstatement-entry.vue';
 
+    function hasMinus(keyword) {
+        return keyword.startsWith('-');
+    }
+
+    function removeMinus(keyword) {
+        return keyword.replace(/^-+/, '');
+    }
+
     function parseKeyword(keyword) {
+        keyword = keyword.trim();
+
+        // We remove the minus (-) operator here, because it is added
+        // dynamically in this component
+        if (hasMinus(keyword)) {
+            keyword = removeMinus(keyword);
+        }
+
         if (keyword.startsWith('haswbstatement')) {
             const icon = keyword.startsWith('haswbstatement:P180') ? 'image' : 'tag';
 
@@ -76,17 +97,24 @@
 
         data() {
             return {
-                expanded : false
+                expanded : false,
+                isMinus : this.value.startsWith('-')
             };
         },
 
         methods : {
             input(value) {
+                value = this.isMinus ? `-${value}` : removeMinus(value);
                 this.$emit('input', value);
             },
 
             remove() {
                 this.$emit('remove');
+            },
+
+            toggleMinus() {
+                this.isMinus = !this.isMinus;
+                this.input(this.value);
             }
         },
 

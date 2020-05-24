@@ -105,7 +105,8 @@
             "license": "License",
             "filename": "Filename",
             "translate_this_tool": "Translate this tool",
-            "open_in": "Open in"
+            "open_in": "Open in",
+            "minus": "minus"
         },
         "it": {
             "author": "autore",
@@ -197,7 +198,8 @@
             "license": "Licentie",
             "filename": "Bestandsnaam",
             "translate_this_tool": "Vertaal deze applicatie",
-            "open_in": "Openen in"
+            "open_in": "Openen in",
+            "minus": "zonder"
         },
         "pt": {
             "author": "Autor",
@@ -246,5 +248,5 @@
             "tool_description": "Sök media på <a href=\"https://commons.wikimedia.org\">Wikimedia Commons</a> med <a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">strukturerad data</a>."
         }
     },
-    "updated": "2020-05-24T22:09:56.677Z"
+    "updated": "2020-05-24T23:08:18.933Z"
 }
