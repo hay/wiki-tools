@@ -1,6 +1,10 @@
 {
     "languages": [
         {
+            "code": "cs",
+            "label": "čeština"
+        },
+        {
             "code": "de",
             "label": "Deutsch"
         },
@@ -9,8 +13,24 @@
             "label": "English"
         },
         {
+            "code": "it",
+            "label": "italiano"
+        },
+        {
+            "code": "ja",
+            "label": "日本語"
+        },
+        {
+            "code": "nb",
+            "label": "bokmål"
+        },
+        {
             "code": "nl",
             "label": "Nederlands"
+        },
+        {
+            "code": "pt",
+            "label": "língua portuguesa"
         },
         {
             "code": "sv",
@@ -18,6 +38,29 @@
         }
     ],
     "messages": {
+        "cs": {
+            "author": "Autor",
+            "categories": "Kategorie",
+            "claims": "Tvrzení",
+            "close_detail": "Detail",
+            "created": "Vytvořeno",
+            "depicts": "Zobrazuje",
+            "filename": "Název souboru",
+            "found_results": "Nalezeno 0 výsledků | Nalezen 1 výsledek | Nalezeno výsledků: {count}",
+            "license": "Licence",
+            "loading": "Načítání…",
+            "loading_details": "Načítání detailů...",
+            "next_page": "Další stránka",
+            "open_in": "Otevřít v",
+            "previous_page": "Předchozí stránka",
+            "search": "Hledat",
+            "search_using": "Typ vyhledávání",
+            "structured_search": "Strukturované vyhledávání",
+            "text": "Text",
+            "tool_description": "Prohledávejte média na <a href=\"https://commons.wikimedia.org\">Wikimedia Commons</a> s užitím <a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">strukturovaných dat</a>.",
+            "translate_this_tool": "Upravit překlad nástroje",
+            "view_on_commons": "Zobrazit na Wikimedia Commons"
+        },
         "de": {
             "author": "Autor",
             "categories": "Kategorien",
@@ -64,6 +107,75 @@
             "translate_this_tool": "Translate this tool",
             "open_in": "Open in"
         },
+        "it": {
+            "author": "autore",
+            "categories": "categoria/categorie",
+            "filename": "nome del file",
+            "found_results": "Nessun risultato trovato | 1 risultato trovato | {count} risultati trovati",
+            "license": "licenza",
+            "loading": "caricamento in corso...",
+            "loading_details": "caricamento dettagli...",
+            "next_page": "prossima pagina",
+            "open_in": "apri in",
+            "previous_page": "pagina precedente",
+            "search": "Cerca",
+            "search_using": "Cerca usando",
+            "structured_search": "Ricerca strutturata",
+            "text": "testo",
+            "tool_description": "Cerca file multimediali su <a href=\"https://commons.wikimedia.org\">Wikimedia Commons</a> usando <a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">metadati strutturati</a>.",
+            "translate_this_tool": "Traduci questo tool",
+            "view_on_commons": "Vedi su Commons",
+            "depicts": "descrive",
+            "created": "creato",
+            "close_detail": "Chiudi dettaglio",
+            "claims": "Richieste"
+        },
+        "ja": {
+            "categories": "カテゴリ|カテゴリ",
+            "close_detail": "詳細を閉じる",
+            "created": "作成日",
+            "depicts": "題材",
+            "filename": "ファイル名",
+            "found_results": "結果が見つかりません | 1件見つかりました | {count} 件見つかりました",
+            "license": "ライセンス",
+            "loading": "読込中...",
+            "loading_details": "詳細を読込中...",
+            "next_page": "次ページ",
+            "previous_page": "前ページ",
+            "search": "検索",
+            "search_using": "次のいずれかで検索",
+            "structured_search": "構造化サーチ",
+            "text": "テキスト",
+            "translate_this_tool": "このツールを翻訳",
+            "view_on_commons": "コモンズで閲覧",
+            "tool_description": "<a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">構造化データ</a>を使って<a href=\"https://commons.wikimedia.org\">ウィキメディア・コモンズ</a>のメディアを検索します。",
+            "author": "作者",
+            "open_in": "ツールでオープン",
+            "claims": "文"
+        },
+        "nb": {
+            "categories": "Kategori | Kategorier",
+            "claims": "Påstander",
+            "created": "Opprettet",
+            "filename": "Filnavn",
+            "license": "Lisens",
+            "loading": "Laster...",
+            "loading_details": "Laster detaljer...",
+            "next_page": "Neste side",
+            "open_in": "Åpne i",
+            "previous_page": "Forrige side",
+            "search": "Søk",
+            "search_using": "Søk med",
+            "structured_search": "Strukturert søk",
+            "text": "Tekst",
+            "translate_this_tool": "Oversett verktøyet",
+            "view_on_commons": "Vis på Commons",
+            "found_results": "Fant ingen | Fant 1 | Fant {count}",
+            "tool_description": "Søk media på <a href=\"https://commons.wikimedia.org\">Wikimedia Commons</a> med <a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">strukturert data</a>.",
+            "depicts": "Avbilder",
+            "close_detail": "Lukk detaljer",
+            "author": "Skaper"
+        },
         "nl": {
             "claims": "Verklaringen",
             "close_detail": "Sluit detail",
@@ -86,6 +198,29 @@
             "filename": "Bestandsnaam",
             "translate_this_tool": "Vertaal deze applicatie",
             "open_in": "Openen in"
+        },
+        "pt": {
+            "author": "Autor",
+            "categories": "Categoria | Categorias",
+            "claims": "Declarações",
+            "close_detail": "Detalhe",
+            "created": "Criado",
+            "depicts": "Ilustra",
+            "filename": "Nome do ficheiro",
+            "found_results": "Não encontrou resultados | Encontrou 1 resultado | Encontrou {count} resultados",
+            "license": "Licença",
+            "loading": "A carregar...",
+            "loading_details": "A carregar detalhes...",
+            "next_page": "Próxima página",
+            "open_in": "Abrir em",
+            "previous_page": "Página anterior",
+            "search": "Busca",
+            "search_using": "Procurar com",
+            "structured_search": "Pesquisa Estruturada",
+            "text": "Texto",
+            "tool_description": "Procurar media no Wikimedia Commons usando dados estruturados.",
+            "translate_this_tool": "Traduza esta ferramenta",
+            "view_on_commons": "Ver no Wikimedia Commons"
         },
         "sv": {
             "author": "Skapare",
