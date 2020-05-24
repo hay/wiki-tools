@@ -12,7 +12,8 @@ async function getJson(url) {
 async function main() {
     const data = {
         languages : [],
-        messages : {}
+        messages : {},
+        updated : new Date().toISOString()
     };
 
     const languages = await getJson(LANGUAGES_ENDPOINT);
