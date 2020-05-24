@@ -1,15 +1,46 @@
 {
     "languages": [
         {
+            "code": "de",
+            "label": "Deutsch"
+        },
+        {
             "code": "en",
             "label": "English"
         },
         {
             "code": "nl",
             "label": "Nederlands"
+        },
+        {
+            "code": "sv",
+            "label": "svenska"
         }
     ],
     "messages": {
+        "de": {
+            "author": "Autor",
+            "categories": "Kategorien",
+            "license": "Lizenz",
+            "filename": "Dateiname",
+            "depicts": "Motiv",
+            "loading": "Lädt...",
+            "loading_details": "Details werden geladen…",
+            "next_page": "Nächste Seite",
+            "open_in": "Öffnen mit",
+            "previous_page": "Vorherige Seite",
+            "search": "Suche",
+            "search_using": "Suche mithilfe von",
+            "structured_search": "Strukturierte Suche",
+            "text": "Text",
+            "tool_description": "Suche Mediendateien auf Wikimedia Commons mithilfe von strukturierten Daten.",
+            "translate_this_tool": "Übersetze dieses Werkzeug",
+            "view_on_commons": "Auf Wikimedia Commons ansehen",
+            "claims": "Behauptung",
+            "close_detail": "Detailansicht schließen",
+            "created": "Erstellt",
+            "found_results": "Keine Ergebnisse gefunden | 1 Ergebnis gefunden | {count} Ergebnisse gefunden"
+        },
         "en": {
             "search_using": "Search using",
             "depicts": "Depicts",
@@ -55,6 +86,29 @@
             "filename": "Bestandsnaam",
             "translate_this_tool": "Vertaal deze applicatie",
             "open_in": "Openen in"
+        },
+        "sv": {
+            "author": "Skapare",
+            "categories": "Kategori | Kategorier",
+            "claims": "Påståenden",
+            "close_detail": "Stäng detaljer",
+            "created": "Skapad",
+            "depicts": "Avbildar",
+            "filename": "Filnamn",
+            "found_results": "Hittade inga resultat | Hittade 1 resultat | Hittade {count} resultat",
+            "license": "Licens",
+            "loading": "Laddar...",
+            "loading_details": "Laddar detaljer...",
+            "next_page": "Nästa sida",
+            "open_in": "Öppna med",
+            "previous_page": "Föregående sida",
+            "search": "Sök",
+            "search_using": "Sök med",
+            "structured_search": "Strukturerad sökning",
+            "text": "Text",
+            "translate_this_tool": "Översätt detta verktyg",
+            "view_on_commons": "Visa på Commons",
+            "tool_description": "Sök media på <a href=\"https://commons.wikimedia.org\">Wikimedia Commons</a> med <a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">strukturerad data</a>."
         }
     }
 }
