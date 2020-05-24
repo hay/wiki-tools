@@ -2,33 +2,36 @@ import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import App from './components/app.vue';
 import WmButton from './components/wm-button.vue';
-import locales from './locales.json';
-import { getLocale } from './util.js';
+import { getJson, getLocale } from './util.js';
 
-Vue.use(VueI18n);
+async function createApp() {
+    const locales = await getJson('./js/locales.json');
 
-const $ = document.querySelector.bind(document);
-const LOCALE = getLocale();
+    Vue.use(VueI18n);
 
-const i18n = new VueI18n({
-    locale : LOCALE,
-    fallbackLocale: 'en',
-    messages : locales.messages
-});
+    const LOCALE = getLocale();
 
-Vue.component('wm-button', WmButton);
+    const i18n = new VueI18n({
+        locale : LOCALE,
+        fallbackLocale: 'en',
+        messages : locales.messages
+    });
 
-new Vue({
-    el : "#app",
+    Vue.component('wm-button', WmButton);
 
-    i18n : i18n,
+    new Vue({
+        el : "#app",
 
-    components : { App }
-});
+        i18n : i18n,
+
+        components : { App }
+    });
+}
 
 function addTouchClasses() {
     const inputDevice = 'ontouchend' in window ? 'touch' : 'mouse';
-    $('html').classList.add('has-' + inputDevice);
+    document.querySelector('html').classList.add('has-' + inputDevice);
 }
 
 addTouchClasses();
+createApp();

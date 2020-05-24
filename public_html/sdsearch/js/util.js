@@ -1,3 +1,8 @@
+export async function getJson(url) {
+    const req = await window.fetch(url);
+    return await req.json();
+}
+
 export function getLocale() {
     const search = window.location.search;
 
