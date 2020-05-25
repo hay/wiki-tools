@@ -3,19 +3,19 @@ export async function getJson(url) {
     return await req.json();
 }
 
-export function getLocale() {
+export function getLocale(defaultLocale) {
     const search = window.location.search;
 
     if (search.includes('locale')) {
         const matches = search.match(/locale=(.+)[#|&|$]?/);
 
         if (!matches) {
-            return 'en';
+            return defaultLocale;
         } else {
             return matches[1];
         }
     } else {
-        return 'en';
+        return defaultLocale;
     }
 }
 

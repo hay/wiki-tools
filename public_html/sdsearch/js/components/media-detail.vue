@@ -61,12 +61,14 @@
 <script>
     import CommonsApi from '../commons-api.js';
     import { getImageInfo } from '../api.js';
-    import { getLocale, loadImage } from '../util.js';
-
-    const commonsApi = new CommonsApi({}, getLocale());
+    import { loadImage } from '../util.js';
 
     export default {
         computed : {
+            locale() {
+                return this.$store.state.locale;
+            },
+
             thumb() {
                 return this.largeThumb ? this.largeThumb : this.detail.thumb;
             }
@@ -74,6 +76,7 @@
 
         data() {
             return {
+                commonsApi : new CommonsApi({}, this.$store.state.locale),
                 largeThumb : null,
                 meta : null,
                 metaFields : {
@@ -116,7 +119,7 @@
             },
 
             async loadEntityData() {
-                const statements = await commonsApi.entityStatements(this.detail.mid);
+                const statements = await this.commonsApi.entityStatements(this.detail.mid);
 
                 for (const prop in statements) {
                     const entity = statements[prop];
@@ -141,7 +144,7 @@
 
             async loadLargeThumb() {
                 // Load the larger thumb in the background
-                const largeThumb = commonsApi.getThumb(this.detail.filename, 500);
+                const largeThumb = this.commonsApi.getThumb(this.detail.filename, 500);
                 await loadImage(largeThumb);
                 this.largeThumb = largeThumb;
             },

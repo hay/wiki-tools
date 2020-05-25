@@ -67,8 +67,6 @@
     import SearchExamples from './search-examples.vue';
     import SearchKeyword from './search-keyword.vue';
     import { parseHash, searchCommons } from '../api.js';
-    import locales from '../locales.json';
-    import { getLocale } from '../util.js';
 
     export default {
         components : {
@@ -80,6 +78,16 @@
                 return window.location.search.includes('debug');
             },
 
+            locale: {
+                get() {
+                    return this.$store.state.locale;
+                },
+
+                set(locale) {
+                    this.$store.commit('locale', locale);
+                }
+            },
+
             queryString() {
                 return this.keywords.map(k => k.keyword).join(' ');
             }
@@ -89,9 +97,7 @@
             return {
                 keywords : [],
 
-                languages : locales.languages,
-
-                locale : getLocale(),
+                languages : this.$store.state.locales.languages,
 
                 loading : false,
 

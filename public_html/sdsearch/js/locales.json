@@ -13,6 +13,10 @@
             "label": "English"
         },
         {
+            "code": "fr",
+            "label": "français"
+        },
+        {
             "code": "it",
             "label": "italiano"
         },
@@ -107,6 +111,30 @@
             "translate_this_tool": "Translate this tool",
             "open_in": "Open in",
             "minus": "minus"
+        },
+        "fr": {
+            "author": "Auteur",
+            "categories": "Catégorie(s) ",
+            "claims": "Déclarations ",
+            "close_detail": "Détail précis ",
+            "created": "Créé ",
+            "depicts": "Dépeint ",
+            "filename": "Nom du fichier ",
+            "found_results": "Résultats trouvés ",
+            "license": "Licence ",
+            "loading": "Chargement... ",
+            "loading_details": "Chargement des détails ",
+            "next_page": "Page suivante ",
+            "open_in": "Ouvrir dans ",
+            "previous_page": "Page précédente ",
+            "search": "Recherche ",
+            "search_using": "Rechercher en utilisant ",
+            "structured_search": "Recherche structurée ",
+            "text": "Texte",
+            "tool_description": "Description de l'outil ",
+            "translate_this_tool": "Traduire cet outil ",
+            "view_on_commons": "Voir sur Commons",
+            "minus": "Moins"
         },
         "it": {
             "author": "autore",
@@ -248,5 +276,5 @@
             "tool_description": "Sök media på <a href=\"https://commons.wikimedia.org\">Wikimedia Commons</a> med <a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">strukturerad data</a>."
         }
     },
-    "updated": "2020-05-24T23:08:18.933Z"
+    "updated": "2020-05-25T20:53:59.912Z"
 }

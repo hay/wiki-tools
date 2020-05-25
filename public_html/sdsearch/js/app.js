@@ -2,19 +2,21 @@ import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import App from './components/app.vue';
 import WmButton from './components/wm-button.vue';
-import { getJson, getLocale } from './util.js';
+import createStore from './store.js';
+import { getJson } from './util.js';
 
 async function createApp() {
-    const locales = await getJson('./js/locales.json');
-
     Vue.use(VueI18n);
 
-    const LOCALE = getLocale();
+    const locales = await getJson('./js/locales.json');
+    const store = createStore({
+        locales
+    });
 
     const i18n = new VueI18n({
-        locale : LOCALE,
-        fallbackLocale: 'en',
-        messages : locales.messages
+        locale : store.state.locale,
+        fallbackLocale: store.state.defaultLocale,
+        messages : store.state.locales.messages
     });
 
     Vue.component('wm-button', WmButton);
@@ -22,9 +24,11 @@ async function createApp() {
     new Vue({
         el : "#app",
 
+        components : { App },
+
         i18n : i18n,
 
-        components : { App }
+        store : store
     });
 }
 
