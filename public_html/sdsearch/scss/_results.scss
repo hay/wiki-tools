@@ -1,3 +1,13 @@
+@keyframes image-loading {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0.6;
+    }
+}
+
 .results {
     margin-top: 2rem;
 
@@ -45,6 +55,11 @@
         @include wh(100%);
         object-fit: contain;
         background: #eaecf0;
+    }
+
+    &__image[loading] {
+        animation: image-loading 1s infinite alternate linear;
+        height: 20rem;
     }
 
     &__nav {

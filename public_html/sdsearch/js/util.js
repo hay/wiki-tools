@@ -19,6 +19,11 @@ export function getLocale(defaultLocale) {
     }
 }
 
+export function hashCode(str) {
+  return str.split('').reduce((prevHash, currVal) =>
+    (((prevHash << 5) - prevHash) + currVal.charCodeAt(0))|0, 0);
+}
+
 export function loadImage(src) {
     return new Promise((resolve) => {
         const img = new Image();
@@ -36,4 +41,12 @@ export function numberWithCommas(x) {
     var parts = x.toString().split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
+}
+
+export function timeout(ms) {
+    return new Promise((resolve) => {
+        window.setTimeout(() => {
+            resolve();
+        }, ms);
+    });
 }

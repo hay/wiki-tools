@@ -41,9 +41,10 @@
                     <a v-on:click="setDetail($event, result)"
                        v-bind:href="result.url"
                        class="results__link">
-                        <img v-bind:src="result.thumb"
-                             v-bind:alt="result.snippet"
-                             class="results__image" />
+                        <lazy-image
+                            v-bind:src="result.thumb"
+                            v-bind:alt="result.snippet"
+                            class="results__image"></lazy-image>
                     </a>
                 </li>
             </ul>
@@ -76,11 +77,12 @@
 </template>
 
 <script>
+    import LazyImage from './lazy-image.vue';
     import MediaDetail from './media-detail.vue';
     import { numberWithCommas } from '../util.js';
 
     export default {
-        components : { MediaDetail },
+        components : { LazyImage, MediaDetail },
 
         computed : {
             commonsLink() {
