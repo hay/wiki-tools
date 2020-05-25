@@ -14,9 +14,10 @@ async function createApp() {
     });
 
     const i18n = new VueI18n({
-        locale : store.state.locale,
         fallbackLocale: store.state.defaultLocale,
-        messages : store.state.locales.messages
+        locale : store.state.locale,
+        messages : store.state.locales.messages,
+        silentTranslationWarn : true
     });
 
     Vue.component('wm-button', WmButton);
