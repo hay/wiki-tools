@@ -8,7 +8,7 @@ import { getJson } from './util.js';
 async function createApp() {
     Vue.use(VueI18n);
 
-    const locales = await getJson('./js/locales.json');
+    const locales = await getJson('./locales.json');
     const store = createStore({
         locales
     });
