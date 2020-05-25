@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
-const fs = require('fs').promise;
+const fs = require('fs').promises;
+const path = require('path');
 const ENDPOINT = 'https://tools-static.wmflabs.org/tooltranslate/data';
 const LANGUAGES_ENDPOINT = `${ENDPOINT}/languages.json`;
 const TOOL_ENDPOINT = `${ENDPOINT}/sdsearch`;
@@ -12,8 +13,7 @@ async function getJson(url) {
 async function main() {
     const data = {
         languages : [],
-        messages : {},
-        updated : new Date().toISOString()
+        messages : {}
     };
 
     const languages = await getJson(LANGUAGES_ENDPOINT);
@@ -29,7 +29,16 @@ async function main() {
         });
     }
 
-    console.log(JSON.stringify(data, null, 4));
+    const jsonData = JSON.stringify(data, null, 4);
+
+    // Make sure we actually got anything
+    if (jsonData === '') {
+        console.error('Output is empty, aborting');
+        return;
+    }
+
+    const localesPath = path.resolve(__dirname, '../locales.json');
+    await fs.writeFile(localesPath, jsonData, 'utf-8');
 }
 
 main();
