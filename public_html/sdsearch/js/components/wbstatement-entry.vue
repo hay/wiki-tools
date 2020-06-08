@@ -25,7 +25,7 @@
 </template>
 
 <script>
-    import { EntityEntry } from 'wikidata-ux';
+    import EntityEntry from './entity-entry.vue';
     import { entityToString, makeHasbwstatement, parseHaswbstatement } from '../api.js';
 
     export default {

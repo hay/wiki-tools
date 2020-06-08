@@ -13,6 +13,7 @@
     "watch": "chokidar '../common/*.scss' 'scss/*.scss' -c 'npm run build:css' & webpack -dw"
   },
   "dependencies": {
+    "donot": "^0.2.0",
     "regenerator-runtime": "^0.13.5",
     "valenski": "^1.4.0",
     "vue": "^2.6.11",

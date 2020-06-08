@@ -59,7 +59,7 @@
 </template>
 
 <script>
-    import CommonsApi from '../commons-api.js';
+    import CommonsApi from '../mwapi/commons.js';
     import { getImageInfo } from '../api.js';
     import { loadImage } from '../util.js';
 

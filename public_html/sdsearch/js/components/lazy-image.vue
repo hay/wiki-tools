@@ -6,7 +6,8 @@
 </template>
 
 <script>
-    import { hashCode, timeout } from '../util.js';
+    import { timeout } from 'donot';
+    import { hashCode } from '../util.js';
 
     export default {
         computed : {

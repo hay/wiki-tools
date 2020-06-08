@@ -1,4 +1,4 @@
-import { MediawikiApi } from 'wikidata-ux';
+import MediawikiApi from './mediawiki.js';
 
 export default class CommonsApi extends MediawikiApi {
     constructor(opts = {}, language = 'en') {

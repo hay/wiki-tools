@@ -1,3 +1,5 @@
+import "regenerator-runtime/runtime.js";
+import { $ } from 'donot';
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import App from './components/app.vue';
@@ -35,7 +37,7 @@ async function createApp() {
 
 function addTouchClasses() {
     const inputDevice = 'ontouchend' in window ? 'touch' : 'mouse';
-    document.querySelector('html').classList.add('has-' + inputDevice);
+    $('html').classList.add('has-' + inputDevice);
 }
 
 addTouchClasses();

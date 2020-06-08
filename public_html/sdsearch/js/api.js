@@ -1,4 +1,4 @@
-import CommonsApi from './commons-api.js';
+import CommonsApi from './mwapi/commons.js';
 import { getLocale } from './util.js';
 
 const commonsApi = new CommonsApi({}, getLocale());
