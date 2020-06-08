@@ -34,6 +34,7 @@
 
         <button
             class="language-selector__close"
+            aria-label="Set language"
             v-show="showCustomLanguage"
             v-on:click="showCustomLanguage = false">
             <span class="icon" data-icon="cross"></span>

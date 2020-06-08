@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const fs = require('fs').promises;
+const fs = require('fs');
 const path = require('path');
 const ENDPOINT = 'https://tools-static.wmflabs.org/tooltranslate/data';
 const LANGUAGES_ENDPOINT = `${ENDPOINT}/languages.json`;
@@ -38,7 +38,15 @@ async function main() {
     }
 
     const localesPath = path.resolve(__dirname, '../locales.json');
-    await fs.writeFile(localesPath, jsonData, 'utf-8');
+
+    // Of course, Toolforge still has an ancient Node.JS v8
+    fs.writeFile(localesPath, jsonData, 'utf-8', (err) => {
+        if (err) {
+            console.error(err);
+        }
+
+        console.log('Write done');
+    });;
 }
 
 main();
