@@ -1,5 +1,14 @@
 [
     {
+        "title" : "wdreconcile.py",
+        "description" : "Python command-line tool to map strings to Wikidata QID's using various methods",
+        "name" : "hay-wdreconcile",
+        "author" : "Hay Kranen",
+        "repository" : "https://github.com/hay/wdreconcile",
+        "url" : "https://github.com/hay/wdreconcile",
+        "keywords" : "wikidata, reconcile, map, qid, string, tool, python, cli"
+    },
+    {
         "title" : "Structured Search",
         "description" : "Search media on Wikimedia Commons using structured data",
         "name" : "hay-sdsearch",
