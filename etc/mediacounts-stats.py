@@ -5,6 +5,7 @@ try:
     from wikitools import wiki, category, api
 except ImportError:
     HAS_WIKITOOLS = False
+    print("No wikitools library found for the web API! Can't use -cat.")
 else:
     HAS_WIKITOOLS = True
 
@@ -66,7 +67,10 @@ def process(datafile, out, query):
         tsvfile = open(datafile)
     tsvfilesize = os.path.getsize(datafile)
     csvfile = open(out, "a")
-    writer = csv.writer(csvfile)
+    writer = csv.writer(csvfile,
+            delimiter='\t',
+            lineterminator='\n',
+            quoting=csv.QUOTE_MINIMAL)
     rowwritten = False
 
     # Actually benefit from the generator, e.g. batch
@@ -78,7 +82,7 @@ def process(datafile, out, query):
                 percent = tsvfile.tell() / float(tsvfilesize)
                 print "{0:.2f}%".format(percent * 100)
 
-        row = line.split("\t")
+        row = line.strip().split("\t")
         if args.category:
             filename = row[0]
         else:
