@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title></title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="quiz" v-cloak>
+        <div class="screen" v-if="screen === 'intro'">
+            <h1>Welke Wikimediaan ben jij?</h1>
+
+            <p>Beantwoord een paar simpele vragen en krijg een tip over welk Wikimedia-platform het beste bij jou past.</p>
+
+            <button v-on:click="screen = 'question'">Start</button>
+        </div>
+
+        <div class="screen" v-if="screen === 'question'">
+            <h2>{{question.question}}</h2>
+
+            <menu>
+                <button
+                    v-for="a in question.answers"
+                    v-on:click="answer(a)">
+                    {{a.text}}
+                </button>
+            </menu>
+
+            <p>Vraag {{questionIndex + 1}} / {{totalQuestions}}</p>
+        </div>
+
+        <div class="screen" v-if="screen === 'results'">
+            <h1>Hier is de uitslag:</h1>
+
+            <ul>
+                <li v-for="result in resultList">
+                    {{result.score}} punten: {{result.project}}
+                </li>
+            </ul>
+
+            <button v-on:click="again">
+                Nog eens?
+            </button>
+        </div>
+    </div>
+
+    <!-- <script src="node_modules/vue/dist/vue.min.js"></script> -->
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
