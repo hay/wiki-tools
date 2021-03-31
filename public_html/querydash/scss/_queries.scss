@@ -3,11 +3,17 @@
     display: grid;
     row-gap: 1rem;
 
-    &__item {
+    &--view &__item {
+        display: grid;
+        grid-template-columns: 30vw 1fr;
+    }
+
+    &--edit &__item {
         display: flex;
     }
 
-    &__item > * {
+
+    &--edit &__item > * {
         margin-right: 1rem;
     }
 
@@ -16,5 +22,38 @@
         font-family: 'Courier New', monospace;
         font-size: 1.6rem;
         padding: 1rem;
+    }
+
+    textarea {
+        flex: 1;
+    }
+
+    &__name {
+        font-size: 2rem;
+    }
+
+    &__value {
+        @include wh(100%, 2.5rem);
+        position: relative;
+    }
+
+    &__value > * {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 2.5rem;
+    }
+
+    &__value strong {
+        font-size: 1.6rem;
+        padding-left: 1rem;
+        color: white;
+        position: relative;
+        top: 2px;
+        text-shadow: 0 0 3px black;
+    }
+
+    &__bar {
+        background: var(--c-1);
     }
 }

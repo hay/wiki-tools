@@ -2,7 +2,11 @@
     background: var(--c-3);
     border: 1px solid var(--c-2);
     border-radius: 1rem;
-    font-size: 2rem;
-    padding: 1rem 2rem;
+    font-size: 1.8rem;
+    padding: .5rem 1rem;
     @include flex-center;
+
+    &:hover {
+        background: var(--c-8);
+    }
 }

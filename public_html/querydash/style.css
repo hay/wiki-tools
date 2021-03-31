@@ -106,34 +106,65 @@ a {
   row-gap: 2rem;
   padding: 2rem 0; }
   .dashboard__actions {
-    display: flex; }
+    display: flex;
+    flex-wrap: wrap; }
   .dashboard__actions > * {
     margin-right: 1rem; }
+  .dashboard__timestamp {
+    font-size: 1.4rem;
+    font-style: italic; }
 
 .queries {
   list-style: none;
   display: grid;
   row-gap: 1rem; }
-  .queries__item {
+  .queries--view .queries__item {
+    display: grid;
+    grid-template-columns: 30vw 1fr; }
+  .queries--edit .queries__item {
     display: flex; }
-  .queries__item > * {
+  .queries--edit .queries__item > * {
     margin-right: 1rem; }
   .queries input,
   .queries textarea {
     font-family: 'Courier New', monospace;
     font-size: 1.6rem;
     padding: 1rem; }
+  .queries textarea {
+    flex: 1; }
+  .queries__name {
+    font-size: 2rem; }
+  .queries__value {
+    width: 100%;
+    height: 2.5rem;
+    position: relative; }
+  .queries__value > * {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 2.5rem; }
+  .queries__value strong {
+    font-size: 1.6rem;
+    padding-left: 1rem;
+    color: white;
+    position: relative;
+    top: 2px;
+    text-shadow: 0 0 3px black; }
+  .queries__bar {
+    background: var(--c-1); }
 
 .button {
   background: var(--c-3);
   border: 1px solid var(--c-2);
   border-radius: 1rem;
-  font-size: 2rem;
-  padding: 1rem 2rem;
+  font-size: 1.8rem;
+  padding: .5rem 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column; }
+  .button:hover {
+    background: var(--c-8); }
 
 :root {
   --c-1: #36c;

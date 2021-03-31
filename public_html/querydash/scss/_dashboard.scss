@@ -5,9 +5,15 @@
 
     &__actions {
         display: flex;
+        flex-wrap: wrap;
     }
 
     &__actions > * {
         margin-right: 1rem;
+    }
+
+    &__timestamp {
+        font-size: 1.4rem;
+        font-style: italic;
     }
 }
