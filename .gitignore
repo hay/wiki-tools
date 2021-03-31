@@ -5,3 +5,4 @@ yarn.lock
 *.pyc
 yarn*.log
 *.js.map
+bundle.js

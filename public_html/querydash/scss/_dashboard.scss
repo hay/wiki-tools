@@ -1,0 +1,13 @@
+.dashboard {
+    display: grid;
+    row-gap: 2rem;
+    padding: 2rem 0;
+
+    &__actions {
+        display: flex;
+    }
+
+    &__actions > * {
+        margin-right: 1rem;
+    }
+}

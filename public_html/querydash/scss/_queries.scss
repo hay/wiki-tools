@@ -1,0 +1,20 @@
+.queries {
+    list-style: none;
+    display: grid;
+    row-gap: 1rem;
+
+    &__item {
+        display: flex;
+    }
+
+    &__item > * {
+        margin-right: 1rem;
+    }
+
+    input,
+    textarea {
+        font-family: 'Courier New', monospace;
+        font-size: 1.6rem;
+        padding: 1rem;
+    }
+}

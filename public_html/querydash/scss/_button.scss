@@ -1,0 +1,8 @@
+.button {
+    background: var(--c-3);
+    border: 1px solid var(--c-2);
+    border-radius: 1rem;
+    font-size: 2rem;
+    padding: 1rem 2rem;
+    @include flex-center;
+}

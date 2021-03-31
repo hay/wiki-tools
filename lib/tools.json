@@ -24,6 +24,11 @@
         "description" : "A better <a href=\"https://meta.wikimedia.org/wiki/Help:Linksearch\">External links search</a>. Collates all the links so you can view which Wikipedia pages have the most external links to a pattern."
     },
 
+    "querydash" : {
+        "title" : "Query Dashboard",
+        "description" : "Create dashboards containing statistics from Wikidata SPARQL queries"
+    },
+
     "qsml" : {
         "title" : "QSML",
         "description" : "QuickStatements Macro Language: speed up your <a href=\"https://tools.wmflabs.org/quickstatements/\">QuickStatements</a> by using macros."
