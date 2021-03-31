@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Wikipedia on Google Maps &amp; Streetview</title>
+    <link rel="stylesheet" href="../common/map.css" />
+</head>
+<body>
+    <div id="map" class="fullwindow"></div>
+
+    <div id="infobox">
+        <button id="close">&times; close</button>
+        <div class="content"></div>
+    </div>
+
+    <div id="status">
+        <p>This is one of <a href="../">Hay's Tools</a>. Source available!</p>
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVjG84SlI1y3T2W94bdqEFGD7SvosqJOc&sensor=false"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="../common/jquery.wikipedia.js"></script>
+    <script src="app.js"></script>
+    <script>
+        app = new App();
+    </script>
+</body>
+</html>
