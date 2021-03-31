@@ -1,5 +1,14 @@
 [
     {
+        "title" : "Query Dashboard",
+        "description" : "Create dashboards containing statistics from Wikidata SPARQL queries",
+        "name" : "hay-querydash",
+        "author" : "Hay Kranen",
+        "repository" : "https://github.com/hay/wiki-tools.git",
+        "url" : "https://hay.toolforge.org/querydash/",
+        "keywords" : "wikidata, query, sparql, dashboard"
+    },
+    {
         "title" : "wdreconcile.py",
         "description" : "Python command-line tool to map strings to Wikidata QID's using various methods",
         "name" : "hay-wdreconcile",
