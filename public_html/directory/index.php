@@ -82,7 +82,7 @@
     <span title="A unique name for your tool" data-toggle="tooltip" data-placement="right">"name"</span> : "hay-tools-directory",
     <span title="A descriptive title" data-toggle="tooltip" data-placement="right">"title"</span> : "Tools Directory",
     <span title="A short summary of what your tool does" data-toggle="tooltip" data-placement="right">"description"</span> : "Discover Wikimedia-related tools.",
-    <span title="URL to your tool. Should be unique. If it's not a web tool, link to the documentation." data-toggle="tooltip" data-placement="right">"url"</span> : "http://tools.wmflabs.org/hay/directory",
+    <span title="URL to your tool. Should be unique. If it's not a web tool, link to the documentation." data-toggle="tooltip" data-placement="right">"url"</span> : "https://hay.toolforge.org/directory/",
     <span title="Separate keywords by comma" data-toggle="tooltip" data-placement="right">"keywords"</span> : "tools, search, discoverability",
     <span title="For multiple authors, separate by comma" data-toggle="tooltip" data-placement="right">"author"</span> : "Hay Kranen",
     <span title="Link to the code repository" data-toggle="tooltip" data-placement="right">"repository"</span> : "https://github.com/hay/wiki-tools.git"
@@ -109,7 +109,7 @@
 
     <p>Make sure your toolinfo.json file is reachable over regular HTTP, for example:</p>
 
-    <p><code><a href="http://tools.wmflabs.org/hay/directory/toolinfo.json">http://tools.wmflabs.org/hay/directory/toolinfo.json</a></code></p>
+    <p><code><a href="https://hay.toolforge.org/directory/toolinfo.json">https://hay.toolforge.org/directory/toolinfo.json</a></code></p>
 
     <h3>Step 3</h3>
 
