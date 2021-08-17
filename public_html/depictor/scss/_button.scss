@@ -1,4 +1,15 @@
 .button {
+    &--action {
+        border: 1px solid var(--c-1);
+        color: var(--c-1);
+        font-size: 2rem;
+        padding: 1rem;
+    }
+
+    &--center {
+        @include margin-center;
+    }
+
     &--start {
         background: var(--c-1);
         color: white;

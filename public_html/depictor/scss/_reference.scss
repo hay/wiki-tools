@@ -1,0 +1,20 @@
+.reference {
+    display: grid;
+    grid-template-columns: 15rem 1fr;
+    gap: 1rem;
+    border: 1px solid var(--c-1);
+    width: 100%;
+
+    &__img {
+        width: 100%;
+        padding: 3px;
+    }
+
+    &__caption {
+        padding: 1rem 0;
+    }
+
+    &__description {
+        font-size: 1.6rem;
+    }
+}

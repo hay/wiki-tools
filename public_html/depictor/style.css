@@ -107,18 +107,21 @@ a {
   content: "Loading...";
   font-size: 20px; }
 
-.tools-header,
-.app-title,
-.app-lead,
-.footer {
-  opacity: 1;
-  transition: 500ms opacity; }
-
 #wrapper[is-fullscreen] .tools-header,
 #wrapper[is-fullscreen] .app-title,
 #wrapper[is-fullscreen] .app-lead,
 #wrapper[is-fullscreen] .footer {
-  opacity: 0; }
+  display: none; }
+
+.button--action {
+  border: 1px solid var(--c-1);
+  color: var(--c-1);
+  font-size: 2rem;
+  padding: 1rem; }
+
+.button--center {
+  margin-left: auto;
+  margin-right: auto; }
 
 .button--start {
   background: var(--c-1);
@@ -129,6 +132,7 @@ a {
   letter-spacing: 1px; }
 
 .screen {
+  padding: 1rem 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -142,3 +146,17 @@ a {
   .screen__lead {
     text-align: center;
     margin-top: 2rem; }
+
+.reference {
+  display: grid;
+  grid-template-columns: 15rem 1fr;
+  gap: 1rem;
+  border: 1px solid var(--c-1);
+  width: 100%; }
+  .reference__img {
+    width: 100%;
+    padding: 3px; }
+  .reference__caption {
+    padding: 1rem 0; }
+  .reference__description {
+    font-size: 1.6rem; }

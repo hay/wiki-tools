@@ -1,4 +1,5 @@
 .screen {
+    padding: 1rem 0;
     @include flex-center;
     @include child-margins(var(--spacing));
     font-size: 2rem;
