@@ -27,8 +27,15 @@
         },
 
         methods : {
-            start() {
-                this.$store.dispatch('start');
+            async start() {
+                try {
+                    await this.$store.dispatch('start');
+                } catch (e) {
+                    // TODO: handle this more elegantly than just reloading
+                    // the whole app
+                    console.error(e);
+                    window.location.reload();
+                }
             }
         }
     }

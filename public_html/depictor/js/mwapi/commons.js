@@ -163,6 +163,7 @@ export default class CommonsApi extends MediawikiApi {
         opts = Object.assign({
             limit : 20,
             namespace : '*',
+            sroffset : 0,
             thumbSize : this.thumbSize
         }, opts);
 
@@ -174,6 +175,10 @@ export default class CommonsApi extends MediawikiApi {
             sroffset : opts.sroffset,
             srsearch : query
         });
+
+        if (results.error) {
+            throw new Error(results.error.info);
+        }
 
         const items = results.query.search.map((item) => {
             const title = item.title.replace("File:", "");

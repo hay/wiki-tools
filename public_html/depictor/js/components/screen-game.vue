@@ -2,7 +2,7 @@
     <div class="screen">
         <button class="button button--action button--center"
                 v-on:click="reset">
-            &times; Close
+            &times; Reset
         </button>
 
         <figure class="reference">
@@ -24,13 +24,36 @@
             </figcaption>
         </figure>
 
-        <p>Is this the person you're seeing on the image below?</p>
+        <p>Is this person depicted in the image below?</p>
+
+        <img v-bind:src="candidate.img"
+             v-bind:alt="candidate.alt"
+             v-show="!loading"
+             class="screen__fullimage" />
+
+        <button v-on:click="skip"
+                class="button button--action button--center">
+            👋 Skip
+        </button>
     </div>
 </template>
 
 <script>
     export default {
         computed : {
+            candidate() {
+                const can = this.$store.state.currentCandidate;
+
+                return {
+                    alt : `A possible image depicting ${this.ref.label}`,
+                    img : can.thumb
+                };
+            },
+
+            loading() {
+                return this.$store.state.loading;
+            },
+
             qid() {
                 return this.$store.state.currentQid;
             },
@@ -51,6 +74,10 @@
         methods : {
             reset() {
                 window.location.reload();
+            },
+
+            skip() {
+                this.$store.dispatch('randomCandidate');
             }
         }
     }

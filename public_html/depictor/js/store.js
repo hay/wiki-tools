@@ -4,14 +4,18 @@ import Vuex from 'vuex'
 import {
     DEFAULT_LOCALE, MIN_BIRTH_YEAR, MAX_BIRTH_YEAR, THUMB_SIZE
 } from './const.js';
-import { getPeople, getPerson } from './api.js';
+import Api from './api.js';
 
 Vue.use(Vuex);
 
 export default function createStore() {
+    const api = new Api(DEFAULT_LOCALE);
+
     function getInitialState() {
         return {
             birthYear : getRandomBirthYear(),
+            candidates : [],
+            currentCandidate : null,
             currentCategory : null,
             currentItem : null,
             currentQid : null,
@@ -31,6 +35,14 @@ export default function createStore() {
         state : getInitialState(),
 
         mutations : {
+            candidates(state, candidates) {
+                state.candidates = candidates;
+            },
+
+            currentCandidate(state, candidate) {
+                state.currentCandidate = candidate;
+            },
+
             currentItem(state, item) {
                 state.currentItem = item;
             },
@@ -65,13 +77,23 @@ export default function createStore() {
         },
 
         actions : {
-            async start({ commit, state }) {
+            randomCandidate({ state, commit }) {
                 commit('isLoading');
-                const people = await getPeople(state.birthYear);
+                const candidate = sample(state.candidates)
+                commit('currentCandidate', candidate);
+                commit('doneLoading');
+            },
+
+            async start({ commit, dispatch, state }) {
+                commit('isLoading');
+                const people = await api.getPeople(state.birthYear);
                 commit('people', people);
                 commit('randomPerson');
-                const person = await getPerson(state.currentQid);
+                const person = await api.getPerson(state.currentQid);
                 commit('currentItem', person);
+                const candidates = await api.getCandidates(state.currentQid, state.currentCategory);
+                commit('candidates', candidates);
+                dispatch('randomCandidate');
                 commit('doneLoading');
                 commit('screen', 'game');
             }
