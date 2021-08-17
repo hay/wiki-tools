@@ -41,12 +41,24 @@
             "label": "Nederlands"
         },
         {
+            "code": "pl",
+            "label": "język polski"
+        },
+        {
             "code": "pt",
             "label": "língua portuguesa"
         },
         {
             "code": "sv",
             "label": "svenska"
+        },
+        {
+            "code": "tr",
+            "label": "türkçe"
+        },
+        {
+            "code": "zh-hans",
+            "label": "简体中文"
         }
     ],
     "messages": {
@@ -71,7 +83,8 @@
             "text": "Text",
             "tool_description": "Prohledávejte média na <a href=\"https://commons.wikimedia.org\">Wikimedia Commons</a> s užitím <a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">strukturovaných dat</a>.",
             "translate_this_tool": "Upravit překlad nástroje",
-            "view_on_commons": "Zobrazit na Wikimedia Commons"
+            "view_on_commons": "Zobrazit na Wikimedia Commons",
+            "minus": "mínus"
         },
         "de": {
             "author": "Autor",
@@ -208,13 +221,13 @@
             "structured_search": "構造化サーチ",
             "text": "テキスト",
             "translate_this_tool": "このツールを翻訳",
-            "view_on_commons": "コモンズで閲覧",
             "tool_description": "<a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">構造化データ</a>を使って<a href=\"https://commons.wikimedia.org\">ウィキメディア・コモンズ</a>のメディアを検索します。",
             "author": "作者",
             "claims": "文",
             "open_in": "ツールで開く",
             "minus": "除外",
-            "search_using": "検索方法を選択"
+            "search_using": "検索方法を選択",
+            "view_on_commons": "コモンズで検索"
         },
         "mk": {
             "author": "Автор",
@@ -261,7 +274,8 @@
             "tool_description": "Søk media på <a href=\"https://commons.wikimedia.org\">Wikimedia Commons</a> med <a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">strukturert data</a>.",
             "depicts": "Avbilder",
             "close_detail": "Lukk detaljer",
-            "author": "Skaper"
+            "author": "Skaper",
+            "minus": "minus"
         },
         "nl": {
             "claims": "Verklaringen",
@@ -286,6 +300,23 @@
             "translate_this_tool": "Vertaal deze applicatie",
             "open_in": "Openen in",
             "minus": "zonder"
+        },
+        "pl": {
+            "author": "Autor",
+            "categories": "Kategoria | Kategorie",
+            "created": "Utworzenie",
+            "filename": "Nazwa pliku",
+            "license": "Licencja",
+            "loading": "Ładowanie...",
+            "loading_details": "Ładowanie szczegółów...",
+            "next_page": "Następna strona",
+            "previous_page": "Poprzednia strona",
+            "search": "Szukaj",
+            "search_using": "Szukaj używając",
+            "text": "Tekst",
+            "translate_this_tool": "Przetłumacz to narzędzie",
+            "view_on_commons": "Zobacz na Commons",
+            "depicts": "Opisuje"
         },
         "pt": {
             "author": "Autor",
@@ -334,6 +365,54 @@
             "view_on_commons": "Visa på Commons",
             "tool_description": "Sök media på <a href=\"https://commons.wikimedia.org\">Wikimedia Commons</a> med <a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">strukturerad data</a>.",
             "minus": "minus"
+        },
+        "tr": {
+            "author": "Yazar",
+            "categories": "Kategori | Kategoriler",
+            "claims": "İddialar",
+            "close_detail": "Ayrıntıları kapat",
+            "created": "Oluşturuldu",
+            "depicts": "Tasvir",
+            "filename": "Dosyaadı",
+            "found_results": "Sonuç bulunamadı | 1 sonuç bulundu | {Count} sonuç bulundu",
+            "license": "Lisans",
+            "loading": "Yükleniyor ...",
+            "loading_details": "Ayrıntılar yükleniyor ...",
+            "minus": "negatif",
+            "next_page": "Sonraki sayfa",
+            "previous_page": "Önceki sayfa",
+            "search": "Ara",
+            "search_using": "kullanarak Ara",
+            "structured_search": "Yapılandırılmış Arama",
+            "text": "Metin",
+            "tool_description": "<a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">Yapılandırılmış verileri</a> kullanarak <a href=\"https://commons.wikimedia.org\">Wikimedia Commons'ta</a> medya arayın.",
+            "translate_this_tool": "Bu aracı çevir",
+            "view_on_commons": "Commons'ta Görüntüle",
+            "open_in": "Aç"
+        },
+        "zh-hans": {
+            "author": "作者",
+            "categories": "分类 | 分类",
+            "close_detail": "关闭详细信息",
+            "created": "创建于",
+            "claims": "声明",
+            "depicts": "描绘",
+            "license": "许可协议",
+            "found_results": "未找到结果 | 找到1个结果 | 找到 {count} 个结果",
+            "loading": "正在加载...",
+            "loading_details": "正在加载详细信息...",
+            "next_page": "下一页",
+            "open_in": "打开于",
+            "previous_page": "上一页",
+            "search": "搜索",
+            "search_using": "搜索方法：",
+            "structured_search": "结构化搜索",
+            "text": "文本",
+            "translate_this_tool": "翻译此工具",
+            "view_on_commons": "在共享资源上查看",
+            "tool_description": "使用<a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">结构化数据</a>搜索<a href=\"https://commons.wikimedia.org\">维基媒体共享资源</a>上的媒体资源。",
+            "filename": "文件名",
+            "minus": "排除"
         }
     }
 }
