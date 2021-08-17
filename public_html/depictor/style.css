@@ -1,0 +1,144 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+
+html {
+  font-size: 10px; }
+  @media (max-width: 767px) {
+    html {
+      font-size: 8px; } }
+  @media (max-height: 650px) {
+    html {
+      font-size: 8px; } }
+
+body {
+  background-color: white;
+  color: black;
+  overflow-x: hidden; }
+
+img {
+  border: 0; }
+
+button {
+  outline: none;
+  cursor: pointer;
+  background: none;
+  border: 0; }
+
+input, select, textarea, button {
+  font: inherit; }
+
+:root {
+  --c-1: #36c;
+  --c-2: #eee;
+  --c-3: #333;
+  --spacing: 1.5rem; }
+
+html {
+  font-size: 10px; }
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333; }
+
+a {
+  color: #36c;
+  text-decoration: none; }
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column; }
+
+.tools-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee; }
+  .tools-header a {
+    text-decoration: none;
+    color: #36c; }
+
+.tools-nav {
+  order: 1;
+  list-style: none;
+  display: flex;
+  align-items: flex-end; }
+  .tools-nav > * {
+    margin-left: 3rem; }
+  .tools-nav a {
+    font-size: 1.4rem; }
+
+.tools-title {
+  font-size: 2.4rem;
+  font-weight: 500; }
+
+.app {
+  padding: 0 1.5rem; }
+
+.app-title {
+  font-size: 3.6rem;
+  font-weight: 500; }
+
+.app-lead {
+  font-size: 1.6rem;
+  font-weight: 300;
+  line-height: 1.4; }
+
+.footer {
+  padding-top: 1.5rem;
+  margin: auto 1.5rem 1.5rem 1.5rem;
+  border-top: 1px solid #eee; }
+  .footer small {
+    font-size: 1.2rem;
+    line-height: 1.5; }
+  .footer a {
+    color: #36c;
+    text-decoration: none; }
+
+#app[v-cloak] > * {
+  display: none; }
+
+#app[v-cloak]:before {
+  content: "Loading...";
+  font-size: 20px; }
+
+.tools-header,
+.app-title,
+.app-lead,
+.footer {
+  opacity: 1;
+  transition: 500ms opacity; }
+
+#wrapper[is-fullscreen] .tools-header,
+#wrapper[is-fullscreen] .app-title,
+#wrapper[is-fullscreen] .app-lead,
+#wrapper[is-fullscreen] .footer {
+  opacity: 0; }
+
+.button--start {
+  background: var(--c-1);
+  color: white;
+  font-size: 3rem;
+  padding: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px; }
+
+.screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 2rem;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto; }
+  .screen > * + * {
+    margin-top: var(--spacing); }
+  .screen__lead {
+    text-align: center;
+    margin-top: 2rem; }

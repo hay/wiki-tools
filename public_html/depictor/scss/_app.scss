@@ -1,0 +1,25 @@
+#app[v-cloak] > * {
+    display: none;
+}
+
+#app[v-cloak]:before {
+    content: "Loading...";
+    font-size: 20px;
+}
+
+.tools-header,
+.app-title,
+.app-lead,
+.footer {
+    opacity: 1;
+    transition: 500ms opacity;
+}
+
+#wrapper[is-fullscreen] {
+    .tools-header,
+    .app-title,
+    .app-lead,
+    .footer {
+        opacity: 0;
+    }
+}

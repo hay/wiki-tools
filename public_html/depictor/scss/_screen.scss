@@ -1,0 +1,12 @@
+.screen {
+    @include flex-center;
+    @include child-margins(var(--spacing));
+    font-size: 2rem;
+    max-width: 80rem;
+    @include margin-center;
+
+    &__lead {
+        text-align: center;
+        margin-top: 2rem;
+    }
+}

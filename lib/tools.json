@@ -19,6 +19,11 @@
         "description" : "Search media on <a href=\"https://commons.wikimedia.org\">Wikimedia Commons</a> using <a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">structured data</a>."
     },
 
+    "depictor" : {
+        "title" : "Depictor",
+        "description" : "Add structured data statements to Wikimedia Commons using a game-like interface"
+    },
+
     "exturl" : {
         "title" : "External URL stats",
         "description" : "A better <a href=\"https://meta.wikimedia.org/wiki/Help:Linksearch\">External links search</a>. Collates all the links so you can view which Wikipedia pages have the most external links to a pattern."

@@ -1,0 +1,10 @@
+.button {
+    &--start {
+        background: var(--c-1);
+        color: white;
+        font-size: 3rem;
+        padding: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+}
