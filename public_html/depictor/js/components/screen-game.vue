@@ -24,7 +24,9 @@
             </figcaption>
         </figure>
 
-        <p>Is this person depicted in the image below?</p>
+        <p class="screen__instruction">
+            Is this person depicted in the image below?
+        </p>
 
         <img v-bind:src="candidate.img"
              v-bind:alt="candidate.alt"
@@ -47,6 +49,10 @@
                 ❌ Not depicted
             </button>
         </menu>
+
+        <p class="screen__meta">
+            Image <b>{{remainingCandidates}}</b> of <b>{{totalCandidates}}</b> in this category
+        </p>
     </div>
 </template>
 
@@ -70,25 +76,34 @@
                 return this.$store.state.currentQid;
             },
 
+            remainingCandidates() {
+                return this.$store.state.processedCandidates.length + 1;
+            },
+
             ref() {
-                const ref = this.$store.state.currentItem;
+                const ref = this.$store.state.currentPerson;
 
                 return {
                     alt : 'An image of ' + ref.label,
                     description : ref.description,
                     href : `https:${ref.url}`,
-                    img : this.$store.state.currentRefImage,
+                    img : this.$store.state.currentPersonImage,
                     label : ref.label
                 };
+            },
+
+            totalCandidates() {
+                return this.$store.state.candidates.length;
             }
         },
 
         methods : {
             depicted() {
-
+                this.$store.dispatch("acceptCandidate");
             },
 
             notDepicted() {
+                this.$store.dispatch("rejectCandidate");
             },
 
             reset() {
@@ -96,7 +111,7 @@
             },
 
             skip() {
-                this.$store.dispatch('randomCandidate');
+                this.$store.dispatch('skipCandidate');
             }
         }
     }

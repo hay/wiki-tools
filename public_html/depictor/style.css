@@ -147,6 +147,12 @@ a {
   margin-right: auto; }
   .screen > * + * {
     margin-top: var(--spacing); }
+  .screen__instruction {
+    font-size: 1.5rem;
+    text-align: center; }
+  .screen__meta {
+    font-size: 1.3rem;
+    text-align: center; }
   .screen__lead {
     text-align: center;
     margin-top: 2rem; }

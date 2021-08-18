@@ -33,10 +33,9 @@
                 try {
                     await this.$store.dispatch('start');
                 } catch (e) {
-                    // TODO: handle this more elegantly than just reloading
-                    // the whole app
+                    // TODO: handle this more elegantly and show
+                    // a message to the user
                     console.error(e);
-                    window.location.reload();
                 }
             }
         }
