@@ -16,4 +16,11 @@
         max-height: 50rem;
         object-fit: contain;
     }
+
+    &__actions {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        max-width: 40rem;
+    }
 }

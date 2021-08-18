@@ -16,10 +16,6 @@
             <a href="<?= $hay->getUrl(); ?>"><?php $hay->title(); ?></a>
         </h1>
 
-        <p class="app-lead">
-            <?php $hay->description(); ?>
-        </p>
-
         <app></app>
     </div>
 <?php

@@ -1,7 +1,9 @@
 <template>
     <div class="screen">
-        <p class="screen__lead">When you press 'start' you are assigned a random person born in
-        {{birthYear}}. Answer if the image is depicting that person.</p>
+        <p class="screen__lead">
+            When you press 'start' you are assigned random people born in {{birthYear}}.
+            Check if your person is depicted in the given image.
+        </p>
 
         <button
             class="button button--start"

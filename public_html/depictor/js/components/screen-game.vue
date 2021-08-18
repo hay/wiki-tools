@@ -31,10 +31,22 @@
              v-show="!loading"
              class="screen__fullimage" />
 
-        <button v-on:click="skip"
-                class="button button--action button--center">
-            👋 Skip
-        </button>
+        <menu class="screen__actions">
+            <button v-on:click="depicted"
+                    class="button button--action">
+                ✅ Depicted
+            </button>
+
+            <button v-on:click="skip"
+                    class="button button--action">
+                👋 Skip
+            </button>
+
+            <button v-on:click="notDepicted"
+                    class="button button--action">
+                ❌ Not depicted
+            </button>
+        </menu>
     </div>
 </template>
 
@@ -72,6 +84,13 @@
         },
 
         methods : {
+            depicted() {
+
+            },
+
+            notDepicted() {
+            },
+
             reset() {
                 window.location.reload();
             },
