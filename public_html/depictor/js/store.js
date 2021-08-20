@@ -2,7 +2,7 @@ import { randInt, sample } from 'donot';
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {
-    CANDIDATE_SKIP, CANDIDATE_ACCEPT, CANDIDATE_REJECT,
+    POSSIBLE_CANDIDATE_STATES, CANDIDATE_SKIP,
     DEFAULT_LOCALE, MIN_BIRTH_YEAR, MAX_BIRTH_YEAR, THUMB_SIZE, MAX_API_TRIES
 } from './const.js';
 import Api from './api.js';
@@ -97,7 +97,7 @@ export default function createStore() {
         actions : {
             async handleCandidate({ commit, dispatch, state }, status) {
                 if (
-                    ![CANDIDATE_SKIP, CANDIDATE_ACCEPT, CANDIDATE_REJECT].includes(status)
+                    !POSSIBLE_CANDIDATE_STATES.includes(status)
                 ) {
                     throw new Error("Invalid candidate status");
                 }
@@ -105,7 +105,7 @@ export default function createStore() {
                 commit('processCandidate');
 
                 if (status !== CANDIDATE_SKIP) {
-                    await api.localGet({
+                    await api.addDbItem({
                         action : 'choice',
                         type : 'item',
                         itemid : state.candidate.mid,
