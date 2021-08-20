@@ -11,7 +11,13 @@
     }
 
     &__caption {
+        display: flex;
+        flex-direction: column;
         padding: 1rem 0;
+    }
+
+    &__caption .button {
+        margin-top: auto;
     }
 
     &__description {

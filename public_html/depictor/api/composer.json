@@ -1,0 +1,5 @@
+{
+    "require": {
+        "j4mie/idiorm": "^1.5"
+    }
+}

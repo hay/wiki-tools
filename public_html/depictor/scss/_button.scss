@@ -1,4 +1,10 @@
 .button {
+    &--link {
+        text-decoration: underline;
+        color: var(--c-1);
+        font-size: 1.4rem;
+    }
+
     &--action {
         border: 1px solid var(--c-1);
         color: var(--c-1);

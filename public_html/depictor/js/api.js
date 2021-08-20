@@ -1,4 +1,6 @@
-import { IMAGE_SIZE } from './const.js';
+import { getJson } from 'donot';
+import { DB_ITEM_PROPERTIES, IMAGE_SIZE, LOCAL_API_ENDPOINT} from './const.js';
+import { objectHasFilledProperties, buildUrlQuery } from './util.js';
 import CommonsApi from './mwapi/commons.js';
 import WikidataApi from './mwapi/wikidata.js';
 import WikidataQuery from './mwapi/query.js';
@@ -6,6 +8,17 @@ import WikidataQuery from './mwapi/query.js';
 export default class Api {
     constructor(locale) {
         this.locale = locale;
+    }
+
+    async addDbItem(payload) {
+        if (!objectHasFilledProperties(DB_ITEM_PROPERTIES, payload)) {
+            throw new Error("Database item does not have valid properties");
+        }
+
+        const url = `${LOCAL_API_ENDPOINT}?${buildUrlQuery(payload)}`;
+        const req = await getJson(url);
+
+        console.log(req);
     }
 
     async getCandidates(qid, category) {

@@ -6,9 +6,9 @@
         </button>
 
         <figure class="reference">
-            <img v-bind:src="ref.img"
-                 v-bind:alt="ref.alt"
-                 class="reference__img" />
+            <img v-bind:src="personImage"
+                 alt=""
+                 class="reference__img image" />
 
             <figcaption class="reference__caption">
                 <p>
@@ -21,6 +21,11 @@
                 <p class="reference__description">
                     <em>{{ref.description}}</em>
                 </p>
+
+                <button class="button button--link"
+                        v-on:click="dispatch('nextPerson')">
+                    Get a new person
+                </button>
             </figcaption>
         </figure>
 
@@ -28,23 +33,22 @@
             Is this person depicted in the image below?
         </p>
 
-        <img v-bind:src="candidate.img"
-             v-bind:alt="candidate.alt"
-             v-show="!loading"
-             class="screen__fullimage" />
+        <img v-bind:src="candidateImage"
+             alt=""
+             class="screen__fullimage image" />
 
         <menu class="screen__actions">
-            <button v-on:click="depicted"
+            <button v-on:click="dispatch('approved')"
                     class="button button--action">
                 ✅ Depicted
             </button>
 
-            <button v-on:click="skip"
+            <button v-on:click="dispatch('skip')"
                     class="button button--action">
                 👋 Skip
             </button>
 
-            <button v-on:click="notDepicted"
+            <button v-on:click="dispatch('rejected')"
                     class="button button--action">
                 ❌ Not depicted
             </button>
@@ -59,35 +63,30 @@
 <script>
     export default {
         computed : {
-            candidate() {
-                const can = this.$store.state.currentCandidate;
-
-                return {
-                    alt : `A possible image depicting ${this.ref.label}`,
-                    img : can.thumb
-                };
+            candidateImage() {
+                return this.hideCandidateImage ? false : this.$store.state.candidate.thumb;
             },
 
             loading() {
                 return this.$store.state.loading;
             },
 
-            qid() {
-                return this.$store.state.currentQid;
+            personImage() {
+                return this.hidePersonImage ? '' : this.$store.state.person.thumb;
             },
 
             remainingCandidates() {
-                return this.$store.state.processedCandidates.length + 1;
+                return this.totalCandidates - this.$store.getters.remainingCandidates.length + 1;
             },
 
             ref() {
-                const ref = this.$store.state.currentPerson;
+                const ref = this.$store.state.person;
 
                 return {
                     alt : 'An image of ' + ref.label,
                     description : ref.description,
                     href : `https:${ref.url}`,
-                    img : this.$store.state.currentPersonImage,
+                    img : ref.thumb,
                     label : ref.label
                 };
             },
@@ -97,21 +96,29 @@
             }
         },
 
-        methods : {
-            depicted() {
-                this.$store.dispatch("acceptCandidate");
-            },
+        data() {
+            return {
+                hideCandidateImage : false,
+                hidePersonImage : false
+            };
+        },
 
-            notDepicted() {
-                this.$store.dispatch("rejectCandidate");
+        methods : {
+            async dispatch(action) {
+                this.hideCandidateImage = true;
+
+                if (action === 'nextPerson') {
+                    this.hidePersonImage = true;
+                }
+
+                await this.$store.dispatch('handleCandidate', action);
+
+                this.hideCandidateImage = false;
+                this.hidePersonImage = false;
             },
 
             reset() {
                 window.location.reload();
-            },
-
-            skip() {
-                this.$store.dispatch('skipCandidate');
             }
         }
     }

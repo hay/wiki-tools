@@ -1,6 +1,11 @@
+export const CANDIDATE_ACCEPT = 'accept';
+export const CANDIDATE_REJECT = 'reject';
+export const CANDIDATE_SKIP = 'skip';
+export const DB_ITEM_PROPERTIES = ['action', 'type', 'itemid', 'status'];
 export const DEFAULT_LOCALE = 'en';
 export const IMAGE_SIZE = 800;
-export const MIN_BIRTH_YEAR = 1880;
+export const LOCAL_API_ENDPOINT = './api/index.php';
 export const MAX_API_TRIES = 3;
 export const MAX_BIRTH_YEAR = 2021;
+export const MIN_BIRTH_YEAR = 1880;
 export const THUMB_SIZE = 300;

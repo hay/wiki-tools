@@ -2,6 +2,7 @@ import { randInt, sample } from 'donot';
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {
+    CANDIDATE_SKIP, CANDIDATE_ACCEPT, CANDIDATE_REJECT,
     DEFAULT_LOCALE, MIN_BIRTH_YEAR, MAX_BIRTH_YEAR, THUMB_SIZE, MAX_API_TRIES
 } from './const.js';
 import Api from './api.js';
@@ -14,15 +15,12 @@ export default function createStore() {
     function getInitialState() {
         return {
             birthYear : getRandomBirthYear(),
+            candidate : null,
             candidates : [],
-            currentCandidate : null,
-            currentPerson : null,
-            currentPersonImage : null,
             loading : false,
             locale : DEFAULT_LOCALE,
             people : [],
-            processedCandidates : [],
-            processedPeople : [],
+            person : null,
             screen : 'intro'
         };
     }
@@ -36,38 +34,29 @@ export default function createStore() {
 
         getters : {
             hasRemainingCandidates(state, getters) {
-                return !!getters.remainingCandidates.length;
+                return getters.remainingCandidates.length > 0;
             },
 
             remainingCandidates(state) {
-                // Get all candidates that have not been done yet
-                return state.candidates.filter((candidate) => {
-                    return !state.processedCandidates.includes(candidate.mid);
-                });
+                return state.candidates.filter(c => !c.done);
             },
 
             remainingPeople(state) {
-                return state.people.filter((person) => {
-                    return !state.processedPeople.includes(person.qid);
-                });
+                return state.people.filter(p => !p.done);
             }
         },
 
         mutations : {
+            candidate(state, candidate) {
+                state.candidate = candidate;
+            },
+
             candidates(state, candidates) {
-                state.candidates = candidates;
-            },
-
-            currentCandidate(state, candidate) {
-                state.currentCandidate = candidate;
-            },
-
-            currentPerson(state, person) {
-                state.currentPerson = person;
-            },
-
-            currentPersonImage(state, image) {
-                state.currentPersonImage = `${image}?width=${THUMB_SIZE}`;
+                state.candidates = candidates.map((candidate) => {
+                    // Add resized thumbnail here
+                    candidate.done = false;
+                    return candidate;
+                });
             },
 
             doneLoading(state) {
@@ -79,19 +68,25 @@ export default function createStore() {
             },
 
             people(state, people) {
-                state.people = people;
+                state.people = people.map((person) => {
+                    person.thumb = `${person.image}?width=${THUMB_SIZE}`;
+                    person.done = false;
+                    return person;
+                });
+            },
+
+            person(state, person) {
+                state.person = person;
             },
 
             processCandidate(state) {
-                state.processedCandidates.push(state.currentCandidate.mid);
-            },
+                state.candidates = state.candidates.map((candidate) => {
+                    if (candidate.mid === state.candidate.mid) {
+                        candidate.done = true;
+                    }
 
-            processPerson(state) {
-                state.processedPeople.push(state.currentPerson.qid);
-            },
-
-            refreshProcessedCandidates(state) {
-                state.processedCandidates = [];
+                    return candidate;
+                });
             },
 
             screen(state, screen) {
@@ -100,10 +95,25 @@ export default function createStore() {
         },
 
         actions : {
-            acceptCandidate({ commit, dispatch }) {
+            async handleCandidate({ commit, dispatch, state }, status) {
+                if (
+                    ![CANDIDATE_SKIP, CANDIDATE_ACCEPT, CANDIDATE_REJECT].includes(status)
+                ) {
+                    throw new Error("Invalid candidate status");
+                }
+
                 commit('processCandidate');
-                // TODO: write this to a database
-                dispatch('nextCandidate');
+
+                if (status !== CANDIDATE_SKIP) {
+                    await api.localGet({
+                        action : 'choice',
+                        type : 'item',
+                        itemid : state.candidate.mid,
+                        status : status
+                    });
+                }
+
+                await dispatch('nextCandidate');
             },
 
             async nextCandidate({ commit, getters, dispatch }) {
@@ -112,17 +122,14 @@ export default function createStore() {
                 if (getters.hasRemainingCandidates) {
                     console.log("Getting a new candidate");
                     const candidate = sample(getters.remainingCandidates);
-                    commit('currentCandidate', candidate);
+                    commit('candidate', candidate);
                 } else {
                     console.log('No more candidates, getting new person');
                     await dispatch("nextPerson");
                 }
             },
 
-            async nextPerson({ commit, getters }) {
-                // Refresh the array of processed candidates
-                commit('refreshProcessedCandidates');
-
+            async nextPerson({ commit, getters, dispatch }) {
                 // Do this a couple of times to prevent errors
                 for (let i = 0; i < MAX_API_TRIES; i++) {
                     console.log(`Trying to get candidates, try: ${i}`);
@@ -136,17 +143,15 @@ export default function createStore() {
                         continue;
                     }
 
-                    commit('currentPerson', person);
-                    commit('processPerson');
-
-                    // Note how we need to do this seperately because it is from
-                    // the SPARQL query, not from the lookup on Wikidata
-                    commit('currentPersonImage', nextPerson.image);
+                    person.thumb = nextPerson.thumb;
+                    commit('person', person);
 
                     // Now get candidates
                     let candidates;
                     try {
-                        candidates = await api.getCandidates(nextPerson.qid, nextPerson.category);
+                        candidates = await api.getCandidates(
+                            nextPerson.qid, nextPerson.category
+                        );
                     } catch (e) {
                         console.error(e);
                         continue;
@@ -158,18 +163,8 @@ export default function createStore() {
                     console.log('Okay, i think that went well');
                     break;
                 }
-            },
 
-            rejectCandidate({ commit, dispatch }) {
-                commit('processCandidate');
-                // TODO: write this to a database
-                dispatch('nextCandidate');
-            },
-
-            skipCandidate({ commit, dispatch }) {
-                commit('processCandidate');
-                // TODO: DO NOT write this to a database
-                dispatch('nextCandidate');
+                await dispatch("nextCandidate");
             },
 
             async start({ commit, dispatch, state }) {
@@ -177,7 +172,6 @@ export default function createStore() {
                 const people = await api.getPeople(state.birthYear);
                 commit('people', people);
                 await dispatch("nextPerson");
-                dispatch('nextCandidate');
                 commit('doneLoading');
                 commit('screen', 'game');
             }
