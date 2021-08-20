@@ -30,18 +30,24 @@
         }
     }
 
-    function choice(array $args) {
-        $type = $args["type"] ?? false;
-
+    function check_type(string $type) {
         if (!in_array($type, POSSIBLE_TYPES)) {
             error("Invalid type");
         }
+    }
 
-        $itemid = $args["itemid"] ?? false;
-
+    function check_itemid(string $itemid) {
         if (!preg_match(RE_ITEMID, $itemid)) {
             error("Invalid itemid");
         }
+    }
+
+    function choice(array $args) {
+        $type = $args["type"] ?? false;
+        check_type($type);
+
+        $itemid = $args["itemid"] ?? false;
+        check_itemid($itemid);
 
         $status = $args["status"] ?? false;
 
@@ -50,6 +56,17 @@
         }
 
         insert($args);
+    }
+
+    function exists(array $args) {
+        $type = $args["type"] ?? false;
+        check_type($type);
+
+        $itemid = $args["itemid"] ?? false;
+        check_itemid($itemid);
+
+        $has = hasItem($type, $itemid);
+        respond(["status" => $has]);
     }
 
     function getItem(string $type, string $id) {
@@ -91,6 +108,10 @@
 
         if ($action == "choice") {
             choice($_GET);
+        } else if ($action == "exists") {
+            exists($_GET);
+        } else {
+            error("Invalid action");
         }
     }
 
