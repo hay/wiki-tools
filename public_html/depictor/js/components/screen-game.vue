@@ -130,6 +130,7 @@
             },
 
             reset() {
+                window.location.hash = '';
                 window.location.reload();
             },
 

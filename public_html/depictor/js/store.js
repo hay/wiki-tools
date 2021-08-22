@@ -3,7 +3,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import {
     POSSIBLE_CANDIDATE_STATES, CANDIDATE_SKIP,
-    DEFAULT_LOCALE, MIN_BIRTH_YEAR, MAX_BIRTH_YEAR, THUMB_SIZE, MAX_API_TRIES
+    DEFAULT_LOCALE, THUMB_SIZE, MAX_API_TRIES
 } from './const.js';
 import Api from './api.js';
 
@@ -14,7 +14,7 @@ export default function createStore() {
 
     function getInitialState() {
         return {
-            birthYear : getRandomBirthYear(),
+            birthYear : null,
             candidate : null,
             candidates : [],
             category : null,
@@ -24,10 +24,6 @@ export default function createStore() {
             person : null,
             screen : 'intro'
         };
-    }
-
-    function getRandomBirthYear() {
-        return randInt(MIN_BIRTH_YEAR, MAX_BIRTH_YEAR);
     }
 
     return new Vuex.Store({
@@ -48,6 +44,10 @@ export default function createStore() {
         },
 
         mutations : {
+            birthYear(state, birthYear) {
+                state.birthYear = birthYear;
+            },
+
             candidate(state, candidate) {
                 state.candidate = candidate;
             },
@@ -66,6 +66,14 @@ export default function createStore() {
 
             doneLoading(state) {
                 state.loading = false;
+            },
+
+            hash(state, opts) {
+                // Transform opts to a URL and set the hash, after that
+                // a hashchange will trigger start
+                // Probably could be done more elegantly, but at least
+                // in this way we can easily expand and prevent errors
+                window.location.hash = window.encodeURIComponent(JSON.stringify(opts));
             },
 
             isLoading(state) {
@@ -171,6 +179,18 @@ export default function createStore() {
                 }
 
                 await dispatch("nextCandidate");
+            },
+
+            query({ commit, dispatch }, query) {
+                // TOOD: Expand with the other query options
+                if (query.year) {
+                    commit('birthYear', query.year)
+                } else {
+                    console.error('No valid query options');
+                    return;
+                }
+
+                dispatch('start');
             },
 
             async start({ commit, dispatch, state }) {

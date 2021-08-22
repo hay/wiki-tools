@@ -1,0 +1,19 @@
+.options {
+    display: grid;
+    grid-template-columns: 10rem 1fr;
+    grid-gap: 1rem;
+
+    label,
+    &__hint {
+        font-size: 1.4rem;
+    }
+
+    label {
+        margin-top: 5px;
+    }
+
+    &__hint {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+}

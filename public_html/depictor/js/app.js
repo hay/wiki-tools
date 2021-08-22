@@ -18,6 +18,26 @@ async function createApp() {
             }
         },
 
+        methods : {
+            parseHash() {
+                const hash = window.location.hash.slice(1);
+
+                if (!!hash) {
+                    try {
+                        const query = JSON.parse(window.decodeURIComponent(hash));
+                        this.$store.dispatch('query', query);
+                    } catch (e) {
+                        console.error("Could not parse URL hash options");
+                    }
+                }
+            }
+        },
+
+        mounted() {
+            window.addEventListener('hashchange', this.parseHash.bind(this));
+            this.parseHash();
+        },
+
         store : store,
 
         watch : {
