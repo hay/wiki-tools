@@ -6,7 +6,7 @@
         </button>
 
         <figure class="reference">
-            <img v-bind:src="personImage"
+            <img v-bind:src="itemImage"
                  alt=""
                  class="reference__img image" />
 
@@ -23,14 +23,14 @@
                 </p>
 
                 <button class="button button--link"
-                        v-on:click="skipPerson">
-                    Skip person
+                        v-on:click="skipItem">
+                    Skip {{itemInstanceLabelSingular}}
                 </button>
             </figcaption>
         </figure>
 
         <p class="screen__instruction">
-            Is this person depicted in the image below?
+            Is this {{itemInstanceLabelSingular}} depicted in the image below?
         </p>
 
         <a v-bind:href="canditateUrl"
@@ -83,8 +83,8 @@
                 return this.$store.state.loading;
             },
 
-            personImage() {
-                return this.showPersonImage ? this.$store.state.person.thumb : false;
+            itemImage() {
+                return this.showItemImage ? this.$store.state.item.thumb : false;
             },
 
             remainingCandidates() {
@@ -92,7 +92,7 @@
             },
 
             ref() {
-                const ref = this.$store.state.person;
+                const ref = this.$store.state.item;
 
                 return {
                     alt : 'An image of ' + ref.label,
@@ -110,8 +110,10 @@
 
         data() {
             return {
+                itemInstanceLabelSingular : 'person', // TODO: make this flexible
+                itemInstanceLabelPlural : 'people', // TODO: make this flexible
                 showCandidateImage : true,
-                showPersonImage : true
+                showItemImage : true
             };
         },
 
@@ -122,10 +124,10 @@
                 this.showAllImages();
             },
 
-            async skipPerson() {
+            async skipItem() {
                 this.showCandidateImage = false;
-                this.showPersonImage = false;
-                await this.$store.dispatch("nextPerson");
+                this.showItemImage = false;
+                await this.$store.dispatch("nextItem");
                 this.showAllImages();
             },
 
@@ -136,7 +138,7 @@
 
             showAllImages() {
                 this.showCandidateImage = true;
-                this.showPersonImage = true;
+                this.showItemImage = true;
             }
         }
     }

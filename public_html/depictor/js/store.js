@@ -18,10 +18,10 @@ export default function createStore() {
             candidate : null,
             candidates : [],
             category : null,
+            item : null,
+            items : [],
             loading : false,
             locale : DEFAULT_LOCALE,
-            people : [],
-            person : null,
             screen : 'intro'
         };
     }
@@ -38,8 +38,8 @@ export default function createStore() {
                 return state.candidates.filter(c => !c.done);
             },
 
-            remainingPeople(state) {
-                return state.people.filter(p => !p.done);
+            remainingItems(state) {
+                return state.items.filter(p => !p.done);
             }
         },
 
@@ -80,16 +80,16 @@ export default function createStore() {
                 state.loading = true;
             },
 
-            people(state, people) {
-                state.people = people.map((person) => {
-                    person.thumb = `${person.image}?width=${THUMB_SIZE}`;
-                    person.done = false;
-                    return person;
-                });
+            item(state, item) {
+                state.item = item;
             },
 
-            person(state, person) {
-                state.person = person;
+            items(state, items) {
+                state.items = items.map((item) => {
+                    item.thumb = `${item.image}?width=${THUMB_SIZE}`;
+                    item.done = false;
+                    return item;
+                });
             },
 
             processCandidate(state) {
@@ -131,39 +131,40 @@ export default function createStore() {
 
             async nextCandidate({ commit, getters, dispatch }) {
                 // First check if there are remaining candidates, and if so,
-                // pick one of those, otherwise pick a new person
+                // pick one of those, otherwise pick a new item
                 if (getters.hasRemainingCandidates) {
                     console.log("Getting a new candidate");
                     const candidate = sample(getters.remainingCandidates);
                     commit('candidate', candidate);
                 } else {
-                    console.log('No more candidates, getting new person');
-                    await dispatch("nextPerson");
+                    console.log('No more candidates, getting new item');
+                    await dispatch("nextItem");
                 }
             },
 
-            async nextPerson({ commit, getters, dispatch }) {
+            async nextItem({ commit, getters, dispatch }) {
                 // Do this a couple of times to prevent errors
                 for (let i = 0; i < MAX_API_TRIES; i++) {
                     console.log(`Trying to get candidates, try: ${i}`);
-                    const nextPerson = sample(getters.remainingPeople);
+                    const nextItem = sample(getters.remainingItems);
 
-                    let person;
+                    let item;
+
                     try {
-                        person = await api.getPerson(nextPerson.qid);
+                        item = await api.getItem(nextItem.qid);
                     } catch (e) {
                         console.error(e);
                         continue;
                     }
 
-                    person.thumb = nextPerson.thumb;
-                    commit('person', person);
+                    item.thumb = nextItem.thumb;
+                    commit('item', item);
 
                     // Now get candidates
                     let candidates;
                     try {
                         candidates = await api.getCandidates(
-                            nextPerson.qid, nextPerson.category
+                            nextItem.qid, nextItem.category
                         );
                     } catch (e) {
                         console.error(e);
@@ -171,7 +172,7 @@ export default function createStore() {
                     }
 
                     commit('candidates', candidates);
-                    commit('category', nextPerson.category);
+                    commit('category', nextItem.category);
 
                     // All went well, let's get out of the loop
                     console.log('Okay, i think that went well');
@@ -185,6 +186,8 @@ export default function createStore() {
                 // TOOD: Expand with the other query options
                 if (query.year) {
                     commit('birthYear', query.year)
+                } else if (query.qid) {
+
                 } else {
                     console.error('No valid query options');
                     return;
@@ -195,9 +198,9 @@ export default function createStore() {
 
             async start({ commit, dispatch, state }) {
                 commit('isLoading');
-                const people = await api.getPeople(state.birthYear);
-                commit('people', people);
-                await dispatch("nextPerson");
+                const items = await api.getPeopleByBirthyear(state.birthYear);
+                commit('items', items);
+                await dispatch("nextItem");
                 commit('doneLoading');
                 commit('screen', 'game');
             }

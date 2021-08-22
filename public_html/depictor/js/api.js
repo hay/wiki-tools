@@ -43,7 +43,7 @@ export default class Api {
         return req.items;
     }
 
-    async getPeople(birthYear) {
+    async getPeopleByBirthyear(birthYear) {
         const sparql = `
           SELECT ?item ?image ?cat WHERE {
             ?item wdt:P31 wd:Q5;
@@ -71,9 +71,9 @@ export default class Api {
         });
     }
 
-    async getPerson(qid) {
+    async getItem(qid) {
         const api = new WikidataApi(this.locale);
-        const person = await api.get('item', qid);
-        return person;
+        const item = await api.get('item', qid);
+        return item;
     }
 }
