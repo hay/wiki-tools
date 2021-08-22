@@ -26,7 +26,8 @@ export default class Api {
             thumbSize : IMAGE_SIZE
         });
 
-        const query = `-haswbstatement:P180=${qid} incategory:"${category}"`;
+        // Find only bitmaps that don't have a P180 statement for the person in the stated category
+        const query = `-haswbstatement:P180=${qid} incategory:"${category}" filetype:bitmap`;
         const req = await api.search(query, {
             'namespace' : 6 // Only get the File: namespace
         });

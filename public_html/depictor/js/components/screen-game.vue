@@ -24,7 +24,7 @@
 
                 <button class="button button--link"
                         v-on:click="dispatch('nextPerson')">
-                    Get a new person
+                    Skip person
                 </button>
             </figcaption>
         </figure>
@@ -33,9 +33,12 @@
             Is this person depicted in the image below?
         </p>
 
-        <img v-bind:src="candidateImage"
-             alt=""
-             class="screen__fullimage image" />
+        <a v-bind:href="canditateUrl"
+            target="_blank">
+            <img v-bind:src="candidateImage"
+                 alt=""
+                 class="screen__fullimage" />
+        </a>
 
         <menu class="screen__actions">
             <button v-on:click="dispatch('approved')"
@@ -55,7 +58,8 @@
         </menu>
 
         <p class="screen__meta">
-            Image <b>{{remainingCandidates}}</b> of <b>{{totalCandidates}}</b> in this category
+            Image <b>{{remainingCandidates}}</b> of <b>{{totalCandidates}}</b> in this
+            <a v-bind:href="categoryUrl" target="_blank">category</a>
         </p>
     </div>
 </template>
@@ -65,6 +69,14 @@
         computed : {
             candidateImage() {
                 return this.hideCandidateImage ? false : this.$store.state.candidate.thumb;
+            },
+
+            canditateUrl() {
+                return this.$store.state.candidate.url;
+            },
+
+            categoryUrl() {
+                return 'https://commons.wikimedia.org/wiki/Category:' + this.$store.state.category;
             },
 
             loading() {

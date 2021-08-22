@@ -17,6 +17,7 @@ export default function createStore() {
             birthYear : getRandomBirthYear(),
             candidate : null,
             candidates : [],
+            category : null,
             loading : false,
             locale : DEFAULT_LOCALE,
             people : [],
@@ -57,6 +58,10 @@ export default function createStore() {
                     candidate.done = false;
                     return candidate;
                 });
+            },
+
+            category(state, category) {
+                state.category = category;
             },
 
             doneLoading(state) {
@@ -158,6 +163,7 @@ export default function createStore() {
                     }
 
                     commit('candidates', candidates);
+                    commit('category', nextPerson.category);
 
                     // All went well, let's get out of the loop
                     console.log('Okay, i think that went well');
