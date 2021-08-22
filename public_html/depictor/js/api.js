@@ -43,9 +43,22 @@ export default class Api {
         return req.items;
     }
 
+    async getItemByCommonsCategory(category) {
+        const sparql = `
+            select ?item ?image ?cat where {
+              ?item wdt:P18 ?image;
+                    wdt:P373 "${category}";
+                    wdt:P373 ?cat.
+            }
+        `;
+
+        let items = await this.getItemsWithSparql(sparql);
+        return items;
+    }
+
     async getItemByQid(qid) {
         const sparql = `
-          SELECT ?item ?image ?cat WHERE {
+          select ?item ?image ?cat where {
             wd:${qid} wdt:P18 ?image;
                       wdt:P373 ?cat;
                       wikibase:timestamp ?item.
@@ -70,8 +83,6 @@ export default class Api {
         if (!results.results) {
             throw new Error('Did not get any results');
         }
-
-        console.log(results.results);
 
         return results.results.bindings.map((binding) => {
             return {

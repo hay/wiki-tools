@@ -81,6 +81,10 @@ export default function createStore() {
             },
 
             items(state, items) {
+                if (!items.length) {
+                    throw new Error("No items given");
+                }
+
                 state.items = items.map((item) => {
                     item.thumb = `${item.image}?width=${THUMB_SIZE}`;
                     item.done = false;
@@ -187,6 +191,9 @@ export default function createStore() {
                     commit('items', items);
                 } else if (query.qid) {
                     const items = await api.getItemByQid(query.qid);
+                    commit('items', items);
+                } else if (query.category) {
+                    const items = await api.getItemByCommonsCategory(query.category);
                     commit('items', items);
                 } else {
                     console.error('No valid query options');
