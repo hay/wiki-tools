@@ -4,7 +4,8 @@
     grid-gap: 1rem;
 
     label,
-    &__hint {
+    &__hint,
+    &__instruction {
         font-size: 1.4rem;
     }
 
@@ -15,5 +16,9 @@
     &__hint {
         text-align: center;
         margin-bottom: 2rem;
+    }
+
+    &__instruction {
+        grid-column: 1 / -1;
     }
 }

@@ -315,10 +315,12 @@ a {
   display: grid;
   grid-template-columns: 10rem 1fr;
   grid-gap: 1rem; }
-  .options label, .options__hint {
+  .options label, .options__hint, .options__instruction {
     font-size: 1.4rem; }
   .options label {
     margin-top: 5px; }
   .options__hint {
     text-align: center;
     margin-bottom: 2rem; }
+  .options__instruction {
+    grid-column: 1 / -1; }

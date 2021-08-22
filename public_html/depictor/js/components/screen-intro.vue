@@ -17,7 +17,8 @@
             <span v-if="!showAdvancedOptions">Show advanced options</span>
         </button>
 
-        <div class="options__wrapper">
+        <div class="options__wrapper"
+             v-show="showAdvancedOptions">
             <p class="options__hint">These options are experimental and might not function.
                Use at your own risk ;)</p>
 
@@ -42,6 +43,11 @@
                     id="opt-sparql"
                     rows="4"
                     v-model="opts.sparql"></textarea>
+
+                <p class="options__instruction">
+                    Make sure to include <code>?item ?image ?cat</code> variables with
+                    your query for the item, image and Commons category (P373).
+                </p>
             </div>
         </div>
     </div>

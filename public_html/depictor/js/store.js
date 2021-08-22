@@ -195,6 +195,9 @@ export default function createStore() {
                 } else if (query.category) {
                     const items = await api.getItemByCommonsCategory(query.category);
                     commit('items', items);
+                } else if (query.sparql) {
+                    const items = await api.getItemsWithSparql(query.sparql);
+                    commit('items', items);
                 } else {
                     console.error('No valid query options');
                     return;
