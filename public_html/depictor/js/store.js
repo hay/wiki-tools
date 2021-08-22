@@ -123,7 +123,7 @@ export default function createStore() {
 
             async nextCandidate({ commit, getters, dispatch }) {
                 // First check if there are remaining candidates, and if so,
-                // pick one of those
+                // pick one of those, otherwise pick a new person
                 if (getters.hasRemainingCandidates) {
                     console.log("Getting a new candidate");
                     const candidate = sample(getters.remainingCandidates);
