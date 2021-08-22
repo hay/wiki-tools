@@ -43,24 +43,35 @@ export default class Api {
         return req.items;
     }
 
-    async getPeopleByBirthyear(birthYear) {
+    async getItemByQid(qid) {
         const sparql = `
           SELECT ?item ?image ?cat WHERE {
-            ?item wdt:P31 wd:Q5;
-                  wdt:P18 ?image;
-                  wdt:P373 ?cat;
-                  wdt:P569 ?dateOfBirth. hint:Prior hint:rangeSafe true.
-            FILTER("${birthYear}-00-00"^^xsd:dateTime <= ?dateOfBirth &&
-                   ?dateOfBirth < "${birthYear + 1}-00-00"^^xsd:dateTime)
+            wd:${qid} wdt:P18 ?image;
+                      wdt:P373 ?cat;
+                      wikibase:timestamp ?item.
           }
         `;
 
+        let items = await this.getItemsWithSparql(sparql);
+
+        // FIXME: probably a way to do this with SPARQL, but i can't be bothered
+        items = items.map((item) => {
+            item.qid = qid;
+            return item;
+        });
+
+        return items;
+    }
+
+    async getItemsWithSparql(sparql) {
         const wdQuery = new WikidataQuery();
         const results = await wdQuery.call(sparql);
 
         if (!results.results) {
             throw new Error('Did not get any results');
         }
+
+        console.log(results.results);
 
         return results.results.bindings.map((binding) => {
             return {
@@ -75,5 +86,20 @@ export default class Api {
         const api = new WikidataApi(this.locale);
         const item = await api.get('item', qid);
         return item;
+    }
+
+    async getPeopleByBirthyear(birthYear) {
+        const sparql = `
+          SELECT ?item ?image ?cat WHERE {
+            ?item wdt:P31 wd:Q5;
+                  wdt:P18 ?image;
+                  wdt:P373 ?cat;
+                  wdt:P569 ?dateOfBirth. hint:Prior hint:rangeSafe true.
+            FILTER("${birthYear}-00-00"^^xsd:dateTime <= ?dateOfBirth &&
+                   ?dateOfBirth < "${birthYear + 1}-00-00"^^xsd:dateTime)
+          }
+        `;
+
+        return await this.getItemsWithSparql(sparql);
     }
 }

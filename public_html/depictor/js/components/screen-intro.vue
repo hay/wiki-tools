@@ -88,10 +88,6 @@
             toggleAdvancedOptions() {
                 this.showAdvancedOptions = !this.showAdvancedOptions;
             }
-        },
-
-        mounted() {
-            this.$store.commit('birthYear', this.opts.year);
         }
     }
 </script>

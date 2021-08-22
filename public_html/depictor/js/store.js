@@ -44,10 +44,6 @@ export default function createStore() {
         },
 
         mutations : {
-            birthYear(state, birthYear) {
-                state.birthYear = birthYear;
-            },
-
             candidate(state, candidate) {
                 state.candidate = candidate;
             },
@@ -182,24 +178,21 @@ export default function createStore() {
                 await dispatch("nextCandidate");
             },
 
-            query({ commit, dispatch }, query) {
+            async query({ commit, dispatch }, query) {
+                commit('isLoading');
+
                 // TOOD: Expand with the other query options
                 if (query.year) {
-                    commit('birthYear', query.year)
+                    const items = await api.getPeopleByBirthyear(query.year);
+                    commit('items', items);
                 } else if (query.qid) {
-
+                    const items = await api.getItemByQid(query.qid);
+                    commit('items', items);
                 } else {
                     console.error('No valid query options');
                     return;
                 }
 
-                dispatch('start');
-            },
-
-            async start({ commit, dispatch, state }) {
-                commit('isLoading');
-                const items = await api.getPeopleByBirthyear(state.birthYear);
-                commit('items', items);
                 await dispatch("nextItem");
                 commit('doneLoading');
                 commit('screen', 'game');
