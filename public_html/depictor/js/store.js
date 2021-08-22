@@ -104,10 +104,8 @@ export default function createStore() {
                 if (
                     !POSSIBLE_CANDIDATE_STATES.includes(status)
                 ) {
-                    throw new Error("Invalid candidate status");
+                    throw new Error("Invalid candidate status: " + status);
                 }
-
-                commit('processCandidate');
 
                 if (status !== CANDIDATE_SKIP) {
                     await api.addDbItem({
@@ -117,6 +115,8 @@ export default function createStore() {
                         status : status
                     });
                 }
+
+                commit('processCandidate');
 
                 await dispatch('nextCandidate');
             },

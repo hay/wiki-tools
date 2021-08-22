@@ -23,7 +23,7 @@
                 </p>
 
                 <button class="button button--link"
-                        v-on:click="dispatch('nextPerson')">
+                        v-on:click="skipPerson">
                     Skip person
                 </button>
             </figcaption>
@@ -41,17 +41,17 @@
         </a>
 
         <menu class="screen__actions">
-            <button v-on:click="dispatch('approved')"
+            <button v-on:click="handleCandidate('approved')"
                     class="button button--action">
                 ✅ Depicted
             </button>
 
-            <button v-on:click="dispatch('skip')"
+            <button v-on:click="handleCandidate('skip')"
                     class="button button--action">
                 👋 Skip
             </button>
 
-            <button v-on:click="dispatch('rejected')"
+            <button v-on:click="handleCandidate('rejected')"
                     class="button button--action">
                 ❌ Not depicted
             </button>
@@ -68,7 +68,7 @@
     export default {
         computed : {
             candidateImage() {
-                return this.hideCandidateImage ? false : this.$store.state.candidate.thumb;
+                return this.showCandidateImage ? this.$store.state.candidate.thumb : false;
             },
 
             canditateUrl() {
@@ -84,7 +84,7 @@
             },
 
             personImage() {
-                return this.hidePersonImage ? '' : this.$store.state.person.thumb;
+                return this.showPersonImage ? this.$store.state.person.thumb : false;
             },
 
             remainingCandidates() {
@@ -110,27 +110,32 @@
 
         data() {
             return {
-                hideCandidateImage : false,
-                hidePersonImage : false
+                showCandidateImage : true,
+                showPersonImage : true
             };
         },
 
         methods : {
-            async dispatch(action) {
-                this.hideCandidateImage = true;
-
-                if (action === 'nextPerson') {
-                    this.hidePersonImage = true;
-                }
-
+            async handleCandidate(action) {
+                this.showCandidateImage = false;
                 await this.$store.dispatch('handleCandidate', action);
+                this.showAllImages();
+            },
 
-                this.hideCandidateImage = false;
-                this.hidePersonImage = false;
+            async skipPerson() {
+                this.showCandidateImage = false;
+                this.showPersonImage = false;
+                await this.$store.dispatch("nextPerson");
+                this.showAllImages();
             },
 
             reset() {
                 window.location.reload();
+            },
+
+            showAllImages() {
+                this.showCandidateImage = true;
+                this.showPersonImage = true;
             }
         }
     }
