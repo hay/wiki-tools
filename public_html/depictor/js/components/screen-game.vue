@@ -24,13 +24,13 @@
 
                 <button class="button button--link"
                         v-on:click="skipItem">
-                    Skip {{itemInstanceLabelSingular}}
+                    Skip item
                 </button>
             </figcaption>
         </figure>
 
         <p class="screen__instruction">
-            Is this {{itemInstanceLabelSingular}} depicted in the image below?
+            Is {{ref.label}} depicted in the image below?
         </p>
 
         <a v-bind:href="canditateUrl"
@@ -110,8 +110,6 @@
 
         data() {
             return {
-                itemInstanceLabelSingular : 'person', // TODO: make this flexible
-                itemInstanceLabelPlural : 'people', // TODO: make this flexible
                 showCandidateImage : true,
                 showItemImage : true
             };
@@ -132,8 +130,7 @@
             },
 
             reset() {
-                window.location.hash = '';
-                window.location.reload();
+                window.location.search = '';
             },
 
             showAllImages() {

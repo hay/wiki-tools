@@ -20,12 +20,14 @@ async function createApp() {
 
         methods : {
             parseHash() {
-                const hash = window.location.hash.slice(1);
-
-                if (!!hash) {
+                if (!!window.location.search) {
                     try {
-                        const query = JSON.parse(window.decodeURIComponent(hash));
-                        this.$store.dispatch('query', query);
+                        const url = new window.URL(window.location);
+
+                        this.$store.dispatch('query', {
+                            type : url.searchParams.get('queryType'),
+                            value : url.searchParams.get('queryValue')
+                        });
                     } catch (e) {
                         console.error("Could not parse URL hash options");
                     }
@@ -34,7 +36,6 @@ async function createApp() {
         },
 
         mounted() {
-            window.addEventListener('hashchange', this.parseHash.bind(this));
             this.parseHash();
         },
 

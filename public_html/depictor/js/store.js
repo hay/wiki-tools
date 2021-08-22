@@ -67,9 +67,10 @@ export default function createStore() {
             hash(state, opts) {
                 // Transform opts to a URL and set the hash, after that
                 // a hashchange will trigger start
-                // Probably could be done more elegantly, but at least
-                // in this way we can easily expand and prevent errors
-                window.location.hash = window.encodeURIComponent(JSON.stringify(opts));
+                const queryType = window.encodeURIComponent(opts.type);
+                const queryValue = window.encodeURIComponent(opts[opts.type]);
+                const search = `queryType=${queryType}&queryValue=${queryValue}`;
+                window.location.search = search;
             },
 
             isLoading(state) {
@@ -183,26 +184,25 @@ export default function createStore() {
             },
 
             async query({ commit, dispatch }, query) {
+                const { type, value } = query;
                 commit('isLoading');
 
-                // TOOD: Expand with the other query options
-                if (query.year) {
-                    const items = await api.getPeopleByBirthyear(query.year);
-                    commit('items', items);
-                } else if (query.qid) {
-                    const items = await api.getItemByQid(query.qid);
-                    commit('items', items);
-                } else if (query.category) {
-                    const items = await api.getItemByCommonsCategory(query.category);
-                    commit('items', items);
-                } else if (query.sparql) {
-                    const items = await api.getItemsWithSparql(query.sparql);
-                    commit('items', items);
+                let items = null;
+
+                if (type === 'year') {
+                    items = await api.getPeopleByBirthyear(value);
+                } else if (type == 'qid') {
+                    items = await api.getItemByQid(value);
+                } else if (type === 'category') {
+                    items = await api.getItemByCommonsCategory(value);
+                } else if (type === 'sparql') {
+                    items = await api.getItemsWithSparql(value);
                 } else {
                     console.error('No valid query options');
                     return;
                 }
 
+                commit('items', items);
                 await dispatch("nextItem");
                 commit('doneLoading');
                 commit('screen', 'game');

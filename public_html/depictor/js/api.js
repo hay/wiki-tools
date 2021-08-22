@@ -101,14 +101,14 @@ export default class Api {
 
     async getPeopleByBirthyear(birthYear) {
         const sparql = `
-          SELECT ?item ?image ?cat WHERE {
+          select ?item ?image ?cat where {
             ?item wdt:P31 wd:Q5;
                   wdt:P18 ?image;
                   wdt:P373 ?cat;
                   wdt:P569 ?dateOfBirth. hint:Prior hint:rangeSafe true.
             FILTER("${birthYear}-00-00"^^xsd:dateTime <= ?dateOfBirth &&
                    ?dateOfBirth < "${birthYear + 1}-00-00"^^xsd:dateTime)
-          }
+          } limit 2000
         `;
 
         return await this.getItemsWithSparql(sparql);

@@ -5,12 +5,17 @@
 
     label,
     &__hint,
-    &__instruction {
-        font-size: 1.4rem;
+    &__instruction,
+    input {
+        font-size: 1.5rem;
     }
 
     label {
         margin-top: 5px;
+    }
+
+    input {
+        font-family: var(--font-monospace);
     }
 
     &__hint {
