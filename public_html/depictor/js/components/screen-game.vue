@@ -65,6 +65,8 @@
 </template>
 
 <script>
+    import { encodeWikiTitle } from '../util.js';
+
     export default {
         computed : {
             candidateImage() {
@@ -76,7 +78,7 @@
             },
 
             categoryUrl() {
-                return 'https://commons.wikimedia.org/wiki/Category:' + this.$store.state.category;
+                return 'https://commons.wikimedia.org/wiki/Category:' + encodeWikiTitle(this.$store.state.category);
             },
 
             loading() {

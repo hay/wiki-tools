@@ -100,6 +100,8 @@ export default class Api {
     }
 
     async getPeopleByBirthyear(birthYear) {
+        birthYear = parseInt(birthYear);
+
         const sparql = `
           select ?item ?image ?cat where {
             ?item wdt:P31 wd:Q5;

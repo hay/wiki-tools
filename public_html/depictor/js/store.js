@@ -39,7 +39,7 @@ export default function createStore() {
             },
 
             remainingItems(state) {
-                return state.items.filter(p => !p.done);
+                return state.items.filter(item => !item.done);
             }
         },
 
@@ -169,6 +169,11 @@ export default function createStore() {
                         );
                     } catch (e) {
                         console.error(e);
+
+                        // Make sure to skip this item as well on any
+                        // next turns
+                        item.done = true;
+                        commit('item', item);
                         continue;
                     }
 
