@@ -4,7 +4,7 @@
     require './api/class-oauth.php';
 
     $oauth = new OAuth([
-        "endpoint" => "https://commons.wikimedia.org/w/index.php?title=Special:OAuth",
+        "endpoint" => OAUTH_COMMONS_ENDPOINT,
         "consumer_key" => OAUTH_DEPICTOR["consumer_key"],
         "consumer_secret" => OAUTH_DEPICTOR["consumer_secret"]
     ]);

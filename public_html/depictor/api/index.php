@@ -1,6 +1,13 @@
 <?php
     require '../../../lib/config.php';
     require './vendor/autoload.php';
+    require './class-oauth.php';
+
+    $oauth = new OAuth([
+        "endpoint" => OAUTH_COMMONS_ENDPOINT,
+        "consumer_key" => OAUTH_DEPICTOR["consumer_key"],
+        "consumer_secret" => OAUTH_DEPICTOR["consumer_secret"]
+    ]);
 
     define('RE_ITEMID', "/[M|Q]\d+$/");
     define('POSSIBLE_STATES', ['approved','rejected','done']);
@@ -27,6 +34,14 @@
             ORM::configure('logger', function($log_string) {
                 error_log($log_string);
             });
+        }
+    }
+
+    function assertOauth() {
+        global $oauth;
+
+        if ($oauth->userState != OAuth::STATE_LOGGED_IN) {
+            error("User not authorized");
         }
     }
 
@@ -102,14 +117,22 @@
         respond(["ok" => "Added"]);
     }
 
+    function test() {
+        global $oauth;
+        print_r($oauth->getIdentity());
+    }
+
     function main() {
         setupDb();
+        // assertOauth();
         $action = $_GET["action"] ?? false;
 
         if ($action == "choice") {
             choice($_GET);
         } else if ($action == "exists") {
             exists($_GET);
+        } else if ($action == "test") {
+            test($_GET["message"] ?? "test-message");
         } else {
             error("Invalid action");
         }
