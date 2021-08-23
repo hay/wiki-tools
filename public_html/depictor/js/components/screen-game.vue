@@ -33,7 +33,7 @@
             Is {{ref.label}} depicted in the image below?
         </p>
 
-        <a v-bind:href="canditateUrl"
+        <a v-bind:href="candidate.url"
             target="_blank">
             <img v-bind:src="candidateImage"
                  alt=""
@@ -58,8 +58,17 @@
         </menu>
 
         <p class="screen__meta">
-            Image <b>{{remainingCandidates}}</b> of <b>{{totalCandidates}}</b> in this
-            <a v-bind:href="categoryUrl" target="_blank">category</a>
+            <span>
+                Image <b>{{remainingCandidates}}</b> of <b>{{totalCandidates}}</b> in this
+                <a v-bind:href="categoryUrl" target="_blank">category</a>
+            </span>
+
+            <small class="screen__small">
+                <a v-bind:href="candidate.url"
+                   target="_blank">
+                   {{candidate.title}}
+                </a>
+            </small>
         </p>
     </div>
 </template>
@@ -73,8 +82,8 @@
                 return this.showCandidateImage ? this.$store.state.candidate.thumb : false;
             },
 
-            canditateUrl() {
-                return this.$store.state.candidate.url;
+            candidate() {
+                return this.$store.state.candidate;
             },
 
             categoryUrl() {

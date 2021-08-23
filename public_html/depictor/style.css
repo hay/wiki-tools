@@ -279,7 +279,16 @@ a {
     text-align: center; }
   .screen__meta {
     font-size: 1.3rem;
-    text-align: center; }
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column; }
+    .screen__meta > * + * {
+      margin-top: 1rem; }
+  .screen__small,
+  .screen__small a {
+    color: #666; }
   .screen__lead {
     text-align: center;
     margin-top: 2rem; }

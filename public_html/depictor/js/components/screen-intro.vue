@@ -34,6 +34,7 @@
                 </label>
 
                 <input type="number"
+                       v-on:click="opts.type = 'year'"
                        v-model="opts.year" />
 
                 <label for="opt-qid">
@@ -44,6 +45,7 @@
                     QID
                 </label>
                 <input type="text"
+                        v-on:click="opts.type = 'qid'"
                        v-model="opts.qid" />
 
                 <label for="opt-category">
@@ -54,6 +56,7 @@
                     Commons category
                 </label>
                 <input type="text"
+                        v-on:click="opts.type = 'category'"
                        v-model="opts.category" />
 
                 <label for="opt-sparql">
@@ -65,6 +68,7 @@
                 </label>
                 <textarea
                     rows="4"
+                    v-on:click="opts.type = 'sparql'"
                     v-model="opts.sparql"></textarea>
 
                 <p class="options__instruction">

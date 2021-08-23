@@ -14,6 +14,13 @@
     &__meta {
         font-size: 1.3rem;
         text-align: center;
+        @include flex-center;
+        @include child-margins(1rem);
+    }
+
+    &__small,
+    &__small a {
+        color: #666;
     }
 
     &__lead {

@@ -17,8 +17,6 @@ export default class Api {
 
         const url = `${LOCAL_API_ENDPOINT}?${buildUrlQuery(payload)}`;
         const req = await getJson(url);
-
-        console.log(req);
     }
 
     async getCandidates(qid, category) {
@@ -41,6 +39,22 @@ export default class Api {
         }
 
         return req.items;
+    }
+
+    async getExists(type, id) {
+        if (!['item', 'file'].includes(type)) {
+            throw new Error("Invalid type for getExists");
+        }
+
+        const query = buildUrlQuery({
+            action : 'exists',
+            type : type,
+            itemid : id
+        });
+
+        const url = `${LOCAL_API_ENDPOINT}?${query}`;
+        const req = await getJson(url);
+        return req.status;
     }
 
     async getItemByCommonsCategory(category) {

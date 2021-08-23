@@ -1,9 +1,9 @@
-import { randInt, sample } from 'donot';
+import { randInt, sample, timeout } from 'donot';
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {
     POSSIBLE_CANDIDATE_STATES, CANDIDATE_SKIP,
-    DEFAULT_LOCALE, THUMB_SIZE, MAX_API_TRIES
+    DEFAULT_LOCALE, THUMB_SIZE, MAX_API_TRIES, MAX_API_CHECK_TRIES
 } from './const.js';
 import Api from './api.js';
 
@@ -119,7 +119,7 @@ export default function createStore() {
                 if (status !== CANDIDATE_SKIP) {
                     await api.addDbItem({
                         action : 'choice',
-                        type : 'item',
+                        type : 'file',
                         itemid : state.candidate.mid,
                         status : status
                     });
@@ -136,7 +136,20 @@ export default function createStore() {
                 if (getters.hasRemainingCandidates) {
                     console.log("Getting a new candidate");
                     const candidate = sample(getters.remainingCandidates);
-                    commit('candidate', candidate);
+
+                    // Check if the candidate has been processed earlier
+                    const exists = await api.getExists('file', candidate.mid);
+                    console.log(`${candidate.mid} exists: ${exists}`);
+
+                    if (exists) {
+                        candidate.done = true;
+                        commit('candidate', candidate);
+                        console.log('Candidate exists in database, skipping');
+                        dispatch('nextCandidate');
+                    } else {
+                        // Candidate does not exist, put it up
+                        commit('candidate', candidate);
+                    }
                 } else {
                     console.log('No more candidates, getting new item');
                     await dispatch("nextItem");
@@ -171,9 +184,10 @@ export default function createStore() {
                         console.error(e);
 
                         // Make sure to skip this item as well on any
-                        // next turns
+                        // next turns, and take a little break
                         item.done = true;
                         commit('item', item);
+                        await timeout(500);
                         continue;
                     }
 
