@@ -235,7 +235,8 @@ a {
 #wrapper[is-fullscreen] .footer {
   display: none; }
 
-.app-title {
+.app-title,
+.app-lead {
   text-align: center; }
 
 .button--link {
