@@ -38,11 +38,11 @@
                     <?php else: ?>
                     <a href="<?= $tool; ?>/">
                     <?php endif; ?>
-                        <?php echo $data->title; ?>
+                        <?php echo $data->title ?? ""; ?>
                     </a>
                 </dt>
                 <dd>
-                    <?php echo $data->description; ?>
+                    <?php echo $data->description ?? ""; ?>
                 </dd>
             <?php
             endforeach;

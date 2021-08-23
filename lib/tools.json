@@ -21,7 +21,8 @@
 
     "depictor" : {
         "title" : "Depictor",
-        "description" : "Add structured data statements to Wikimedia Commons using a game-like interface"
+        "description" : "Add structured data statements to Wikimedia Commons using a game-like interface",
+        "hidden" : true
     },
 
     "exturl" : {
@@ -60,13 +61,43 @@
         "description" : "Use the power of Wikidata to translate a term between two or more languages."
     },
 
-    "closetome" : {
-        "title" : "Close to me",
-        "description" : "See Wikidata items close to you."
+    "wdreconcile" : {
+        "title" : "Wikidata Reconcile",
+        "url" : "https://github.com/hay/wdreconcile",
+        "description" : "Python command-line tool to align strings to Wikidata items (QIDs)"
+    },
+
+    "dataknead" : {
+        "title" : "Dataknead",
+        "url" : "https://hay.github.io/dataknead/",
+        "description" : "Python library and tool for fluent conversion between data formats like JSON, XML and CSV"
+    },
+
+    "wikilope" : {
+        "title" : "Wikilope",
+        "url" : "https://github.com/hay/wikilope",
+        "description" : "Node.js library and tool to discover interesting connections starting from a Wikipedia article"
     },
 
     "deprecated" : {
 
+    },
+
+    "photocommons" : {
+        "title" : "PhotoCommons",
+        "url" : "https://github.com/hay/photocommons",
+        "description" : "WordPress plugin to include photos from Wikimedia Commons"
+    },
+
+    "wiki-text-nlp" : {
+        "title" : "NLP Wikifact processing",
+        "url" : "https://github.com/hay/wiki-text-nlp",
+        "description" : "Python tool and Jupyter Notebook to extract 'Did you know?' facts from Wikipedia articles"
+    },
+
+    "closetome" : {
+        "title" : "Close to me",
+        "description" : "See Wikidata items close to you."
     },
 
     "sum" : {
