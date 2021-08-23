@@ -19,12 +19,12 @@ if (ROOT / "package.json").exists():
     cmd += "\nnpm run dist"
 
 cmd += """
-rsync --exclude yarn* --exclude .git --exclude config.php exclude node_modules -av --del * tools:tools/
+rsync --exclude yarn* --exclude .git --exclude config.php --exclude node_modules -av --del * tools:tools/
 
 # Copy files
 ssh tools <<'ENDSSH'
 cp -r tools/* /data/project/hay/
 ENDSSH
-
+"""
 
 subprocess.check_call(cmd, shell = True)

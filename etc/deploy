@@ -5,3 +5,5 @@ rsync --exclude yarn* --exclude .git --exclude config.php --exclude crawler.log 
 ssh tools <<'ENDSSH'
 cp -r tools/* /data/project/hay/
 ENDSSH
+
+say -v Fred "Deploy complete"

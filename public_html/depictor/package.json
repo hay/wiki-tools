@@ -7,7 +7,7 @@
     "build:css": "npm run build:sass",
     "build:js": "webpack -d",
     "build:sass": "node-sass scss/style.scss style.css",
-    "dist": "webpack -p",
+    "dist": "npm run build:css && webpack -p",
     "postinstall": "npm run build",
     "watch": "chokidar '../common/*.scss' 'scss/*.scss' -c 'npm run build:css' & webpack -dw"
   },

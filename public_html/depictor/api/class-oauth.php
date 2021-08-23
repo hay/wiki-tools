@@ -57,7 +57,6 @@
         }
 
         public function logout():void {
-            session_start();
             session_destroy();
         }
 

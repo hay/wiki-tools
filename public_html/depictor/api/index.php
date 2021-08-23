@@ -117,14 +117,30 @@
         respond(["ok" => "Added"]);
     }
 
-    function test() {
+    function test(string $message) {
         global $oauth;
-        print_r($oauth->getIdentity());
+        $message = htmlentities($message);
+        $token = $oauth->requestCsrfToken();
+        $ident = $oauth->getIdentity();
+
+        $req = $oauth->requestPost([
+            'action' => 'edit',
+            'title' => 'User:' . $ident->username,
+            'section' => 'new',
+            'summary' => 'Test message from Depictor',
+            'text' => "Here's a message from Depictor: $message",
+            'token' => $token,
+            'format' => 'json',
+        ]);
+
+        $data = json_decode($req, true);
+
+        respond($data);
     }
 
     function main() {
         setupDb();
-        // assertOauth();
+        assertOauth();
         $action = $_GET["action"] ?? false;
 
         if ($action == "choice") {

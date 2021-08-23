@@ -9,6 +9,11 @@
         "consumer_secret" => OAUTH_DEPICTOR["consumer_secret"]
     ]);
 
+    if ($_GET["logout"] ?? false) {
+        $oauth->logout();
+        header("Location: index.php");
+    }
+
     $hay = new Hay(basename(dirname(__FILE__)), [
         "bare" => true,
         "scripts" => [ 'bundle.js' ],
@@ -28,10 +33,22 @@
             <?php $hay->description(); ?>
         </p>
 
-        <pre><?= $oauth->userState; ?></pre>
+        <?php if ($oauth->userState == OAuth::STATE_LOGGED_IN): ?>
+            <p class="app-user">
+                You are logged in as <strong><?= $oauth->getIdentity()->username; ?></strong>.
+                <a href="index.php?logout=1">Log out</a>.
+            </p>
 
-        <?php if ($oauth->userState == "logged-in"): ?>
             <app></app>
+        <?php elseif ($oauth->userState == OAuth::STATE_ACCES_TOKEN_REQUEST): ?>
+            <div class="screen">
+                <p class="screen__lead">
+                    You are now logged in. Click 'proceed' to begin.
+                </p>
+
+                <a href="index.php"
+                   class="button button--start">Proceed</a>
+            </div>
         <?php else: ?>
             <div class="screen">
                 <p class="screen__lead">
