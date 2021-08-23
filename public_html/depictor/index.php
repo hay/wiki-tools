@@ -4,6 +4,7 @@
     require './api/class-oauth.php';
 
     $oauth = new OAuth([
+        "mockLogin" => DEBUG,
         "endpoint" => OAUTH_COMMONS_ENDPOINT,
         "consumer_key" => OAUTH_DEPICTOR["consumer_key"],
         "consumer_secret" => OAUTH_DEPICTOR["consumer_secret"]
@@ -34,10 +35,14 @@
         </p>
 
         <?php if ($oauth->userState == OAuth::STATE_LOGGED_IN): ?>
-            <p class="app-user">
-                You are logged in as <strong><?= $oauth->getIdentity()->username; ?></strong>.
-                <a href="index.php?logout=1">Log out</a>.
-            </p>
+            <?php if (DEBUG): ?>
+                <p class="app-user">Debug mode</p>
+            <?php else: ?>
+                <p class="app-user">
+                    You are logged in as <strong><?= $oauth->getIdentity()->username; ?></strong>.
+                    <a href="index.php?logout=1">Log out</a>.
+                </p>
+            <?php endif; ?>
 
             <app></app>
         <?php elseif ($oauth->userState == OAuth::STATE_ACCES_TOKEN_REQUEST): ?>

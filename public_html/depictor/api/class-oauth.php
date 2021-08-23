@@ -15,6 +15,7 @@
         private string $oauthEndpoint;
         private string $apiEndpoint;
         private Token $accessToken;
+        private bool $mockLogin = false; // Used for debugging purposes
         public string $userState;
 
         const STATE_LOGGED_IN = "logged-in";
@@ -24,6 +25,7 @@
 
         function __construct(array $opts) {
             session_start();
+            $this->mockLogin = $opts["mockLogin"] ?? false;
             $this->endpoint = $opts["endpoint"];
             $this->oauthEndpoint = $this->endpoint . "/w/index.php?title=Special:OAuth";
             $this->apiEndpoint = $this->endpoint . "/w/api.php";
@@ -34,12 +36,17 @@
             // access token and set it
             if ($this->userState == self::STATE_ACCES_TOKEN_REQUEST) {
                 $this->getAccessToken();
-            } else if ($this->userState == self::STATE_LOGGED_IN) {
+            } else if ($this->userState == self::STATE_LOGGED_IN && !$this->mockLogin) {
                 // Set the accesstoken for easy use later on
                 $this->accessToken = new Token(
                     $_SESSION["access_key"], $_SESSION["access_secret"]
                 );
             }
+        }
+
+        public function fakeLogin() {
+            // Useful for debug purposes
+            $this->userState = self::STATE_LOGGED_IN;
         }
 
         public function getAuthUrl():string {
@@ -85,6 +92,10 @@
         }
 
         private function assertLogin() {
+            if ($this->mockLogin) {
+                throw new Exception("mockLogin is set to true");
+            }
+
             if ($this->userState != self::STATE_LOGGED_IN) {
                 throw new Exception("Can't do unauthenticated action");
             }
@@ -107,6 +118,10 @@
         }
 
         private function getUserState():string {
+            if ($this->mockLogin) {
+                return self::STATE_LOGGED_IN;
+            }
+
             // Little helper function for tidier code
             $has = function(string $key):bool {
                 return $_SESSION[$key] ?? false;
