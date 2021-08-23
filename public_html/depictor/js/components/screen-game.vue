@@ -1,5 +1,6 @@
 <template>
-    <div class="screen">
+    <div class="screen"
+         v-if="candidate">
         <button class="button button--action button--center"
                 v-on:click="reset">
             &times; Reset
@@ -136,12 +137,13 @@
             async skipItem() {
                 this.showCandidateImage = false;
                 this.showItemImage = false;
+                this.$store.commit('itemDone', this.$store.state.item.qid);
                 await this.$store.dispatch("nextItem");
                 this.showAllImages();
             },
 
             reset() {
-                window.location.search = '';
+                this.$store.dispatch('reset');
             },
 
             showAllImages() {

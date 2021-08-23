@@ -35,7 +35,7 @@ export default class Api {
         }
 
         if (!req.items.length) {
-            throw new Error("No candidates");
+            throw new Error(`No candidates for ${qid}`);
         }
 
         return req.items;
@@ -110,6 +110,10 @@ export default class Api {
     async getItem(qid) {
         const api = new WikidataApi(this.locale);
         const item = await api.get('item', qid);
+
+        // Make sure this property is available as well
+        item.qid = qid;
+
         return item;
     }
 

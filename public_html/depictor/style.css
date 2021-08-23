@@ -302,6 +302,20 @@ a {
     width: 100%;
     justify-content: space-between;
     max-width: 40rem; }
+  .screen__message {
+    width: 100%;
+    max-width: 500rem;
+    padding: 3rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column; }
+    .screen__message > * + * {
+      margin-top: 2rem; }
+  .screen__message p {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center; }
 
 .reference {
   display: grid;

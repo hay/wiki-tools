@@ -18,6 +18,7 @@ export default function createStore() {
             candidate : null,
             candidates : [],
             category : null,
+            errorMessage : null,
             item : null,
             items : [],
             loading : false,
@@ -34,6 +35,10 @@ export default function createStore() {
                 return getters.remainingCandidates.length > 0;
             },
 
+            hasRemainingItems(state, getters) {
+                return getters.remainingItems.length > 0;
+            },
+
             remainingCandidates(state) {
                 return state.candidates.filter(c => !c.done);
             },
@@ -46,6 +51,16 @@ export default function createStore() {
         mutations : {
             candidate(state, candidate) {
                 state.candidate = candidate;
+            },
+
+            candidateDone(state, mid) {
+                state.candidates = state.candidates.map((candidate) => {
+                    if (candidate.mid === mid) {
+                        candidate.done = true;
+                    }
+
+                    return candidate;
+                });
             },
 
             candidates(state, candidates) {
@@ -64,6 +79,10 @@ export default function createStore() {
                 state.loading = false;
             },
 
+            errorMessage(state, message) {
+                state.errorMessage = message;
+            },
+
             hash(state, opts) {
                 // Transform opts to a URL and set the hash, after that
                 // a hashchange will trigger start
@@ -79,6 +98,16 @@ export default function createStore() {
 
             item(state, item) {
                 state.item = item;
+            },
+
+            itemDone(state, qid) {
+                state.items = state.items.map((item) => {
+                    if (item.qid === qid) {
+                        item.done = true;
+                    }
+
+                    return item;
+                });
             },
 
             items(state, items) {
@@ -130,7 +159,18 @@ export default function createStore() {
                 await dispatch('nextCandidate');
             },
 
-            async nextCandidate({ commit, getters, dispatch }) {
+            async itemDone({ commit }, qid) {
+                await api.addDbItem({
+                    action : 'choice',
+                    type : 'item',
+                    itemid : qid,
+                    status : 'done'
+                });
+
+                commit('itemDone', qid);
+            },
+
+            async nextCandidate({ state, commit, getters, dispatch }) {
                 // First check if there are remaining candidates, and if so,
                 // pick one of those, otherwise pick a new item
                 if (getters.hasRemainingCandidates) {
@@ -142,8 +182,7 @@ export default function createStore() {
                     console.log(`${candidate.mid} exists: ${exists}`);
 
                     if (exists) {
-                        candidate.done = true;
-                        commit('candidate', candidate);
+                        commit('candidateDone', candidate.mid);
                         console.log('Candidate exists in database, skipping');
                         dispatch('nextCandidate');
                     } else {
@@ -152,53 +191,64 @@ export default function createStore() {
                     }
                 } else {
                     console.log('No more candidates, getting new item');
+
+                    // Set item to done
+                    await dispatch('itemDone', state.item.id);
                     await dispatch("nextItem");
                 }
             },
 
             async nextItem({ commit, getters, dispatch }) {
-                // Do this a couple of times to prevent errors
-                for (let i = 0; i < MAX_API_TRIES; i++) {
-                    console.log(`Trying to get candidates, try: ${i}`);
-                    const nextItem = sample(getters.remainingItems);
-
-                    let item;
-
-                    try {
-                        item = await api.getItem(nextItem.qid);
-                    } catch (e) {
-                        console.error(e);
-                        continue;
-                    }
-
-                    item.thumb = nextItem.thumb;
-                    commit('item', item);
-
-                    // Now get candidates
-                    let candidates;
-                    try {
-                        candidates = await api.getCandidates(
-                            nextItem.qid, nextItem.category
-                        );
-                    } catch (e) {
-                        console.error(e);
-
-                        // Make sure to skip this item as well on any
-                        // next turns, and take a little break
-                        item.done = true;
-                        commit('item', item);
-                        await timeout(500);
-                        continue;
-                    }
-
-                    commit('candidates', candidates);
-                    commit('category', nextItem.category);
-
-                    // All went well, let's get out of the loop
-                    console.log('Okay, i think that went well');
-                    break;
+                if (!getters.hasRemainingItems) {
+                    console.error('No more remaining items');
+                    commit('errorMessage', 'Seems there are no more items to process. Try again with a different query.');
+                    return;
                 }
 
+                const nextItem = sample(getters.remainingItems);
+
+                // Check if this item is 'done', and if so go on
+                const exists = await api.getExists('item', nextItem.qid);
+                console.log(`${nextItem.qid} exists: ${exists}`);
+
+                if (exists) {
+                    console.log('Item is done');
+                    await dispatch('itemDone', nextItem.qid);
+                    dispatch('nextItem');
+                    return;
+                }
+
+                let item;
+
+                try {
+                    item = await api.getItem(nextItem.qid);
+                } catch (e) {
+                    console.error(e);
+                    return;
+                }
+
+                item.thumb = nextItem.thumb;
+                commit('item', item);
+
+                // Now get candidates
+                let candidates;
+                try {
+                    candidates = await api.getCandidates(
+                        nextItem.qid, nextItem.category
+                    );
+                } catch (e) {
+                    console.error(e);
+                    console.error(`Could not get candidates for ${nextItem.qid}`);
+                    await dispatch('itemDone', nextItem.qid);
+                    dispatch('nextItem');
+                    return;
+                }
+
+                commit('candidates', candidates);
+                commit('category', nextItem.category);
+
+                // All went well, let's get out of the loop
+                console.log('Okay, i think that went well');
                 await dispatch("nextCandidate");
             },
 
@@ -221,10 +271,20 @@ export default function createStore() {
                     return;
                 }
 
+                if (!items.length) {
+                    commit('errorMessage', 'No items for this query. Try another query.');
+                    return;
+                }
+
                 commit('items', items);
                 await dispatch("nextItem");
-                commit('doneLoading');
                 commit('screen', 'game');
+                commit('doneLoading');
+            },
+
+            reset() {
+                // TODO: this is a bit rude, but oh well
+                window.location.search = '';
             }
         }
     });

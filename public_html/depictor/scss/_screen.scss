@@ -40,4 +40,18 @@
         justify-content: space-between;
         max-width: 40rem;
     }
+
+    &__message {
+        width: 100%;
+        max-width: 500rem;
+        padding: 3rem 1rem;
+        @include flex-center;
+        @include child-margins(2rem);
+    }
+
+    &__message p {
+        font-size: 2rem;
+        font-weight: bold;
+        text-align: center;
+    }
 }

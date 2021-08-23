@@ -1,15 +1,14 @@
 <template>
     <div class="screen">
         <p class="screen__lead"
-            v-show="!loading && opts.type === 'year'">
+            v-show="opts.type === 'year'">
             When you press 'start' you are assigned random people born in {{opts.year}}.
             Check if your person is depicted in the given image.
         </p>
 
         <button
             class="button button--start"
-            v-bind:disabled="loading"
-            v-on:click="start">{{startLabel}}</button>
+            v-on:click="start">Start</button>
 
         <button
             class="button button--link buffer-top-3"
@@ -100,16 +99,6 @@ select ?item ?instance ?image ?cat where {
     }
 
     export default {
-        computed : {
-            loading() {
-                return this.$store.state.loading;
-            },
-
-            startLabel() {
-                return this.loading ? 'Loading...' : 'Start';
-            }
-        },
-
         data() {
             return {
                 opts : {
