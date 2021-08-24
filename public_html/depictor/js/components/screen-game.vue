@@ -72,7 +72,7 @@
             </small>
 
             <span>
-                Keyboard shortcuts: <b>(a)</b> depicted, <b>(s)</b> skip, <b>(d)</b> not depicted<!--, <b>(p)</b> prominently depicted -->
+                Keyboard shortcuts: <b>(1)</b> depicted, <b>(2)</b> skip, <b>(3)</b> not depicted<!--, <b>(p)</b> prominently depicted -->
             </span>
         </p>
     </div>
@@ -159,11 +159,11 @@
             },
 
             keydown(e) {
-                if (e.key === 'a') {
+                if (e.key === '1') {
                     this.candidateDepicted();
-                } else if (e.key === 's') {
+                } else if (e.key === '2') {
                     this.candidateSkipped();
-                } else if (e.key === 'd') {
+                } else if (e.key === '3') {
                     this.candidateNotDepicted();
                 }
 
