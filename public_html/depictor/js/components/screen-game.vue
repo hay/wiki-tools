@@ -51,9 +51,15 @@
             </button>
         </menu>
 
+        <p class="screen__instruction"
+           v-show="!showCandidateImage">
+            Loading image...
+        </p>
+
         <a v-bind:href="candidate.url"
             target="_blank">
             <img v-bind:src="candidateImage"
+                 v-show="showCandidateImage"
                  alt=""
                  class="screen__fullimage" />
         </a>
@@ -79,7 +85,7 @@
 </template>
 
 <script>
-    import { encodeWikiTitle } from '../util.js';
+    import { encodeWikiTitle, loadImage } from '../util.js';
 
     export default {
         computed : {
@@ -185,7 +191,9 @@
                 this.$store.dispatch('reset');
             },
 
-            showAllImages() {
+            async showAllImages() {
+                // Make sure the image is loaded before display
+                await loadImage(this.$store.state.candidate.thumb);
                 this.showCandidateImage = true;
                 this.showItemImage = true;
             }

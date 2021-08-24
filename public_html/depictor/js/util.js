@@ -21,6 +21,18 @@ export function encodeWikiTitle(title) {
     return window.encodeURIComponent(title);
 }
 
+export async function loadImage(src) {
+    return new Promise((resolve) => {
+        const img = new Image();
+
+        img.onload = function() {
+            resolve();
+        }
+
+        img.src = src;
+    });
+}
+
 export function objectHasFilledProperties(properties, object) {
     for (const prop of properties) {
         if (!prop in object) {

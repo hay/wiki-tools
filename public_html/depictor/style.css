@@ -343,6 +343,11 @@ a {
     margin-top: auto; }
   .reference__description {
     font-size: 1.6rem; }
+  @media (min-width: 768px) {
+    .reference {
+      grid-template-columns: 25rem 1fr; }
+      .reference__img {
+        height: 25rem; } }
 
 .options {
   display: grid;

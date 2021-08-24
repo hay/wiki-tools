@@ -191,7 +191,7 @@ export default function createStore(opts) {
 
             async nextItem({ commit, getters, dispatch }) {
                 if (!getters.hasRemainingItems) {
-                    console.error('No more remaining items');
+                    console.log('No more remaining items');
                     commit('errorMessage', 'Seems there are no more items to process. Try again with a different query.');
                     return;
                 }
@@ -214,7 +214,7 @@ export default function createStore(opts) {
                 try {
                     item = await api.getItem(nextItem.qid);
                 } catch (e) {
-                    console.error(e);
+                    console.log(e);
                     return;
                 }
 
@@ -228,8 +228,7 @@ export default function createStore(opts) {
                         nextItem.qid, nextItem.category
                     );
                 } catch (e) {
-                    console.error(e);
-                    console.error(`Could not get candidates for ${nextItem.qid}`);
+                    console.log(`Could not get candidates for ${nextItem.qid}`);
                     await dispatch('itemDone', nextItem.qid);
                     dispatch('nextItem');
                     return;
@@ -258,7 +257,7 @@ export default function createStore(opts) {
                 } else if (type === 'sparql') {
                     items = await api.getItemsWithSparql(value);
                 } else {
-                    console.error('No valid query options');
+                    console.log('No valid query options');
                     return;
                 }
 
