@@ -2,7 +2,6 @@ import { randInt, sample, timeout } from 'donot';
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {
-    POSSIBLE_CANDIDATE_STATES, CANDIDATE_SKIP,
     DEFAULT_LOCALE, THUMB_SIZE, MAX_API_TRIES, MAX_API_CHECK_TRIES
 } from './const.js';
 import Api from './api.js';

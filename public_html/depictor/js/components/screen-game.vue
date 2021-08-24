@@ -42,17 +42,17 @@
         </a>
 
         <menu class="screen__actions">
-            <button v-on:click="handleCandidate('approved')"
+            <button v-on:click="handleCandidate('depicted')"
                     class="button button--action">
                 ✅ Depicted
             </button>
 
-            <button v-on:click="handleCandidate('skipped')"
+            <button v-on:click="handleCandidate('user-skipped')"
                     class="button button--action">
                 👋 Skip
             </button>
 
-            <button v-on:click="handleCandidate('rejected')"
+            <button v-on:click="handleCandidate('not-depicted')"
                     class="button button--action">
                 ❌ Not depicted
             </button>

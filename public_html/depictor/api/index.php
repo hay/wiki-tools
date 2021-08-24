@@ -46,7 +46,7 @@
 
     function assertIncludes(string $string, array $includes) {
         if (!in_array($string, $includes)) {
-            error("Invalid string, should be one of: " . implode($includes, ","));
+            error("Invalid string, should be one of: " . implode(", ",$includes));
         }
     }
 
@@ -60,7 +60,7 @@
         assertItemid($mid);
         $files = ORM::for_table(TBL_DEPICTOR_FILES)
             ->where('mid', $mid)
-            ->where_not_equal('status', 'skipped') // Skipped items can show up again
+            ->where_not_equal('status', 'user-skipped') // Skipped items can show up again
             ->find_array();
         return count($files) > 0;
     }
@@ -74,7 +74,9 @@
     function insert(array $args) {
         assertItemid($args["mid"]);
         assertItemid($args["qid"]);
-        assertIncludes($args["status"], ['approved','rejected','skipped']);
+        assertIncludes($args["status"], [
+            'depicted','not-depicted','user-skipped', 'prominently-depicted'
+        ]);
 
         // First check if maybe this pair of mid/qid is already in the db
         if (hasFile($args["mid"])) {

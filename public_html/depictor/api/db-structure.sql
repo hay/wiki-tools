@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.7.32)
 # Database: wikitools
-# Generation Time: 2021-08-23 13:30:21 +0000
+# Generation Time: 2021-08-24 12:02:23 +0000
 # ************************************************************
 
 
@@ -20,6 +20,24 @@ SET NAMES utf8mb4;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
+# Dump of table depictor_files
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `depictor_files`;
+
+CREATE TABLE `depictor_files` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `mid` varchar(64) DEFAULT NULL,
+  `qid` varchar(64) DEFAULT NULL,
+  `category` varchar(255) DEFAULT '',
+  `status` enum('depicted','not-depicted','user-skipped','prominently-depicted') DEFAULT NULL,
+  `timestamp` varchar(32) DEFAULT NULL,
+  `user` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 # Dump of table depictor_items
 # ------------------------------------------------------------
 
@@ -27,10 +45,10 @@ DROP TABLE IF EXISTS `depictor_items`;
 
 CREATE TABLE `depictor_items` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `type` enum('item','file') DEFAULT NULL,
-  `itemid` varchar(64) DEFAULT NULL,
-  `status` enum('approved','rejected','done') DEFAULT NULL,
+  `qid` varchar(64) DEFAULT NULL,
+  `status` enum('done') DEFAULT NULL,
   `timestamp` varchar(32) DEFAULT NULL,
+  `user` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
