@@ -1,6 +1,6 @@
 import { getJson } from 'donot';
-import { DB_ITEM_PROPERTIES, IMAGE_SIZE, LOCAL_API_ENDPOINT} from './const.js';
-import { objectHasFilledProperties, buildUrlQuery } from './util.js';
+import { IMAGE_SIZE, LOCAL_API_ENDPOINT} from './const.js';
+import { buildUrlQuery } from './util.js';
 import CommonsApi from './mwapi/commons.js';
 import WikidataApi from './mwapi/wikidata.js';
 import WikidataQuery from './mwapi/query.js';
@@ -10,13 +10,22 @@ export default class Api {
         this.locale = locale;
     }
 
-    async addDbItem(payload) {
-        if (!objectHasFilledProperties(DB_ITEM_PROPERTIES, payload)) {
-            throw new Error("Database item does not have valid properties");
-        }
+    async addFile(file) {
+        const req = await this.call('add-file', file);
+        return req;
+    }
 
-        const url = `${LOCAL_API_ENDPOINT}?${buildUrlQuery(payload)}`;
+    async call(action, opts) {
+        opts.action = action;
+        const query = buildUrlQuery(opts);
+        const url = `${LOCAL_API_ENDPOINT}?${query}`;
         const req = await getJson(url);
+        return req;
+    }
+
+    async fileExists(mid) {
+        const req = await this.call('file-exists', { mid });
+        return req.status;
     }
 
     async getCandidates(qid, category) {
@@ -39,22 +48,6 @@ export default class Api {
         }
 
         return req.items;
-    }
-
-    async getExists(type, id) {
-        if (!['item', 'file'].includes(type)) {
-            throw new Error("Invalid type for getExists");
-        }
-
-        const query = buildUrlQuery({
-            action : 'exists',
-            type : type,
-            itemid : id
-        });
-
-        const url = `${LOCAL_API_ENDPOINT}?${query}`;
-        const req = await getJson(url);
-        return req.status;
     }
 
     async getItemByCommonsCategory(category) {
@@ -132,5 +125,16 @@ export default class Api {
         `;
 
         return await this.getItemsWithSparql(sparql);
+    }
+
+
+    async itemDone(opts) {
+        const req = await this.call('item-done', opts);
+        return req;
+    }
+
+    async itemExists(qid) {
+        const req = await this.call('item-exists', { qid });
+        return req.status;
     }
 }

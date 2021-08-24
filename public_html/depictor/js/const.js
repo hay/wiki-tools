@@ -2,7 +2,6 @@ export const CANDIDATE_ACCEPT = 'approved';
 export const CANDIDATE_REJECT = 'rejected';
 export const CANDIDATE_SKIP = 'skip';
 export const POSSIBLE_CANDIDATE_STATES = [CANDIDATE_ACCEPT, CANDIDATE_SKIP, CANDIDATE_REJECT];
-export const DB_ITEM_PROPERTIES = ['action', 'type', 'itemid', 'status'];
 export const DEFAULT_LOCALE = 'en';
 export const IMAGE_SIZE = 800;
 export const LOCAL_API_ENDPOINT = './api/index.php';

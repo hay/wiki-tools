@@ -15,7 +15,7 @@
         private string $oauthEndpoint;
         private string $apiEndpoint;
         private Token $accessToken;
-        private bool $mockLogin = false; // Used for debugging purposes
+        private bool $mockLogin = false;
         public string $userState;
 
         const STATE_LOGGED_IN = "logged-in";
@@ -25,7 +25,13 @@
 
         function __construct(array $opts) {
             session_start();
+
+            // If mockLogin is set to true 'userState' will always return 'logged-in'
+            // and no authentication will be done
+            // However, all requests that actually need authentication will give
+            // a fatal error
             $this->mockLogin = $opts["mockLogin"] ?? false;
+
             $this->endpoint = $opts["endpoint"];
             $this->oauthEndpoint = $this->endpoint . "/w/index.php?title=Special:OAuth";
             $this->apiEndpoint = $this->endpoint . "/w/api.php";

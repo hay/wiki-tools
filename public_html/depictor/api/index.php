@@ -3,15 +3,14 @@
     require './vendor/autoload.php';
     require './class-oauth.php';
 
+    define('RE_ITEMID', "/[M|Q]\d+$/");
+
     $oauth = new OAuth([
+        "mockLogin" => DEBUG,
         "endpoint" => OAUTH_COMMONS_ENDPOINT,
         "consumer_key" => OAUTH_DEPICTOR["consumer_key"],
         "consumer_secret" => OAUTH_DEPICTOR["consumer_secret"]
     ]);
-
-    define('RE_ITEMID', "/[M|Q]\d+$/");
-    define('POSSIBLE_STATES', ['approved','rejected','done']);
-    define('POSSIBLE_TYPES', ['item', 'file']);
 
     function error(string $msg) {
         respond([ "error" => $msg ]);
@@ -45,71 +44,71 @@
         }
     }
 
-    function check_type(string $type) {
-        if (!in_array($type, POSSIBLE_TYPES)) {
-            error("Invalid type");
+    function assertIncludes(string $string, array $includes) {
+        if (!in_array($string, $includes)) {
+            error("Invalid string, should be one of: " . implode($includes, ","));
         }
     }
 
-    function check_itemid(string $itemid) {
+    function assertItemid(string $itemid) {
         if (!preg_match(RE_ITEMID, $itemid)) {
-            error("Invalid itemid");
+            error("Invalid id");
         }
     }
 
-    function choice(array $args) {
-        $type = $args["type"] ?? false;
-        check_type($type);
-
-        $itemid = $args["itemid"] ?? false;
-        check_itemid($itemid);
-
-        $status = $args["status"] ?? false;
-
-        if (!in_array($status, POSSIBLE_STATES)) {
-            error("Invalid status");
-        }
-
-        insert($args);
+    function hasFile(string $mid):bool {
+        assertItemid($mid);
+        $files = ORM::for_table(TBL_DEPICTOR_FILES)->where('mid', $mid)->find_array();
+        return count($files) > 0;
     }
 
-    function exists(array $args) {
-        $type = $args["type"] ?? false;
-        check_type($type);
-
-        $itemid = $args["itemid"] ?? false;
-        check_itemid($itemid);
-
-        $has = hasItem($type, $itemid);
-        respond(["status" => $has]);
-    }
-
-    function getItem(string $type, string $id) {
-        return ORM::for_table(TBL_DEPICTOR_ITEMS)->where([
-            "type" => $type,
-            "itemid" => $id
-        ])->find_array();
-    }
-
-    function hasItem(string $type, string $id) {
-        return count(getItem($type, $id)) > 0;
+    function hasItem(string $qid) {
+        assertItemid($qid);
+        $items = ORM::for_table(TBL_DEPICTOR_ITEMS)->where('qid', $qid)->find_array();
+        return count($items) > 0;
     }
 
     function insert(array $args) {
-        // First check if maybe this pair of type/id is already in the db
-        $hasItem = hasItem($args["type"], $args["itemid"]);
+        assertItemid($args["mid"]);
+        assertItemid($args["qid"]);
+        assertIncludes($args["status"], ['approved','rejected','skipped']);
 
-        if ($hasItem) {
+        // First check if maybe this pair of mid/qid is already in the db
+        if (hasFile($args["mid"])) {
+            error("Item already in database");
+        }
+
+        $newItem = ORM::for_table(TBL_DEPICTOR_FILES)->create();
+
+        $newItem->set([
+            "mid" => $args["mid"],
+            "qid" => $args["qid"],
+            "category" => $args["category"],
+            "user" => $args["user"],
+            "status" => $args["status"],
+            "timestamp" => date("c")
+        ]);
+
+        $newItem->save();
+
+        respond(["ok" => "Added"]);
+    }
+
+    function itemdone(array $args) {
+        assertItemid($args["qid"]);
+
+        // Check if qid is already in the db
+        if (hasItem($args["qid"])) {
             error("Item already in database");
         }
 
         $newItem = ORM::for_table(TBL_DEPICTOR_ITEMS)->create();
 
         $newItem->set([
-            "type" => $args["type"],
-            "itemid" => $args["itemid"],
-            "status" => $args["status"],
-            "timestamp" => date("c")
+            "qid" => $args["qid"],
+            "status" => "done",
+            "timestamp" => date("c"),
+            "user" => $args["user"]
         ]);
 
         $newItem->save();
@@ -143,10 +142,16 @@
         assertOauth();
         $action = $_GET["action"] ?? false;
 
-        if ($action == "choice") {
-            choice($_GET);
-        } else if ($action == "exists") {
-            exists($_GET);
+        if ($action == "add-file") {
+            insert($_GET);
+        } else if ($action == "file-exists") {
+            $has = hasFile($_GET["mid"]);
+            respond(["status" => $has]);
+        } else if ($action == "item-exists") {
+            $has = hasItem($_GET["qid"]);
+            respond(["status" => $has]);
+        } else if ($action == "item-done") {
+            itemdone($_GET);
         } else if ($action == "test") {
             test($_GET["message"] ?? "test-message");
         } else {

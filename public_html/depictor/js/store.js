@@ -9,11 +9,12 @@ import Api from './api.js';
 
 Vue.use(Vuex);
 
-export default function createStore() {
+export default function createStore(opts) {
     const api = new Api(DEFAULT_LOCALE);
 
     function getInitialState() {
         return {
+            authenticatedUser : opts.authenticatedUser,
             birthYear : null,
             candidate : null,
             candidates : [],
@@ -139,32 +140,23 @@ export default function createStore() {
 
         actions : {
             async handleCandidate({ commit, dispatch, state }, status) {
-                if (
-                    !POSSIBLE_CANDIDATE_STATES.includes(status)
-                ) {
-                    throw new Error("Invalid candidate status: " + status);
-                }
-
-                if (status !== CANDIDATE_SKIP) {
-                    await api.addDbItem({
-                        action : 'choice',
-                        type : 'file',
-                        itemid : state.candidate.mid,
-                        status : status
-                    });
-                }
+                await api.addFile({
+                    mid : state.candidate.mid,
+                    qid : state.item.qid,
+                    category : state.category,
+                    user : state.authenticatedUser,
+                    status : status
+                });
 
                 commit('processCandidate');
 
                 await dispatch('nextCandidate');
             },
 
-            async itemDone({ commit }, qid) {
-                await api.addDbItem({
-                    action : 'choice',
-                    type : 'item',
-                    itemid : qid,
-                    status : 'done'
+            async itemDone({ state, commit }, qid) {
+                await api.itemDone({
+                    user : state.authenticatedUser,
+                    qid
                 });
 
                 commit('itemDone', qid);
@@ -178,7 +170,7 @@ export default function createStore() {
                     const candidate = sample(getters.remainingCandidates);
 
                     // Check if the candidate has been processed earlier
-                    const exists = await api.getExists('file', candidate.mid);
+                    const exists = await api.fileExists(candidate.mid);
                     console.log(`${candidate.mid} exists: ${exists}`);
 
                     if (exists) {
@@ -208,7 +200,7 @@ export default function createStore() {
                 const nextItem = sample(getters.remainingItems);
 
                 // Check if this item is 'done', and if so go on
-                const exists = await api.getExists('item', nextItem.qid);
+                const exists = await api.itemExists(nextItem.qid);
                 console.log(`${nextItem.qid} exists: ${exists}`);
 
                 if (exists) {

@@ -47,7 +47,7 @@
                 ✅ Depicted
             </button>
 
-            <button v-on:click="handleCandidate('skip')"
+            <button v-on:click="handleCandidate('skipped')"
                     class="button button--action">
                 👋 Skip
             </button>

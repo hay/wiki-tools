@@ -37,11 +37,14 @@
         <?php if ($oauth->userState == OAuth::STATE_LOGGED_IN): ?>
             <?php if (DEBUG): ?>
                 <p class="app-user">Debug mode</p>
+                <meta name="authenticated-user" content="debug-user" />
             <?php else: ?>
+                <?php $user = $oauth->getIdentity()->username; ?>
                 <p class="app-user">
-                    You are logged in as <strong><?= $oauth->getIdentity()->username; ?></strong>.
+                    You are logged in as <strong><?= $user; ?></strong>.
                     <a href="index.php?logout=1">Log out</a>.
                 </p>
+                <meta name="authenticated-user" content="<?= $user; ?>" />
             <?php endif; ?>
 
             <app></app>
