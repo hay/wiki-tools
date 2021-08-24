@@ -36,6 +36,29 @@
         }
     }
 
+    function addDepicts(string $mid, string $qid) {
+        global $oauth;
+        $token = $oauth->requestCsrfToken();
+
+        $req = $oauth->requestPost([
+            "action" => "wbcreateclaim",
+            "format" => 'json',
+            "entity" => $mid,
+            "property" => "P180", // For now we only support depicts
+            "snaktype" => "value",
+            "value" => json_encode([
+                "entity-type" => "item",
+                "numeric-id" => str_replace("Q", "", $qid)
+            ]),
+            "token" => $token,
+            "summary" => "Setting a depicts statement using Depictor"
+        ]);
+
+        $data = json_decode($req, true);
+
+        respond($data);
+    }
+
     function assertOauth() {
         global $oauth;
 
@@ -81,6 +104,11 @@
         // First check if maybe this pair of mid/qid is already in the db
         if (hasFile($args["mid"])) {
             error("Item already in database");
+        }
+
+        // If in debug mode, we simply skip this step so we can test everything else
+        if (!DEBUG) {
+            addDepicts($args["mid"], $args["qid"]);
         }
 
         $newItem = ORM::for_table(TBL_DEPICTOR_FILES)->create();

@@ -5,8 +5,9 @@ import App from './components/app.vue';
 import createStore from './store.js';
 
 async function createApp() {
+    const userEl = $('meta[name="authenticated-user"]');
     const store = createStore({
-        authenticatedUser : $('meta[name="authenticated-user"]').getAttribute('content')
+        authenticatedUser : userEl ? userEl.getAttribute('content') : null
     });
 
     new Vue({
