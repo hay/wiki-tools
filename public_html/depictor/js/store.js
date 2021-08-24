@@ -88,7 +88,13 @@ export default function createStore(opts) {
                 // Transform opts to a URL and set the hash, after that
                 // a hashchange will trigger start
                 const queryType = window.encodeURIComponent(opts.type);
-                const queryValue = window.encodeURIComponent(opts[opts.type]);
+
+                // For some reason, using newlines in GET requests give a HTTP 400
+                // on Toolforge, so let's replace newlines with spaces in values,
+                // especially needed on SPARQL queries
+                let value = opts[opts.type].trim().replace(/\n/g, ' ').replace(/ +/g, ' ');
+                const queryValue = window.encodeURIComponent(value);
+
                 const search = `queryType=${queryType}&queryValue=${queryValue}`;
                 window.location.search = search;
             },
