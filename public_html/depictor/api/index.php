@@ -40,7 +40,7 @@
         global $oauth;
         $token = $oauth->requestCsrfToken();
 
-        $req = $oauth->requestPost([
+        $oauth->requestPost([
             "action" => "wbcreateclaim",
             "format" => 'json',
             "entity" => $mid,
@@ -54,9 +54,7 @@
             "summary" => "Setting a depicts statement using Depictor"
         ]);
 
-        $data = json_decode($req, true);
-
-        respond($data);
+        // TODO: maybe get the result and do some error checking
     }
 
     function assertOauth() {
@@ -107,7 +105,7 @@
         }
 
         // If in debug mode, we simply skip this step so we can test everything else
-        if (!DEBUG) {
+        if (!DEBUG && $args["status"] == "depicted") {
             addDepicts($args["mid"], $args["qid"]);
         }
 

@@ -5,7 +5,7 @@ require_once 'class-templaterenderer.php';
 
 class Hay {
     const DEFAULT_TITLE = "Hay's tools";
-    private $toolname, $tools, $tooldata, $title;
+    private $toolname, $tools, $tooldata, $title, $toolurl;
     private $description, $titletag, $path, $opts;
     private $version;
 
@@ -20,6 +20,7 @@ class Hay {
             $this->toolname = $toolname;
             $this->tooldata = $this->tools->$toolname;
             $this->title = $this->tooldata->title;
+            $this->toolurl = ROOT . "/$toolname";
             $this->description = $this->tooldata->description;
             $this->titletag = $this->title . " - " . self::DEFAULT_TITLE;
         } else {
@@ -64,6 +65,8 @@ class Hay {
         echo $this->renderer->render("header", [
             'toolname' => $this->toolname,
             'title' => $this->title,
+            'description' => $this->description,
+            'url' => $this->toolurl,
             'root' => ROOT,
             "opts" => $this->opts
         ]);

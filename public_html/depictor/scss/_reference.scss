@@ -6,8 +6,10 @@
     width: 100%;
 
     &__img {
-        width: 100%;
+        @include wh(100%, 15rem);
         padding: 3px;
+        object-fit: contain;
+        background: black;
     }
 
     &__caption {

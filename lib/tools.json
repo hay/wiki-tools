@@ -1,33 +1,33 @@
 {
     "directory" : {
         "title" : "Tools Directory",
-        "description" : "Discover Wikimedia-related tools."
+        "description" : "Discover Wikimedia-related tools"
     },
 
     "vizquery" : {
         "title" : "VizQuery",
-        "description" : "Query Wikidata visually."
+        "description" : "Query Wikidata visually"
     },
+
 
     "propbrowse" : {
         "title" : "Wikidata Propbrowse",
-        "description" : "Browse and view all properties on Wikidata."
+        "description" : "Browse and view all properties on Wikidata"
     },
 
     "sdsearch" : {
         "title" : "Structured Search",
-        "description" : "Search media on <a href=\"https://commons.wikimedia.org\">Wikimedia Commons</a> using <a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">structured data</a>."
+        "description" : "Search media on <a href=\"https://commons.wikimedia.org\">Wikimedia Commons</a> using <a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">structured data</a>"
     },
 
     "depictor" : {
         "title" : "Depictor",
-        "description" : "Add structured data statements to Wikimedia Commons using a game-like interface",
-        "hidden" : true
+        "description" : "Add structured data statements to Wikimedia Commons using a game-like interface"
     },
 
     "exturl" : {
         "title" : "External URL stats",
-        "description" : "A better <a href=\"https://meta.wikimedia.org/wiki/Help:Linksearch\">External links search</a>. Collates all the links so you can view which Wikipedia pages have the most external links to a pattern."
+        "description" : "A better <a href=\"https://meta.wikimedia.org/wiki/Help:Linksearch\">External links search</a>. Collates all the links so you can view which Wikipedia pages have the most external links to a pattern"
     },
 
     "querydash" : {
@@ -37,12 +37,12 @@
 
     "qsml" : {
         "title" : "QSML",
-        "description" : "QuickStatements Macro Language: speed up your <a href=\"https://tools.wmflabs.org/quickstatements/\">QuickStatements</a> by using macros."
+        "description" : "QuickStatements Macro Language: speed up your <a href=\"https://tools.wmflabs.org/quickstatements/\">QuickStatements</a> by using macros"
     },
 
     "chantek" : {
         "title" : "Chantek",
-        "description" : "An unaspiring HTTP API server written in Python with lots of Wikimedia-related commands.",
+        "description" : "An unaspiring HTTP API server written in Python with lots of Wikimedia-related commands",
         "url" : "https://github.com/hay/chantek"
     },
 
@@ -53,12 +53,12 @@
 
     "minefield" : {
         "title" : "Minefield",
-        "description" : "Convert Commons file page titles to media ids."
+        "description" : "Convert Commons file page titles to media ids"
     },
 
     "wdtranslate" : {
         "title" : "Wikidata Translate",
-        "description" : "Use the power of Wikidata to translate a term between two or more languages."
+        "description" : "Use the power of Wikidata to translate a term between two or more languages"
     },
 
     "wdreconcile" : {

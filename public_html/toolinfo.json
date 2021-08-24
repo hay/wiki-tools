@@ -1,12 +1,13 @@
 [
+
     {
-        "title" : "Query Dashboard",
-        "description" : "Create dashboards containing statistics from Wikidata SPARQL queries",
-        "name" : "hay-querydash",
+        "title" : "Depictor",
+        "description" : "Add structured data statements to Wikimedia Commons using a game-like interface",
+        "name" : "hay-depictor",
         "author" : "Hay Kranen",
         "repository" : "https://github.com/hay/wiki-tools.git",
-        "url" : "https://hay.toolforge.org/querydash/",
-        "keywords" : "wikidata, query, sparql, dashboard"
+        "url" : "https://hay.toolforge.org/depictor/",
+        "keywords" : "wikidata, wikicommons, commons, sdoc, structured-data, game"
     },
     {
         "title" : "wdreconcile.py",

@@ -331,7 +331,10 @@ a {
   width: 100%; }
   .reference__img {
     width: 100%;
-    padding: 3px; }
+    height: 15rem;
+    padding: 3px;
+    object-fit: contain;
+    background: black; }
   .reference__caption {
     display: flex;
     flex-direction: column;

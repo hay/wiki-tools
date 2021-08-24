@@ -34,29 +34,29 @@
             Is {{ref.label}} depicted in the image below?
         </p>
 
+        <menu class="screen__actions">
+            <button v-on:click="candidateDepicted"
+                    class="button button--action">
+                ✅ Depicted
+            </button>
+
+            <button v-on:click="candidateSkipped"
+                    class="button button--action">
+                👋 Skip
+            </button>
+
+            <button v-on:click="candidateNotDepicted"
+                    class="button button--action">
+                ❌ Not depicted
+            </button>
+        </menu>
+
         <a v-bind:href="candidate.url"
             target="_blank">
             <img v-bind:src="candidateImage"
                  alt=""
                  class="screen__fullimage" />
         </a>
-
-        <menu class="screen__actions">
-            <button v-on:click="handleCandidate('depicted')"
-                    class="button button--action">
-                ✅ Depicted
-            </button>
-
-            <button v-on:click="handleCandidate('user-skipped')"
-                    class="button button--action">
-                👋 Skip
-            </button>
-
-            <button v-on:click="handleCandidate('not-depicted')"
-                    class="button button--action">
-                ❌ Not depicted
-            </button>
-        </menu>
 
         <p class="screen__meta">
             <span>
@@ -70,6 +70,10 @@
                    {{candidate.title}} ({{candidate.mid}})
                 </a>
             </small>
+
+            <span>
+                Keyboard shortcuts: <b>(a)</b> depicted, <b>(s)</b> skip, <b>(d)</b> not depicted<!--, <b>(p)</b> prominently depicted -->
+            </span>
         </p>
     </div>
 </template>
@@ -127,11 +131,46 @@
             };
         },
 
+        destroyed() {
+            window.removeEventListener('reset', this.keydown);
+        },
+
         methods : {
+            candidateDepicted() {
+                this.handleCandidate('depicted');
+            },
+
+            candidateNotDepicted() {
+                this.handleCandidate('not-depicted');
+            },
+
+            candidatePromintentlyDepicted() {
+                this.handleCandidate('prominently-depicted');
+            },
+
+            candidateSkipped() {
+                this.handleCandidate('user-skipped');
+            },
+
             async handleCandidate(action) {
                 this.showCandidateImage = false;
                 await this.$store.dispatch('handleCandidate', action);
                 this.showAllImages();
+            },
+
+            keydown(e) {
+                if (e.key === 'a') {
+                    this.candidateDepicted();
+                } else if (e.key === 's') {
+                    this.candidateSkipped();
+                } else if (e.key === 'd') {
+                    this.candidateNotDepicted();
+                }
+
+                // Not yet!
+                /* else if (e.key === 'p') {
+                    this.candidatePromintentlyDepicted();
+                }*/
             },
 
             async skipItem() {
@@ -150,6 +189,10 @@
                 this.showCandidateImage = true;
                 this.showItemImage = true;
             }
+        },
+
+        mounted() {
+            window.addEventListener('keydown', this.keydown);
         }
     }
 </script>
