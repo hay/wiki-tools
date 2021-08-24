@@ -1,0 +1,24 @@
+.leaderboard {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 50rem;
+    margin-top: 1rem;
+    @include margin-center;
+    font-size: 1.6rem;
+
+    th {
+        background: var(--c-1);
+        color: white;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    tr:nth-child(odd) {
+        background: var(--c-2);
+    }
+
+    td {
+        padding: 1rem;
+        text-align: center;
+    }
+}

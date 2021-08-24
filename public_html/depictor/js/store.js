@@ -13,6 +13,7 @@ export default function createStore(opts) {
 
     function getInitialState() {
         return {
+            api : api,
             authenticatedUser : opts.authenticatedUser,
             birthYear : null,
             candidate : null,

@@ -84,7 +84,9 @@ select ?item ?instance ?image ?cat where {
                     </code></pre>
                 </p>
             </div>
-        </div>
+        </div> <!-- options-wrapper -->
+
+        <el-leaderboard></el-leaderboard>
     </div>
 </template>
 
@@ -93,12 +95,15 @@ select ?item ?instance ?image ?cat where {
     import {
         MIN_BIRTH_YEAR, MAX_BIRTH_YEAR
     } from '../const.js';
+    import ElLeaderboard from './el-leaderboard.vue';
 
     function getRandomBirthYear() {
         return randInt(MIN_BIRTH_YEAR, MAX_BIRTH_YEAR);
     }
 
     export default {
+        components : { ElLeaderboard },
+
         data() {
             return {
                 opts : {

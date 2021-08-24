@@ -15,7 +15,7 @@ export default class Api {
         return req;
     }
 
-    async call(action, opts) {
+    async call(action, opts = {}) {
         opts.action = action;
         const query = buildUrlQuery(opts);
         const url = `${LOCAL_API_ENDPOINT}?${query}`;
@@ -108,6 +108,10 @@ export default class Api {
         item.qid = qid;
 
         return item;
+    }
+
+    async getLeaderboard() {
+        return await this.call('leaderboard');
     }
 
     async getPeopleByBirthyear(birthYear) {

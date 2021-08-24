@@ -77,6 +77,17 @@
         }
     }
 
+    function leaderboard():array {
+        $sql = "select user,count(*) as edits from " . TBL_DEPICTOR_FILES . " group by user order by edits desc limit 20";
+        $stats = ORM::for_table(TBL_DEPICTOR_FILES)->raw_query($sql)->find_array();
+        $total = ORM::for_table(TBL_DEPICTOR_FILES)->count();
+
+        respond([
+            "stats" => $stats,
+            "total" => $total
+        ]);
+    }
+
     function hasFile(string $mid):bool {
         assertItemid($mid);
         $files = ORM::for_table(TBL_DEPICTOR_FILES)
@@ -183,6 +194,8 @@
             respond(["status" => $has]);
         } else if ($action == "item-done") {
             itemdone($_GET);
+        } else if ($action == "leaderboard") {
+            leaderboard();
         } else if ($action == "test") {
             test($_GET["message"] ?? "test-message");
         } else {

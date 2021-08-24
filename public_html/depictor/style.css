@@ -295,6 +295,17 @@ a {
   .screen__small,
   .screen__small a {
     color: #666; }
+  .screen__title {
+    margin-top: 4rem;
+    text-align: center;
+    font-size: 2.6rem;
+    font-weight: normal;
+    color: var(--c-1); }
+  .screen__subtitle {
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 300;
+    line-height: 1.4; }
   .screen__lead {
     text-align: center;
     margin-top: 2rem; }
@@ -365,3 +376,22 @@ a {
     margin-bottom: 2rem; }
   .options__instruction {
     grid-column: 1 / -1; }
+
+.leaderboard {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 50rem;
+  margin-top: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.6rem; }
+  .leaderboard th {
+    background: var(--c-1);
+    color: white;
+    text-align: center;
+    padding: 1rem; }
+  .leaderboard tr:nth-child(odd) {
+    background: var(--c-2); }
+  .leaderboard td {
+    padding: 1rem;
+    text-align: center; }
