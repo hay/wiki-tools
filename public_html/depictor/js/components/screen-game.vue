@@ -1,86 +1,96 @@
 <template>
-    <div class="screen"
-         v-if="candidate">
-        <button class="button button--action button--center"
-                v-on:click="reset">
-            &times; Reset
-        </button>
+    <div>
+        <div class="screen" v-if="!candidate">
+            <p class="screen__instruction">
+               Fetching candidates for you...
+            </p>
+        </div>
 
-        <figure class="reference">
-            <img v-bind:src="itemImage"
-                 alt=""
-                 class="reference__img image" />
+        <div class="screen"
+             v-show="!!candidate">
+            <button class="button button--action button--center"
+                    v-on:click="reset">
+                &times; Reset
+            </button>
 
-            <figcaption class="reference__caption">
-                <p>
-                    <a v-bind:href="ref.href"
-                       target="_blank">
-                        {{ref.label}}
-                    </a>
-                </p>
+            <figure class="reference"
+                    v-show="showItemImage">
+                <img v-bind:src="itemImage"
+                     alt=""
+                     class="reference__img image" />
 
-                <p class="reference__description">
-                    <em>{{ref.description}}</em>
-                </p>
+                <figcaption class="reference__caption">
+                    <p>
+                        <a v-bind:href="ref.href"
+                           target="_blank">
+                            {{ref.label}}
+                        </a>
+                    </p>
 
-                <button class="button button--link"
-                        v-on:click="skipItem">
-                    Skip item
+                    <p class="reference__description">
+                        <em>{{ref.description}}</em>
+                    </p>
+
+                    <button class="button button--link"
+                            v-on:click="skipItem">
+                        Skip item
+                    </button>
+                </figcaption>
+            </figure>
+
+            <p class="screen__instruction"
+               v-if="!showCandidateImage || !showItemImage">
+                Loading image(s)...
+            </p>
+
+            <p v-else
+               class="screen__instruction">
+                Is {{ref.label}} depicted in the image below?
+            </p>
+
+            <menu class="screen__actions">
+                <button v-on:click="candidateDepicted"
+                        class="button button--action">
+                    ✅ Depicted
                 </button>
-            </figcaption>
-        </figure>
 
-        <p class="screen__instruction">
-            Is {{ref.label}} depicted in the image below?
-        </p>
+                <button v-on:click="candidateSkipped"
+                        class="button button--action">
+                    👋 Skip
+                </button>
 
-        <menu class="screen__actions">
-            <button v-on:click="candidateDepicted"
-                    class="button button--action">
-                ✅ Depicted
-            </button>
+                <button v-on:click="candidateNotDepicted"
+                        class="button button--action">
+                    ❌ Not depicted
+                </button>
+            </menu>
 
-            <button v-on:click="candidateSkipped"
-                    class="button button--action">
-                👋 Skip
-            </button>
+            <a v-bind:href="candidate.url"
+                target="_blank">
+                <img v-bind:src="candidateImage"
+                     v-show="showCandidateImage"
+                     alt=""
+                     class="screen__fullimage" />
+            </a>
 
-            <button v-on:click="candidateNotDepicted"
-                    class="button button--action">
-                ❌ Not depicted
-            </button>
-        </menu>
+            <p class="screen__meta">
+                <span>
+                    Image <b>{{remainingCandidates}}</b> of <b>{{totalCandidates}}</b> in this
+                    <a v-bind:href="categoryUrl" target="_blank">category</a>
+                </span>
 
-        <p class="screen__instruction"
-           v-show="!showCandidateImage">
-            Loading image...
-        </p>
+                <small class="screen__small">
+                    <a v-bind:href="candidate.url"
+                       target="_blank">
+                       {{candidate.title}} ({{candidate.mid}})
+                    </a>
+                </small>
 
-        <a v-bind:href="candidate.url"
-            target="_blank">
-            <img v-bind:src="candidateImage"
-                 v-show="showCandidateImage"
-                 alt=""
-                 class="screen__fullimage" />
-        </a>
-
-        <p class="screen__meta">
-            <span>
-                Image <b>{{remainingCandidates}}</b> of <b>{{totalCandidates}}</b> in this
-                <a v-bind:href="categoryUrl" target="_blank">category</a>
-            </span>
-
-            <small class="screen__small">
-                <a v-bind:href="candidate.url"
-                   target="_blank">
-                   {{candidate.title}} ({{candidate.mid}})
-                </a>
-            </small>
-
-            <span>
-                Keyboard shortcuts: <b>(1)</b> depicted, <b>(2)</b> skip, <b>(3)</b> not depicted<!--, <b>(p)</b> prominently depicted -->
-            </span>
-        </p>
+                <span>
+                    Keyboard shortcuts: <b>(1)</b> depicted, <b>(2)</b> skip, <b>(3)</b> not depicted
+                </span>
+            </p>
+        </div>
     </div>
 </template>
 
@@ -172,11 +182,6 @@
                 } else if (e.key === '3') {
                     this.candidateNotDepicted();
                 }
-
-                // Not yet!
-                /* else if (e.key === 'p') {
-                    this.candidatePromintentlyDepicted();
-                }*/
             },
 
             async skipItem() {

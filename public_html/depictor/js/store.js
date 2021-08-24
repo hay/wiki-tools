@@ -209,19 +209,7 @@ export default function createStore(opts) {
                     return;
                 }
 
-                let item;
-
-                try {
-                    item = await api.getItem(nextItem.qid);
-                } catch (e) {
-                    console.log(e);
-                    return;
-                }
-
-                item.thumb = nextItem.thumb;
-                commit('item', item);
-
-                // Now get candidates
+                // Get candidates
                 let candidates;
                 try {
                     candidates = await api.getCandidates(
@@ -234,11 +222,23 @@ export default function createStore(opts) {
                     return;
                 }
 
+                // Get more item info
+                let item;
+
+                try {
+                    item = await api.getItem(nextItem.qid);
+                } catch (e) {
+                    console.log(e);
+                    return;
+                }
+
+                item.thumb = nextItem.thumb;
+                commit('item', item);
                 commit('candidates', candidates);
                 commit('category', nextItem.category);
 
                 // All went well, let's get out of the loop
-                console.log('Okay, i think that went well');
+                console.log('Got candidates and item');
                 await dispatch("nextCandidate");
             },
 
