@@ -92,7 +92,12 @@ export default function createStore(opts) {
                 // For some reason, using newlines in GET requests give a HTTP 400
                 // on Toolforge, so let's replace newlines with spaces in values,
                 // especially needed on SPARQL queries
-                let value = opts[opts.type].trim().replace(/\n/g, ' ').replace(/ +/g, ' ');
+                let value = opts[opts.type];
+
+                if (typeof value === 'string') {
+                    value = value.trim().replace(/\n/g, ' ').replace(/ +/g, ' ');
+                }
+
                 const queryValue = window.encodeURIComponent(value);
 
                 const search = `queryType=${queryType}&queryValue=${queryValue}`;
