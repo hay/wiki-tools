@@ -67,7 +67,7 @@
             <small class="screen__small">
                 <a v-bind:href="candidate.url"
                    target="_blank">
-                   {{candidate.title}}
+                   {{candidate.title}} ({{candidate.mid}})
                 </a>
             </small>
         </p>

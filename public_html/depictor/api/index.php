@@ -58,7 +58,10 @@
 
     function hasFile(string $mid):bool {
         assertItemid($mid);
-        $files = ORM::for_table(TBL_DEPICTOR_FILES)->where('mid', $mid)->find_array();
+        $files = ORM::for_table(TBL_DEPICTOR_FILES)
+            ->where('mid', $mid)
+            ->where_not_equal('status', 'skipped') // Skipped items can show up again
+            ->find_array();
         return count($files) > 0;
     }
 
