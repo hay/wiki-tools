@@ -21,6 +21,11 @@ export function encodeWikiTitle(title) {
     return window.encodeURIComponent(title);
 }
 
+// Lifted from https://stackoverflow.com/a/2901298/152809
+export function numberWithCommas(x, separator = ",") {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator);
+}
+
 export async function loadImage(src) {
     return new Promise((resolve) => {
         const img = new Image();

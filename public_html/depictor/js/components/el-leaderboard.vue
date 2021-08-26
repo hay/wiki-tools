@@ -6,7 +6,7 @@
 
         <p class="screen__subtitle">
             These fabulous people have helped adding a grand total of
-            <strong>{{data.total}}</strong> statements to Wikimedia Commons.
+            <strong>{{numberWithCommas( data.total )}}</strong> statements to Wikimedia Commons.
         </p>
 
         <table class="leaderboard">
@@ -25,7 +25,7 @@
                         <a v-bind:href="row.userLink"
                            target="_blank">{{row.user}}</a>
                     </td>
-                    <td>{{row.edits}}</td>
+                    <td>{{numberWithCommas( row.edits )}}</td>
                 </tr>
             </tbody>
         </table>
@@ -33,10 +33,18 @@
 </template>
 
 <script>
+    import { numberWithCommas } from '../util.js';
+
     export default {
         data() {
             return {
                 data : []
+            }
+        },
+
+        methods : {
+            numberWithCommas(val) {
+                return numberWithCommas(val);
             }
         },
 
