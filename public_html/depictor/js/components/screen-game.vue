@@ -120,7 +120,10 @@
             },
 
             remainingCandidates() {
-                return this.totalCandidates - this.$store.getters.remainingCandidates.length + 1;
+                const count = this.totalCandidates - this.$store.getters.remainingCandidates.length + 1;
+
+                // Make sure we never show totalCandidates + 1 :)
+                return count > this.totalCandidates ? this.totalCandidates : count;
             },
 
             ref() {
