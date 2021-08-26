@@ -41,7 +41,9 @@
             <?php else: ?>
                 <?php $user = $oauth->getIdentity()->username; ?>
                 <p class="app-user">
-                    You are logged in as <strong><?= $user; ?></strong>.
+                    Logged in as <strong>
+                        <a href="https://commons.wikimedia.org/wiki/User:<?= $user; ?>"
+                           target="_blank"><?= $user; ?></a></strong>.
                     <a href="index.php?logout=1">Log out</a>.
                 </p>
                 <meta name="authenticated-user" content="<?= $user; ?>" />

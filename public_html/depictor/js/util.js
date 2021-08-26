@@ -22,7 +22,7 @@ export function encodeWikiTitle(title) {
 }
 
 // Lifted from https://stackoverflow.com/a/2901298/152809
-export function numberWithCommas(x, separator = ",") {
+export function numberWithCommas(x = 0, separator = ",") {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator);
 }
 
