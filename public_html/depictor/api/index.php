@@ -78,7 +78,7 @@
     }
 
     function leaderboard():array {
-        $sql = "select user,count(*) as edits from " . TBL_DEPICTOR_FILES . " group by user order by edits desc limit 20";
+        $sql = "select user,count(*) as edits from " . TBL_DEPICTOR_FILES . " where status = 'depicted' group by user order by edits desc limit 20";
         $stats = ORM::for_table(TBL_DEPICTOR_FILES)->raw_query($sql)->find_array();
         $total = ORM::for_table(TBL_DEPICTOR_FILES)->count();
 

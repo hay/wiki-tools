@@ -19,10 +19,6 @@
 
         <div class="options__wrapper"
              v-show="showAdvancedOptions">
-            <p class="options__hint">
-               These options are experimental and might not function.
-               Use at your own risk ;)</p>
-
             <div class="options">
                 <label for="opt-year">
                     <input type="radio"
