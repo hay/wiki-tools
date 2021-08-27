@@ -87,7 +87,7 @@
                 </small>
 
                 <span>
-                    Keyboard shortcuts: <b>(1)</b> depicted, <b>(2)</b> skip, <b>(3)</b> not depicted
+                    Keyboard shortcuts: <b>(1)</b> depicted, <b>(2)</b> skip, <b>(3)</b> not depicted, <b>(s)</b> skip item
                 </span>
             </p>
         </div>
@@ -184,6 +184,8 @@
                     this.candidateSkipped();
                 } else if (e.key === '3') {
                     this.candidateNotDepicted();
+                } else if (e.key === 's') {
+                    this.skipItem();
                 }
             },
 
