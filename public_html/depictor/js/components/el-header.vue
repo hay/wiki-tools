@@ -1,9 +1,9 @@
 <template>
     <div class="el-header">
-        <language-selector
+        <el-language-selector
             v-bind:languages="languages"
             v-bind:link="transateLink"
-            v-model="locale"></language-selector>
+            v-model="locale"></el-language-selector>
 
         <h1 class="app-title">
             <a v-bind:href="rootUrl">{{$t('app_title')}}</a>
@@ -49,10 +49,13 @@
 </template>
 
 <script>
+    import ElLanguageSelector from './el-language-selector.vue';
     import { mapState } from 'vuex';
 
     export default {
-        computed : :{
+        components : { ElLanguageSelector },
+
+        computed: {
             locale: {
                 get() {
                     return this.$store.state.locale;
@@ -77,6 +80,12 @@
                     label : this.$t('translate_this_tool')
                 }
             };
+        },
+
+        watch : {
+            locale() {
+                this.$i18n.locale = this.locale;
+            }
         }
     };
 </script>

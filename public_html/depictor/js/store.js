@@ -146,7 +146,9 @@ export default function createStore(opts) {
             },
 
             locale(state, locale) {
-                state.locale = locale;
+                const url = new window.URL(window.location);
+                url.searchParams.set("locale", locale);
+                window.location.search = url.searchParams.toString();
             },
 
             processCandidate(state) {

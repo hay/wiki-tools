@@ -244,6 +244,20 @@ a {
   font-size: 1.5rem;
   margin-top: 1rem; }
 
+.icon {
+  display: block;
+  width: 1.8rem;
+  height: 1.8rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center; }
+  .icon[data-icon="locale"] {
+    background-image: url("img/icon-locale.svg"); }
+  .icon[data-icon="cross"] {
+    background-image: url("img/icon-cross.svg"); }
+  .icon[data-icon="user"] {
+    background-image: url("img/icon-user.svg"); }
+
 .button--link {
   text-decoration: underline;
   color: var(--c-1);
