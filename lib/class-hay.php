@@ -7,7 +7,7 @@ class Hay {
     const DEFAULT_TITLE = "Hay's tools";
     private $toolname, $tools, $tooldata, $title, $toolurl;
     private $description, $titletag, $path, $opts;
-    private $version;
+    private $version, $beforeHeadClose;
 
     public function __construct($toolname = false, $opts = []) {
         $this->path = realpath(dirname(__FILE__));
@@ -15,6 +15,7 @@ class Hay {
         $this->tools = json_decode(file_get_contents($toolpath));
         $this->renderer = new TemplateRenderer();
         $this->opts = $opts;
+        $this->beforeHeadClose = $opts["beforeHeadClose"] ?? false;
 
         if ($toolname) {
             $this->toolname = $toolname;
@@ -26,6 +27,26 @@ class Hay {
         } else {
             $this->titletag = self::DEFAULT_TITLE;
         }
+    }
+
+    public function description() {
+        echo $this->description;
+    }
+
+    public function footer() {
+        echo $this->renderer->render("footer", [
+            "root" => ROOT,
+            "opts" => $this->opts,
+            "toolname" => $this->toolname
+        ]);
+    }
+
+    public function getDescription() {
+        return $this->description;
+    }
+
+    public function getTitle() {
+        return $this->title;
     }
 
     public function getTools() {
@@ -41,22 +62,6 @@ class Hay {
         return $tools;
     }
 
-    public function getTitle() {
-        return $this->title;
-    }
-
-    public function getDescription() {
-        return $this->description;
-    }
-
-    public function title() {
-        echo $this->title;
-    }
-
-    public function description() {
-        echo $this->description;
-    }
-
     public function getUrl() {
         return ROOT . "/" . $this->toolname;
     }
@@ -68,15 +73,12 @@ class Hay {
             'description' => $this->description,
             'url' => $this->toolurl,
             'root' => ROOT,
-            "opts" => $this->opts
+            "opts" => $this->opts,
+            "before_head_close" => $this->beforeHeadClose
         ]);
     }
 
-    public function footer() {
-        echo $this->renderer->render("footer", [
-            "root" => ROOT,
-            "opts" => $this->opts,
-            "toolname" => $this->toolname
-        ]);
+    public function title() {
+        echo $this->title;
     }
 }

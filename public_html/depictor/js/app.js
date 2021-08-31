@@ -1,13 +1,26 @@
 import "regenerator-runtime/runtime.js";
-import { $ } from 'donot';
+import { $, getJson } from 'donot';
 import Vue from 'vue';
+import VueI18n from 'vue-i18n';
 import App from './components/app.vue';
 import createStore from './store.js';
 
 async function createApp() {
+    Vue.use(VueI18n);
+
     const userEl = $('meta[name="authenticated-user"]');
+    const locales = await getJson('./locales.json');
+
     const store = createStore({
-        authenticatedUser : userEl ? userEl.getAttribute('content') : null
+        authenticatedUser : userEl ? userEl.getAttribute('content') : null,
+        locales : locales
+    });
+
+    const i18n = new VueI18n({
+        fallbackLocale: store.state.defaultLocale,
+        locale : store.state.locale,
+        messages : store.state.locales.messages,
+        silentTranslationWarn : true
     });
 
     new Vue({
@@ -20,6 +33,8 @@ async function createApp() {
                 return this.$store.state.screen;
             }
         },
+
+        i18n : i18n,
 
         methods : {
             parseHash() {

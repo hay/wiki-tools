@@ -1,0 +1,12 @@
+{
+    "languages": [
+        {
+            "code": "en",
+            "label": "English"
+        }
+    ],
+    "messages": {
+        "en": {
+        }
+    }
+}

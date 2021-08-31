@@ -1,10 +1,11 @@
 import { randInt, sample, timeout } from 'donot';
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Api from './api.js';
 import {
     DEFAULT_LOCALE, THUMB_SIZE, MAX_API_TRIES, MAX_API_CHECK_TRIES
 } from './const.js';
-import Api from './api.js';
+import { getLocale } from './util.js';
 
 Vue.use(Vuex);
 
@@ -19,6 +20,10 @@ export default function createStore(opts) {
             candidate : null,
             candidates : [],
             category : null,
+            defaultLocale : DEFAULT_LOCALE,
+            initLocale : getLocale( DEFAULT_LOCALE ),
+            locale : getLocale( DEFAULT_LOCALE ),
+            locales : opts.locales,
             errorMessage : null,
             item : null,
             items : [],

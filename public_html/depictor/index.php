@@ -15,10 +15,32 @@
         header("Location: index.php");
     }
 
+    // Add a couple of settings and messages we later need in the Javascript
+    // code
+    $userName = null;
+    $authUrl = null;
+    $userState = $oauth->userState;
+
+    if ($userState == OAuth::STATE_LOGGED_IN && !DEBUG) {
+        $userName = $oauth->getIdentity()->username;
+    }
+
+    if ($userState == OAuth::STATE_LOGGED_OUT) {
+        $authUrl = $oauth->getAuthUrl();
+    }
+
+    $ctx = json_encode([
+        "authUrl" => $authUrl,
+        "isDebug" => DEBUG,
+        "userName" => $userName,
+        "userState" => $userState
+    ]);
+
     $hay = new Hay(basename(dirname(__FILE__)), [
         "bare" => true,
         "scripts" => [ 'bundle.js' ],
-        "styles" => [ 'style.css' ]
+        "styles" => [ 'style.css' ],
+        "beforeHeadClose" => "<script>window.__ctx__ = window.__ctx__ || $ctx</script>"
     ]);
 
     $hay->header();
