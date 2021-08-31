@@ -78,6 +78,10 @@ class Hay {
         ]);
     }
 
+    public function setBeforeHeadClose(string $html) {
+        $this->beforeHeadClose = $html;
+    }
+
     public function title() {
         echo $this->title;
     }

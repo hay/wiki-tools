@@ -10,11 +10,11 @@ async function createApp() {
 
     const userEl = $('meta[name="authenticated-user"]');
     const locales = await getJson('./locales.json');
-
-    const store = createStore({
-        authenticatedUser : userEl ? userEl.getAttribute('content') : null,
+    const ctx = window.__ctx__;
+    const storeOptions = Object.assign(window.__ctx__, {
         locales : locales
     });
+    const store = createStore(storeOptions);
 
     const i18n = new VueI18n({
         fallbackLocale: store.state.defaultLocale,

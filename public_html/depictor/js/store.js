@@ -13,23 +13,30 @@ export default function createStore(opts) {
     const api = new Api(DEFAULT_LOCALE);
 
     function getInitialState() {
+        console.log('initstate', opts);
         return {
             api : api,
-            authenticatedUser : opts.authenticatedUser,
+            authUrl: opts.authUrl,
             birthYear : null,
             candidate : null,
             candidates : [],
             category : null,
             defaultLocale : DEFAULT_LOCALE,
-            initLocale : getLocale( DEFAULT_LOCALE ),
-            locale : getLocale( DEFAULT_LOCALE ),
-            locales : opts.locales,
             errorMessage : null,
+            initLocale : getLocale( DEFAULT_LOCALE ),
+            isAccessTokenRequest: opts.isAccessTokenRequest,
+            isDebug: opts.isDebug,
+            isLoggedIn: opts.isLoggedIn,
+            isLoggedOut: opts.isLoggedOut,
             item : null,
             items : [],
             loading : false,
             locale : DEFAULT_LOCALE,
-            screen : 'intro'
+            locale : getLocale( DEFAULT_LOCALE ),
+            locales : opts.locales,
+            rootUrl: opts.rootUrl,
+            screen : 'intro',
+            userName: opts.userName
         };
     }
 

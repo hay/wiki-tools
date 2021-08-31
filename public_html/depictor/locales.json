@@ -7,6 +7,14 @@
     ],
     "messages": {
         "en": {
+            "app_title" : "Depictor",
+            "app_description" : "Add structured data statements to Wikimedia Commons using a game-like interface",
+            "logged_in_as" : "Logged in as",
+            "log_out" : "Log out",
+            "logged_in_proceed" : "You are now logged in. Click 'proceed' to begin.",
+            "proceed" : "Proceed",
+            "please_log_in" : " Hi! To get started with matching images, click below to authorize this application to make Wikimedia Commons edits on your behalf.",
+            "log_in" : "Log in"
         }
     }
 }

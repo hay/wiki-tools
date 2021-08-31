@@ -29,25 +29,32 @@
         $authUrl = $oauth->getAuthUrl();
     }
 
-    $ctx = json_encode([
-        "authUrl" => $authUrl,
-        "isDebug" => DEBUG,
-        "userName" => $userName,
-        "userState" => $userState
-    ]);
-
     $hay = new Hay(basename(dirname(__FILE__)), [
         "bare" => true,
         "scripts" => [ 'bundle.js' ],
-        "styles" => [ 'style.css' ],
-        "beforeHeadClose" => "<script>window.__ctx__ = window.__ctx__ || $ctx</script>"
+        "styles" => [ 'style.css' ]
     ]);
+
+    $ctx = json_encode([
+        "authUrl" => $authUrl,
+        "isAccessTokenRequest" => $userState == OAuth::STATE_ACCES_TOKEN_REQUEST,
+        "isDebug" => DEBUG,
+        "isLoggedIn" => $userState == OAuth::STATE_LOGGED_IN,
+        "isLoggedOut" => $userState == OAuth::STATE_LOGGED_OUT,
+        "rootUrl" => $hay->getUrl(),
+        "userName" => $userName
+    ]);
+
+    $hay->setBeforeHeadClose("<script>window.__ctx__ = window.__ctx__ || $ctx</script>");
 
     $hay->header();
 ?>
     <div id="app"
          class="app"
          v-cloak>
+         <app></app>
+    </div>
+         <!--
         <h1 class="app-title">
             <a href="<?= $hay->getUrl(); ?>"><?php $hay->title(); ?></a>
         </h1>
@@ -92,7 +99,7 @@
                    class="button button--start">Log in</a>
             </div>
         <?php endif; ?>
-    </div>
+    -->
 <?php
     $hay->footer();
 ?>

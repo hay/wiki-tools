@@ -1,5 +1,7 @@
 <template>
     <div class="screen__wrapper">
+        <el-header></el-header>
+
         <screen-intro v-if="screen === 'intro' && !isLoading"></screen-intro>
         <screen-game v-if="screen === 'game' && !isLoading"></screen-game>
 
@@ -17,11 +19,12 @@
 </template>
 
 <script>
+    import ElHeader from './el-header.vue';
     import ScreenGame from './screen-game.vue';
     import ScreenIntro from './screen-intro.vue';
 
     export default {
-        components : { ScreenIntro, ScreenGame },
+        components : { ElHeader, ScreenIntro, ScreenGame },
 
         computed : {
             errorMessage() {
