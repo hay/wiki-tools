@@ -84,7 +84,7 @@
                 </small>
 
                 <span>
-                    Keyboard shortcuts: <b>(1)</b> depicted, <b>(2)</b> skip, <b>(3)</b> not depicted, <b>(s)</b> skip item
+                    {{$t("keyboard_shortcuts")}}: <b>(1)</b> {{$t("depicted")}}, <b>(2)</b> {{$t("skip")}}, <b>(3)</b> {{$t("not_depicted")}}, <b>(s)</b> {{$t("skip_item")}}
                 </span>
             </p>
         </div>

@@ -2,19 +2,18 @@
     <div class="screen">
         <p class="screen__lead"
             v-show="opts.type === 'year'">
-            When you press 'start' you are assigned random people born in {{opts.year}}.
-            Check if your person is depicted in the given image.
+            {{$t("intro_start_birthyear", { year : opts.year })}}
         </p>
 
         <button
             class="button button--start"
-            v-on:click="start">Start</button>
+            v-on:click="start">{{$t("start")}}</button>
 
         <button
             class="button button--link buffer-top-3"
             v-on:click="toggleAdvancedOptions">
-            <span v-if="showAdvancedOptions">Hide advanced options</span>
-            <span v-if="!showAdvancedOptions">Show advanced options</span>
+            <span v-if="showAdvancedOptions">{{$t("hide_advanced_options")}}</span>
+            <span v-if="!showAdvancedOptions">{{$t("show_advanced_options")}}</span>
         </button>
 
         <div class="options__wrapper"
@@ -25,7 +24,7 @@
                            id="opt-year"
                            value="year"
                            v-model="opts.type" />
-                    Year
+                    {{$t("year")}}
                 </label>
 
                 <input type="number"
@@ -37,7 +36,7 @@
                            id="opt-qid"
                            value="qid"
                            v-model="opts.type" />
-                    QID
+                    {{$t("qid")}}
                 </label>
                 <input type="text"
                         v-on:click="opts.type = 'qid'"
@@ -48,7 +47,7 @@
                            id="opt-category"
                            value="category"
                            v-model="opts.type" />
-                    Commons category
+                    {{$t("commons_category")}}
                 </label>
                 <input type="text"
                         v-on:click="opts.type = 'category'"
@@ -59,7 +58,7 @@
                            id="opt-sparql"
                            value="sparql"
                            v-model="opts.type" />
-                    SPARQL query
+                    {{$t("sparql_query")}}
                 </label>
                 <textarea
                     rows="4"
@@ -67,8 +66,7 @@
                     v-model="opts.sparql"></textarea>
 
                 <p class="options__instruction">
-                    Make sure to include <code>?item ?instance ?image ?cat</code> variables with
-                    a SPARQL query. For example, to get all subspecies of cats (felids), try:
+                    <span v-html="$t('sparql_query_instruction')"></span>
 
                     <pre><code>
 select ?item ?instance ?image ?cat where {

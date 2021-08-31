@@ -29,7 +29,17 @@
             "depicted" : "Depicted",
             "skip" : "Skip",
             "not_depicted" : "Not depicted",
-            "image_process" : "Image <strong>{x}</strong> of <strong>{y}</strong> in this <a href=\"{categoryUrl}\" target=\"_blank\">category</a>"
+            "image_process" : "Image <strong>{x}</strong> of <strong>{y}</strong> in this <a href=\"{categoryUrl}\" target=\"_blank\">category</a>",
+            "keyboard_shortcuts" : "Keyboard shortcuts",
+            "intro_start_birthyear" : "When you press 'start' you are assigned random people born in {year}. Check if your person is depicted in the given image.",
+            "hide_advanced_options" : "Hide advanced options",
+            "show_advanced_options" : "Show advanced options",
+            "year" : "Year",
+            "qid" : "QID",
+            "commons_category" : "Commons category",
+            "sparql_query" : "SPARQL query",
+            "sparql_query_instruction" : "Make sure to include <code>?item ?instance ?image ?cat</code> variables with a SPARQL query. For example, to get all subspecies of cats (felids), try:",
+            "start" : "Start"
         }
     }
 }
