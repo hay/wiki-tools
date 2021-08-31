@@ -1,20 +1,18 @@
 <template>
     <div>
         <h2 class="screen__title">
-            Leaderboard
+            {{$t('leaderboard')}}
         </h2>
 
-        <p class="screen__subtitle">
-            These fabulous people have helped adding a grand total of
-            <strong>{{numberWithCommas( data.total )}}</strong> statements to Wikimedia Commons.
-        </p>
+        <p class="screen__subtitle"
+           v-html="subtitle"></p>
 
         <table class="leaderboard">
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Name</th>
-                    <th>Edits</th>
+                    <th>{{$t('name')}}</th>
+                    <th>{{$t('edits')}}</th>
                 </tr>
             </thead>
 
@@ -36,6 +34,13 @@
     import { numberWithCommas } from '../util.js';
 
     export default {
+        computed : {
+            subtitle() {
+                const total = this.numberWithCommas(this.data.total);
+                return this.$t('leaderboard_total', { total });
+            }
+        },
+
         data() {
             return {
                 data : []

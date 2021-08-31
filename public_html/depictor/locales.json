@@ -14,7 +14,22 @@
             "logged_in_proceed" : "You are now logged in. Click 'proceed' to begin.",
             "proceed" : "Proceed",
             "please_log_in" : " Hi! To get started with matching images, click below to authorize this application to make Wikimedia Commons edits on your behalf.",
-            "log_in" : "Log in"
+            "log_in" : "Log in",
+            "reload_app" : "Reload app",
+            "loading" : "Loading...",
+            "leaderboard" : "Leaderboard",
+            "leaderboard_total" : "These fabulous people have helped adding a grand total of <strong>{total}</strong> statements to Wikimedia Commons.",
+            "name" : "Name",
+            "edits" : "Edits",
+            "fetching_candidates" : "Fetching candidates for you...",
+            "reset" : "Reset",
+            "skip_item" : "Skip item",
+            "loading_images" : "Loading image(s)...",
+            "is_depicted" : "Is {label} depicted in the image below?",
+            "depicted" : "Depicted",
+            "skip" : "Skip",
+            "not_depicted" : "Not depicted",
+            "image_process" : "Image <strong>{x}</strong> of <strong>{y}</strong> in this <a href=\"{categoryUrl}\" target=\"_blank\">category</a>"
         }
     }
 }

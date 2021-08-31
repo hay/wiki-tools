@@ -2,7 +2,7 @@
     <div>
         <div class="screen" v-if="!candidate">
             <p class="screen__instruction">
-               Fetching candidates for you...
+               {{$t('fetching_candidates')}}
             </p>
         </div>
 
@@ -10,7 +10,7 @@
              v-show="!!candidate">
             <button class="button button--action button--center"
                     v-on:click="reset">
-                &times; Reset
+                &times; {{$t('reset')}}
             </button>
 
             <figure class="reference"
@@ -33,35 +33,35 @@
 
                     <button class="button button--link"
                             v-on:click="skipItem">
-                        Skip item
+                        {{$t('skip_item')}}
                     </button>
                 </figcaption>
             </figure>
 
             <p class="screen__instruction"
                v-if="!showCandidateImage || !showItemImage">
-                Loading image(s)...
+                {{$t('loading_images')}}
             </p>
 
             <p v-else
                class="screen__instruction">
-                Is {{ref.label}} depicted in the image below?
+               {{$t('is_depicted', { label : ref.label }) }}
             </p>
 
             <menu class="screen__actions">
                 <button v-on:click="candidateDepicted"
                         class="button button--action">
-                    ✅ Depicted
+                    ✅ {{$t('depicted')}}
                 </button>
 
                 <button v-on:click="candidateSkipped"
                         class="button button--action">
-                    👋 Skip
+                    👋 {{$t('skip')}}
                 </button>
 
                 <button v-on:click="candidateNotDepicted"
                         class="button button--action">
-                    ❌ Not depicted
+                    ❌ {{$t('not_depicted')}}
                 </button>
             </menu>
 
@@ -74,10 +74,7 @@
             </a>
 
             <p class="screen__meta">
-                <span>
-                    Image <b>{{remainingCandidates}}</b> of <b>{{totalCandidates}}</b> in this
-                    <a v-bind:href="categoryUrl" target="_blank">category</a>
-                </span>
+                <span v-html="imageProcess"></span>
 
                 <small class="screen__small">
                     <a v-bind:href="candidate.url"
@@ -100,7 +97,7 @@
     export default {
         computed : {
             candidateImage() {
-                return this.showCandidateImage ? this.$store.state.candidate.thumb : false;
+                return this.showCandidateImage && this.$store.state.candidate ? this.$store.state.candidate.thumb : false;
             },
 
             candidate() {
@@ -115,8 +112,16 @@
                 return this.$store.state.loading;
             },
 
+            imageProcess() {
+                return this.$t('image_process', {
+                    x : this.remainingCandidates,
+                    y : this.totalCandidates,
+                    categoryUrl : this.categoryUrl
+                });
+            },
+
             itemImage() {
-                return this.showItemImage ? this.$store.state.item.thumb : false;
+                return this.showItemImage && this.$store.state.item ? this.$store.state.item.thumb : false;
             },
 
             remainingCandidates() {

@@ -12,7 +12,7 @@
             <button v-if="errorMessage"
                     class="button button--action button--center"
                     v-on:click="reset">
-                Reload app
+                {{$t('reload_app')}}
             </button>
         </div>
     </div>
@@ -36,7 +36,7 @@
             },
 
             message() {
-                return this.errorMessage ? this.errorMessage : 'Loading...';
+                return this.errorMessage ? this.errorMessage : this.$t('loading')
             },
 
             screen() {
