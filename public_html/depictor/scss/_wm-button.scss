@@ -1,0 +1,71 @@
+.wm-button {
+    --c-1: #36c;
+    --c-2: #2a4b8d;
+    --c-3: #eaf3ff;
+    --c-4: #202122;
+    --button-height: 4rem;
+
+    @include flex-center(row);
+    height: var(--button-height);
+    border: 1px solid var(--c-4);
+    background: var(--c-3);
+    border-radius: 1rem;
+    padding: 1rem;
+    font-size: 1.8rem;
+
+    &[hidden] {
+        visibility: hidden;
+    }
+
+    &--bare {
+        background: none;
+        border: 0;
+        font-size: 1.4rem;
+    }
+
+    &--action {
+        background: var(--c-2);
+        border: 0;
+        color: white;
+    }
+
+    &--dark,
+    &--darklink {
+        background: inherit;
+        border-color: white;
+        color: white;
+    }
+
+    &--link {
+        background: inherit;
+        border: 0;
+        padding: 1rem 0;
+    }
+
+    &--icon {
+        background: none;
+        border: 0;
+    }
+
+    &--icon &__icon {
+        margin-right: 0;
+    }
+
+    &__icon {
+        margin-right: .5rem;
+    }
+
+    html.has-mouse &:hover {
+        background: white;
+    }
+
+    html.has-mouse &--action:hover {
+        background: var(--c-1);
+    }
+
+    html.has-mouse &--dark:hover,
+    html.has-mouse &--darklink:hover {
+        background: inherit;
+        text-decoration: underline;
+    }
+}

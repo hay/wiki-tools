@@ -1,0 +1,25 @@
+.el-header {
+    &__menu {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__username {
+        margin-left: auto;
+    }
+
+    :first-child {
+        padding-left: 0;
+    }
+
+    :last-child {
+        padding-right: 0;
+    }
+
+    @include respond-until($screen-sm) {
+        &__username {
+            display: none;
+        }
+    }
+}

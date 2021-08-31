@@ -3,6 +3,7 @@ import { $, getJson } from 'donot';
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import App from './components/app.vue';
+import WmButton from './components/wm-button.vue';
 import createStore from './store.js';
 
 async function createApp() {
@@ -22,6 +23,8 @@ async function createApp() {
         messages : store.state.locales.messages,
         silentTranslationWarn : !store.state.isDebug
     });
+
+    Vue.component('wm-button', WmButton);
 
     new Vue({
         el : "#app",

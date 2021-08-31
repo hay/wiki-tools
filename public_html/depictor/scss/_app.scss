@@ -7,22 +7,16 @@
     font-size: 20px;
 }
 
-#wrapper[is-fullscreen] {
-    .tools-header,
-    .app-title,
-    .app-lead,
-    .footer {
-        display: none;
-    }
-}
-
 .app-title,
 .app-lead,
 .app-user {
     text-align: center;
 }
 
-.app-user {
-    font-size: 1.5rem;
-    margin-top: 1rem;
+.app-title {
+    margin-top: 2rem;
+}
+
+#wrapper[is-fullscreen] .tools-header {
+    display: none;
 }

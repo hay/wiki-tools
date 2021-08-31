@@ -25,6 +25,10 @@
         $userName = $oauth->getIdentity()->username;
     }
 
+    if (DEBUG) {
+        $userName = "Debug user";
+    }
+
     if ($userState == OAuth::STATE_LOGGED_OUT) {
         $authUrl = $oauth->getAuthUrl();
     }

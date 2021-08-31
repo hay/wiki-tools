@@ -229,20 +229,16 @@ a {
   content: "Loading...";
   font-size: 20px; }
 
-#wrapper[is-fullscreen] .tools-header,
-#wrapper[is-fullscreen] .app-title,
-#wrapper[is-fullscreen] .app-lead,
-#wrapper[is-fullscreen] .footer {
-  display: none; }
-
 .app-title,
 .app-lead,
 .app-user {
   text-align: center; }
 
-.app-user {
-  font-size: 1.5rem;
-  margin-top: 1rem; }
+.app-title {
+  margin-top: 2rem; }
+
+#wrapper[is-fullscreen] .tools-header {
+  display: none; }
 
 .icon {
   display: block;
@@ -257,6 +253,10 @@ a {
     background-image: url("img/icon-cross.svg"); }
   .icon[data-icon="user"] {
     background-image: url("img/icon-user.svg"); }
+  .icon[data-icon="logout"] {
+    background-image: url("img/icon-logout.svg"); }
+  .icon[data-icon="arrow-left"] {
+    background-image: url("img/icon-arrow-left.svg"); }
 
 .button--link {
   text-decoration: underline;
@@ -281,6 +281,56 @@ a {
   padding: 1rem;
   text-transform: uppercase;
   letter-spacing: 1px; }
+
+.wm-button {
+  --c-1: #36c;
+  --c-2: #2a4b8d;
+  --c-3: #eaf3ff;
+  --c-4: #202122;
+  --button-height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  height: var(--button-height);
+  border: 1px solid var(--c-4);
+  background: var(--c-3);
+  border-radius: 1rem;
+  padding: 1rem;
+  font-size: 1.8rem; }
+  .wm-button[hidden] {
+    visibility: hidden; }
+  .wm-button--bare {
+    background: none;
+    border: 0;
+    font-size: 1.4rem; }
+  .wm-button--action {
+    background: var(--c-2);
+    border: 0;
+    color: white; }
+  .wm-button--dark, .wm-button--darklink {
+    background: inherit;
+    border-color: white;
+    color: white; }
+  .wm-button--link {
+    background: inherit;
+    border: 0;
+    padding: 1rem 0; }
+  .wm-button--icon {
+    background: none;
+    border: 0; }
+  .wm-button--icon .wm-button__icon {
+    margin-right: 0; }
+  .wm-button__icon {
+    margin-right: .5rem; }
+  html.has-mouse .wm-button:hover {
+    background: white; }
+  html.has-mouse .wm-button--action:hover {
+    background: var(--c-1); }
+  html.has-mouse .wm-button--dark:hover,
+  html.has-mouse .wm-button--darklink:hover {
+    background: inherit;
+    text-decoration: underline; }
 
 .screen {
   padding: 1rem 0;
@@ -426,3 +476,21 @@ a {
     width: 1.8rem;
     height: 1.8rem;
     background: #36c; }
+
+.el-header__menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; }
+
+.el-header__username {
+  margin-left: auto; }
+
+.el-header :first-child {
+  padding-left: 0; }
+
+.el-header :last-child {
+  padding-right: 0; }
+
+@media (max-width: 767px) {
+  .el-header__username {
+    display: none; } }

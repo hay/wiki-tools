@@ -8,11 +8,6 @@
 
         <div class="screen"
              v-show="!!candidate">
-            <button class="button button--action button--center"
-                    v-on:click="reset">
-                &times; {{$t('reset')}}
-            </button>
-
             <figure class="reference"
                     v-show="showItemImage">
                 <img v-bind:src="itemImage"
