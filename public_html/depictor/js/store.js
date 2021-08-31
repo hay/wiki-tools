@@ -31,7 +31,6 @@ export default function createStore(opts) {
             item : null,
             items : [],
             loading : false,
-            locale : DEFAULT_LOCALE,
             locale : getLocale( DEFAULT_LOCALE ),
             locales : opts.locales,
             rootUrl: opts.rootUrl,

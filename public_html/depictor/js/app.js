@@ -20,7 +20,7 @@ async function createApp() {
         fallbackLocale: store.state.defaultLocale,
         locale : store.state.locale,
         messages : store.state.locales.messages,
-        silentTranslationWarn : true
+        silentTranslationWarn : !store.state.isDebug
     });
 
     new Vue({
@@ -37,24 +37,23 @@ async function createApp() {
         i18n : i18n,
 
         methods : {
-            parseHash() {
-                if (!!window.location.search) {
-                    try {
-                        const url = new window.URL(window.location);
+            parseSearch() {
+                const url = new window.URL(window.location);
 
-                        this.$store.dispatch('query', {
-                            type : url.searchParams.get('queryType'),
-                            value : url.searchParams.get('queryValue')
-                        });
-                    } catch (e) {
-                        console.error("Could not parse URL hash options");
-                    }
+                if (
+                    url.searchParams.has("queryType") &&
+                    url.searchParams.has("queryValue")
+                ) {
+                    this.$store.dispatch('query', {
+                        type : url.searchParams.get('queryType'),
+                        value : url.searchParams.get('queryValue')
+                    });
                 }
             }
         },
 
         mounted() {
-            this.parseHash();
+            this.parseSearch();
         },
 
         store : store,
