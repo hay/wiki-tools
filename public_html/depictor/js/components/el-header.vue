@@ -1,5 +1,10 @@
 <template>
     <div class="el-header">
+        <language-selector
+            v-bind:languages="languages"
+            v-bind:link="transateLink"
+            v-model="locale"></language-selector>
+
         <h1 class="app-title">
             <a v-bind:href="rootUrl">{{$t('app_title')}}</a>
         </h1>
@@ -47,9 +52,31 @@
     import { mapState } from 'vuex';
 
     export default {
-        computed : mapState([
-            'rootUrl', 'isDebug', 'userPage', 'userName',
-            'isAccessTokenRequest', 'isLoggedIn', 'isLoggedOut'
-        ])
+        computed : :{
+            locale: {
+                get() {
+                    return this.$store.state.locale;
+                },
+
+                set(locale) {
+                    this.$store.commit('locale', locale);
+                }
+            },
+
+            ...mapState([
+                'rootUrl', 'isDebug', 'userPage', 'userName',
+                'isAccessTokenRequest', 'isLoggedIn', 'isLoggedOut'
+            ])
+        },
+
+        data() {
+            return {
+                languages : this.$store.state.locales.languages,
+                transateLink : {
+                    link : 'https://tools.wmflabs.org/tooltranslate/#tool=59',
+                    label : this.$t('translate_this_tool')
+                }
+            };
+        }
     };
 </script>

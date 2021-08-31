@@ -1,0 +1,23 @@
+.language-selector {
+    display: flex;
+    align-items: center;
+    padding: .5rem;
+    width: min-content;
+
+    &__select,
+    &__input {
+        margin-left: 1rem;
+        font-size: 1.6rem;
+    }
+
+    &__input {
+        padding: 0 .5rem;
+        font-family: monospace;
+        width: 10rem;
+    }
+
+    &__close {
+        @include wh(1.8rem);
+        background: $c-1;
+    }
+}

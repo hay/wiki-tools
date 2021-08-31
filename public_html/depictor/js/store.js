@@ -145,6 +145,10 @@ export default function createStore(opts) {
                 });
             },
 
+            locale(state, locale) {
+                state.locale = locale;
+            },
+
             processCandidate(state) {
                 state.candidates = state.candidates.map((candidate) => {
                     if (candidate.mid === state.candidate.mid) {

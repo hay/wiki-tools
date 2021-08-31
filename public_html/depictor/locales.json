@@ -39,7 +39,8 @@
             "commons_category" : "Commons category",
             "sparql_query" : "SPARQL query",
             "sparql_query_instruction" : "Make sure to include <code>?item ?instance ?image ?cat</code> variables with a SPARQL query. For example, to get all subspecies of cats (felids), try:",
-            "start" : "Start"
+            "start" : "Start",
+            "translate_this_tool" : "Translate this tool"
         }
     }
 }
