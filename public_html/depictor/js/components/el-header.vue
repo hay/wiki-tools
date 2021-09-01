@@ -1,29 +1,32 @@
 <template>
     <div class="el-header">
         <menu class="el-header__menu">
-            <wm-button v-on:click="reset"
-                       flair="bare"
-                       v-if="screen === 'game'"
-                       icon="arrow-left">{{$t('start')}}</wm-button>
+            <wm-button
+                v-on:click="reset"
+                flair="bare"
+                v-if="screen === 'game'"
+                icon="arrow-left">{{$t('start')}}</wm-button>
 
             <el-language-selector
                 v-bind:languages="languages"
                 v-bind:link="transateLink"
                 v-model="locale"></el-language-selector>
 
-            <wm-button v-if="isLoggedIn"
-                       type="anchor"
-                       flair="bare"
-                       class="el-header__username"
-                       v-bind:href="userPage"
-                       target="_blank"
-                       icon="user">{{userName}}</wm-button>
+            <wm-button
+                v-if="isLoggedIn"
+                type="anchor"
+                flair="bare"
+                class="el-header__username"
+                v-bind:href="userPage"
+                target="_blank"
+                icon="user">{{userName}}</wm-button>
 
-            <wm-button v-if="isLoggedIn"
-                       icon="logout"
-                       flair="bare"
-                       type="anchor"
-                       href="index.php?logout=1">{{$t("log_out")}}</wm-button>
+            <wm-button
+                v-if="isLoggedIn"
+                icon="logout"
+                flair="bare"
+                type="anchor"
+                href="index.php?logout=1">{{$t("log_out")}}</wm-button>
         </menu>
 
         <h1 class="app-title"
@@ -43,18 +46,33 @@
                {{$t('logged_in_proceed')}}
             </p>
 
-            <a v-if="isAccessTokenRequest"
-               href="index.php"
-               class="button button--start">{{$t('proceed')}}</a>
+            <wm-button
+                v-if="isAccessTokenRequest"
+                href="index.php"
+                type="anchor"
+                flair="primary">{{$t('proceed')}}</wm-button>
+
+            <p v-if="isInvalidAccessTokenRequest"
+               class="screen__lead">
+               {{$t('login_error_try_again')}}
+            </p>
+
+            <wm-button
+                v-if="isInvalidAccessTokenRequest"
+                flair="primary"
+                type="anchor"
+                href="index.php?logout=1">{{$t("try_again")}}</wm-button>
 
             <p v-if="isLoggedOut"
                 class="screen__lead">
                 {{$t('please_log_in')}}
             </p>
 
-            <a v-if="isLoggedOut"
+            <wm-button
+               v-if="isLoggedOut"
                v-bind:href="authUrl"
-               class="button button--start">{{$t('log_in')}}</a>
+               type="anchor"
+               flair="primary">{{$t('log_in')}}</wm-button>
         </div>
     </div>
 </template>
@@ -79,7 +97,8 @@
 
             ...mapState([
                 'authUrl', 'rootUrl', 'isDebug', 'userPage', 'userName',
-                'isAccessTokenRequest', 'isLoggedIn', 'isLoggedOut', 'screen'
+                'isAccessTokenRequest', 'isLoggedIn', 'isLoggedOut', 'screen',
+                'isInvalidAccessTokenRequest'
             ])
         },
 

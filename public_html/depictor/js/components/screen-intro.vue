@@ -5,16 +5,17 @@
             {{$t("intro_start_birthyear", { year : opts.year })}}
         </p>
 
-        <button
-            class="button button--start"
-            v-on:click="start">{{$t("start")}}</button>
+        <wm-button
+            v-on:click="start"
+            flair="primary">{{$t("start")}}</wm-button>
 
-        <button
-            class="button button--link buffer-top-3"
+        <wm-button
+            icon="cog"
+            flair="bare"
             v-on:click="toggleAdvancedOptions">
             <span v-if="showAdvancedOptions">{{$t("hide_advanced_options")}}</span>
             <span v-if="!showAdvancedOptions">{{$t("show_advanced_options")}}</span>
-        </button>
+        </wm-button>
 
         <div class="options__wrapper"
              v-show="showAdvancedOptions">

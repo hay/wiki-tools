@@ -263,30 +263,8 @@ a {
     background-image: url("img/icon-skip.svg"); }
   .icon[data-icon="close"] {
     background-image: url("img/icon-close.svg"); }
-
-.button--link {
-  text-decoration: underline;
-  color: var(--c-1);
-  font-size: 1.4rem; }
-
-.button--action {
-  border: 1px solid var(--c-1);
-  color: var(--c-1);
-  font-size: 1.5rem;
-  padding: 1rem;
-  font-weight: bold; }
-
-.button--center {
-  margin-left: auto;
-  margin-right: auto; }
-
-.button--start {
-  background: var(--c-1);
-  color: white;
-  font-size: 3rem;
-  padding: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 1px; }
+  .icon[data-icon="cog"] {
+    background-image: url("img/icon-cog.svg"); }
 
 .wm-button {
   --c-1: #36c;
@@ -310,10 +288,14 @@ a {
     background: none;
     border: 0;
     font-size: 1.4rem; }
-  .wm-button--action {
+  .wm-button--action, .wm-button--primary {
     background: var(--c-2);
     border: 0;
     color: white; }
+  .wm-button--primary {
+    font-size: 3rem;
+    text-transform: uppercase;
+    padding: 3rem 2rem; }
   .wm-button--dark, .wm-button--darklink {
     background: inherit;
     border-color: white;
@@ -331,7 +313,8 @@ a {
     margin-right: .5rem; }
   html.has-mouse .wm-button:hover {
     background: white; }
-  html.has-mouse .wm-button--action:hover {
+  html.has-mouse .wm-button--action:hover,
+  html.has-mouse .wm-button--primary:hover {
     background: var(--c-1); }
   html.has-mouse .wm-button--dark:hover,
   html.has-mouse .wm-button--darklink:hover {

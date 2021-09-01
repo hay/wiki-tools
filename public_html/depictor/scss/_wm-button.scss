@@ -23,10 +23,17 @@
         font-size: 1.4rem;
     }
 
-    &--action {
+    &--action,
+    &--primary {
         background: var(--c-2);
         border: 0;
         color: white;
+    }
+
+    &--primary {
+        font-size: 3rem;
+        text-transform: uppercase;
+        padding: 3rem 2rem;
     }
 
     &--dark,
@@ -59,7 +66,8 @@
         background: white;
     }
 
-    html.has-mouse &--action:hover {
+    html.has-mouse &--action:hover,
+    html.has-mouse &--primary:hover {
         background: var(--c-1);
     }
 

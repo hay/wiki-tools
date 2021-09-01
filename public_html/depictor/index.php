@@ -42,11 +42,13 @@
     $ctx = json_encode([
         "authUrl" => $authUrl,
         "isAccessTokenRequest" => $userState == OAuth::STATE_ACCES_TOKEN_REQUEST,
+        "isInvalidAccessTokenRequest" => $userState == OAuth::STATE_INVALID_ACCESS_TOKEN_REQUEST,
         "isDebug" => DEBUG,
         "isLoggedIn" => $userState == OAuth::STATE_LOGGED_IN,
         "isLoggedOut" => $userState == OAuth::STATE_LOGGED_OUT,
         "rootUrl" => $hay->getUrl(),
-        "userName" => $userName
+        "userName" => $userName,
+        "userState" => $userState
     ]);
 
     $hay->setBeforeHeadClose("<script>window.__ctx__ = window.__ctx__ || $ctx</script>");

@@ -26,6 +26,7 @@ export default function createStore(opts) {
             initLocale : getLocale( DEFAULT_LOCALE ),
             isAccessTokenRequest: opts.isAccessTokenRequest,
             isDebug: opts.isDebug,
+            isInvalidAccessTokenRequest : opts.isInvalidAccessTokenRequest,
             isLoggedIn: opts.isLoggedIn,
             isLoggedOut: opts.isLoggedOut,
             item : null,
