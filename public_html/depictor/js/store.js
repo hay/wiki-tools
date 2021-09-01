@@ -10,7 +10,8 @@ import { getLocale } from './util.js';
 Vue.use(Vuex);
 
 export default function createStore(opts) {
-    const api = new Api(DEFAULT_LOCALE);
+    const locale = getLocale( DEFAULT_LOCALE );
+    const api = new Api(locale);
 
     function getInitialState() {
         return {
@@ -268,13 +269,14 @@ export default function createStore(opts) {
                 let item;
 
                 try {
-                    item = await api.getItem(nextItem.qid);
+                    // item = await api.getItem(nextItem.qid);
+                    item = await api.getCandidateItem(nextItem.qid);
                 } catch (e) {
                     console.log(e);
                     return;
                 }
 
-                item.thumb = nextItem.thumb;
+                // item.thumb = nextItem.thumb;
                 commit('item', item);
                 commit('candidates', candidates);
                 commit('category', nextItem.category);
@@ -295,7 +297,8 @@ export default function createStore(opts) {
                 } else if (type == 'qid') {
                     items = await api.getItemByQid(value);
                 } else if (type === 'category') {
-                    items = await api.getItemByCommonsCategory(value);
+                    // items = await api.getItemByCommonsCategory(value);
+                    items = await api.getItemsByCommonsCategory(value);
                 } else if (type === 'sparql') {
                     items = await api.getItemsWithSparql(value);
                 } else {

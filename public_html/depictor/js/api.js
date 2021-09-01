@@ -1,5 +1,5 @@
 import { getJson } from 'donot';
-import { IMAGE_SIZE, LOCAL_API_ENDPOINT} from './const.js';
+import { IMAGE_SIZE, LOCAL_API_ENDPOINT, THUMB_SIZE} from './const.js';
 import { buildUrlQuery } from './util.js';
 import CommonsApi from './mwapi/commons.js';
 import WikidataApi from './mwapi/wikidata.js';
@@ -50,6 +50,40 @@ export default class Api {
         return req.items;
     }
 
+    async getCandidateItem(qid) {
+        const api = new WikidataApi(this.locale);
+
+        const req = await api.call({
+            "action": "wbgetentities",
+            "ids": qid,
+            "languages": this.locale,
+            "props": "claims|descriptions|labels",
+            "format": "json"
+        });
+
+        if (req.error) {
+            console.error(req.error);
+            return null;
+        }
+
+        const item = req.entities[qid];
+        let thumb;
+
+        if ("P18" in item.claims) {
+            const file = item.claims.P18[0].mainsnak.datavalue.value;
+            const commonsApi = new CommonsApi(this.locale);
+            thumb = commonsApi.getThumb(file, THUMB_SIZE);
+        }
+
+        return {
+            description : this.locale in item.descriptions ? item.descriptions[this.locale].value : null,
+            id : qid,
+            label : this.locale in item.labels ? item.labels[this.locale].value : null,
+            qid : qid,
+            thumb : thumb
+        };
+    }
+
     async getItemByCommonsCategory(category) {
         const sparql = `
             select ?item ?image ?cat where {
@@ -61,6 +95,44 @@ export default class Api {
 
         let items = await this.getItemsWithSparql(sparql);
         return items;
+    }
+
+    // This uses PetScan
+    async getItemsByCommonsCategory(category, depth = 0) {
+        const opts = {
+            "categories": category,
+            "depth": depth,
+            "wikidata_item": "with",
+            "project": "wikimedia",
+            "language": "commons",
+            "format": "json",
+            "ns[14]": "1",
+            "search_max_results": "500",
+            "doit": "1"
+        };
+
+        const req = await getJson("https://petscan.wmflabs.org/", opts);
+
+        if (req.error) {
+            return [];
+        }
+
+        let results;
+
+        try {
+            // The PetScan JSON definitely leaves something to be desired
+            results = req["*"][0]["a"]["*"];
+        } catch (e) {
+            return [];
+        }
+
+        return results.map((item) => {
+            return {
+                "category" : item.title,
+                "image" : null,
+                "qid" : item.q
+            };
+        });
     }
 
     async getItemByQid(qid) {
