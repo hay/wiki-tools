@@ -185,7 +185,7 @@ export default function createStore(opts) {
                     mid : state.candidate.mid,
                     qid : state.item.qid,
                     category : state.category,
-                    user : state.authenticatedUser,
+                    user : state.userName,
                     status : status
                 });
 
@@ -196,7 +196,7 @@ export default function createStore(opts) {
 
             async itemDone({ state, commit }, qid) {
                 await api.itemDone({
-                    user : state.authenticatedUser,
+                    user : state.userName,
                     qid
                 });
 
