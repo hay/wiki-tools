@@ -4,11 +4,10 @@
             <slot></slot>
         </p>
 
-        <button v-if="showReloadButton"
-                class="button button--action button--center"
-                v-on:click="reset">
-            {{$t('reload_app')}}
-        </button>
+        <wm-button
+            v-if="showReloadButton"
+            flair="primary"
+            v-on:click="reset">{{$t('reload_app')}}</wm-button>
     </div>
 </template>
 

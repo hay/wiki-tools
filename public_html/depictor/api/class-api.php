@@ -5,17 +5,17 @@
         private Db $db;
         private bool $isDebug = false;
 
-        function __constructor(Oauth $oauth, Db $db) {
+        function __construct(Oauth $oauth, Db $db) {
             $this->oauth = $oauth;
             $this->db = $db;
         }
 
-        public function process(array $args) {
+        public function process(array $args):array {
             $this->assertOauth();
             $action = $args["action"] ?? false;
 
             if ($action == "add-file") {
-                $this->insert($args);
+                return $this->addFile($args);
             } else if ($action == "file-exists") {
                 $has = $this->hasFile($args["mid"]);
                 return ["status" => $has];
@@ -23,11 +23,10 @@
                 $has = $this->hasItem($args["qid"]);
                 return ["status" => $has];
             } else if ($action == "item-done") {
-                $this->itemdone($args);
+                $args["status"] = "done";
+                return $this->addItem($args);
             } else if ($action == "leaderboard") {
                 return $this->leaderboard();
-            } else if ($action == "test") {
-                return $this->test($args["message"] ?? "test-message");
             } else {
                 throw new Exception("Invalid action");
             }
@@ -57,6 +56,41 @@
             // TODO: maybe get the result and do some error checking
         }
 
+        private function addFile(array $args) {
+            $this->assertItemid($args["mid"]);
+            $this->assertItemid($args["qid"]);
+            $this->assertIncludes($args["status"], [
+                'depicted','not-depicted','user-skipped', 'prominently-depicted'
+            ]);
+
+            // First check if maybe this pair of mid/qid is already in the db
+            if ($this->hasFile($args["mid"])) {
+                throw new Exception("Item already in database");
+            }
+
+            // If in debug mode, we simply skip this step so we can test everything else
+            if (!$this->isDebug && $args["status"] == "depicted") {
+                $this->addDepicts($args["mid"], $args["qid"]);
+            }
+
+            $this->db->addFile($args);
+
+            return ["ok" => "Added"];
+        }
+
+        public function addItem(array $args) {
+            $this->assertItemid($args["qid"]);
+
+            // Check if qid is already in the db
+            if ($this->hasItem($args["qid"])) {
+                throw new Exception("Item already in database");
+            }
+
+            $this->db->addItem($args);
+
+            return ["ok" => "Added"];
+        }
+
         private function assertOauth() {
             if ($this->oauth->userState != OAuth::STATE_LOGGED_IN) {
                 throw new Exception("User not authorized");
@@ -75,13 +109,6 @@
             }
         }
 
-        private function leaderboard():array {
-            return [
-                "stats" => $this->db->getLeaderboard(),
-                "total" => $this->db->getTotalFiles()
-            ];
-        }
-
         private function hasFile(string $mid):bool {
             $this->assertItemid($mid);
             $files = $this->db->getFilesByMid($mid);
@@ -94,38 +121,10 @@
             return count($items) > 0;
         }
 
-        private function insertFile(array $args) {
-            $this->assertItemid($args["mid"]);
-            $this->assertItemid($args["qid"]);
-            $this->assertIncludes($args["status"], [
-                'depicted','not-depicted','user-skipped', 'prominently-depicted'
-            ]);
-
-            // First check if maybe this pair of mid/qid is already in the db
-            if ($this->hasFile($args["mid"])) {
-                throw new Exception("Item already in database");
-            }
-
-            // If in debug mode, we simply skip this step so we can test everything else
-            if ($this->isDebug && $args["status"] == "depicted") {
-                $this->addDepicts($args["mid"], $args["qid"]);
-            }
-
-            $this->db->addFile($args);
-
-            return ["ok" => "Added"];
-        }
-
-        public function insertItem(array $args) {
-            $this->assertItemid($args["qid"]);
-
-            // Check if qid is already in the db
-            if ($this->hasItem($args["qid"])) {
-                throw new Exception("Item already in database");
-            }
-
-            $this->db->addItem($args);
-
-            return ["ok" => "Added"];
+        private function leaderboard():array {
+            return [
+                "stats" => $this->db->getLeaderboard(),
+                "total" => $this->db->getTotalFiles()
+            ];
         }
     }

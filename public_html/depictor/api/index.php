@@ -24,7 +24,7 @@
         "logging" => DEBUG
     ]);
 
-    $api = new Api($db, $oauth);
+    $api = new Api($oauth, $db);
 
     if (DEBUG) {
         $api->setDebug(true);
@@ -32,7 +32,7 @@
 
     try {
         $res = $api->process($_GET);
-    } catch ($e) {
+    } catch (Exception $e) {
         respond([ "error" => $e->getMessage() ]);
     }
 
