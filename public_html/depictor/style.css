@@ -525,10 +525,10 @@ a {
 .el-header__username {
   margin-left: auto; }
 
-.el-header :first-child {
+.el-header__menu :first-child {
   padding-left: 0; }
 
-.el-header :last-child {
+.el-header__menu :last-child {
   padding-right: 0; }
 
 @media (max-width: 767px) {

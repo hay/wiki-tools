@@ -40,7 +40,7 @@
              v-if="!isLoggedIn">
             <p v-if="isAccessTokenRequest"
                class="screen__lead">
-               {{t('logged_in_proceed')}}
+               {{$t('logged_in_proceed')}}
             </p>
 
             <a v-if="isAccessTokenRequest"
@@ -78,7 +78,7 @@
             },
 
             ...mapState([
-                'rootUrl', 'isDebug', 'userPage', 'userName',
+                'authUrl', 'rootUrl', 'isDebug', 'userPage', 'userName',
                 'isAccessTokenRequest', 'isLoggedIn', 'isLoggedOut', 'screen'
             ])
         },

@@ -64,6 +64,9 @@ export default function createStore(opts) {
                     return 'error';
                 } else if (state.loading) {
                     return 'loading';
+                } else if (!state.isLoggedIn) {
+                    // None of the regular screens are shown when not logged in
+                    return 'logged-out';
                 } else {
                     return state.screen;
                 }

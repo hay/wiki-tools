@@ -9,11 +9,11 @@
         margin-left: auto;
     }
 
-    :first-child {
+    &__menu :first-child {
         padding-left: 0;
     }
 
-    :last-child {
+    &__menu :last-child {
         padding-right: 0;
     }
 
