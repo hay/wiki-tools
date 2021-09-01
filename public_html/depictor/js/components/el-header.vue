@@ -41,38 +41,39 @@
 
         <div class="screen"
              v-if="!isLoggedIn">
-            <p v-if="isAccessTokenRequest"
-               class="screen__lead">
-               {{$t('logged_in_proceed')}}
-            </p>
+            <template v-if="isAccessTokenRequest">
+                <p class="screen__lead">
+                   {{$t('logged_in_proceed')}}
+                </p>
 
-            <wm-button
-                v-if="isAccessTokenRequest"
-                href="index.php"
-                type="anchor"
-                flair="primary">{{$t('proceed')}}</wm-button>
+                <wm-button
+                    href="index.php"
+                    type="anchor"
+                    flair="primary">{{$t('proceed')}}</wm-button>
+            </template>
 
-            <p v-if="isInvalidAccessTokenRequest"
-               class="screen__lead">
-               {{$t('login_error_try_again')}}
-            </p>
+            <template v-else-if="isLoggedOut">
+                <p class="screen__lead">
+                    {{$t('please_log_in')}}
+                </p>
 
-            <wm-button
-                v-if="isInvalidAccessTokenRequest"
-                flair="primary"
-                type="anchor"
-                href="index.php?logout=1">{{$t("try_again")}}</wm-button>
+                <wm-button
+                   v-bind:href="authUrl"
+                   type="anchor"
+                   flair="primary">{{$t('log_in')}}</wm-button>
+            </template>
 
-            <p v-if="isLoggedOut"
-                class="screen__lead">
-                {{$t('please_log_in')}}
-            </p>
+            <template v-else>
+                <!-- invalidAccessTokenRequest and anything else weird -->
+                <p class="screen__lead">
+                    {{$t('login_error_try_again')}}
+                </p>
 
-            <wm-button
-               v-if="isLoggedOut"
-               v-bind:href="authUrl"
-               type="anchor"
-               flair="primary">{{$t('log_in')}}</wm-button>
+                <wm-button
+                    flair="primary"
+                    type="anchor"
+                    href="index.php?logout=1">{{$t("try_again")}}</wm-button>
+            </template>
         </div>
     </div>
 </template>
