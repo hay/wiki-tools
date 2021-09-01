@@ -57,6 +57,16 @@ export default function createStore(opts) {
 
             remainingItems(state) {
                 return state.items.filter(item => !item.done);
+            },
+
+            screenState(state) {
+                if (state.errorMessage) {
+                    return 'error';
+                } else if (state.loading) {
+                    return 'loading';
+                } else {
+                    return state.screen;
+                }
             }
         },
 

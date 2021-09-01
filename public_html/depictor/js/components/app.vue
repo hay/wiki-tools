@@ -2,19 +2,19 @@
     <div class="screen__wrapper">
         <el-header></el-header>
 
-        <screen-intro v-if="screen === 'intro' && !isLoading"></screen-intro>
-        <screen-game v-if="screen === 'game' && !isLoading"></screen-game>
+        <screen-intro v-if="screen === 'intro'"></screen-intro>
 
-        <div v-if="screen === 'message'"
-             class="screen__message">
-            <p>{{ message }}</p>
+        <screen-game v-if="screen === 'game'"></screen-game>
 
-            <button v-if="errorMessage"
-                    class="button button--action button--center"
-                    v-on:click="reset">
-                {{$t('reload_app')}}
-            </button>
-        </div>
+        <screen-message v-if="screen === 'loading'">
+            {{$t('loading')}}
+        </screen-message>
+
+        <screen-message
+            v-if="screen === 'error'"
+            v-bind:showReloadButton="true">
+            {{errorMessage}}
+        </screen-message>
     </div>
 </template>
 
@@ -22,35 +22,18 @@
     import ElHeader from './el-header.vue';
     import ScreenGame from './screen-game.vue';
     import ScreenIntro from './screen-intro.vue';
+    import ScreenMessage from './screen-message.vue';
 
     export default {
-        components : { ElHeader, ScreenIntro, ScreenGame },
+        components : { ElHeader, ScreenIntro, ScreenGame, ScreenMessage },
 
         computed : {
             errorMessage() {
                 return this.$store.state.errorMessage;
             },
 
-            isLoading() {
-                return this.$store.state.loading;
-            },
-
-            message() {
-                return this.errorMessage ? this.errorMessage : this.$t('loading')
-            },
-
             screen() {
-                if (!this.isLoading && !this.errorMessage) {
-                    return this.$store.state.screen;
-                } else {
-                    return 'message';
-                }
-            }
-        },
-
-        methods : {
-            reset() {
-                this.$store.dispatch('reset');
+                return this.$store.getters.screenState;
             }
         }
     }
