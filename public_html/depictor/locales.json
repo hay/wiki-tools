@@ -46,7 +46,9 @@
             "translate_this_tool": "Translate this tool",
             "yes": "Yes",
             "no": "No",
-            "is_depicted": "Is <strong>{label}</strong> depicted in this image?"
+            "is_depicted": "Is <strong>{label}</strong> depicted in this image?",
+            "login_error_try_again": "Something went wrong during login. Please try again.",
+            "try_again": "Try again"
         },
         "nl": {
             "app_description": "Voeg gestructureerde data aan Wikimedia Commons-bestanden op een speelse manier",
@@ -82,7 +84,9 @@
             "start": "Start",
             "translate_this_tool": "Vertaal deze applicatie",
             "year": "Jaar",
-            "is_depicted": "Is <strong>{label}</strong> afgebeeld op deze?"
+            "is_depicted": "Is {label} afgebeeld op deze afbeelding?",
+            "login_error_try_again": "Er ging iets mis tijdens het inloggen. Probeer het nog eens.",
+            "try_again": "Probeer nogmaals"
         }
     }
 }

@@ -13,7 +13,6 @@ export default function createStore(opts) {
     const api = new Api(DEFAULT_LOCALE);
 
     function getInitialState() {
-        console.log('initstate', opts);
         return {
             api : api,
             authUrl: opts.authUrl,

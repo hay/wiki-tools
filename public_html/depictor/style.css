@@ -240,6 +240,9 @@ a {
 #wrapper[is-fullscreen] .tools-header {
   display: none; }
 
+.container {
+  overflow-x: hidden; }
+
 .icon {
   display: block;
   width: 1.8rem;
@@ -287,7 +290,8 @@ a {
   .wm-button--bare {
     background: none;
     border: 0;
-    font-size: 1.4rem; }
+    font-size: 1.4rem;
+    color: var(--c-1); }
   .wm-button--action, .wm-button--primary {
     background: var(--c-2);
     border: 0;
