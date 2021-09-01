@@ -257,6 +257,12 @@ a {
     background-image: url("img/icon-logout.svg"); }
   .icon[data-icon="arrow-left"] {
     background-image: url("img/icon-arrow-left.svg"); }
+  .icon[data-icon="accept"] {
+    background-image: url("img/icon-accept.svg"); }
+  .icon[data-icon="skip"] {
+    background-image: url("img/icon-skip.svg"); }
+  .icon[data-icon="close"] {
+    background-image: url("img/icon-close.svg"); }
 
 .button--link {
   text-decoration: underline;
@@ -414,7 +420,7 @@ a {
     display: flex;
     flex-direction: column;
     padding: 1rem 0; }
-  .reference__caption .button {
+  .reference__skipbutton {
     margin-top: auto; }
   .reference__description {
     font-size: 1.6rem; }

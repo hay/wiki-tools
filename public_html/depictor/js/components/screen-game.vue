@@ -26,10 +26,10 @@
                         <em>{{ref.description}}</em>
                     </p>
 
-                    <button class="button button--link"
-                            v-on:click="skipItem">
-                        {{$t('skip_item')}}
-                    </button>
+                    <wm-button v-on:click="skipItem"
+                               class="reference__skipbutton"
+                               icon="skip"
+                               flair="bare">{{$t('skip_item')}}</wm-button>
                 </figcaption>
             </figure>
 
@@ -44,20 +44,14 @@
             </p>
 
             <menu class="screen__actions">
-                <button v-on:click="candidateDepicted"
-                        class="button button--action">
-                    ✅ {{$t('depicted')}}
-                </button>
+                <wm-button v-on:click="candidateDepicted"
+                           icon="accept">{{$t('yes')}}</wm-button>
 
-                <button v-on:click="candidateSkipped"
-                        class="button button--action">
-                    👋 {{$t('skip')}}
-                </button>
+                <wm-button v-on:click="candidateSkipped"
+                           icon="skip">{{$t('skip')}}</wm-button>
 
-                <button v-on:click="candidateNotDepicted"
-                        class="button button--action">
-                    ❌ {{$t('not_depicted')}}
-                </button>
+                <wm-button v-on:click="candidateNotDepicted"
+                           icon="close">{{$t('no')}}</wm-button>
             </menu>
 
             <a v-bind:href="candidate.url"
