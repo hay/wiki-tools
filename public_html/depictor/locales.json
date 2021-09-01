@@ -29,7 +29,6 @@
             "reset": "Reset",
             "skip_item": "Skip item",
             "loading_images": "Loading image(s)...",
-            "is_depicted": "Is {label} depicted in the image below?",
             "depicted": "Depicted",
             "skip": "Skip",
             "not_depicted": "Not depicted",
@@ -44,7 +43,10 @@
             "sparql_query": "SPARQL query",
             "sparql_query_instruction": "Make sure to include <code>?item ?instance ?image ?cat</code> variables with a SPARQL query. For example, to get all subspecies of cats (felids), try:",
             "start": "Start",
-            "translate_this_tool": "Translate this tool"
+            "translate_this_tool": "Translate this tool",
+            "yes": "Yes",
+            "no": "No",
+            "is_depicted": "Is <strong>{label}</strong> depicted in this image?"
         },
         "nl": {
             "app_description": "Voeg gestructureerde data aan Wikimedia Commons-bestanden op een speelse manier",
@@ -56,7 +58,6 @@
             "hide_advanced_options": "Verberg geavanceerde opties",
             "image_process": "Afbeelding <strong>{x}</strong> van <strong>{y}</strong> in deze <a href=\"{categoryUrl}\" target=\"_blank\">categorie</a>",
             "intro_start_birthyear": "Wanneer je op 'start' drukt krijg je willekeurige mensen geboren in {year}. Controleer of die persoon is afgebeeld op de afbeeldingen.",
-            "is_depicted": "Is {label} afgebeeld op de afbeelding beneden?",
             "keyboard_shortcuts": "Sneltoetsen",
             "leaderboard": "Scorebord",
             "leaderboard_total": "Deze geweldige mensen hebben geholpen om totaal <strong>{total}</strong> verklaringen toe te voegen aan Wikimedia Commons.",
@@ -80,7 +81,8 @@
             "sparql_query_instruction": "Zorg ervoor dat de variabelen <code>?item ?instance ?image ?cat</code> voorkomen in je SPARQL zoekvraag. Om bijvoorbeeld alle soorten katten te krijgen doe je:",
             "start": "Start",
             "translate_this_tool": "Vertaal deze applicatie",
-            "year": "Jaar"
+            "year": "Jaar",
+            "is_depicted": "Is <strong>{label}</strong> afgebeeld op deze?"
         }
     }
 }

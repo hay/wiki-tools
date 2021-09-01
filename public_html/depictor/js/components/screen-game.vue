@@ -40,9 +40,8 @@
                 </p>
 
                 <p v-else
-                   class="screen__instruction">
-                   {{$t('is_depicted', { label : ref.label }) }}
-                </p>
+                   class="screen__instruction"
+                   v-html="$t('is_depicted', { label : ref.label })"></p>
 
                 <menu class="screen__actions">
                     <wm-button v-on:click="candidateDepicted"
