@@ -94,7 +94,9 @@ export default class Api {
         return results.results.bindings.map((binding) => {
             return {
                 'category' : binding.cat.value,
-                'image' : binding.image.value,
+                // The Wikidata query service returns http links instead of https
+                // for images
+                'image' : binding.image.value.replace('http://', 'https://'),
                 'qid' : binding.item.value.replace('http://www.wikidata.org/entity/', '')
             };
         });
