@@ -6,7 +6,7 @@
             </p>
         </div>
 
-        <div class="screen"
+        <div class="screen screen--game"
              v-show="!!candidate">
             <figure class="reference"
                     v-show="showItemImage">
@@ -33,34 +33,37 @@
                 </figcaption>
             </figure>
 
-            <p class="screen__instruction"
-               v-if="!showCandidateImage || !showItemImage">
-                {{$t('loading_images')}}
-            </p>
+            <div class="screen__content">
+                <p class="screen__instruction"
+                   v-if="!showCandidateImage || !showItemImage">
+                    {{$t('loading_images')}}
+                </p>
 
-            <p v-else
-               class="screen__instruction">
-               {{$t('is_depicted', { label : ref.label }) }}
-            </p>
+                <p v-else
+                   class="screen__instruction">
+                   {{$t('is_depicted', { label : ref.label }) }}
+                </p>
 
-            <menu class="screen__actions">
-                <wm-button v-on:click="candidateDepicted"
-                           icon="accept">{{$t('yes')}}</wm-button>
+                <menu class="screen__actions">
+                    <wm-button v-on:click="candidateDepicted"
+                               icon="accept">{{$t('yes')}}</wm-button>
 
-                <wm-button v-on:click="candidateSkipped"
-                           icon="skip">{{$t('skip')}}</wm-button>
+                    <wm-button v-on:click="candidateSkipped"
+                               icon="skip">{{$t('skip')}}</wm-button>
 
-                <wm-button v-on:click="candidateNotDepicted"
-                           icon="close">{{$t('no')}}</wm-button>
-            </menu>
+                    <wm-button v-on:click="candidateNotDepicted"
+                               icon="close">{{$t('no')}}</wm-button>
+                </menu>
 
-            <a v-bind:href="candidate.url"
-                target="_blank">
-                <img v-bind:src="candidateImage"
-                     v-show="showCandidateImage"
-                     alt=""
-                     class="screen__fullimage" />
-            </a>
+                <a v-bind:href="candidate.url"
+                   class="screen__candidateimage"
+                   target="_blank">
+                    <img v-bind:src="candidateImage"
+                         v-show="showCandidateImage"
+                         alt=""
+                         class="screen__fullimage" />
+                </a>
+            </div>
 
             <p class="screen__meta">
                 <span v-html="imageProcess"></span>

@@ -4,7 +4,7 @@
             <wm-button v-on:click="reset"
                        flair="bare"
                        v-if="screen === 'game'"
-                       icon="arrow-left">{{$t('reset')}}</wm-button>
+                       icon="arrow-left">{{$t('start')}}</wm-button>
 
             <el-language-selector
                 v-bind:languages="languages"

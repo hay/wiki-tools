@@ -34,4 +34,12 @@
             height: 25rem;
         }
     }
+
+    @include respond-from($screen-md) {
+        grid-template-columns: 1fr;
+
+        &__caption {
+            padding: 1rem;
+        }
+    }
 }

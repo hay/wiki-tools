@@ -379,16 +379,25 @@ a {
   .screen__lead {
     text-align: center;
     margin-top: 2rem; }
+  .screen__candidateimage {
+    display: block;
+    margin-top: var(--spacing); }
   .screen__fullimage {
     width: 100%;
     height: 100%;
     max-height: 50vh;
     object-fit: contain; }
+  .screen__content {
+    margin-top: 1rem; }
+    .screen__content > * + * {
+      margin-top: 1rem; }
   .screen__actions {
     display: flex;
     width: 100%;
     justify-content: space-between;
-    max-width: 40rem; }
+    max-width: 40rem;
+    margin-left: auto;
+    margin-right: auto; }
   .screen__message {
     width: 100%;
     max-width: 500rem;
@@ -403,6 +412,26 @@ a {
     font-size: 2rem;
     font-weight: bold;
     text-align: center; }
+  @media (min-width: 992px) {
+    .screen--game {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      align-items: start;
+      column-gap: 2rem;
+      max-width: 120rem;
+      margin-top: 2rem; }
+    .screen--game .screen__meta {
+      margin-top: 2rem;
+      grid-column: 1 / -1; }
+    .screen--game .screen__content {
+      display: flex;
+      flex-direction: column;
+      margin-top: 0; }
+    .screen--game .screen__candidateimage {
+      order: -1;
+      margin-top: 0; }
+    .screen--game .screen__instruction {
+      margin-top: 2rem; } }
 
 .reference {
   display: grid;
@@ -429,6 +458,11 @@ a {
       grid-template-columns: 25rem 1fr; }
       .reference__img {
         height: 25rem; } }
+  @media (min-width: 992px) {
+    .reference {
+      grid-template-columns: 1fr; }
+      .reference__caption {
+        padding: 1rem; } }
 
 .options {
   display: grid;
