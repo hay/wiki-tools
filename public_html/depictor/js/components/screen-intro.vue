@@ -48,7 +48,7 @@
                         <input type="checkbox"
                                v-model="opts.catdeep"
                                id="opt-catdeep" />
-                        Search subcategories of this category for a depth level of:
+                        {{$t("search_deepcat_input")}}
                         <input type="number"
                                v-bind:disabled="!opts.catdeep"
                                v-model="opts.catdepth"

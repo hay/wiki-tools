@@ -7,6 +7,14 @@
         {
             "code": "nl",
             "label": "Nederlands"
+        },
+        {
+            "code": "pt",
+            "label": "língua portuguesa"
+        },
+        {
+            "code": "sv",
+            "label": "svenska"
         }
     ],
     "messages": {
@@ -48,7 +56,8 @@
             "no": "No",
             "is_depicted": "Is <strong>{label}</strong> depicted in this image?",
             "login_error_try_again": "Something went wrong during login. Please try again.",
-            "try_again": "Try again"
+            "try_again": "Try again",
+            "search_deepcat_input": "Search subcategories of this category for a depth level of:"
         },
         "nl": {
             "app_description": "Voeg gestructureerde data aan Wikimedia Commons-bestanden op een speelse manier",
@@ -87,6 +96,57 @@
             "is_depicted": "Is {label} afgebeeld op deze afbeelding?",
             "login_error_try_again": "Er ging iets mis tijdens het inloggen. Probeer het nog eens.",
             "try_again": "Probeer nogmaals"
+        },
+        "pt": {
+            "app_description": "Adicione declarações de dados estruturados ao Wikimedia Commons usando um interface semelhante a um jogo",
+            "app_title": "Depictor",
+            "commons_category": "Categoria no Commons",
+            "depicted": "Representado",
+            "edits": "Edições",
+            "fetching_candidates": "A buscar imagens candidatas...",
+            "hide_advanced_options": "Esconder opções avançadas",
+            "image_process": "Imagem {x} de {y} nesta categoria",
+            "keyboard_shortcuts": "Atalhos do teclado"
+        },
+        "sv": {
+            "app_description": "Lägg till strukturerade datauttalanden på Wikipedia Commons i ett spelliknande gränssnitt",
+            "commons_category": "Commons-kategori",
+            "app_title": "Depictor",
+            "edits": "Redigeringar",
+            "fetching_candidates": "Hämtar kandidater åt dig...",
+            "hide_advanced_options": "Göm avancerade alternativ",
+            "image_process": "Bild <strong>{x}</strong> av <strong>{y}</strong> i denna <a href=\"{categoryUrl}\" target=\"_blank\">kategori</a>",
+            "intro_start_birthyear": "När du trycker på \"start\" tilldelas du slumpade personer födda {year}. Kontrollera om din person avbildas på bilden.",
+            "keyboard_shortcuts": "Tangentbordsgenvägar",
+            "leaderboard_total": "Dessa underbara människor har hjälpt till med sammanlagt <strong>{total}</strong> uttalanden på Wikimedia Commons.",
+            "loading": "Laddar...",
+            "loading_images": "Laddar bild(er)...",
+            "log_in": "Logga in",
+            "log_out": "Logga ut",
+            "logged_in_as": "Logga in som",
+            "logged_in_proceed": "Du är nu inloggad",
+            "login_error_try_again": "Nånting misslyckades vid inloggningen. Försök igen.",
+            "name": "Namn",
+            "no": "Nej",
+            "please_log_in": "Hej! För att börja matcha bilder, klicka nedan för att ge applikationen tillstånd att redigera i ditt namn.",
+            "proceed": "Fortsätt",
+            "qid": "QID",
+            "reload_app": "Ladda om appen",
+            "reset": "Återställ",
+            "show_advanced_options": "Visa avancerade alternativ",
+            "skip": "Hoppa över",
+            "skip_item": "Hoppa över objektet",
+            "sparql_query": "SPARQL-fråga",
+            "start": "Start",
+            "try_again": "Försök igen",
+            "year": "År",
+            "yes": "Ja",
+            "sparql_query_instruction": "Se till att inkludera <code>?item ?instance ?image ?cat</code>-variabler med en SPARQL-fråga. För att, exempelvis, få alla underarter av katter (felids), testa:",
+            "leaderboard": "Topplista",
+            "translate_this_tool": "Översätt verktyget",
+            "is_depicted": "Föreställer den här bilden <strong>{label}</strong>?",
+            "depicted": "Det gör den",
+            "not_depicted": "Nej det gör den inte"
         }
     }
 }
