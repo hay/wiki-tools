@@ -52,7 +52,7 @@
                         <input type="number"
                                v-bind:disabled="!opts.catdeep"
                                v-model="opts.catdepth"
-                               min="1"
+                               min="0"
                                max="10" />
                     </label>
                 </p>
@@ -107,7 +107,7 @@ select ?item ?instance ?image ?cat where {
                 opts : {
                     category : null,
                     catdeep : false,
-                    catdepth : 1,
+                    catdepth : 0,
                     sparql : null,
                     type : 'year',
                     year : getRandomBirthYear()
