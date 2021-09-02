@@ -161,7 +161,7 @@ export default class CommonsApi extends MediawikiApi {
 
     async search(query, opts = {}) {
         opts = Object.assign({
-            limit : 20,
+            limit : 500,
             namespace : '*',
             sroffset : 0,
             thumbSize : this.thumbSize
