@@ -213,6 +213,11 @@ export default class Api {
             return false;
         }
 
+        if (!item.label) {
+            console.log(`candidateItem ${item.qid} has no label in the given language`);
+            return false;
+        }
+
         const claims = item._item.claims;
 
         if (!"P373" in claims) {

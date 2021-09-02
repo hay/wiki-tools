@@ -269,7 +269,10 @@ export default function createStore(opts) {
 
                 if (!api.isValidItem(item)) {
                     console.log(`Item ${item.qid} is invalid, skipping`);
-                    await dispatch("itemDone", nextItem.qid);
+
+                    // Note how we only commit, not dispatch, so that the
+                    // DB doesn't get cluttered with items without labels and the like
+                    commit("itemDone", nextItem.qid);
                     dispatch("nextItem");
                     return;
                 }
