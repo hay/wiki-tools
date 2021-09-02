@@ -32,17 +32,6 @@
                        v-on:click="opts.type = 'year'"
                        v-model="opts.year" />
 
-                <label for="opt-qid">
-                    <input type="radio"
-                           id="opt-qid"
-                           value="qid"
-                           v-model="opts.type" />
-                    {{$t("qid")}}
-                </label>
-                <input type="text"
-                        v-on:click="opts.type = 'qid'"
-                       v-model="opts.qid" />
-
                 <label for="opt-category">
                     <input type="radio"
                            id="opt-category"
@@ -53,6 +42,20 @@
                 <input type="text"
                         v-on:click="opts.type = 'category'"
                        v-model="opts.category" />
+
+                <p class="options__input">
+                    <label for="opt-catdeep">
+                        <input type="checkbox"
+                               v-model="opts.catdeep"
+                               id="opt-catdeep" />
+                        Search subcategories of this category for a depth level of:
+                        <input type="number"
+                               v-bind:disabled="!opts.catdeep"
+                               v-model="opts.catdepth"
+                               min="1"
+                               max="10" />
+                    </label>
+                </p>
 
                 <label for="opt-sparql">
                     <input type="radio"
@@ -103,7 +106,8 @@ select ?item ?instance ?image ?cat where {
             return {
                 opts : {
                     category : null,
-                    qid : null,
+                    catdeep : false,
+                    catdepth : 1,
                     sparql : null,
                     type : 'year',
                     year : getRandomBirthYear()

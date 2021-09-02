@@ -123,7 +123,12 @@ export default function createStore(opts) {
                     value = value.trim().replace(/\n/g, ' ').replace(/ +/g, ' ');
                 }
 
-                const queryValue = window.encodeURIComponent(value);
+                let queryValue = window.encodeURIComponent(value);
+
+                // If we have 'deep' categories we also need to add the depth level
+                if (queryType === 'category' && opts.catdeep) {
+                    queryValue = `${queryValue}|${opts.catdepth}`;
+                }
 
                 const search = `queryType=${queryType}&queryValue=${queryValue}`;
                 window.location.search = search;
@@ -294,11 +299,14 @@ export default function createStore(opts) {
 
                 if (type === 'year') {
                     items = await api.getPeopleByBirthyear(value);
-                } else if (type == 'qid') {
-                    items = await api.getItemByQid(value);
                 } else if (type === 'category') {
-                    // items = await api.getItemByCommonsCategory(value);
-                    items = await api.getItemsByCommonsCategory(value);
+                    // Check if this is a deep search (indicated by a pipe|)
+                    if (value.includes('|')) {
+                        const [category, depth] = value.split('|');
+                        items = await api.getItemsByCommonsCategory(value, parseInt(depth));
+                    } else {
+                        items = await api.getItemByCommonsCategory(value);
+                    }
                 } else if (type === 'sparql') {
                     items = await api.getItemsWithSparql(value);
                 } else {

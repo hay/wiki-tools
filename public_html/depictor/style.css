@@ -467,6 +467,8 @@ a {
     margin-bottom: 2rem; }
   .options__instruction {
     grid-column: 1 / -1; }
+  .options__input {
+    grid-column: 2; }
 
 .leaderboard {
   border-collapse: collapse;
