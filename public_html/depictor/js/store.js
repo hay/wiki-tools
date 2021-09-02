@@ -36,7 +36,8 @@ export default function createStore(opts) {
             locales : opts.locales,
             rootUrl: opts.rootUrl,
             screen : 'intro',
-            userName: opts.userName
+            userName: opts.userName,
+            userPage: `https://commons.wikimedia.org/wiki/User:${opts.userName}`
         };
     }
 
