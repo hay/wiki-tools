@@ -395,7 +395,7 @@ a {
     flex-direction: column; }
     .screen__message > * + * {
       margin-top: 2rem; }
-  .screen__message p {
+  .screen__notice {
     font-size: 2rem;
     font-weight: bold;
     text-align: center; }
@@ -467,6 +467,8 @@ a {
     margin-bottom: 2rem; }
   .options__instruction {
     grid-column: 1 / -1; }
+  .options__instruction ul {
+    padding: 0 0 0 2rem; }
   .options__input {
     grid-column: 2; }
 

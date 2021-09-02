@@ -1,8 +1,6 @@
 <template>
     <div class="screen__message">
-        <p>
-            <slot></slot>
-        </p>
+        <slot></slot>
 
         <wm-button
             v-if="showReloadButton"

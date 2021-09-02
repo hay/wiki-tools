@@ -19,13 +19,14 @@
 
         <div class="options__wrapper"
              v-show="showAdvancedOptions">
+
             <div class="options">
                 <label for="opt-year">
                     <input type="radio"
                            id="opt-year"
                            value="year"
                            v-model="opts.type" />
-                    {{$t("year")}}
+                    {{$t("birth_year")}}
                 </label>
 
                 <input type="number"
@@ -81,6 +82,10 @@ select ?item ?instance ?image ?cat where {
 }
                     </code></pre>
                 </p>
+
+                <el-notice
+                    notice="common-errors"
+                    class="options__instruction"></el-notice>
             </div>
         </div> <!-- options-wrapper -->
 
@@ -94,13 +99,14 @@ select ?item ?instance ?image ?cat where {
         MIN_BIRTH_YEAR, MAX_BIRTH_YEAR
     } from '../const.js';
     import ElLeaderboard from './el-leaderboard.vue';
+    import ElNotice from './el-notice.vue';
 
     function getRandomBirthYear() {
         return randInt(MIN_BIRTH_YEAR, MAX_BIRTH_YEAR);
     }
 
     export default {
-        components : { ElLeaderboard },
+        components : { ElLeaderboard, ElNotice },
 
         data() {
             return {
