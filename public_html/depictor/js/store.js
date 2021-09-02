@@ -257,6 +257,23 @@ export default function createStore(opts) {
                     return;
                 }
 
+                // Get more item info
+                let item;
+
+                try {
+                    item = await api.getCandidateItem(nextItem.qid);
+                } catch (e) {
+                    console.log(e);
+                    return;
+                }
+
+                if (!api.isValidItem(item)) {
+                    console.log(`Item ${item.qid} is invalid, skipping`);
+                    await dispatch("itemDone", nextItem.qid);
+                    dispatch("nextItem");
+                    return;
+                }
+
                 // Get candidates
                 let candidates;
                 try {
@@ -270,18 +287,7 @@ export default function createStore(opts) {
                     return;
                 }
 
-                // Get more item info
-                let item;
 
-                try {
-                    // item = await api.getItem(nextItem.qid);
-                    item = await api.getCandidateItem(nextItem.qid);
-                } catch (e) {
-                    console.log(e);
-                    return;
-                }
-
-                // item.thumb = nextItem.thumb;
                 commit('item', item);
                 commit('candidates', candidates);
                 commit('category', nextItem.category);
@@ -307,6 +313,10 @@ export default function createStore(opts) {
                     } else {
                         items = await api.getItemByCommonsCategory(value);
                     }
+                } else if (type == 'qid') {
+                    // This is mainly used for debugging and testing purposes,
+                    // hence it's not available in the main interface
+                    items = await api.getItemByQid(value);
                 } else if (type === 'sparql') {
                     items = await api.getItemsWithSparql(value);
                 } else {

@@ -7,7 +7,7 @@
         </div>
 
         <div class="screen screen--game"
-             v-show="!!candidate">
+             v-if="!!candidate && !!item">
             <figure class="reference"
                     v-show="showItemImage">
                 <img v-bind:src="itemImage"
@@ -99,6 +99,10 @@
                 return 'https://commons.wikimedia.org/wiki/Category:' + encodeWikiTitle(this.$store.state.category);
             },
 
+            item() {
+                return this.$store.state.item;
+            },
+
             loading() {
                 return this.$store.state.loading;
             },
@@ -123,14 +127,11 @@
             },
 
             ref() {
-                const ref = this.$store.state.item;
-
                 return {
-                    alt : 'An image of ' + ref.label,
-                    description : ref.description,
-                    href : `https:${ref.url}`,
-                    img : ref.thumb,
-                    label : ref.label
+                    description : this.item.description,
+                    href : this.item.url,
+                    img : this.item.thumb,
+                    label : this.item.label
                 };
             },
 

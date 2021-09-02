@@ -76,14 +76,17 @@ export default class Api {
         }
 
         return {
+            _item : item,
             description : this.locale in item.descriptions ? item.descriptions[this.locale].value : null,
             id : qid,
             label : this.locale in item.labels ? item.labels[this.locale].value : null,
             qid : qid,
-            thumb : thumb
+            thumb : thumb,
+            url : `https://www.wikidata.org/wiki/${qid}`
         };
     }
 
+    // Note difference with the plural (itemS) function
     async getItemByCommonsCategory(category) {
         const sparql = `
             select ?item ?image ?cat where {
@@ -97,7 +100,7 @@ export default class Api {
         return items;
     }
 
-    // This uses PetScan
+    // This uses PetScan instead of SPARQL, as with the single api call above
     async getItemsByCommonsCategory(category, depth = 0) {
         const opts = {
             "categories": category,
@@ -135,11 +138,12 @@ export default class Api {
         });
     }
 
+    // Only used for debugging purposes, not exposed in the main interface
     async getItemByQid(qid) {
         const sparql = `
           select ?item ?image ?cat where {
-            wd:${qid} wdt:P18 ?image;
-                      wdt:P373 ?cat;
+            wd:${qid} wdt:P373 ?cat;
+                      wdt:P18 ?image;
                       wikibase:timestamp ?item.
           }
         `;
@@ -157,13 +161,19 @@ export default class Api {
 
     async getItemsWithSparql(sparql) {
         const wdQuery = new WikidataQuery();
-        const results = await wdQuery.call(sparql);
+        const query = await wdQuery.call(sparql);
 
-        if (!results.results) {
+        if (!query.results) {
             throw new Error('Did not get any results');
         }
 
-        return results.results.bindings.map((binding) => {
+        // Throw out anything that doesn't have a category or image
+        // (even though those shouldn't appear here in the first place)
+        const results = query.results.bindings.filter((binding) => {
+            return binding.cat && binding.image && binding.item;
+        });
+
+        return results.map((binding) => {
             return {
                 'category' : binding.cat.value,
                 // The Wikidata query service returns http links instead of https
@@ -172,16 +182,6 @@ export default class Api {
                 'qid' : binding.item.value.replace('http://www.wikidata.org/entity/', '')
             };
         });
-    }
-
-    async getItem(qid) {
-        const api = new WikidataApi(this.locale);
-        const item = await api.get('item', qid);
-
-        // Make sure this property is available as well
-        item.qid = qid;
-
-        return item;
     }
 
     async getLeaderboard() {
@@ -203,6 +203,37 @@ export default class Api {
         `;
 
         return await this.getItemsWithSparql(sparql);
+    }
+
+    // We can only use items that have an image, a category
+    // and are not a category themselves
+    isValidItem(item) {
+        if (!item.thumb) {
+            console.log(`candidateItem ${item.qid} has no thumb`);
+            return false;
+        }
+
+        const claims = item._item.claims;
+
+        if (!"P373" in claims) {
+            console.log(`candidateItem ${item.qid} has no category`);
+            return false;
+        }
+
+        if (!"P31" in claims) {
+            console.log(`candidateItem ${item.qid} has no instance of`);
+            return false;
+        }
+
+        for (const claim of claims.P31) {
+            // Item should not be a category!
+            if (claim.mainsnak.datavalue.value.id === "Q4167836") {
+                console.log(`candidateItem ${item.qid} is a category`);
+                return false;
+            }
+        }
+
+        return true;
     }
 
 
