@@ -47,7 +47,6 @@
             "show_advanced_options": "Show advanced options",
             "year": "Year",
             "qid": "QID",
-            "commons_category": "Commons category",
             "sparql_query": "SPARQL query",
             "sparql_query_instruction": "Make sure to include <code>?item ?instance ?image ?cat</code> variables with a SPARQL query. For example, to get all subspecies of cats (felids), try:",
             "start": "Start",
@@ -57,12 +56,13 @@
             "is_depicted": "Is <strong>{label}</strong> depicted in this image?",
             "login_error_try_again": "Something went wrong during login. Please try again.",
             "try_again": "Try again",
-            "search_deepcat_input": "Search subcategories of this category for a depth level of:"
+            "search_deepcat_input": "Search subcategories of this category for a depth level of:",
+            "birth_year": "Birth year",
+            "commons_category": "Commons category (without Category: prefix)"
         },
         "nl": {
             "app_description": "Voeg gestructureerde data aan Wikimedia Commons-bestanden op een speelse manier",
             "app_title": "Afbeelder",
-            "commons_category": "Categorie op Wikimedia Commons",
             "depicted": "Beeldt af",
             "edits": "Bewerkingen",
             "fetching_candidates": "Kandidaten ophalen...",
@@ -95,7 +95,10 @@
             "year": "Jaar",
             "is_depicted": "Is {label} afgebeeld op deze afbeelding?",
             "login_error_try_again": "Er ging iets mis tijdens het inloggen. Probeer het nog eens.",
-            "try_again": "Probeer nogmaals"
+            "try_again": "Probeer nogmaals",
+            "yes": "Ja",
+            "no": "Nee",
+            "commons_category": "Categorie op Wikimedia Commons (zonder Categorie:)"
         },
         "pt": {
             "app_description": "Adicione declarações de dados estruturados ao Wikimedia Commons usando um interface semelhante a um jogo",
