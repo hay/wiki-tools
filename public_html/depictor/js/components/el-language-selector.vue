@@ -1,9 +1,17 @@
 <template>
     <div class="language-selector">
-        <span class="icon" data-icon="locale"></span>
+        <span class="icon"
+              v-on:click="clickSelect"
+              data-icon="locale"></span>
+
+        <span class="language-selector__link"
+              v-show="!isShowSelect"
+              v-on:click="clickSelect">
+            {{$t('language')}}
+        </span>
 
         <select
-            v-show="!showCustomLanguage"
+            v-show="isShowSelect"
             v-on:change="change($event.target.value)"
             class="language-selector__select">
             <option
@@ -24,21 +32,10 @@
             </option>
         </select>
 
-        <input
-            v-show="showCustomLanguage"
-            class="language-selector__input"
-            v-on:change="change(customLanguage)"
-            maxlength="12"
-            placeholder="ISO code"
-            v-model="customLanguage" />
-
-        <button
-            class="language-selector__close"
-            aria-label="Set language"
-            v-show="showCustomLanguage"
-            v-on:click="showCustomLanguage = false">
-            <span class="icon" data-icon="cross"></span>
-        </button>
+        <span class="icon language-selector__close"
+              v-show="isShowSelect"
+              v-on:click="blurSelect"
+              data-icon="close"></span>
     </div>
 </template>
 
@@ -46,21 +43,37 @@
     export default {
         data() {
             return {
-                customLanguage : '',
+                isShowSelect : false,
                 lang : this.value,
-                showCustomLanguage : false
+                showCustomLanguage : false,
             }
         },
 
         methods : {
+            blurSelect() {
+                this.$emit('blur-select');
+            },
+
             change(lang) {
-                if (lang === 'custom-language') {
-                    this.showCustomLanguage = true;
-                } else if (lang === 'external-link') {
+                if (lang === 'external-link') {
                     window.location = this.link.link;
                 } else {
                     this.$emit('input', lang);
                 }
+
+                this.isShowSelect = false;
+            },
+
+            clickSelect() {
+                this.$emit('click-select');
+            },
+
+            hideSelect() {
+                this.isShowSelect = false;
+            },
+
+            showSelect() {
+                this.isShowSelect = true;
             }
         },
 

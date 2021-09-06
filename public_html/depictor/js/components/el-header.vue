@@ -2,18 +2,23 @@
     <div class="el-header">
         <menu class="el-header__menu">
             <wm-button
+                v-if="screen === 'game'"
+                v-show="!showLangselect"
                 v-on:click="reset"
                 flair="bare"
-                v-if="screen === 'game'"
                 icon="arrow-left">{{$t('start')}}</wm-button>
 
             <el-language-selector
+                ref="langSelect"
+                v-on:blur-select="langSelect(false)"
+                v-on:click-select="langSelect(true)"
                 v-bind:languages="languages"
                 v-bind:link="transateLink"
                 v-model="locale"></el-language-selector>
 
             <wm-button
                 v-if="isLoggedIn"
+                v-show="!showLangselect"
                 type="anchor"
                 flair="bare"
                 class="el-header__username"
@@ -23,6 +28,7 @@
 
             <wm-button
                 v-if="isLoggedIn"
+                v-show="!showLangselect"
                 icon="logout"
                 flair="bare"
                 type="anchor"
@@ -106,6 +112,7 @@
         data() {
             return {
                 languages : this.$store.state.locales.languages,
+                showLangselect : false,
                 transateLink : {
                     link : 'https://tools.wmflabs.org/tooltranslate/#tool=59',
                     label : this.$t('translate_this_tool')
@@ -114,6 +121,16 @@
         },
 
         methods : {
+            langSelect(select) {
+                if (select) {
+                    this.$refs.langSelect.showSelect();
+                } else {
+                    this.$refs.langSelect.hideSelect();
+                }
+
+                this.showLangselect = select;
+            },
+
             reset() {
                 this.$store.dispatch("reset");
             }

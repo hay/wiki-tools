@@ -499,17 +499,17 @@ a {
   align-items: center;
   padding: .5rem;
   width: min-content; }
-  .language-selector__select, .language-selector__input {
+  .language-selector__select {
     margin-left: 1rem;
     font-size: 1.6rem; }
-  .language-selector__input {
-    padding: 0 .5rem;
-    font-family: monospace;
-    width: 10rem; }
+  .language-selector__link {
+    font-size: 1.4rem;
+    cursor: pointer;
+    text-decoration: underline;
+    padding-left: .5rem;
+    color: var(--c-1); }
   .language-selector__close {
-    width: 1.8rem;
-    height: 1.8rem;
-    background: #36c; }
+    margin-left: .5rem; }
 
 .el-header__menu {
   display: flex;

@@ -4,7 +4,7 @@
              v-bind:style="style"></div>
 
         <div class="el-progress__values">
-            <span class="el-progress__value">{{percent}}%</span>
+            <span class="el-progress__value">{{percentLabel}}%</span>
             <span class="el-progress__value">{{value}} / {{total}}</span>
         </div>
     </div>
@@ -15,6 +15,10 @@
         computed : {
             percent() {
                 return Math.round((this.value / this.total) * 100);
+            },
+
+            percentLabel() {
+                return this.$t('pct_complete', { percent : this.percent });
             },
 
             style() {
