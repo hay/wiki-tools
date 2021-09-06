@@ -291,6 +291,9 @@ export default function createStore(opts) {
                     return;
                 }
 
+                // TODO
+                await api.filesExist(candidates.map(c => c.mid));
+
 
                 commit('item', item);
                 commit('candidates', candidates);
@@ -332,6 +335,9 @@ export default function createStore(opts) {
                     commit('errorMessage', 'No items for this query. Try another query.');
                     return;
                 }
+
+                // TODO
+                await api.itemsExist(items.map(i => i.qid));
 
                 commit('items', items);
                 await dispatch("nextItem");

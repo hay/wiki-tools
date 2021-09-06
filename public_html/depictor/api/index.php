@@ -31,7 +31,15 @@
     }
 
     try {
-        $res = $api->process($_GET);
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            // Encoded JSON, get that
+            $body = file_get_contents('php://input');
+            $args = json_decode($body, true);
+        } else {
+            $args = $_GET;
+        }
+
+        $res = $api->process($args);
     } catch (Exception $e) {
         respond([ "error" => $e->getMessage() ]);
     }

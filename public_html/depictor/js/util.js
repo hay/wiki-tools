@@ -67,3 +67,20 @@ export function objectHasFilledProperties(properties, object) {
 
     return true;
 }
+
+export function postJson(url, body) {
+    return new Promise((resolve, reject) => {
+        const options = {
+            body: JSON.stringify(body),
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+            method : 'POST',
+        };
+
+        window.fetch(url, options)
+            .then((res) => res.json())
+            .then((res) => resolve(res))
+            .catch((err) => reject(err));
+    });
+}

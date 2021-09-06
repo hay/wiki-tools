@@ -1,6 +1,6 @@
 import { getJson } from 'donot';
 import { IMAGE_SIZE, LOCAL_API_ENDPOINT, THUMB_SIZE} from './const.js';
-import { buildUrlQuery } from './util.js';
+import { buildUrlQuery, postJson } from './util.js';
 import CommonsApi from './mwapi/commons.js';
 import WikidataApi from './mwapi/wikidata.js';
 import WikidataQuery from './mwapi/query.js';
@@ -23,9 +23,20 @@ export default class Api {
         return req;
     }
 
+    async post(action, opts = {}) {
+        opts.action = action;
+        const req = await postJson(LOCAL_API_ENDPOINT, opts);
+        return req;
+    }
+
     async fileExists(mid) {
         const req = await this.call('file-exists', { mid });
         return req.status;
+    }
+
+    async filesExist(mids) {
+        const req = await this.post('files-exists', { mids });
+        return req;
     }
 
     async getCandidates(qid, category) {
@@ -244,6 +255,11 @@ export default class Api {
 
     async itemDone(opts) {
         const req = await this.call('item-done', opts);
+        return req;
+    }
+
+    async itemsExist(qids) {
+        const req = await this.post('items-done', { qids : qids });
         return req;
     }
 
