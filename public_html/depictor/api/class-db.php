@@ -43,6 +43,18 @@
             $newItem->save();
         }
 
+        public function fileExists(string $mid):bool {
+            $sql = "select exists(select * from "  . TBL_DEPICTOR_FILES . " where mid = :mid and status != 'user-skipped')";
+            $exists = ORM::for_table(TBL_DEPICTOR_FILES)
+                ->raw_query($sql, [ "mid" => $mid ])
+                ->find_array();
+
+            // FIXME
+            $exists = array_values($exists[0])[0];
+
+            return $exists == "1";
+        }
+
         public function getLeaderboard():array {
             $sql = "select user,count(*) as edits from " . TBL_DEPICTOR_FILES . " where status = 'depicted' group by user order by edits desc limit 20";
             $stats = ORM::for_table(TBL_DEPICTOR_FILES)->raw_query($sql)->find_array();
@@ -62,5 +74,17 @@
 
         public function getItemsByQid(string $qid):array {
             return ORM::for_table(TBL_DEPICTOR_ITEMS)->where('qid', $qid)->find_array();
+        }
+
+        public function itemExists(string $qid):bool {
+            $sql = "select exists(select * from "  . TBL_DEPICTOR_ITEMS . " where qid = :qid)";
+            $exists = ORM::for_table(TBL_DEPICTOR_ITEMS)
+                ->raw_query($sql, [ "qid" => $qid ])
+                ->find_array();
+
+            // FIXME
+            $exists = array_values($exists[0])[0];
+
+            return $exists == "1";
         }
     }

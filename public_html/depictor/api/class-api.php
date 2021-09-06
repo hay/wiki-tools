@@ -115,8 +115,7 @@
 
         private function hasFile(string $mid):bool {
             $this->assertItemid($mid);
-            $files = $this->db->getFilesByMid($mid);
-            return count($files) > 0;
+            return $this->db->fileExists($mid);
         }
 
         private function hasFiles(array $mids):array {
@@ -132,8 +131,7 @@
 
         private function hasItem(string $qid):bool {
             $this->assertItemid($qid);
-            $items = $this->db->getItemsByQid($qid);
-            return count($items) > 0;
+            return $this->db->itemExists($qid);
         }
 
         private function hasItems(array $qids):array {
