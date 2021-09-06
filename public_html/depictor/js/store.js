@@ -91,11 +91,7 @@ export default function createStore(opts) {
             },
 
             candidates(state, candidates) {
-                state.candidates = candidates.map((candidate) => {
-                    // Add resized thumbnail here
-                    candidate.done = false;
-                    return candidate;
-                });
+                state.candidates = candidates;
             },
 
             category(state, category) {
@@ -154,15 +150,7 @@ export default function createStore(opts) {
             },
 
             items(state, items) {
-                if (!items.length) {
-                    throw new Error("No items given");
-                }
-
-                state.items = items.map((item) => {
-                    item.thumb = `${item.image}?width=${THUMB_SIZE}`;
-                    item.done = false;
-                    return item;
-                });
+                state.items = items;
             },
 
             locale(state, locale) {
@@ -227,6 +215,7 @@ export default function createStore(opts) {
                 const status = await api.itemsExist(items.map(i => i.qid));
 
                 items = items.map((item) => {
+                    item.thumb = `${item.image}?width=${THUMB_SIZE}`;
                     item.done = status[item.qid];
                     return item;
                 })
