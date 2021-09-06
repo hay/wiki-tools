@@ -210,25 +210,37 @@ export default function createStore(opts) {
                 commit('itemDone', qid);
             },
 
+            async newFiles({ commit }, files) {
+                // Pass an API call and see if the items have already been done
+                const status = await api.filesExist(files.map(f => f.mid));
+
+                files = files.map((file) => {
+                    file.done = file[file.mid];
+                    return file;
+                })
+
+                commit('candidates', files);
+            },
+
+            async newItems({ commit }, items) {
+                // Pass an API call and see if the items have already been done
+                const status = await api.itemsExist(items.map(i => i.qid));
+
+                items = items.map((item) => {
+                    item.done = status[item.qid];
+                    return item;
+                })
+
+                commit('items', items);
+            },
+
             async nextCandidate({ state, commit, getters, dispatch }) {
                 // First check if there are remaining candidates, and if so,
                 // pick one of those, otherwise pick a new item
                 if (getters.hasRemainingCandidates) {
                     console.log("Getting a new candidate");
                     const candidate = sample(getters.remainingCandidates);
-
-                    // Check if the candidate has been processed earlier
-                    const exists = await api.fileExists(candidate.mid);
-                    console.log(`${candidate.mid} exists: ${exists}`);
-
-                    if (exists) {
-                        commit('candidateDone', candidate.mid);
-                        console.log('Candidate exists in database, skipping');
-                        dispatch('nextCandidate');
-                    } else {
-                        // Candidate does not exist, put it up
-                        commit('candidate', candidate);
-                    }
+                    commit('candidate', candidate);
                 } else {
                     console.log('No more candidates, getting new item');
 
@@ -246,17 +258,6 @@ export default function createStore(opts) {
                 }
 
                 const nextItem = sample(getters.remainingItems);
-
-                // Check if this item is 'done', and if so go on
-                const exists = await api.itemExists(nextItem.qid);
-                console.log(`${nextItem.qid} exists: ${exists}`);
-
-                if (exists) {
-                    console.log('Item is done');
-                    await dispatch('itemDone', nextItem.qid);
-                    dispatch('nextItem');
-                    return;
-                }
 
                 // Get more item info
                 let item;
@@ -291,11 +292,8 @@ export default function createStore(opts) {
                     return;
                 }
 
-                // TODO
-                await api.filesExist(candidates.map(c => c.mid));
-
-
                 commit('item', item);
+                await dispatch("newFiles", candidates);
                 commit('candidates', candidates);
                 commit('category', nextItem.category);
 
@@ -336,10 +334,7 @@ export default function createStore(opts) {
                     return;
                 }
 
-                // TODO
-                await api.itemsExist(items.map(i => i.qid));
-
-                commit('items', items);
+                await dispatch('newItems', items);
                 await dispatch("nextItem");
                 commit('screen', 'game');
                 commit('doneLoading');
