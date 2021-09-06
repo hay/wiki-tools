@@ -10,6 +10,11 @@
              v-if="!!candidate && !!item">
             <figure class="reference"
                     v-show="showItemImage">
+                <el-progress
+                    class="reference__progress"
+                    v-bind:value="progress.value"
+                    v-bind:total="progress.total"></el-progress>
+
                 <img v-bind:src="itemImage"
                      alt=""
                      class="reference__img image" />
@@ -84,8 +89,11 @@
 
 <script>
     import { encodeWikiTitle, loadImage } from '../util.js';
+    import ElProgress from './el-progress.vue';
 
     export default {
+        components : { ElProgress },
+
         computed : {
             candidateImage() {
                 return this.showCandidateImage && this.$store.state.candidate ? this.$store.state.candidate.thumb : false;
@@ -99,14 +107,6 @@
                 return 'https://commons.wikimedia.org/wiki/Category:' + encodeWikiTitle(this.$store.state.category);
             },
 
-            item() {
-                return this.$store.state.item;
-            },
-
-            loading() {
-                return this.$store.state.loading;
-            },
-
             imageProcess() {
                 return this.$t('image_process', {
                     x : this.remainingCandidates,
@@ -115,8 +115,26 @@
                 });
             },
 
+            item() {
+                return this.$store.state.item;
+            },
+
             itemImage() {
                 return this.showItemImage && this.$store.state.item ? this.$store.state.item.thumb : false;
+            },
+
+            loading() {
+                return this.$store.state.loading;
+            },
+
+            progress() {
+                const total = this.$store.state.items.length;
+                const remain = this.$store.getters.remainingItems.length;
+
+                return {
+                    total : total,
+                    value : total - remain,
+                };
             },
 
             remainingCandidates() {

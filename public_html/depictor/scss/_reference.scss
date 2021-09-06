@@ -35,6 +35,12 @@
         }
     }
 
+    @include respond-until($screen-md) {
+        &__progress {
+            grid-column: 1 / -1;
+        }
+    }
+
     @include respond-from($screen-md) {
         grid-template-columns: 1fr;
 

@@ -1,0 +1,28 @@
+.el-progress {
+    @include wh(100%, 2.5rem);
+    position: relative;
+    background: var(--c-2);
+
+    &__bar,
+    &__values {
+        position: absolute;
+    }
+
+    &__bar {
+        left: 0;
+        bottom: 0;
+        height: 100%;
+        background: var(--c-1);
+    }
+
+    &__values {
+        @include pos(0);
+        display: flex;
+        padding: .3rem .5rem;
+        color: black;
+        font-size: 1.4rem;
+        font-weight: bold;
+        width: 100%;
+        justify-content: space-between;
+    }
+}
