@@ -5,6 +5,10 @@
             "label": "English"
         },
         {
+            "code": "mk",
+            "label": "македонски јазик"
+        },
+        {
             "code": "nl",
             "label": "Nederlands"
         },
@@ -58,7 +62,53 @@
             "try_again": "Try again",
             "search_deepcat_input": "Search subcategories of this category for a depth level of:",
             "birth_year": "Birth year",
-            "commons_category": "Commons category (without Category: prefix)"
+            "commons_category": "Commons category (without Category: prefix)",
+            "pct_complete": "{pct}% complete",
+            "language": "Language"
+        },
+        "mk": {
+            "app_description": "Додавајте искази со структурирани податоци на Ризницата користејќи игрива околина",
+            "app_title": "Прикажувач",
+            "birth_year": "Година на раѓање",
+            "commons_category": "Категорија на Ризницата (без претставката Category:)",
+            "depicted": "Прикажано",
+            "edits": "Уредувања",
+            "fetching_candidates": "Земам кандидати...",
+            "hide_advanced_options": "Скриј напредни можности",
+            "image_process": "Слика <strong>{x}</strong> од <strong>{y}</strong> во <a href=\"{categoryUrl}\" target=\"_blank\">категоријава</a>",
+            "intro_start_birthyear": "Кога ќе стиснете на „Почни“, ќе ви се прикажат случајни личности родени во {year}  година. Проверете дали личноста е навистина прикажана на дадената слика.",
+            "is_depicted": "Дали на сликава е прикажана личноста <strong>{label}</strong>?",
+            "keyboard_shortcuts": "Тастатурни кратенки",
+            "leaderboard": "Предводници",
+            "leaderboard_total": "Овие чудесни луѓе успеаја заеднички да додадат вкупно <strong>{total}</strong> искази на Ризницата.",
+            "loading": "Вчитувам...",
+            "loading_images": "Вчитувам слики...",
+            "log_in": "Најава",
+            "log_out": "Одјава",
+            "logged_in_as": "Најавени сте како",
+            "logged_in_proceed": "Сега сте најавени. Стиснете на „Продолжи“ за да почнете.",
+            "login_error_try_again": "Се јави проблем при најавувањето. Обидете се пак.",
+            "name": "Име",
+            "no": "Не",
+            "not_depicted": "Неприкажано",
+            "please_log_in": "Здраво! За да почнете со споредување на слики, стиснете подолу а да го овластите прилогот да врши уредувања на Ризницата во ваше име.",
+            "proceed": "Продолжи",
+            "qid": "QID",
+            "reload_app": "Превчитај прилог",
+            "reset": "Дај одново",
+            "search_deepcat_input": "Пребарај поткатегории на категоријава со продорност:",
+            "show_advanced_options": "Дај напредни можности",
+            "skip": "Прескокни",
+            "skip_item": "Прескокни предмет",
+            "sparql_query": "Барање со SPARQL ",
+            "sparql_query_instruction": "Не заборавајте да ги влклучите променливите <code>?item ?instance ?image ?cat</code> во барањети со SPARQL. На пример, за да ги добиете сите подвидови на мачки:",
+            "start": "Почни",
+            "translate_this_tool": "Преведете ја алаткава",
+            "try_again": "Обиди се пак",
+            "year": "Година",
+            "yes": "Да",
+            "language": "Јазик",
+            "pct_complete": "{pct} % извршено"
         },
         "nl": {
             "app_description": "Voeg gestructureerde data aan Wikimedia Commons-bestanden op een speelse manier",
@@ -98,7 +148,9 @@
             "try_again": "Probeer nogmaals",
             "yes": "Ja",
             "no": "Nee",
-            "commons_category": "Categorie op Wikimedia Commons (zonder Categorie:)"
+            "commons_category": "Categorie op Wikimedia Commons (zonder Categorie:)",
+            "birth_year": "Geboortejaar",
+            "search_deepcat_input": "Doorzoek subcategorieën van deze categorie tot een diepte van:"
         },
         "pt": {
             "app_description": "Adicione declarações de dados estruturados ao Wikimedia Commons usando um interface semelhante a um jogo",

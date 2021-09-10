@@ -20,10 +20,6 @@
                 {{link.label}}
             </option>
 
-            <option value="custom-language">
-                Custom language
-            </option>
-
             <option
                 v-for="l in languages"
                 v-bind:selected="l.code === lang"
