@@ -97,6 +97,16 @@ export default class Api {
         };
     }
 
+    async getChallenge(id) {
+        const req = await this.call('challenge', { id });
+
+        if (req.error) {
+            throw new Error(req.error);
+        }
+
+        return req;
+    }
+
     // Note difference with the plural (itemS) function
     async getItemByCommonsCategory(category) {
         const sparql = `

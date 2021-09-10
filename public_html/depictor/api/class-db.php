@@ -55,6 +55,12 @@
             return $exists == "1";
         }
 
+        public function getChallenge(int $id):array {
+            return ORM::for_table(TBL_DEPICTOR_CHALLENGES)
+                ->find_one($id)
+                ->as_array();
+        }
+
         public function getLeaderboard():array {
             $sql = "select user,count(*) as edits from " . TBL_DEPICTOR_FILES . " where status = 'depicted' group by user order by edits desc limit 20";
             $stats = ORM::for_table(TBL_DEPICTOR_FILES)->raw_query($sql)->find_array();

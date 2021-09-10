@@ -52,6 +52,12 @@ async function createApp() {
                         value : url.searchParams.get('queryValue')
                     });
                 }
+
+                if (url.searchParams.has("challenge")) {
+                    this.$store.dispatch(
+                        "challenge", url.searchParams.get("challenge")
+                    );
+                }
             }
         },
 

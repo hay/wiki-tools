@@ -21,6 +21,7 @@ export default function createStore(opts) {
             candidate : null,
             candidates : [],
             category : null,
+            challenge : null,
             defaultLocale : DEFAULT_LOCALE,
             errorMessage : null,
             initLocale : getLocale( DEFAULT_LOCALE ),
@@ -96,6 +97,10 @@ export default function createStore(opts) {
 
             category(state, category) {
                 state.category = category;
+            },
+
+            challenge(state, challenge) {
+                state.challenge = challenge;
             },
 
             doneLoading(state) {
@@ -175,6 +180,12 @@ export default function createStore(opts) {
         },
 
         actions : {
+            async challenge({ commit }, id) {
+                const challenge = await api.getChallenge(id);
+                commit('challenge', challenge);
+                commit('screen', 'challenge');
+            },
+
             async handleCandidate({ commit, dispatch, state }, status) {
                 await api.addFile({
                     mid : state.candidate.mid,

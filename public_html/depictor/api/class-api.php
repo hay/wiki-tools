@@ -31,6 +31,8 @@
                 return $this->hasItems($args["qids"] ?? []);
             } else if ($action == "leaderboard") {
                 return $this->leaderboard();
+            } else if ($action == "challenge") {
+                return $this->getChallenge($args["id"] ?? null);
             } else {
                 throw new Exception("Invalid action");
             }
@@ -111,6 +113,14 @@
             if (!preg_match(self::RE_ITEMID, $itemid)) {
                 throw new Exception("Invalid id");
             }
+        }
+
+        private function getChallenge($id):array {
+            if (!ctype_digit($id)) {
+                throw new Exception("Invalid id");
+            }
+
+            return $this->db->getChallenge((int) $id);
         }
 
         private function hasFile(string $mid):bool {
