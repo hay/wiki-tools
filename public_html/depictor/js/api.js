@@ -97,6 +97,11 @@ export default class Api {
         };
     }
 
+    async getImageThumb(title, width) {
+        const api = new CommonsApi(this.locale);
+        return api.getImageThumb(title, width);
+    }
+
     // Note difference with the plural (itemS) function
     async getItemByCommonsCategory(category) {
         const sparql = `

@@ -116,6 +116,26 @@ export default class CommonsApi extends MediawikiApi {
         return labels;
     }
 
+    // This uses imageinfo instead of the filepath hack
+    async getImageThumb(title, width) {
+        const results = await this.imageinfo(title, {
+            'iiprop' : 'url',
+            'iiurlwidth' : width
+        });
+
+        if (results.error) {
+            throw new Error(results.error);
+        }
+
+        if (!results.query) {
+            return null;
+        }
+
+        const page = Object.values(results.query.pages)[0];
+
+        return page.imageinfo[0].thumburl;
+    }
+
     getThumb(title, size = null) {
         // So many HTTP 429 requests, even if we use the imageinfo API call
         size = !!size ? size : this.thumbSize;

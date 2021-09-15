@@ -3,7 +3,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Api from './api.js';
 import {
-    DEFAULT_LOCALE, THUMB_SIZE, MAX_API_TRIES, MAX_API_CHECK_TRIES
+    DEFAULT_LOCALE, THUMB_SIZE, MAX_API_TRIES, MAX_API_CHECK_TRIES,
+    IMAGE_SIZE
 } from './const.js';
 import { getLocale } from './util.js';
 
@@ -229,6 +230,11 @@ export default function createStore(opts) {
                 if (getters.hasRemainingCandidates) {
                     console.log("Getting a new candidate");
                     const candidate = sample(getters.remainingCandidates);
+
+                    // Now get the proper thumbnail
+                    const thumb = await api.getImageThumb(candidate.title, IMAGE_SIZE);
+                    candidate.thumb = thumb;
+
                     commit('candidate', candidate);
                 } else {
                     console.log('No more candidates, getting new item');
