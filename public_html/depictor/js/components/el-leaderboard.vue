@@ -1,32 +1,40 @@
 <template>
-    <div>
+    <div class="leaderboard__wrapper">
         <h2 class="screen__title">
             {{$t('leaderboard')}}
         </h2>
 
-        <p class="screen__subtitle"
-           v-html="subtitle"></p>
+        <template v-if="hasItems">
+            <p class="screen__subtitle"
+               v-html="subtitle"></p>
 
-        <table class="leaderboard">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>{{$t('name')}}</th>
-                    <th>{{$t('edits')}}</th>
-                </tr>
-            </thead>
+            <table class="leaderboard">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>{{$t('name')}}</th>
+                        <th>{{$t('edits')}}</th>
+                    </tr>
+                </thead>
 
-            <tbody>
-                <tr v-for="(row, index) in data.stats">
-                    <td>{{index + 1}}</td>
-                    <td>
-                        <a v-bind:href="row.userLink"
-                           target="_blank">{{row.user}}</a>
-                    </td>
-                    <td>{{numberWithCommas( row.edits )}}</td>
-                </tr>
-            </tbody>
-        </table>
+                <tbody>
+                    <tr v-for="(row, index) in data.stats">
+                        <td>{{index + 1}}</td>
+                        <td>
+                            <a v-bind:href="row.userLink"
+                               target="_blank">{{row.user}}</a>
+                        </td>
+                        <td>{{numberWithCommas( row.edits )}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </template>
+
+        <template v-if="!hasItems">
+            <p class="screen__subtitle">
+                {{$t('empty_leaderboard')}}
+            </p>
+        </template>
     </div>
 </template>
 
@@ -35,6 +43,10 @@
 
     export default {
         computed : {
+            hasItems() {
+                return this.data.total > 0;
+            },
+
             subtitle() {
                 const total = this.numberWithCommas(this.data.total);
                 return this.$t('leaderboard_total', { total });

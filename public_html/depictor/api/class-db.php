@@ -55,12 +55,6 @@
             return $exists == "1";
         }
 
-        public function getChallenge(int $id):array {
-            return ORM::for_table(TBL_DEPICTOR_CHALLENGES)
-                ->find_one($id)
-                ->as_array();
-        }
-
         // See itemsExist
         public function filesExist(array $mids):array {
             $all_files = ORM::for_table(TBL_DEPICTOR_FILES)
@@ -77,6 +71,16 @@
             }
 
             return $exists;
+        }
+
+        public function getChallenge(int $id):array {
+            $challenge = ORM::for_table(TBL_DEPICTOR_CHALLENGES)->find_one($id);
+
+            if (!$challenge) {
+                throw new Exception("No challenge found for that id");
+            } else {
+                return $challenge->as_array();
+            }
         }
 
         public function getLeaderboard():array {
