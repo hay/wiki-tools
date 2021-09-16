@@ -4,7 +4,8 @@
             <wm-button
                 v-if="screen === 'game'"
                 v-show="!showLangselect"
-                v-on:click="reset"
+                v-bind:href="homeLink"
+                type="anchor"
                 flair="bare"
                 icon="arrow-left">{{$t('start')}}</wm-button>
 
@@ -92,6 +93,10 @@
         components : { ElLanguageSelector },
 
         computed: {
+            homeLink() {
+                return this.$store.getters.homeLink;
+            },
+
             locale: {
                 get() {
                     return this.$store.state.locale;
@@ -129,10 +134,6 @@
                 }
 
                 this.showLangselect = select;
-            },
-
-            reset() {
-                this.$store.dispatch("reset");
             }
         },
 

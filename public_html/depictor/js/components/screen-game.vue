@@ -166,7 +166,7 @@
         },
 
         destroyed() {
-            window.removeEventListener('reset', this.keydown);
+            window.removeEventListener('keydown', this.keydown);
         },
 
         methods : {
@@ -210,10 +210,6 @@
                 this.$store.commit('itemDone', this.$store.state.item.qid);
                 await this.$store.dispatch("nextItem");
                 this.showAllImages();
-            },
-
-            reset() {
-                this.$store.dispatch('reset');
             },
 
             async showAllImages() {

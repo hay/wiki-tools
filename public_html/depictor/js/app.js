@@ -68,9 +68,10 @@ async function createApp() {
                 }
 
                 if (url.searchParams.has("challenge")) {
-                    this.$store.dispatch(
-                        "challenge", url.searchParams.get("challenge")
-                    );
+                    const id = url.searchParams.get("challenge");
+                    const action = url.searchParams.get("action");
+
+                    this.$store.dispatch("challenge", { id, action });
                 }
             }
         },

@@ -56,6 +56,14 @@ export default function createStore(opts) {
                 return getters.remainingItems.length > 0;
             },
 
+            homeLink(state) {
+                if (state.challenge) {
+                    return `${state.rootUrl}/?challenge=${state.challenge.id}`
+                } else {
+                    return state.rootUrl;
+                }
+            },
+
             remainingCandidates(state) {
                 return state.candidates.filter(c => !c.done);
             },
@@ -182,10 +190,19 @@ export default function createStore(opts) {
         },
 
         actions : {
-            async challenge({ commit }, id) {
+            async challenge({ commit, dispatch }, { id, action }) {
+                log.debug('challenge', { id, action });
                 const challenge = await api.getChallenge(id);
                 commit('challenge', challenge);
-                commit('screen', 'challenge');
+
+                if (action === 'start') {
+                    dispatch('query', {
+                        type : challenge.querytype,
+                        value : challenge.queryvalue
+                    });
+                } else {
+                    commit('screen', 'challenge');
+                }
             },
 
             async handleCandidate({ commit, dispatch, state }, status) {
@@ -310,6 +327,7 @@ export default function createStore(opts) {
             },
 
             async query({ commit, dispatch }, query) {
+                log.debug('query', query);
                 const { type, value } = query;
                 commit('isLoading');
 
@@ -366,11 +384,6 @@ export default function createStore(opts) {
                 await dispatch("nextItem");
                 commit('screen', 'game');
                 commit('doneLoading');
-            },
-
-            reset() {
-                // TODO: this is a bit rude, but oh well
-                window.location.search = '';
             }
         }
     });

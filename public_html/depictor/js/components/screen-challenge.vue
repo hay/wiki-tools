@@ -21,7 +21,8 @@
         </p>
 
         <wm-button
-            v-on:click="start"
+            v-bind:href="startLink"
+            type="anchor"
             flair="primary">{{$t("start")}}</wm-button>
 
         <p v-if="challenge.long_description"
@@ -53,21 +54,15 @@
                 return this.$store.state.rootUrl;
             },
 
+            startLink() {
+                const root = this.$store.state.rootUrl;
+                return `${root}/?challenge=${this.challenge.id}&action=start`;
+            },
+
             userLink() {
                 return this.$t('challenge_userlink', {
                     link : `${COMMONS_USER_PREFIX}${this.challenge.user}`
                 });
-            }
-        },
-
-        data() {
-            return {
-            };
-        },
-
-        methods : {
-            async start() {
-                this.$store.commit('hash', this.opts);
             }
         }
     }

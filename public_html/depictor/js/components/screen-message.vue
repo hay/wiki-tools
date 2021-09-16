@@ -4,16 +4,17 @@
 
         <wm-button
             v-if="showReloadButton"
-            flair="primary"
-            v-on:click="reset">{{$t('reload_app')}}</wm-button>
+            type="anchor"
+            v-bind:href="homeLink"
+            flair="primary">{{$t('reload_app')}}</wm-button>
     </div>
 </template>
 
 <script>
     export default {
-        methods : {
-            reset() {
-                this.$store.dispatch('reset');
+        computed: {
+            homeLink() {
+                return this.$store.getters.homeLink;
             }
         },
 
