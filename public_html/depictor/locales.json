@@ -150,7 +150,9 @@
             "no": "Nee",
             "commons_category": "Categorie op Wikimedia Commons (zonder Categorie:)",
             "birth_year": "Geboortejaar",
-            "search_deepcat_input": "Doorzoek subcategorieën van deze categorie tot een diepte van:"
+            "search_deepcat_input": "Doorzoek subcategorieën van deze categorie tot een diepte van:",
+            "language": "Taal",
+            "pct_complete": "{pct}% compleet"
         },
         "pt": {
             "app_description": "Adicione declarações de dados estruturados ao Wikimedia Commons usando um interface semelhante a um jogo",

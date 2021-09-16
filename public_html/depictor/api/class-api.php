@@ -129,14 +129,11 @@
         }
 
         private function hasFiles(array $mids):array {
-            $files = [];
-
             foreach ($mids as $mid) {
                 $this->assertItemid($mid);
-                $files[$mid] = $this->hasFile($mid);
             }
 
-            return $files;
+            return $this->db->filesExist($mids);
         }
 
         private function hasItem(string $qid):bool {
@@ -145,14 +142,11 @@
         }
 
         private function hasItems(array $qids):array {
-            $items = [];
-
             foreach ($qids as $qid) {
                 $this->assertItemid($qid);
-                $items[$qid] = $this->hasItem($qid);
             }
 
-            return $items;
+            return $this->db->itemsExist($qids);
         }
 
         private function leaderboard():array {
