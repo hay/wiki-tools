@@ -1,7 +1,7 @@
 <template>
     <div class="leaderboard__wrapper">
         <h2 class="screen__title">
-            {{$t('leaderboard')}}
+            {{leaderboardLabel}}
         </h2>
 
         <template v-if="hasItems">
@@ -45,6 +45,10 @@
         computed : {
             hasItems() {
                 return this.data.total > 0;
+            },
+
+            leaderboardLabel() {
+                return this.challenge ? this.$t('leaderboard') : this.$t('global_leaderboard');
             },
 
             subtitle() {

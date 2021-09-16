@@ -89,6 +89,8 @@ select ?item ?instance ?image ?cat where {
             </div>
         </div> <!-- options-wrapper -->
 
+        <el-challenges></el-challenges>
+
         <el-leaderboard></el-leaderboard>
     </div>
 </template>
@@ -98,6 +100,7 @@ select ?item ?instance ?image ?cat where {
     import {
         MIN_BIRTH_YEAR, MAX_BIRTH_YEAR
     } from '../const.js';
+    import ElChallenges from './el-challenges.vue';
     import ElLeaderboard from './el-leaderboard.vue';
     import ElNotice from './el-notice.vue';
 
@@ -106,7 +109,7 @@ select ?item ?instance ?image ?cat where {
     }
 
     export default {
-        components : { ElLeaderboard, ElNotice },
+        components : { ElChallenges, ElLeaderboard, ElNotice },
 
         data() {
             return {
