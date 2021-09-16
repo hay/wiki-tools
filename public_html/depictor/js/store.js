@@ -6,6 +6,7 @@ import {
     DEFAULT_LOCALE, THUMB_SIZE, MAX_API_TRIES, MAX_API_CHECK_TRIES,
     IMAGE_SIZE
 } from './const.js';
+import log from './log.js';
 import { getLocale } from './util.js';
 
 Vue.use(Vuex);
@@ -228,7 +229,7 @@ export default function createStore(opts) {
                 // First check if there are remaining candidates, and if so,
                 // pick one of those, otherwise pick a new item
                 if (getters.hasRemainingCandidates) {
-                    console.log("Getting a new candidate");
+                    log.debug("Getting a new candidate");
                     const candidate = sample(getters.remainingCandidates);
 
                     // Now get the proper thumbnail
@@ -237,7 +238,7 @@ export default function createStore(opts) {
 
                     commit('candidate', candidate);
                 } else {
-                    console.log('No more candidates, getting new item');
+                    log.debug('No more candidates, getting new item');
 
                     // Set item to done
                     await dispatch('itemDone', state.item.id);
@@ -247,7 +248,7 @@ export default function createStore(opts) {
 
             async nextItem({ commit, getters, dispatch }) {
                 if (!getters.hasRemainingItems) {
-                    console.log('No more remaining items');
+                    log.debug('No more remaining items');
                     commit('errorMessage', 'Seems there are no more items to process. Try again with a different query.');
                     return;
                 }
@@ -260,12 +261,12 @@ export default function createStore(opts) {
                 try {
                     item = await api.getCandidateItem(nextItem.qid);
                 } catch (e) {
-                    console.log(e);
+                    log.debug(e);
                     return;
                 }
 
                 if (!api.isValidItem(item)) {
-                    console.log(`Item ${item.qid} is invalid, skipping`);
+                    log.debug(`Item ${item.qid} is invalid, skipping`);
 
                     // Note how we only commit, not dispatch, so that the
                     // DB doesn't get cluttered with items without labels and the like
@@ -281,7 +282,7 @@ export default function createStore(opts) {
                         nextItem.qid, nextItem.category
                     );
                 } catch (e) {
-                    console.log(`Could not get candidates for ${nextItem.qid}`);
+                    log.debug(`Could not get candidates for ${nextItem.qid}`);
                     await dispatch('itemDone', nextItem.qid);
                     dispatch('nextItem');
                     return;
@@ -293,7 +294,7 @@ export default function createStore(opts) {
                 commit('category', nextItem.category);
 
                 // All went well, let's get out of the loop
-                console.log('Got candidates and item');
+                log.debug('Got candidates and item');
                 await dispatch("nextCandidate");
             },
 
@@ -320,7 +321,7 @@ export default function createStore(opts) {
                 } else if (type === 'sparql') {
                     items = await api.getItemsWithSparql(value);
                 } else {
-                    console.log('No valid query options');
+                    log.debug('No valid query options');
                     return;
                 }
 

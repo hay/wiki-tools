@@ -4,6 +4,7 @@ import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import App from './components/app.vue';
 import WmButton from './components/wm-button.vue';
+import log from './log.js';
 import createStore from './store.js';
 
 async function createApp() {
@@ -12,6 +13,14 @@ async function createApp() {
     const userEl = $('meta[name="authenticated-user"]');
     const locales = await getJson('./locales.json');
     const ctx = window.__ctx__;
+
+    if (ctx.isDebug) {
+        log.setLevel("trace");
+        log.debug("In debug mode");
+    } else {
+        log.setLevel("warn");
+    }
+
     const storeOptions = Object.assign(window.__ctx__, {
         locales : locales
     });
@@ -23,6 +32,7 @@ async function createApp() {
         messages : store.state.locales.messages,
         silentTranslationWarn : !store.state.isDebug
     });
+
 
     Vue.component('wm-button', WmButton);
 
