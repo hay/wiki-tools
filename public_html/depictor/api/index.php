@@ -6,6 +6,7 @@
     require './class-api.php';
 
     function respond(array $data) {
+        header("content-type: application/json; charset=utf-8");
         echo json_encode($data);
         die();
     }

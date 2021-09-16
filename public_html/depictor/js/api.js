@@ -211,8 +211,9 @@ export default class Api {
         });
     }
 
-    async getLeaderboard() {
-        return await this.call('leaderboard');
+    async getLeaderboard(challenge = null) {
+        const opts = !!challenge ? { id : challenge } : {};
+        return await this.call('leaderboard', opts);
     }
 
     async getPeopleByBirthyear(birthYear) {

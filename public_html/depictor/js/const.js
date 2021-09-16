@@ -1,3 +1,4 @@
+export const COMMONS_USER_PREFIX = 'https://commons.wikimedia.org/wiki/User:';
 export const DEFAULT_LOCALE = 'en';
 export const IMAGE_SIZE = 600;
 export const LOCAL_API_ENDPOINT = './api/index.php';

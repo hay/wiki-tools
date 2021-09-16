@@ -13,18 +13,32 @@
         </h1>
 
         <p class="app-lead">
-            {{challenge.short_description}}
+            {{$t('challenge_lead_intro')}}:
+
+            <blockquote class="screen__quote">
+                {{challenge.short_description}}
+            </blockquote>
         </p>
 
         <wm-button
             v-on:click="start"
             flair="primary">{{$t("start")}}</wm-button>
 
-        <el-leaderboard></el-leaderboard>
+        <p v-if="challenge.long_description"
+           class="screen__subtitle">
+            {{challenge.long_description}}
+        </p>
+
+        <p class="screen__subtitle"
+           v-html="userLink"></p>
+
+        <el-leaderboard
+            v-bind:challenge="challenge.id"></el-leaderboard>
     </div>
 </template>
 
 <script>
+    import { COMMONS_USER_PREFIX } from '../const.js';
     import ElLeaderboard from './el-leaderboard.vue';
 
     export default {
@@ -37,6 +51,12 @@
 
             rootUrl() {
                 return this.$store.state.rootUrl;
+            },
+
+            userLink() {
+                return this.$t('challenge_userlink', {
+                    link : `${COMMONS_USER_PREFIX}${this.challenge.user}`
+                });
             }
         },
 

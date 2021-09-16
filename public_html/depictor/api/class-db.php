@@ -81,12 +81,16 @@
 
         public function getLeaderboard():array {
             $sql = "select user,count(*) as edits from " . TBL_DEPICTOR_FILES . " where status = 'depicted' group by user order by edits desc limit 20";
-            $stats = ORM::for_table(TBL_DEPICTOR_FILES)->raw_query($sql)->find_array();
-            return $stats;
+
+            return ORM::for_table(TBL_DEPICTOR_FILES)->raw_query($sql)->find_array();
         }
 
-        public function getTotalFiles() {
-            return ORM::for_table(TBL_DEPICTOR_FILES)->count();
+        public function getLeaderboardById(int $id):array {
+            $sql = "select user,count(*) as edits from " . TBL_DEPICTOR_FILES . " where status = 'depicted' AND challenge = '$id' group by user order by edits desc limit 20";
+
+            return ORM::for_table(TBL_DEPICTOR_FILES)
+                ->raw_query($sql)
+                ->find_array();
         }
 
         public function getFilesByMid(string $mid):array {
@@ -98,6 +102,17 @@
 
         public function getItemsByQid(string $qid):array {
             return ORM::for_table(TBL_DEPICTOR_ITEMS)->where('qid', $qid)->find_array();
+        }
+
+        public function getTotalFiles() {
+            return ORM::for_table(TBL_DEPICTOR_FILES)->where('status', 'depicted')->count();
+        }
+
+        public function getTotalFilesByChallenge(int $id) {
+            return ORM::for_table(TBL_DEPICTOR_FILES)
+                ->where('status', 'depicted')
+                ->where('challenge', $id)
+                ->count();
         }
 
         public function itemExists(string $qid):bool {

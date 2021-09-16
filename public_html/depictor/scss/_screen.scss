@@ -81,6 +81,12 @@
         text-align: center;
     }
 
+    &__quote {
+        font-style: italic;
+        background: var(--c-2);
+        padding: 1rem;
+    }
+
     @include respond-from($screen-md) {
         &--game {
             display: grid;

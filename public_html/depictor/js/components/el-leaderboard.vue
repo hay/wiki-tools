@@ -54,7 +54,7 @@
         },
 
         async mounted() {
-            const data = await this.$store.state.api.getLeaderboard();
+            const data = await this.$store.state.api.getLeaderboard(this.challenge);
 
             data.stats = data.stats.map((row) => {
                 row.userLink = `https://commons.wikimedia.org/wiki/User:${row.user}`;
@@ -62,6 +62,12 @@
             });
 
             this.data = data;
+        },
+
+        props : {
+            challenge : {
+                required : false
+            }
         }
     }
 </script>

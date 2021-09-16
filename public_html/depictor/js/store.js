@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 import Api from './api.js';
 import {
     DEFAULT_LOCALE, THUMB_SIZE, MAX_API_TRIES, MAX_API_CHECK_TRIES,
-    IMAGE_SIZE
+    IMAGE_SIZE, COMMONS_USER_PREFIX
 } from './const.js';
 import log from './log.js';
 import { getLocale } from './util.js';
@@ -40,7 +40,7 @@ export default function createStore(opts) {
             rootUrl: opts.rootUrl,
             screen : 'intro',
             userName: opts.userName,
-            userPage: `https://commons.wikimedia.org/wiki/User:${opts.userName}`
+            userPage: COMMONS_USER_PREFIX + opts.userName
         };
     }
 

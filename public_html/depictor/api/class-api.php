@@ -30,7 +30,7 @@
             } else if ($action == "items-done") {
                 return $this->hasItems($args["qids"] ?? []);
             } else if ($action == "leaderboard") {
-                return $this->leaderboard();
+                return $this->leaderboard($args["id"] ?? null);
             } else if ($action == "challenge") {
                 return $this->getChallenge($args["id"] ?? null);
             } else {
@@ -149,10 +149,19 @@
             return $this->db->itemsExist($qids);
         }
 
-        private function leaderboard():array {
-            return [
-                "stats" => $this->db->getLeaderboard(),
-                "total" => $this->db->getTotalFiles()
-            ];
+        private function leaderboard($id = null):array {
+            if ($id && ctype_digit($id)) {
+                $id = (int) $id;
+
+                return [
+                    "stats" => $this->db->getLeaderboardById($id),
+                    "total" => $this->db->getTotalFilesByChallenge($id)
+                ];
+            } else {
+                return [
+                    "stats" => $this->db->getLeaderboard($id),
+                    "total" => $this->db->getTotalFiles()
+                ];
+            }
         }
     }

@@ -399,6 +399,10 @@ a {
     font-size: 2rem;
     font-weight: bold;
     text-align: center; }
+  .screen__quote {
+    font-style: italic;
+    background: var(--c-2);
+    padding: 1rem; }
   @media (min-width: 992px) {
     .screen--game {
       display: grid;
