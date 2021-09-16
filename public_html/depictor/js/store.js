@@ -305,23 +305,44 @@ export default function createStore(opts) {
                 let items = null;
 
                 if (type === 'year') {
-                    items = await api.getPeopleByBirthyear(value);
+                    items = await api.getPeopleByBirthyear(value).catch((err) => {
+                        log.error(err);
+                        commit('errorMessage', 'Invalid birth year');
+                    });
                 } else if (type === 'category') {
                     // Check if this is a deep search (indicated by a pipe|)
                     if (value.includes('|')) {
                         const [category, depth] = value.split('|');
-                        items = await api.getItemsByCommonsCategory(value, parseInt(depth));
+
+                        items = await api
+                            .getItemsByCommonsCategory(value, parseInt(depth))
+                            .catch((err) => {
+                                log.error(err);
+                                commit("errorMessage", "Invalid category or depth");
+                            });
                     } else {
-                        items = await api.getItemByCommonsCategory(value);
+                        items = await api
+                            .getItemByCommonsCategory(value)
+                            .catch((err) => {
+                                log.error(err);
+                                commit('errorMessage', 'Invalid category');
+                            });
                     }
                 } else if (type == 'qid') {
                     // This is mainly used for debugging and testing purposes,
                     // hence it's not available in the main interface
-                    items = await api.getItemByQid(value);
+                    items = await api.getItemByQid(value).catch((err) => {
+                        log.error(err);
+                        commit('errorMessage', 'Invalid QID');
+                    });;
                 } else if (type === 'sparql') {
-                    items = await api.getItemsWithSparql(value);
+                    items = await api.getItemsWithSparql(value).catch((err) => {
+                        log.error(err);
+                        commit('errorMessage', 'The SPARQL query was invalid.');
+                    });
                 } else {
-                    log.debug('No valid query options');
+                    log.error('No valid query options');
+                    commit("errorMessage", "No valid query options");
                     return;
                 }
 

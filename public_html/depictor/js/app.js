@@ -36,6 +36,10 @@ async function createApp() {
 
     Vue.component('wm-button', WmButton);
 
+    Vue.config.errorHandler = function(err) {
+        log.error(err);
+    }
+
     new Vue({
         el : "#app",
 
