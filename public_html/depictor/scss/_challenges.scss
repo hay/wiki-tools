@@ -1,0 +1,27 @@
+.challenges {
+    width: 100%;
+    max-width: 50rem;
+
+    &__list {
+        list-style: none;
+        @include child-margins(1rem);
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__item {
+        padding: 1rem;
+        background: var(--c-2);
+        display: block;
+    }
+
+    &__title {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.8rem;
+    }
+
+    &__description {
+        font-size: 1.6rem;
+    }
+}

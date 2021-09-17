@@ -33,6 +33,8 @@
                 return $this->leaderboard($args["id"] ?? null);
             } else if ($action == "challenge") {
                 return $this->getChallenge($args["id"] ?? null);
+            } else if ($action == "challenges") {
+                return $this->getChallenges();
             } else {
                 throw new Exception("Invalid action");
             }
@@ -121,6 +123,10 @@
             }
 
             return $this->db->getChallenge((int) $id);
+        }
+
+        private function getChallenges():array {
+            return $this->db->getChallenges();
         }
 
         private function hasFile(string $mid):bool {

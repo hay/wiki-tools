@@ -108,6 +108,10 @@ export default class Api {
         return req;
     }
 
+    async getChallenges() {
+        return await this.call('challenges');
+    }
+
     async getImageThumb(title, width) {
         const api = new CommonsApi(this.locale);
         return api.getImageThumb(title, width);

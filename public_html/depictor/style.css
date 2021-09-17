@@ -557,3 +557,23 @@ a {
     font-weight: bold;
     width: 100%;
     justify-content: space-between; }
+
+.challenges {
+  width: 100%;
+  max-width: 50rem; }
+  .challenges__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column; }
+    .challenges__list > * + * {
+      margin-top: 1rem; }
+  .challenges__item {
+    padding: 1rem;
+    background: var(--c-2);
+    display: block; }
+  .challenges__title {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.8rem; }
+  .challenges__description {
+    font-size: 1.6rem; }

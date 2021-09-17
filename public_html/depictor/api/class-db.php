@@ -83,6 +83,12 @@
             }
         }
 
+        public function getChallenges():array {
+            return ORM::for_table(TBL_DEPICTOR_CHALLENGES)
+                ->where_not_equal('archived', 1)
+                ->find_array();
+        }
+
         public function getLeaderboard():array {
             $sql = "select user,count(*) as edits from " . TBL_DEPICTOR_FILES . " where status = 'depicted' group by user order by edits desc limit 20";
 
