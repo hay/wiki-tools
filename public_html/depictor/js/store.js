@@ -211,7 +211,8 @@ export default function createStore(opts) {
                     qid : state.item.qid,
                     category : state.category,
                     user : state.userName,
-                    status : status
+                    status : status,
+                    challenge : state.challenge ? state.challenge.id : null
                 });
 
                 commit('processCandidate');

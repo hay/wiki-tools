@@ -24,7 +24,8 @@
                 "category" => $args["category"],
                 "user" => $args["user"],
                 "status" => $args["status"],
-                "timestamp" => date("c")
+                "timestamp" => date("c"),
+                "challenge" => $args["challenge"] == "" ? null : $args["challenge"]
             ]);
 
             $newItem->save();

@@ -70,6 +70,7 @@
             $this->assertIncludes($args["status"], [
                 'depicted','not-depicted','user-skipped', 'prominently-depicted'
             ]);
+            $this->assertChallengeId($args["challenge"]);
 
             // First check if maybe this pair of mid/qid is already in the db
             if ($this->hasFile($args["mid"])) {
@@ -99,6 +100,18 @@
             return ["ok" => "Added"];
         }
 
+        private function assertChallengeId($challenge):void {
+            if (!$challenge) {
+                return;
+            }
+
+            if (!ctype_digit($challenge)) {
+                throw new Exception("Challenge ID is not a number");
+            }
+
+            $challenge = $this->getChallenge($challenge);
+        }
+
         private function assertOauth():void {
             if ($this->oauth->userState != OAuth::STATE_LOGGED_IN) {
                 throw new Exception("User not authorized");
@@ -113,13 +126,13 @@
 
         private function assertItemid(string $itemid):void {
             if (!preg_match(self::RE_ITEMID, $itemid)) {
-                throw new Exception("Invalid id");
+                throw new Exception("Invalid item or file id");
             }
         }
 
         private function getChallenge($id):array {
             if (!ctype_digit($id)) {
-                throw new Exception("Invalid id");
+                throw new Exception("Challenge ID is not a number");
             }
 
             return $this->db->getChallenge((int) $id);
