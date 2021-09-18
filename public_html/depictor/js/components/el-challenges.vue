@@ -14,7 +14,7 @@
                    class="challenges__item">
                     <h3 class="challenges__title">
                         <span>{{challenge.title}}</span>
-                        <span>{{ $t('itemcount', { count : challenge.filecount }) }}</span>
+                        <span>{{ $t('itemcount', { count : challenge.itemcount }) }}</span>
                     </h3>
 
                     <p class="challenges__description">

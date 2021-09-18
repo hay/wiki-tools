@@ -13,7 +13,7 @@
         </h1>
 
         <p class="app-lead">
-            {{$t('challenge_lead_intro')}}:
+            {{$t('challenge_lead_intro')}}
 
             <blockquote class="screen__quote">
                 {{challenge.short_description}}

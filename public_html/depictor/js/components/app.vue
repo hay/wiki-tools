@@ -8,6 +8,8 @@
 
         <screen-challenge v-if="screen === 'challenge'"></screen-challenge>
 
+        <screen-create-challenge v-if="screen === 'create-challenge'"></screen-create-challenge>
+
         <screen-message v-if="screen === 'loading'">
             <p class="screen__notice">{{$t('loading')}}</p>
         </screen-message>
@@ -28,6 +30,7 @@
     import ElHeader from './el-header.vue';
     import ElNotice from './el-notice.vue';
     import ScreenChallenge from './screen-challenge.vue';
+    import ScreenCreateChallenge from './screen-createchallenge.vue';
     import ScreenGame from './screen-game.vue';
     import ScreenIntro from './screen-intro.vue';
     import ScreenMessage from './screen-message.vue';
@@ -35,7 +38,7 @@
     export default {
         components : {
             ElHeader, ElNotice, ScreenChallenge, ScreenIntro,
-            ScreenGame, ScreenMessage
+            ScreenGame, ScreenMessage, ScreenCreateChallenge
         },
 
         computed : {

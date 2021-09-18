@@ -4,6 +4,7 @@
             <p>Images are shown in this app if:</p>
 
             <ul>
+                <li>There are still images that don't have the desired depicts statement (in other words: this batch might be done!)</li>
                 <li>The categories are linked to a Wikidata item using property <a href="https://www.wikidata.org/wiki/Property:P373">P373</a>.</li>
                 <li>That Wikidata item has an <a href="https://www.wikidata.org/wiki/Property:P18">image</a>.</li>
                 <li>The Wikidata item's 'instance of' is not 'category' itself.</li>

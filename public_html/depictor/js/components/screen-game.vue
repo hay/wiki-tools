@@ -82,7 +82,16 @@
                 <span>
                     {{$t("keyboard_shortcuts")}}: <b>(1)</b> {{$t("depicted")}}, <b>(2)</b> {{$t("skip")}}, <b>(3)</b> {{$t("not_depicted")}}, <b>(s)</b> {{$t("skip_item")}}
                 </span>
+
+                <span v-show="!isPossibleChallenge">
+                    {{$t('create_challenge_not_possible')}}
+                </span>
             </p>
+
+            <wm-button
+                v-show="isPossibleChallenge"
+                v-on:click="createChallenge"
+                icon="challenge">$t('create_challenge')</wm-button>
         </div>
     </div>
 </template>
@@ -113,6 +122,10 @@
                     y : this.totalCandidates,
                     categoryUrl : this.categoryUrl
                 });
+            },
+
+            isPossibleChallenge() {
+                return this.$store.getters.isPossibleChallenge;
             },
 
             item() {
@@ -184,6 +197,10 @@
 
             candidateSkipped() {
                 this.handleCandidate('user-skipped');
+            },
+
+            createChallenge() {
+                this.$store.commit('screen', 'create-challenge');
             },
 
             async handleCandidate(action) {

@@ -4,7 +4,8 @@ import Vuex from 'vuex'
 import Api from './api.js';
 import {
     DEFAULT_LOCALE, THUMB_SIZE, MAX_API_TRIES, MAX_API_CHECK_TRIES,
-    IMAGE_SIZE, COMMONS_USER_PREFIX
+    IMAGE_SIZE, COMMONS_USER_PREFIX, MIN_CANDIDATES_FOR_CHALLENGE,
+    MIN_ITEMS_FOR_CHALLENGE
 } from './const.js';
 import log from './log.js';
 import { getLocale } from './util.js';
@@ -38,6 +39,7 @@ export default function createStore(opts) {
             locale : getLocale( DEFAULT_LOCALE ),
             locales : opts.locales,
             rootUrl: opts.rootUrl,
+            query : {},
             screen : 'intro',
             userName: opts.userName,
             userPage: COMMONS_USER_PREFIX + opts.userName
@@ -62,6 +64,18 @@ export default function createStore(opts) {
                 } else {
                     return state.rootUrl;
                 }
+            },
+
+            isPossibleChallenge(state, getters) {
+                // Check if a challenge is possible here
+                // That means we either have
+                // 1) A minimum of remainingCandidates in a single category
+                // 2) A minimum of remainingItems totally
+                return (getters.remainingCandidates &&
+                        getters.remainingCandidates.length >= MIN_CANDIDATES_FOR_CHALLENGE)
+                       ||
+                       (getters.remainingItems &&
+                        getters.remainingItems.length >= MIN_ITEMS_FOR_CHALLENGE);
             },
 
             remainingCandidates(state) {
@@ -182,6 +196,10 @@ export default function createStore(opts) {
 
                     return candidate;
                 });
+            },
+
+            query(state, query) {
+                state.query = query;
             },
 
             screen(state, screen) {
@@ -383,6 +401,7 @@ export default function createStore(opts) {
 
                 await dispatch('newItems', items);
                 await dispatch("nextItem");
+                commit('query', query); // Save for use later in challenges
                 commit('screen', 'game');
                 commit('doneLoading');
             }
