@@ -18,7 +18,8 @@
                 </thead>
 
                 <tbody>
-                    <tr v-for="(row, index) in data.stats">
+                    <tr v-for="(row, index) in data.stats"
+                        v-show="index < maxRows || showAll">
                         <td>{{index + 1}}</td>
                         <td>
                             <a v-bind:href="row.userLink"
@@ -28,6 +29,14 @@
                     </tr>
                 </tbody>
             </table>
+
+            <wm-button
+                v-show="!showAll && data.stats.length > maxRows"
+                class="leaderboard__button"
+                icon="eye"
+                flair="bare"
+                v-on:click="showAll = true">
+                {{$t('show_all_rows')}}</wm-button>
         </template>
 
         <template v-if="!hasItems">
@@ -59,7 +68,9 @@
 
         data() {
             return {
-                data : []
+                data : [],
+                maxRows : 10,
+                showAll : false
             }
         },
 

@@ -1,5 +1,7 @@
 <?php
     class Db {
+        const MAX_LEADERBOARD_ROWS = 500;
+
         function __construct(array $opts) {
             ORM::configure([
                 "connection_string" => $opts["connection_string"],
@@ -91,13 +93,13 @@
         }
 
         public function getLeaderboard():array {
-            $sql = "select user,count(*) as edits from " . TBL_DEPICTOR_FILES . " where status = 'depicted' group by user order by edits desc limit 20";
+            $sql = "select user,count(*) as edits from " . TBL_DEPICTOR_FILES . " where status = 'depicted' group by user order by edits desc limit " . self::MAX_LEADERBOARD_ROWS;
 
             return ORM::for_table(TBL_DEPICTOR_FILES)->raw_query($sql)->find_array();
         }
 
         public function getLeaderboardById(int $id):array {
-            $sql = "select user,count(*) as edits from " . TBL_DEPICTOR_FILES . " where status = 'depicted' AND challenge = '$id' group by user order by edits desc limit 20";
+            $sql = "select user,count(*) as edits from " . TBL_DEPICTOR_FILES . " where status = 'depicted' AND challenge = '$id' group by user order by edits desc limit " . self::MAX_LEADERBOARD_ROWS;
 
             return ORM::for_table(TBL_DEPICTOR_FILES)
                 ->raw_query($sql)

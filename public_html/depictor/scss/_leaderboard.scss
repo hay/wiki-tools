@@ -6,6 +6,11 @@
     @include margin-center;
     font-size: 1.6rem;
 
+    &__button {
+        @include margin-center;
+        text-decoration: underline;
+    }
+
     th {
         background: var(--c-1);
         color: white;
