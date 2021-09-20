@@ -74,16 +74,25 @@ export default function createStore(opts) {
             },
 
             isPossibleChallenge(state, getters) {
-                // Check if a challenge is possible here
+                // Check if a challenge is possible here.
                 // That means we either have
                 // 1) A minimum of remainingCandidates in a single category
                 // 2) A minimum of remainingItems totally
                 // 3) We're not in a challenge at the moment
+                // 4) We're not using the year queryType
+                //    (to prevent inexperienced users from creating challenges)
 
-                // First check 3)
+                // First check 3
                 if (state.challenge) {
                     return false;
                 }
+
+                // Check 4
+                if (state.query && state.query.type === "year") {
+                    return false;
+                }
+
+                // Check 1 and 2
 
                 return (getters.remainingCandidates &&
                         getters.remainingCandidates.length >= MIN_CANDIDATES_FOR_CHALLENGE)
