@@ -36,23 +36,9 @@
             return $item->id();
         }
 
-        public function editChallenge($id, array $args) {
-            $item = ORM::for_table(TBL_DEPICTOR_CHALLENGES)->find_one($id);
-
-            $item->set([
-                "title" => $args["title"],
-                "short_description" => $args["short_description"],
-                "long_description" => $args["long_description"],
-                "archived" => $args["archived"]
-            ]);
-
-            $item->save();
-
-            return $id;
-        }
-
         public function addFile(array $args) {
             $newItem = ORM::for_table(TBL_DEPICTOR_FILES)->create();
+            $challengeId = $args["challenge"] == "" ? null : $args["challenge"];
 
             $newItem->set([
                 "mid" => $args["mid"],
@@ -61,10 +47,19 @@
                 "user" => $args["user"],
                 "status" => $args["status"],
                 "timestamp" => date("c"),
-                "challenge" => $args["challenge"] == "" ? null : $args["challenge"]
+                "challenge" => $challengeId
             ]);
 
             $newItem->save();
+
+            // If we're in a challenge, also update the last_edit of that
+            // challenge for a nice sort order of the last updated
+            // challenges
+            if ($challengeId) {
+                $challengeItem = ORM::for_table(TBL_DEPICTOR_CHALLENGES)->find_one($challengeId);
+                $challengeItem->last_edit = date("c");
+                $challengeItem->save();
+            }
         }
 
         public function addItem(array $args) {
@@ -78,6 +73,22 @@
             ]);
 
             $newItem->save();
+        }
+
+
+        public function editChallenge($id, array $args) {
+            $item = ORM::for_table(TBL_DEPICTOR_CHALLENGES)->find_one($id);
+
+            $item->set([
+                "title" => $args["title"],
+                "short_description" => $args["short_description"],
+                "long_description" => $args["long_description"],
+                "archived" => $args["archived"]
+            ]);
+
+            $item->save();
+
+            return $id;
         }
 
         public function fileExists(string $mid):bool {
@@ -123,6 +134,7 @@
         public function getChallenges():array {
             return ORM::for_table(TBL_DEPICTOR_CHALLENGES)
                 ->where_not_equal('archived', 1)
+                ->order_by_desc('last_edit')
                 ->find_array();
         }
 
