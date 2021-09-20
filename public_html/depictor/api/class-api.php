@@ -50,8 +50,12 @@
 
         private function addChallenge(array $args) {
             // Make sure we always enter the authenticated user
-            $args["user"] = $this->oauth->getIdentity();
+            if (!$this->isDebug) {
+                $args["user"] = $this->oauth->getIdentity();
+            }
+
             $id = $this->db->addChallenge($args);
+
             return ["id" => $id];
         }
 

@@ -81,6 +81,10 @@
             <input type="text"
                    v-model="title" />
 
+            <p class="options__input">
+                {{$t("challenge_title_length", { count : this.MIN_CHALLENGE_TITLE_LENGTH })}}
+            </p>
+
             <label for="opt-shortdescription">
                 {{$t('short_description')}}
             </label>
@@ -90,6 +94,10 @@
                    min="20"
                    required
                    max="150" />
+
+            <p class="options__input">
+                {{$t("challenge_shortdescription_length", { count : this.MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH })}}
+            </p>
 
             <label for="opt-longdescription">
                 {{$t('long_description')}}
@@ -114,14 +122,14 @@
                 v-if="mode === 'create'"
                 class="options__input"
                 icon="challenge"
-                v-bind:disabled="loading"
+                v-bind:disabled="loading || !hasNeededFields"
                 v-on:click="create">{{$t('create_challenge')}}</wm-button>
 
             <wm-button
                 v-if="mode === 'edit'"
                 class="options__input"
                 icon="edit"
-                v-bind:disabled="loading"
+                v-bind:disabled="loading || !hasNeededFields"
                 v-on:click="edit">{{$t('edit_challenge')}}</wm-button>
         </div>
     </div>
@@ -129,6 +137,9 @@
 
 <script>
     import { mapState } from 'vuex';
+    import {
+        MIN_CHALLENGE_TITLE_LENGTH, MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH
+    } from '../const.js';
 
     export default {
         computed : {
@@ -139,6 +150,11 @@
                     shortDescription : this.shortDescription,
                     title : this.title
                 }
+            },
+
+            hasNeededFields() {
+                return this.title.length >= MIN_CHALLENGE_TITLE_LENGTH &&
+                       this.shortDescription.length > MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH;
             },
 
             mode() {
@@ -152,6 +168,8 @@
                 itemCount : 0,
                 loading : false,
                 longDescription : '',
+                MIN_CHALLENGE_TITLE_LENGTH : MIN_CHALLENGE_TITLE_LENGTH,
+                MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH : MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH,
                 query : {},
                 shortDescription : '',
                 title : '',
@@ -214,7 +232,6 @@
                 this.itemCount = getters.remainingItems.length;
                 this.query = state.query;
                 this.userName = state.userName;
-                this.title = state.query.value;
             }
         },
 

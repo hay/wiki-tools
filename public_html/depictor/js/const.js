@@ -7,5 +7,7 @@ export const MAX_API_CHECK_TRIES = 100;
 export const MAX_BIRTH_YEAR = 2012;
 export const MIN_BIRTH_YEAR = 1880;
 export const MIN_CANDIDATES_FOR_CHALLENGE = 100;
+export const MIN_CHALLENGE_TITLE_LENGTH = 5;
+export const MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH = 25;
 export const MIN_ITEMS_FOR_CHALLENGE = 10;
 export const THUMB_SIZE = 300;

@@ -78,6 +78,13 @@ export default function createStore(opts) {
                 // That means we either have
                 // 1) A minimum of remainingCandidates in a single category
                 // 2) A minimum of remainingItems totally
+                // 3) We're not in a challenge at the moment
+
+                // First check 3)
+                if (state.challenge) {
+                    return false;
+                }
+
                 return (getters.remainingCandidates &&
                         getters.remainingCandidates.length >= MIN_CANDIDATES_FOR_CHALLENGE)
                        ||
