@@ -89,6 +89,7 @@
             </p>
 
             <wm-button
+                class="screen__challenge"
                 v-show="isPossibleChallenge"
                 v-on:click="createChallenge"
                 icon="challenge">$t('create_challenge')</wm-button>

@@ -10,6 +10,10 @@
         font-size: 1.6rem;
     }
 
+    &--challenge p {
+        width: 100%;
+    }
+
     &__instruction {
         font-size: 1.5rem;
         text-align: center;
@@ -99,6 +103,12 @@
             column-gap: 2rem;
             max-width: 120rem;
             margin-top: 2rem;
+        }
+
+        &--game &__challenge {
+            grid-column: 1 / -1;
+            width: max-content;
+            margin: 2rem auto;
         }
 
         &--game &__meta {

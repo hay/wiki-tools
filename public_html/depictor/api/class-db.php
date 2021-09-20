@@ -17,6 +17,40 @@
             }
         }
 
+        public function addChallenge(array $args) {
+            $item = ORM::for_table(TBL_DEPICTOR_CHALLENGES)->create();
+
+            $item->set([
+                "querytype" => $args["querytype"],
+                "queryvalue" => $args["queryvalue"],
+                "title" => $args["title"],
+                "short_description" => $args["short_description"],
+                "long_description" => $args["long_description"],
+                "user" => $args["user"],
+                "archived" => $args["archived"],
+                "created" => date("c")
+            ]);
+
+            $item->save();
+
+            return $item->id();
+        }
+
+        public function editChallenge($id, array $args) {
+            $item = ORM::for_table(TBL_DEPICTOR_CHALLENGES)->find_one($id);
+
+            $item->set([
+                "title" => $args["title"],
+                "short_description" => $args["short_description"],
+                "long_description" => $args["long_description"],
+                "archived" => $args["archived"]
+            ]);
+
+            $item->save();
+
+            return $id;
+        }
+
         public function addFile(array $args) {
             $newItem = ORM::for_table(TBL_DEPICTOR_FILES)->create();
 

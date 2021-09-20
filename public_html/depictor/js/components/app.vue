@@ -2,13 +2,22 @@
     <div class="screen__wrapper">
         <el-header></el-header>
 
-        <screen-intro v-if="screen === 'intro'"></screen-intro>
+        <screen-intro
+            v-if="screen === 'intro'"></screen-intro>
 
-        <screen-game v-if="screen === 'game'"></screen-game>
+        <screen-game
+            v-if="screen === 'game'"></screen-game>
 
-        <screen-challenge v-if="screen === 'challenge'"></screen-challenge>
+        <screen-challenge
+            v-if="screen === 'challenge'"></screen-challenge>
 
-        <screen-create-challenge v-if="screen === 'create-challenge'"></screen-create-challenge>
+        <screen-create-challenge
+            v-if="screen === 'create-challenge'"
+            v-bind:is-editable="false"></screen-create-challenge>
+
+        <screen-create-challenge
+            v-if="screen === 'edit-challenge'"
+            v-bind:is-editable="true"></screen-create-challenge>
 
         <screen-message v-if="screen === 'loading'">
             <p class="screen__notice">{{$t('loading')}}</p>

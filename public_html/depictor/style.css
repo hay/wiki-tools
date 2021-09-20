@@ -272,6 +272,8 @@ a {
     background-image: url("img/icon-eye.svg"); }
   .icon[data-icon="challenge"] {
     background-image: url("img/icon-challenge.svg"); }
+  .icon[data-icon="edit"] {
+    background-image: url("img/icon-edit.svg"); }
 
 .wm-button {
   --c-1: #36c;
@@ -343,6 +345,8 @@ a {
     margin-top: var(--spacing); }
   .screen--challenge {
     font-size: 1.6rem; }
+  .screen--challenge p {
+    width: 100%; }
   .screen__instruction {
     font-size: 1.5rem;
     text-align: center; }
@@ -417,6 +421,10 @@ a {
       column-gap: 2rem;
       max-width: 120rem;
       margin-top: 2rem; }
+    .screen--game .screen__challenge {
+      grid-column: 1 / -1;
+      width: max-content;
+      margin: 2rem auto; }
     .screen--game .screen__meta {
       margin-top: 2rem;
       grid-column: 1 / -1; }
@@ -483,7 +491,8 @@ a {
   .options__instruction ul {
     padding: 0 0 0 2rem; }
   .options__input {
-    grid-column: 2; }
+    grid-column: 2;
+    margin-top: 5px; }
 
 .leaderboard {
   border-collapse: collapse;

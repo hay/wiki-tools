@@ -7,22 +7,29 @@
             {{$t('back')}}
         </wm-button>
 
-        <p>
-            You are going to create a challenge based on your current query.
-            A challenge is a way to work together with multiple people for a
-            single goal.
-            Please fill in all the missing details below and click 'create challenge'.
-        </p>
+        <template v-if="mode === 'create'">
+            <p>
+                You are going to create a challenge based on your current query.
+                A challenge is a way to work together with multiple people for a
+                single goal.
+                Please fill in all the missing details below and click 'create challenge'.
+            </p>
 
-        <p>
-            Note that if you want to remove this challenge you can only do
-            this yourself, when logged in using your Wikimedia account.
-        </p>
+            <p>
+                Note that if you want to archive this challenge or edit description and title
+                you can only do this yourself, when logged in using your Wikimedia account.
+                It is not possible to change the query for a challenge afterwards.
+            </p>
 
-        <p>
-            If you clicked here by accident, simply click 'back' above to go
-            back to your current game.
-        </p>
+            <p>
+                If you clicked here by accident, simply click 'back' above to go
+                back to your current game.
+            </p>
+        </template>
+
+        <template v-if="mode === 'edit'">
+            <p>You can edit your challenge now.</p>
+        </template>
 
         <div class="options">
             <p class="options__instruction">
@@ -91,6 +98,31 @@
             <textarea
                 rows="4"
                 v-model="longDescription"></textarea>
+
+            <label for="opt-archive">
+                {{$t('archived')}}
+            </label>
+
+            <p class="options__input">
+                <input type="checkbox"
+                       v-model="archived" />
+
+                {{$t('archived_hint')}}
+            </p>
+
+            <wm-button
+                v-if="mode === 'create'"
+                class="options__input"
+                icon="challenge"
+                v-bind:disabled="loading"
+                v-on:click="create">{{$t('create_challenge')}}</wm-button>
+
+            <wm-button
+                v-if="mode === 'edit'"
+                class="options__input"
+                icon="edit"
+                v-bind:disabled="loading"
+                v-on:click="edit">{{$t('edit_challenge')}}</wm-button>
         </div>
     </div>
 </template>
@@ -100,24 +132,96 @@
 
     export default {
         computed : {
-            ...mapState([ 'query', 'userName' ]),
+            editableValues() {
+                return {
+                    archived : this.archived,
+                    longDescription : this.longDescription,
+                    shortDescription : this.shortDescription,
+                    title : this.title
+                }
+            },
 
-            itemCount() {
-                return this.$store.getters.remainingItems.length;
+            mode() {
+                return this.isEditable ? 'edit' : 'create';
             }
         },
 
         data() {
             return {
+                archived : false,
+                itemCount : 0,
+                loading : false,
                 longDescription : '',
+                query : {},
                 shortDescription : '',
-                title : this.$store.state.query.value,
+                title : '',
+                userName : null
             };
         },
 
         methods : {
             back() {
                 this.$store.commit('screen', 'game');
+            },
+
+            async create() {
+                if (this.loading) {
+                    return;
+                }
+
+                const id = await this.$store.dispatch(
+                    "createChallenge", this.editableValues
+                );
+
+                // Redirect to the new challenge
+                window.location = `${this.$store.state.rootUrl}/?challenge=${id}`
+            },
+
+            async edit() {
+                if (this.loading) {
+                    return;
+                }
+
+                const id = await this.$store.dispatch(
+                    "editChallenge", this.editableValues
+                );
+
+                // Redirect to the new challenge
+                window.location = `${this.$store.state.rootUrl}/?challenge=${id}`
+            }
+        },
+
+        mounted() {
+            const { getters, state } = this.$store;
+
+            if (this.mode === 'edit') {
+                const challenge = state.challenge;
+
+                this.query = {
+                    type : challenge.querytype,
+                    value : challenge.queryvalue
+                };
+
+                this.archived = challenge.archived === "1";
+                this.itemCount = parseInt(challenge.itemcount);
+                this.longDescription = challenge.long_description;
+                this.shortDescription = challenge.short_description;
+                this.title = challenge.title;
+                this.userName = state.userName;
+            }
+
+            if (this.mode === 'create') {
+                this.itemCount = getters.remainingItems.length;
+                this.query = state.query;
+                this.userName = state.userName;
+                this.title = state.query.value;
+            }
+        },
+
+        props : {
+            isEditable : {
+                type : Boolean,
+                required : false
             }
         }
     }

@@ -25,6 +25,12 @@
             type="anchor"
             flair="primary">{{$t("start")}}</wm-button>
 
+        <wm-button
+            v-if="isEditable"
+            flair="bare"
+            icon="edit"
+            v-on:click="editChallenge">{{$t('edit_challenge')}}</wm-button>
+
         <p v-if="challenge.long_description"
            class="screen__subtitle">
             {{challenge.long_description}}
@@ -50,6 +56,10 @@
                 return this.$store.state.challenge;
             },
 
+            isEditable() {
+                return this.$store.getters.isEditableChallenge;
+            },
+
             rootUrl() {
                 return this.$store.state.rootUrl;
             },
@@ -63,6 +73,12 @@
                 return this.$t('challenge_userlink', {
                     link : `${COMMONS_USER_PREFIX}${this.challenge.user}`
                 });
+            }
+        },
+
+        methods : {
+            editChallenge() {
+                this.$store.commit('screen', 'edit-challenge');
             }
         }
     }

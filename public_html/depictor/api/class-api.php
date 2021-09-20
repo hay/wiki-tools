@@ -35,6 +35,10 @@
                 return $this->getChallenge($args["id"] ?? null);
             } else if ($action == "challenges") {
                 return $this->getChallenges();
+            } else if ($action == "create-challenge") {
+                return $this->addChallenge($args);
+            } else if ($action == "edit-challenge") {
+                return $this->editChallenge($args["id"], $args);
             } else {
                 throw new Exception("Invalid action");
             }
@@ -42,6 +46,18 @@
 
         public function setDebug(bool $bool) {
             $this->isDebug = $bool;
+        }
+
+        private function addChallenge(array $args) {
+            // Make sure we always enter the authenticated user
+            $args["user"] = $this->oauth->getIdentity();
+            $id = $this->db->addChallenge($args);
+            return ["id" => $id];
+        }
+
+        private function editChallenge($id, array $args) {
+            $id = $this->db->editChallenge($id, $args);
+            return ["id" => $id];
         }
 
         private function addDepicts(string $mid, string $qid) {

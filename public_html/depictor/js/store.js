@@ -66,6 +66,13 @@ export default function createStore(opts) {
                 }
             },
 
+            isEditableChallenge(state) {
+                // A challenge is editable if the logged-in user is the
+                // same as the user who made the challenge
+                return state.challenge && state.userName &&
+                       state.challenge.user === state.userName;
+            },
+
             isPossibleChallenge(state, getters) {
                 // Check if a challenge is possible here
                 // That means we either have
@@ -221,6 +228,28 @@ export default function createStore(opts) {
                 } else {
                     commit('screen', 'challenge');
                 }
+            },
+
+            async createChallenge({state, getters}, payload) {
+                return await api.createChallenge({
+                    querytype : state.query.type,
+                    queryvalue : state.query.value,
+                    title : payload.title,
+                    short_description : payload.shortDescription,
+                    long_description : payload.longDescription,
+                    user : state.userName,
+                    itemcount : getters.remainingItems.length,
+                    archived : payload.archived
+                });
+            },
+
+            async editChallenge({state, getters}, payload) {
+                return await api.editChallenge(state.challenge.id, {
+                    title : payload.title,
+                    short_description : payload.shortDescription,
+                    long_description : payload.longDescription,
+                    archived : payload.archived
+                });
             },
 
             async handleCandidate({ commit, dispatch, state }, status) {

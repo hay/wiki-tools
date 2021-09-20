@@ -30,6 +30,28 @@ export default class Api {
         return req;
     }
 
+    async createChallenge(data) {
+        const req = await this.post('create-challenge', data);
+
+        if (req.error || !req.id) {
+            throw new Error(req.error.info);
+        }
+
+        return req.id;
+    }
+
+    async editChallenge(id, data) {
+        data.id = id;
+
+        const req = await this.post('edit-challenge', data);
+
+        if (req.error || !req.id) {
+            throw new Error(req.error.info);
+        }
+
+        return req.id;
+    }
+
     async fileExists(mid) {
         const req = await this.call('file-exists', { mid });
         return req.status;
