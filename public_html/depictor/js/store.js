@@ -298,7 +298,16 @@ export default function createStore(opts) {
                     opts.challenge = state.challenge.id;
                 }
 
-                await api.addFile(opts);
+                try {
+                    await api.addFile(opts);
+                } catch (e) {
+                    log.error(e);
+
+                    commit(
+                        "errorMessage",
+                        "Could not add the depicts statement. There might be an issue with Wikimedia Commons. Try again later."
+                    );
+                }
 
                 commit('processCandidate');
 

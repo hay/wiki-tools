@@ -13,6 +13,11 @@ export default class Api {
 
     async addFile(file) {
         const req = await this.call('add-file', file);
+
+        if (req.error || !req.ok) {
+            throw new Error("Could not add depicts statement");
+        }
+
         return req;
     }
 

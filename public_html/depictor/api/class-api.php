@@ -64,10 +64,10 @@
             return ["id" => $id];
         }
 
-        private function addDepicts(string $mid, string $qid) {
+        private function addDepicts(string $mid, string $qid):bool {
             $token = $this->oauth->requestCsrfToken();
 
-            $this->oauth->requestPost([
+            $json = $this->oauth->requestPost([
                 "action" => "wbcreateclaim",
                 "format" => 'json',
                 "entity" => $mid,
@@ -81,7 +81,13 @@
                 "summary" => "Setting a depicts statement using Depictor"
             ]);
 
-            // TODO: maybe get the result and do some error checking
+            $req = json_decode($json);
+
+            if (!isset($req->success)) {
+                throw new Exception("Could not add depicts statement");
+            }
+
+            return true;
         }
 
         private function addFile(array $args) {
@@ -99,12 +105,17 @@
 
             // If in debug mode, we simply skip this step so we can test everything else
             if (!$this->isDebug && $args["status"] == "depicted") {
-                $this->addDepicts($args["mid"], $args["qid"]);
+                $added = $this->addDepicts($args["mid"], $args["qid"]);
+            } else {
+                $added = true;
             }
 
-            $this->db->addFile($args);
-
-            return ["ok" => "Added"];
+            if ($added) {
+                $this->db->addFile($args);
+                return ["ok" => "Added"];
+            } else {
+                return ["error" => "Could not add depicts statement"];
+            }
         }
 
         private function addItem(array $args) {
