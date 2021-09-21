@@ -73,6 +73,10 @@ async function createApp() {
 
                     this.$store.dispatch("challenge", { id, action });
                 }
+
+                if (url.searchParams.has("showChallenges")) {
+                    this.$store.commit('showChallenges');
+                }
             }
         },
 

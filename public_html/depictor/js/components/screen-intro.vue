@@ -89,7 +89,8 @@ select ?item ?instance ?image ?cat where {
             </div>
         </div> <!-- options-wrapper -->
 
-        <el-challenges></el-challenges>
+        <el-challenges
+            v-if="showChallenges"></el-challenges>
 
         <el-leaderboard></el-leaderboard>
     </div>
@@ -110,6 +111,12 @@ select ?item ?instance ?image ?cat where {
 
     export default {
         components : { ElChallenges, ElLeaderboard, ElNotice },
+
+        computed : {
+            showChallenges() {
+                return this.$store.state.showChallenges;
+            }
+        },
 
         data() {
             return {

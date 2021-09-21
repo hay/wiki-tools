@@ -83,7 +83,7 @@
                     {{$t("keyboard_shortcuts")}}: <b>(1)</b> {{$t("depicted")}}, <b>(2)</b> {{$t("skip")}}, <b>(3)</b> {{$t("not_depicted")}}, <b>(s)</b> {{$t("skip_item")}}
                 </span>
 
-                <span v-show="!isPossibleChallenge">
+                <span v-show="!isPossibleChallenge && showChallenges">
                     {{$t('create_challenge_not_possible')}}
                 </span>
             </p>
@@ -92,12 +92,13 @@
                 class="screen__challenge"
                 v-show="isPossibleChallenge"
                 v-on:click="createChallenge"
-                icon="challenge">$t('create_challenge')</wm-button>
+                icon="challenge">{{$t('create_challenge')}}</wm-button>
         </div>
     </div>
 </template>
 
 <script>
+    import { mapState } from 'vuex';
     import { encodeWikiTitle, loadImage } from '../util.js';
     import ElProgress from './el-progress.vue';
 
@@ -105,12 +106,10 @@
         components : { ElProgress },
 
         computed : {
+            ...mapState([ 'candidate', 'item','loading', 'showChallenges']),
+
             candidateImage() {
                 return this.showCandidateImage && this.$store.state.candidate ? this.$store.state.candidate.thumb : false;
-            },
-
-            candidate() {
-                return this.$store.state.candidate;
             },
 
             categoryUrl() {
@@ -129,16 +128,8 @@
                 return this.$store.getters.isPossibleChallenge;
             },
 
-            item() {
-                return this.$store.state.item;
-            },
-
             itemImage() {
                 return this.showItemImage && this.$store.state.item ? this.$store.state.item.thumb : false;
-            },
-
-            loading() {
-                return this.$store.state.loading;
             },
 
             progress() {

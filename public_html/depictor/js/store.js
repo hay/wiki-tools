@@ -41,6 +41,7 @@ export default function createStore(opts) {
             rootUrl: opts.rootUrl,
             query : {},
             screen : 'intro',
+            showChallenges : false,
             userName: opts.userName,
             userPage: COMMONS_USER_PREFIX + opts.userName
         };
@@ -81,8 +82,14 @@ export default function createStore(opts) {
                 // 3) We're not in a challenge at the moment
                 // 4) We're not using the year queryType
                 //    (to prevent inexperienced users from creating challenges)
+                // 5) showChallenges is enabled
 
-                // First check 3
+                // Check 5
+                if (!state.showChallenges) {
+                    return;
+                }
+
+                // Check 3
                 if (state.challenge) {
                     return false;
                 }
@@ -179,7 +186,12 @@ export default function createStore(opts) {
                     queryValue = `${queryValue}|${opts.catdepth}`;
                 }
 
-                const search = `queryType=${queryType}&queryValue=${queryValue}`;
+                let search = `queryType=${queryType}&queryValue=${queryValue}`;
+
+                if (state.showChallenges) {
+                    search = `${search}&showChallenges`;
+                }
+
                 window.location.search = search;
             },
 
@@ -227,6 +239,10 @@ export default function createStore(opts) {
 
             screen(state, screen) {
                 state.screen = screen;
+            },
+
+            showChallenges(state) {
+                state.showChallenges = true;
             }
         },
 

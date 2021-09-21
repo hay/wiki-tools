@@ -71,7 +71,8 @@
 
             userLink() {
                 return this.$t('challenge_userlink', {
-                    link : `${COMMONS_USER_PREFIX}${this.challenge.user}`
+                    link : `${COMMONS_USER_PREFIX}${this.challenge.user}`,
+                    user : this.challenge.user
                 });
             }
         },
