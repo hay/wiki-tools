@@ -590,6 +590,9 @@ a {
     padding: 1rem;
     background: var(--c-2);
     display: block; }
+  .challenges__itemcount {
+    font-weight: normal;
+    color: #888; }
   .challenges__title {
     display: flex;
     justify-content: space-between;

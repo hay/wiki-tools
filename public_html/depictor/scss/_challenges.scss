@@ -15,6 +15,11 @@
         display: block;
     }
 
+    &__itemcount {
+        font-weight: normal;
+        color: #888;
+    }
+
     &__title {
         display: flex;
         justify-content: space-between;

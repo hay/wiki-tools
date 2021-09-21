@@ -58,6 +58,13 @@
             screen() {
                 return this.$store.getters.screenState;
             }
+        },
+
+        watch : {
+            screen() {
+                // Make sure we go back to the top of screen
+                window.scrollTo(0, 0);
+            }
         }
     }
 </script>

@@ -41,7 +41,7 @@ export default function createStore(opts) {
             rootUrl: opts.rootUrl,
             query : {},
             screen : 'intro',
-            showChallenges : false,
+            showChallenges : true,
             userName: opts.userName,
             userPage: COMMONS_USER_PREFIX + opts.userName
         };
@@ -285,14 +285,20 @@ export default function createStore(opts) {
             },
 
             async handleCandidate({ commit, dispatch, state }, status) {
-                await api.addFile({
+                const opts = {
                     mid : state.candidate.mid,
                     qid : state.item.qid,
                     category : state.category,
                     user : state.userName,
-                    status : status,
-                    challenge : state.challenge ? state.challenge.id : null
-                });
+                    status : status
+                };
+
+                // If there is a challenge, add the id
+                if (state.challenge && state.challenge.id) {
+                    opts.challenge = state.challenge.id;
+                }
+
+                await api.addFile(opts);
 
                 commit('processCandidate');
 

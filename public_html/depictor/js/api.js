@@ -96,7 +96,7 @@ export default class Api {
         });
 
         if (req.error) {
-            console.error(req.error);
+            log.error(req.error);
             return null;
         }
 

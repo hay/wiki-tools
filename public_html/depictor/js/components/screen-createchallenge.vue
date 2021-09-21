@@ -179,7 +179,11 @@
 
         methods : {
             back() {
-                this.$store.commit('screen', 'game');
+                if (this.mode === 'create') {
+                    this.$store.commit('screen', 'game');
+                } else {
+                    this.$store.commit('screen', 'challenge');
+                }
             },
 
             async create() {
@@ -221,7 +225,7 @@
                 };
 
                 this.archived = challenge.archived === "1";
-                this.itemCount = parseInt(challenge.itemcount);
+                this.itemCount = challenge.itemcount ? parseInt(challenge.itemcount) : null;
                 this.longDescription = challenge.long_description;
                 this.shortDescription = challenge.short_description;
                 this.title = challenge.title;
