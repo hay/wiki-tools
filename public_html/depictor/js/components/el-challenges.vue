@@ -15,10 +15,8 @@
                     <h3 class="challenges__title">
                         <span>{{challenge.title}}</span>
 
-                        <span
-                            class="challenges__itemcount"
-                            v-if="challenge.itemcount">
-                            {{ $t('itemcount_label', { count : challenge.itemcount }) }}
+                        <span class="challenges__itemcount">
+                            {{ $t('editcount', { count : challenge.edits }) }}
                         </span>
                     </h3>
 

@@ -89,7 +89,8 @@
             "create_challenge": "Create challenge",
             "back": "Back",
             "challenge_title_length": "Title needs to be at least {count} characters",
-            "challenge_shortdescription_length": "Description needs to be at least {count} characters"
+            "challenge_shortdescription_length": "Description needs to be at least {count} characters",
+            "editcount": "{count} edits"
         },
         "mk": {
             "app_description": "Додавајте искази со структурирани податоци на Ризницата користејќи игрива околина",

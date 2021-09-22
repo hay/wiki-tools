@@ -152,10 +152,27 @@
         }
 
         public function getChallenges():array {
-            return ORM::for_table(TBL_DEPICTOR_CHALLENGES)
+            // First get statement count per challenge
+            $sql = "select challenge,count(*) as edits from " . TBL_DEPICTOR_FILES . " where challenge AND status = 'depicted' group by challenge";
+            $countArr = ORM::for_table(TBL_DEPICTOR_FILES)->raw_query($sql)->find_array();
+
+            // Do some mapping for easier lookup later
+            $count = [];
+
+            foreach ($countArr as $item) {
+                $count[$item["challenge"]] = $item["edits"];
+            }
+
+            // Now get the actual challenges and combine with count
+            $challenges = ORM::for_table(TBL_DEPICTOR_CHALLENGES)
                 ->where_not_equal('archived', 1)
                 ->order_by_desc('last_edit')
                 ->find_array();
+
+            return array_map(function($challenge) use ($count) {
+                $challenge["edits"] = $count[$challenge["id"]] ?? 0;
+                return $challenge;
+            }, $challenges);
         }
 
         public function getLeaderboard():array {
