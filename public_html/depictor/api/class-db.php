@@ -104,18 +104,32 @@
         }
 
         // See itemsExist
-        public function filesExist(array $mids):array {
-            $all_files = ORM::for_table(TBL_DEPICTOR_FILES)
+        public function filesExist(array $mids, string $userName):array {
+            // This could be done in one call with raw SQL but i guess it
+            // doesn't really matter for performance to just do two calls:
+            // one to get depicted and not-depicted mids,
+            // and one to get user-skipped that aren't of the current user
+            $doneFiles = ORM::for_table(TBL_DEPICTOR_FILES)
                 ->select("mid")
-                ->where("status", "user-skipped")
+                ->where_in("status", ["depicted", "not-depicted"])
                 ->find_array();
 
-            $all_files = array_map(fn($item):string => $item["mid"], $all_files);
+            $skippedFiles = ORM::for_table(TBL_DEPICTOR_FILES)
+                ->select("mid")
+                ->where([
+                    "status" => "user-skipped",
+                    "user" => $userName
+                ])
+                ->find_array();
+
+            $allFiles = array_map(function($item):string {
+                return $item["mid"];
+            }, array_merge($doneFiles, $skippedFiles));
 
             $exists = [];
 
             foreach ($mids as $mid) {
-                $exists[$mid] = in_array($mid, $all_files);
+                $exists[$mid] = in_array($mid, $allFiles);
             }
 
             return $exists;

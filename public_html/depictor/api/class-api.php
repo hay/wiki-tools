@@ -1,9 +1,12 @@
 <?php
     class Api {
         const RE_ITEMID = "/[M|Q]\d+$/";
+        const DEBUG_USERNAME = "Debug user";
+
         private Oauth $oauth;
         private Db $db;
         private bool $isDebug = false;
+        private string $userName;
 
         function __construct(Oauth $oauth, Db $db) {
             $this->oauth = $oauth;
@@ -12,6 +15,13 @@
 
         public function process(array $args):array {
             $this->assertOauth();
+
+            if ($this->isDebug) {
+                $this->userName = self::DEBUG_USERNAME;
+            } else {
+                $this->userName = $this->oauth->getIdentity()->username;
+            }
+
             $action = $args["action"] ?? false;
 
             if ($action == "add-file") {
@@ -50,12 +60,9 @@
 
         private function addChallenge(array $args) {
             // Make sure we always enter the authenticated user
-            if (!$this->isDebug) {
-                $args["user"] = $this->oauth->getIdentity()->username;
-            }
+            $args["user"] = $this->userName;
 
             $id = $this->db->addChallenge($args);
-
             return ["id" => $id];
         }
 
@@ -183,7 +190,7 @@
                 $this->assertItemid($mid);
             }
 
-            return $this->db->filesExist($mids);
+            return $this->db->filesExist($mids, $this->userName);
         }
 
         private function hasItem(string $qid):bool {
