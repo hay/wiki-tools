@@ -328,7 +328,7 @@ export default function createStore(opts) {
                 const status = await api.filesExist(files.map(f => f.mid));
 
                 files = files.map((file) => {
-                    file.done = file[file.mid];
+                    file.done = status[file.mid];
                     return file;
                 })
 
@@ -413,7 +413,6 @@ export default function createStore(opts) {
 
                 commit('item', item);
                 await dispatch("newFiles", candidates);
-                commit('candidates', candidates);
                 commit('category', nextItem.category);
 
                 // All went well, let's get out of the loop

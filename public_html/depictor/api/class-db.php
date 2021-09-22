@@ -38,7 +38,13 @@
 
         public function addFile(array $args) {
             $newItem = ORM::for_table(TBL_DEPICTOR_FILES)->create();
-            $challengeId = $args["challenge"] == "" ? null : $args["challenge"];
+
+            // Check for challengId
+            if (isset($args["challenge"]) && $args["challenge"] != "") {
+                $challengeId = $args["challenge"];
+            } else {
+                $challengeId = null;
+            }
 
             $newItem->set([
                 "mid" => $args["mid"],

@@ -91,7 +91,7 @@
             $req = json_decode($json);
 
             if (!isset($req->success)) {
-                error_log("Faulty depicts statement!")
+                error_log("Faulty depicts statement!");
                 error_log(print_r($req, true));
 
                 throw new Exception("Could not add depicts statement");

@@ -17,7 +17,7 @@ class Hay {
         $this->opts = $opts;
         $this->beforeHeadClose = $opts["beforeHeadClose"] ?? false;
 
-        if ($toolname) {
+        if ($toolname && isset($this->tools->$toolname)) {
             $this->toolname = $toolname;
             $this->tooldata = $this->tools->$toolname;
             $this->title = $this->tooldata->title;
