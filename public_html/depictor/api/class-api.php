@@ -91,6 +91,9 @@
             $req = json_decode($json);
 
             if (!isset($req->success)) {
+                error_log("Faulty depicts statement!")
+                error_log(print_r($req, true));
+
                 throw new Exception("Could not add depicts statement");
             }
 
@@ -103,7 +106,7 @@
             $this->assertIncludes($args["status"], [
                 'depicted','not-depicted','user-skipped', 'prominently-depicted'
             ]);
-            $this->assertChallengeId($args["challenge"]);
+            $this->assertChallengeId($args["challenge"] ?? null);
 
             // First check if maybe this pair of mid/qid is already in the db
             if ($this->hasFile($args["mid"])) {
