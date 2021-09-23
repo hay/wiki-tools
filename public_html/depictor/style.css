@@ -592,7 +592,8 @@ a {
     display: block; }
   .challenges__itemcount {
     font-weight: normal;
-    color: #888; }
+    color: #888;
+    flex-shrink: 0; }
   .challenges__title {
     display: flex;
     justify-content: space-between;

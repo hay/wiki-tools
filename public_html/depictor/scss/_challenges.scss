@@ -18,6 +18,7 @@
     &__itemcount {
         font-weight: normal;
         color: #888;
+        flex-shrink: 0;
     }
 
     &__title {
