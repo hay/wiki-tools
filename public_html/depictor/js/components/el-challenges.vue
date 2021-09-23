@@ -4,8 +4,14 @@
             {{$t('challenge_overview')}}
         </h2>
 
-        <p class="screen__subtitle buffer-bottom-2">
+        <p class="screen__subtitle">
             {{$t('challenge_subtitle')}}
+        </p>
+
+        <p class="screen__subtitle buffer-bottom-2">
+            <em>
+                <a href="https://twitter.com/hayify/status/1440959546596413441">How do i create my own challenge?</a>
+            </em>
         </p>
 
         <ul class="challenges__list">

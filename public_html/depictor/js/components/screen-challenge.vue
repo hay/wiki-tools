@@ -39,6 +39,12 @@
         <p class="screen__subtitle"
            v-html="userLink"></p>
 
+        <p class="screen__subtitle buffer-bottom-2">
+            <em>
+                <a href="https://twitter.com/hayify/status/1440959546596413441">How do i create my own challenge?</a>
+            </em>
+        </p>
+
         <el-leaderboard
             v-bind:challenge="challenge.id"></el-leaderboard>
     </div>
