@@ -83,7 +83,7 @@
                     {{$t("keyboard_shortcuts")}}: <b>(1)</b> {{$t("depicted")}}, <b>(2)</b> {{$t("skip")}}, <b>(3)</b> {{$t("not_depicted")}}, <b>(s)</b> {{$t("skip_item")}}
                 </span>
 
-                <span v-show="!isPossibleChallenge && showChallenges">
+                <span v-show="!isPossibleChallenge">
                     {{$t('create_challenge_not_possible')}}
                 </span>
             </p>
@@ -106,7 +106,7 @@
         components : { ElProgress },
 
         computed : {
-            ...mapState([ 'candidate', 'item','loading', 'showChallenges']),
+            ...mapState([ 'candidate', 'item','loading']),
 
             candidateImage() {
                 return this.showCandidateImage && this.$store.state.candidate ? this.$store.state.candidate.thumb : false;
