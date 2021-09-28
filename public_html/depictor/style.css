@@ -600,3 +600,7 @@ a {
     font-size: 1.8rem; }
   .challenges__description {
     font-size: 1.6rem; }
+  .challenges__button {
+    margin-left: auto;
+    margin-right: auto;
+    text-decoration: underline; }

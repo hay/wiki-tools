@@ -30,4 +30,9 @@
     &__description {
         font-size: 1.6rem;
     }
+
+    &__button {
+        @include margin-center;
+        text-decoration: underline;
+    }
 }

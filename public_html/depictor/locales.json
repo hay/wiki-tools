@@ -90,7 +90,8 @@
             "back": "Back",
             "challenge_title_length": "Title needs to be at least {count} characters",
             "challenge_shortdescription_length": "Description needs to be at least {count} characters",
-            "editcount": "{count} edits"
+            "editcount": "{count} edits",
+            "show_all_challenges": "Show all {count} challenges"
         },
         "mk": {
             "app_description": "Додавајте искази со структурирани податоци на Ризницата користејќи игрива околина",
@@ -159,7 +160,8 @@
             "short_description": "Краток опис",
             "show_all_rows": "Прикажи ги сите редови",
             "title": "Наслов",
-            "username": "Корисничко име"
+            "username": "Корисничко име",
+            "editcount": "{count} уредувања"
         },
         "nl": {
             "app_description": "Voeg gestructureerde data aan Wikimedia Commons-bestanden op een speelse manier",

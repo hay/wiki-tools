@@ -15,7 +15,8 @@
         </p>
 
         <ul class="challenges__list">
-            <li v-for="challenge in challenges">
+            <li v-for="(challenge, index) in challenges"
+                v-show="index < maxItems || showAll">
                 <a v-bind:href="challenge.link"
                    class="challenges__item">
                     <h3 class="challenges__title">
@@ -33,14 +34,26 @@
                 </a>
             </li>
         </ul>
+
+        <wm-button
+            v-show="!showAll && challenges.length > maxItems"
+            class="leaderboard__button"
+            icon="eye"
+            flair="bare"
+            v-on:click="showAll = true">
+            {{$t('show_all_challenges', { count : challenges.length })}}</wm-button>
     </div>
 </template>
 
 <script>
+    import { MAX_CHALLENGE_OVERVIEW_COUNT } from '../const.js';
+
     export default {
         data() {
             return {
-                challenges : []
+                challenges : [],
+                maxItems : MAX_CHALLENGE_OVERVIEW_COUNT,
+                showAll : false
             }
         },
 
