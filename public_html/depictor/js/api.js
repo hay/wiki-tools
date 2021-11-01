@@ -201,20 +201,12 @@ export default class Api {
         const sparql = `
           select ?item ?image ?cat where {
             wd:${qid} wdt:P373 ?cat;
-                      wdt:P18 ?image;
-                      wikibase:timestamp ?item.
+                      wdt:P18 ?image.
+            ?item wdt:P373 ?cat.
           }
         `;
 
-        let items = await this.getItemsWithSparql(sparql);
-
-        // FIXME: probably a way to do this with SPARQL, but i can't be bothered
-        items = items.map((item) => {
-            item.qid = qid;
-            return item;
-        });
-
-        return items;
+        return await this.getItemsWithSparql(sparql);
     }
 
     async getItemsWithSparql(sparql) {
