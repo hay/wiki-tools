@@ -28,6 +28,15 @@
                 icon="user">{{userName}}</wm-button>
 
             <wm-button
+                v-show="!showLangselect"
+                icon="help"
+                flair="bare"
+                type="anchor"
+                href="https://commons.wikimedia.org/wiki/Commons:Depictor">
+                {{$t("help")}}
+            </wm-button>
+
+            <wm-button
                 v-if="isLoggedIn"
                 v-show="!showLangselect"
                 icon="logout"

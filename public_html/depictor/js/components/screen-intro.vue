@@ -89,6 +89,13 @@ select ?item ?instance ?image ?cat where {
             </div>
         </div> <!-- options-wrapper -->
 
+        <p class="screen__subtitle">
+            <strong>
+            First time using Depictor?<br />
+            <a href="https://www.youtube.com/watch?v=kuIUgjGkIug" target="_blank">
+                Watch the 8-minute video tutorial</a>.</strong>
+        </p>
+
         <el-challenges></el-challenges>
 
         <el-leaderboard></el-leaderboard>

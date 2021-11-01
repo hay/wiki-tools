@@ -274,6 +274,8 @@ a {
     background-image: url("img/icon-challenge.svg"); }
   .icon[data-icon="edit"] {
     background-image: url("img/icon-edit.svg"); }
+  .icon[data-icon="help"] {
+    background-image: url("img/icon-help.svg"); }
 
 .wm-button {
   --c-1: #36c;
