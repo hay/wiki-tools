@@ -279,21 +279,18 @@ export default class Api {
 
         const claims = item._item.claims;
 
-        if (!"P373" in claims) {
+        if (!("P373" in claims)) {
             log.debug(`candidateItem ${item.qid} has no category`);
             return false;
         }
 
-        if (!"P31" in claims) {
-            log.debug(`candidateItem ${item.qid} has no instance of`);
-            return false;
-        }
-
-        for (const claim of claims.P31) {
-            // Item should not be a category!
-            if (claim.mainsnak.datavalue.value.id === "Q4167836") {
-                log.debug(`candidateItem ${item.qid} is a category`);
-                return false;
+        if ("P31" in claims) {
+            for (const claim of claims.P31) {
+                // Item should not be a category!
+                if (claim.mainsnak.datavalue.value.id === "Q4167836") {
+                    log.debug(`candidateItem ${item.qid} is a category`);
+                    return false;
+                }
             }
         }
 
