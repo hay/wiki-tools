@@ -385,7 +385,8 @@ a {
     max-height: 50vh;
     object-fit: contain; }
   .screen__content {
-    margin-top: 1rem; }
+    margin-top: 1rem;
+    width: 100%; }
     .screen__content > * + * {
       margin-top: 1rem; }
   .screen__actions {
@@ -431,12 +432,7 @@ a {
     .screen--game .screen__content {
       display: flex;
       flex-direction: column;
-      margin-top: 0; }
-    .screen--game .screen__candidateimage {
-      order: -1;
-      margin-top: 0; }
-    .screen--game .screen__instruction {
-      margin-top: 2rem; } }
+      margin-top: 0; } }
 
 .reference {
   display: grid;
