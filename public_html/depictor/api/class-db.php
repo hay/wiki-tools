@@ -229,21 +229,29 @@
             return $exists == "1";
         }
 
-        // Note how this function is very different from itemExists, it's
-        // up to 20 times faster to simply load all qids into memory and then
-        // manually check which qids exists instead of doing 2000
-        // SQL EXISTS statements...
+        // Check if an array of qids exist in the items table
         public function itemsExist(array $qids):array {
-            $all_items = ORM::for_table(TBL_DEPICTOR_ITEMS)
+            // First do a query for all files with the given qids
+            $items = ORM::for_table(TBL_DEPICTOR_ITEMS)
                 ->select("qid")
+                ->where_in("qid", $qids)
                 ->find_array();
 
-            $all_items = array_map(fn($item):string => $item["qid"], $all_items);
-
+            // Loop over those items and convert to an exists array,
+            // because we know these qids exist (items have no state like files)
             $exists = [];
 
+            foreach ($items as $item) {
+                $qid = $item["qid"];
+                $exists[$qid] = true;
+            }
+
+            // And loop over all qids, if the key doesn't exists we know
+            // it's false
             foreach ($qids as $qid) {
-                $exists[$qid] = in_array($qid, $all_items);
+                if (!array_key_exists($qid, $exists)) {
+                    $exists[$qid] = false;
+                }
             }
 
             return $exists;
