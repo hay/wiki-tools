@@ -10,7 +10,7 @@
 
         <p class="screen__subtitle buffer-bottom-2">
             <em>
-                <a href="https://twitter.com/hayify/status/1440959546596413441">How do i create my own challenge?</a>
+                <a href="https://commons.wikimedia.org/wiki/Commons:Depictor#Challenges">How do i create my own challenge?</a>
             </em>
         </p>
 
