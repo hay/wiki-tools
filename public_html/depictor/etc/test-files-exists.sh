@@ -1,0 +1,20 @@
+curl 'http://localhost/git/wiki-tools/public_html/depictor/api/index.php' \
+  -H 'Connection: keep-alive' \
+  -H 'Pragma: no-cache' \
+  -H 'Cache-Control: no-cache' \
+  -H 'sec-ch-ua: " Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"' \
+  -H 'DNT: 1' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36' \
+  -H 'sec-ch-ua-platform: "macOS"' \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: */*' \
+  -H 'Origin: http://localhost' \
+  -H 'Sec-Fetch-Site: same-origin' \
+  -H 'Sec-Fetch-Mode: cors' \
+  -H 'Sec-Fetch-Dest: empty' \
+  -H 'Referer: http://localhost/git/wiki-tools/public_html/depictor/?queryType=qid&queryValue=Q642803' \
+  -H 'Accept-Language: en-GB,en;q=0.9,nl;q=0.8,de;q=0.7' \
+  -H 'Cookie: _pk_id.1.1fff=ffc447e0150c061d.1619616993.; _pk_id.11.1fff=7335e7dbcfd5525c.1623664420.; PHPSESSID=a8k1e8gvh7neqesq77412drr24; _ga=GA1.1.1807952679.1635771695; wordpress_test_cookie=WP%20Cookie%20check; wordpress_logged_in_820f062cbe6d2884d8f1878659c61e97=Hay%20Kranen%7C1635944636%7CFTYAF1prgQK3Zlobqjt4RN3fOlLnSixptpicpBwr4OL%7Cbe10667cd76ab113ccf60b1a0c83f5fc7b3c0db3d52957590450dcd1bc7bb579' \
+  --data-raw '{"mids":["M66115551","M65010211","M65010231","M66115651","M66115553","M64118613"],"action":"files-exists"}' \
+  --compressed

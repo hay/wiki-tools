@@ -109,33 +109,39 @@
             return $exists == "1";
         }
 
-        // See itemsExist
+        // Check if files 'exist' in the database, given two conditions
+        // 1) The MID is in the 'files' table and has the status of 'depicted' or 'not-depicted'
+        // 2) The MID is in the 'files' table and has the status of 'user-skipped' AND the given
+        //    userName is the same as the user in the table
         public function filesExist(array $mids, string $userName):array {
-            // This could be done in one call with raw SQL but i guess it
-            // doesn't really matter for performance to just do two calls:
-            // one to get depicted and not-depicted mids,
-            // and one to get user-skipped that aren't of the current user
-            $doneFiles = ORM::for_table(TBL_DEPICTOR_FILES)
-                ->select("mid")
-                ->where_in("status", ["depicted", "not-depicted"])
+            // First do a query for all files with the given MIDS
+            $files = ORM::for_table(TBL_DEPICTOR_FILES)
+                ->select(["mid", "status", "user"])
+                ->where_in("mid", $mids)
                 ->find_array();
-
-            $skippedFiles = ORM::for_table(TBL_DEPICTOR_FILES)
-                ->select("mid")
-                ->where([
-                    "status" => "user-skipped",
-                    "user" => $userName
-                ])
-                ->find_array();
-
-            $allFiles = array_map(function($item):string {
-                return $item["mid"];
-            }, array_merge($doneFiles, $skippedFiles));
 
             $exists = [];
 
+            // Now loop over the results and add the MIDs to a new array
+            foreach($files as $file) {
+                $mid = $file["mid"];
+                $status = $file["status"];
+
+                if (in_array($status, ["depicted", "not-depicted"])) {
+                    $exists[$mid] = true;
+                } else if ($status == "user-skipped" && $file["user"] == $userName) {
+                    $exists[$mid] = true;
+                } else {
+                    $exists[$mid] = false;
+                }
+            }
+
+            // Any remaining MIDS not found in the database don't exist,
+            // so add those was false
             foreach ($mids as $mid) {
-                $exists[$mid] = in_array($mid, $allFiles);
+                if (!array_key_exists($mid, $exists)) {
+                    $exists[$mid] = false;
+                }
             }
 
             return $exists;
