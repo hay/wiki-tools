@@ -23,13 +23,7 @@
         <p v-show="loading">Loading...</p>
 
         <div class="progress"
-             v-show="loading">
-            <div
-                class="progress-bar progress-bar-striped active"
-                v-bind:style="{ width : loadingProgress + '%', 'min-width' : '3em' }">
-                {{loadingProgress}}%
-            </div>
-        </div>
+             v-show="loading"></div>
 
         <div v-show="!loading">
             <div class="row">
@@ -116,7 +110,7 @@
                 </div>
             </div>
 
-            <p v-show="hasLength">Click on the column headers to sort by that column.</p>
+            <p v-show="hasLength && view === 'detailed'">Click on the column headers to sort by that column.</p>
 
             <ul class="list" v-if="view === 'compact'">
                 <li v-for="prop in properties">
@@ -138,12 +132,14 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th v-on:click="setSort('id')">ID</th>
-                            <th v-on:click="setSort('label')">Label</th>
-                            <th v-on:click="setSort('description')">Description</th>
-                            <th v-on:click="setSort('types')">Use</th>
-                            <th v-on:click="setSort('datatype')">Type</th>
-                            <th v-on:click="setSort('aliases')">Aliases</th>
+                            <th v-for="(label, key) in headers"
+                                v-bind:key="key"
+                                v-bind:is-current="key === sortKey"
+                                v-on:click="setSort(key)">
+                                {{label}}
+                                <span v-if="sortDirection === 1 && key === sortKey">⬆️</span>
+                                <span v-if="sortDirection === -1 && key === sortKey">⬇️</span>
+                            </th>
                             <th>Example</th>
                         </tr>
                     </thead>

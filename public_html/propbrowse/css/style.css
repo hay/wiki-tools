@@ -65,3 +65,7 @@ th:hover {
 .proplist {
     padding-left: 2rem;
 }
+
+.table th[is-current] {
+    background: #acd5f9;
+}

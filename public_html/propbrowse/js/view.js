@@ -21,6 +21,14 @@ export default function() {
         data : {
             allproperties : null,
             datatypes : {},
+            headers : {
+                'id' : 'ID',
+                'label' : 'Label',
+                'description' : 'Description',
+                'types' : 'Use',
+                'datatype' : 'Type',
+                'aliases' : 'Aliases'
+            },
             loading : true,
             loadingProgress : 0,
             MAX_DETAILED_LIST_LENGTH,
@@ -96,12 +104,12 @@ export default function() {
 
             sortBy(key, properties) {
                 return properties.sort((a, b) => {
-                    a = a[key].toLowerCase();
-                    b = b[key].toLowerCase();
+                    a = (a[key] && a[key].toLowerCase) ? a[key].toLowerCase() : '';
+                    b = (b[key] && b[key].toLowerCase) ? b[key].toLowerCase() : '';
 
                     if (key === 'id') {
-                        a = parseInt(a.replace('P', ''));
-                        b = parseInt(b.replace('P', ''));
+                        a = parseInt(a.replace('p', ''));
+                        b = parseInt(b.replace('p', ''));
                     }
 
                     return a > b ? (1 * this.sortDirection) : -1 * this.sortDirection;
