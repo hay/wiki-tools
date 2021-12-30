@@ -17,6 +17,10 @@
             "label": "Nederlands"
         },
         {
+            "code": "pl",
+            "label": "język polski"
+        },
+        {
             "code": "pt",
             "label": "língua portuguesa"
         },
@@ -284,6 +288,44 @@
             "search_deepcat_input": "Doorzoek subcategorieën van deze categorie tot een diepte van:",
             "language": "Taal",
             "pct_complete": "{pct}% compleet"
+        },
+        "pl": {
+            "archived": "Zarchiwizowane",
+            "back": "Wstecz",
+            "birth_year": "Data urodzenia",
+            "challenge_overview": "Wyzwania",
+            "challenge_lead_intro": "To wyzwanie ma następujący cel:",
+            "create_challenge": "Utwórz wyzwanie",
+            "commons_category": "Kategoria na Commons (bez prefiksu Category:)",
+            "edit_challenge": "Edytuj wyzwanie",
+            "help": "Pomoc",
+            "hide_advanced_options": "Ukryj opcje zaawansowane",
+            "edits": "Edycje",
+            "itemcount": "Elementy w tym wyzwaniu",
+            "language": "Język",
+            "keyboard_shortcuts": "Skróty klawiaturowe",
+            "loading": "Ładowanie...",
+            "log_in": "Zaloguj się",
+            "log_out": "Wyloguj się",
+            "logged_in_as": "Zalogowany jako",
+            "long_description": "Długi opis",
+            "name": "Nazwa",
+            "no": "Nie",
+            "required": "Wymagane",
+            "reset": "Resetuj",
+            "short_description": "Krótki opis",
+            "show_advanced_options": "Pokaż opcje zaawansowane",
+            "skip": "Pomiń",
+            "skip_item": "Pomiń element",
+            "title": "Tytuł",
+            "translate_this_tool": "Przetłumacz to narzędzie",
+            "try_again": "Spróbuj ponownie",
+            "username": "Nazwa użytkownika",
+            "year": "Rok",
+            "yes": "Tak",
+            "start": "Start",
+            "optional": "Opcjonalnie",
+            "qid": "QID"
         },
         "pt": {
             "app_description": "Adicione declarações de dados estruturados ao Wikimedia Commons usando um interface semelhante a um jogo",
