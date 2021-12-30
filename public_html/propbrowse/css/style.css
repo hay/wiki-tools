@@ -61,3 +61,7 @@ th:hover {
     text-decoration: underline;
     cursor: pointer;
 }
+
+.proplist {
+    padding-left: 2rem;
+}

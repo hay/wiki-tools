@@ -157,7 +157,12 @@
                             <td>{{prop.description}}</td>
                             <td>{{prop.types}}</td>
                             <td>{{prop.datatype}}</td>
-                            <td>{{prop.aliases}}</td>
+                            <td>
+                                <ul v-if="prop.aliasesList"
+                                    class="proplist">
+                                    <li v-for="item in prop.aliasesList">{{item}}</li>
+                                </ul>
+                            </td>
                             <td>
                                 <ul v-if="prop.example">
                                     <li v-for="ex in prop.example">

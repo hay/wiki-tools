@@ -6,12 +6,13 @@ function transformProp(prop) {
     }
 
     if (prop.aliases) {
+        prop.aliasesList = prop.aliases;
         prop.aliases = prop.aliases.join(' ');
     }
 
     prop.url = 'https://www.wikidata.org/wiki/Property:' + prop.id;
 
-    prop.index = [prop.id, prop.label, prop.description].join(' ').toLowerCase();
+    prop.index = [prop.id, prop.label, prop.description, prop.aliases].join(' ').toLowerCase();
 
     return prop;
 }
