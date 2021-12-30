@@ -1,5 +1,4 @@
-import request from 'superagent';
-import { map, uniq } from 'lodash';
+import { getJson } from 'donot';
 
 function transformProp(prop) {
     if (prop.types) {
@@ -20,11 +19,12 @@ function transformProp(prop) {
 export default class {
     constructor() {
         this.properties = null;
-        this.callbacks = {};
     }
 
     getDatatypes() {
-        return uniq(map(this.properties, 'datatype')).sort();
+        const values = this.properties.map(p => p.datatype);
+        const props = [...new Set(values)];
+        return props.sort();
     }
 
     getProperties() {
@@ -32,19 +32,7 @@ export default class {
     }
 
     async load() {
-        request
-            .get('./props.json')
-            .on('progress', e => {
-                this.callbacks['progress'](e.percent);
-            })
-            .then((res) => {
-                const properties = JSON.parse(res.text).map(transformProp);
-                this.properties = properties;
-                this.callbacks['ready']();
-            });
-    }
-
-    on(event, callback) {
-        this.callbacks[event] = callback;
+        const data = await getJson("./props.json");
+        this.properties = data.map(transformProp);
     }
 }

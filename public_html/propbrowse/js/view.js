@@ -9,21 +9,13 @@ export default function() {
     return new Vue({
         el : "#app",
 
-        mounted() {
+        async mounted() {
             this.model = new Model();
-
-            this.model.on('progress', (p) => {
-                this.loadingProgress = Math.round(p);
-            });
-
-            this.model.on('ready', () => {
-                const datatypes = this.model.getDatatypes();
-                this.allproperties = this.model.getProperties();
-                this.datatypes = fromPairs(datatypes.map((type) => [type, true]));
-                this.loading = false;
-            });
-
-            this.model.load();
+            await this.model.load();
+            const datatypes = this.model.getDatatypes();
+            this.allproperties = this.model.getProperties();
+            this.datatypes = fromPairs(datatypes.map((type) => [type, true]));
+            this.loading = false;
         },
 
         data : {

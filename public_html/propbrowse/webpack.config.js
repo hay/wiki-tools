@@ -3,7 +3,6 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
     entry: [
-        './js/polyfills.js',
         './js/app.js'
     ],
     module : {
@@ -18,6 +17,13 @@ module.exports = {
             {
                 test : /\.vue$/,
                 loader : 'vue-loader'
+            },
+            {
+                test: /\.css$/,
+                use: [
+                  'vue-style-loader',
+                  'css-loader'
+                ]
             }
         ]
     },
@@ -30,7 +36,7 @@ module.exports = {
         }
     },
     output: {
-        filename: './bundle.js',
-        path: path.resolve(__dirname)
+        filename: '../bundle.js',
+        path: path.resolve(__dirname, 'js')
     }
 };
