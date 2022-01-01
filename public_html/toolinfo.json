@@ -1,5 +1,13 @@
 [
-
+    {
+        "title" : "QIDQuery",
+        "description" : "Quickly create a query using an arbitrary list of Wikidata IDs",
+        "name" : "hay-qidquery",
+        "author" : "Hay Kranen",
+        "repository" : "https://github.com/hay/wiki-tools.git",
+        "url" : "https://hay.toolforge.org/qidquery/",
+        "keywords" : "wikidata, qid, query, properties, cleanup"
+    },
     {
         "title" : "Depictor",
         "description" : "Add structured data statements to Wikimedia Commons using a game-like interface",

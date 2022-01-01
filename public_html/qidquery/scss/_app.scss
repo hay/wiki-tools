@@ -1,0 +1,91 @@
+#app[v-cloak] > * {
+    display: none;
+}
+
+#app[v-cloak]:before {
+    content: "Loading...";
+    font-size: 20px;
+}
+
+#app {
+    @include margin-center;
+    max-width: 100rem;
+}
+
+.qid-input {
+    margin-top: 1rem;
+
+    button,
+    .button {
+        background: $c-1;
+        color: white;
+        padding: 1rem 1.2rem;
+        font-size: 1.8rem;
+        border-radius: 4px;
+
+        &[disabled] {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+    }
+
+    textarea {
+        margin-top: 1rem;
+        width: 100%;
+        padding: 1rem;
+        font-size: 1.4rem;
+        font-family: monospace;
+    }
+
+    menu {
+        margin-top: 2rem;
+        display: flex;
+    }
+
+    menu > * {
+        margin-right: 1rem;
+    }
+
+    p, fieldset, legend {
+        font-size: 1.6rem;
+    }
+
+    fieldset {
+        margin-top: 1rem;
+        padding: 1rem;
+    }
+
+    legend {
+        padding: 0 .5rem;
+    }
+
+    fieldset {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    fieldset > input[type="checkbox"] {
+        margin-right: .2rem;
+    }
+
+    fieldset > input[type="text"] {
+        margin-left: .2rem;
+    }
+
+    fieldset > *:nth-child(2n + 1) {
+        margin-right: 2rem;
+    }
+
+    #language {
+        font-family: 'Courier New', monospace;
+        width: 10rem;
+    }
+
+    .error {
+        margin-top: 1rem;
+        padding: 1rem;
+        font-size: 1.8rem;
+        background: #f99;
+    }
+}

@@ -9,7 +9,6 @@
         "description" : "Query Wikidata visually"
     },
 
-
     "propbrowse" : {
         "title" : "Wikidata Propbrowse",
         "description" : "Browse and view all properties on Wikidata"
@@ -33,6 +32,11 @@
     "querydash" : {
         "title" : "Query Dashboard",
         "description" : "Create dashboards containing statistics from Wikidata SPARQL queries"
+    },
+
+    "qidquery" : {
+        "title" : "QIDQuery",
+        "description" : "Quickly create a query using an arbitrary list of Wikidata IDs"
     },
 
     "qsml" : {
