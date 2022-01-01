@@ -25,7 +25,9 @@ class Hay {
             $this->description = $this->tooldata->description;
             $this->titletag = $this->title . " - " . self::DEFAULT_TITLE;
         } else {
+            $this->toolname = $toolname;
             $this->titletag = self::DEFAULT_TITLE;
+            $this->toolurl = ROOT . "/$toolname";
         }
     }
 

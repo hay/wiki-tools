@@ -5,31 +5,26 @@
   "scripts": {
     "build": "npm run build:js && npm run build:css",
     "build:css": "npm run build:sass",
-    "build:js": "webpack -d",
+    "build:js-prod": "webpack --mode=production",
     "build:sass": "node-sass scss/style.scss style.css",
-    "dist": "webpack -p",
+    "dist": "npm run build:css && npm run build:js-prod",
     "postinstall": "npm run build",
-    "watch": "chokidar '../common/*.scss' 'scss/*.scss' -c 'npm run build:css' & webpack -dw"
+    "watch": "chokidar '../common/*.scss' 'scss/*.scss' -c 'npm run build:css' & npm run watch:js",
+    "watch:js": "webpack --watch --mode=development --devtool=source-map"
   },
   "dependencies": {
-    "@babel/core": "^7.9.0",
-    "chokidar-cli": "^2.1.0",
-    "regenerator-runtime": "^0.13.5",
+    "donot": "^0.4.1",
+    "regenerator-runtime": "^0.13.9",
     "valenski": "^1.4.0",
-    "vue": "^2.6.11"
+    "vue": "^2.6.14"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^8.1.0",
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.7.0",
-    "css-loader": "^3.5.3",
-    "http-server": "^0.12.1",
-    "node-sass": "^4.14.0",
-    "vue-loader": "^15.9.1",
-    "vue-template-compiler": "^2.6.11",
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
+    "babel-loader": "^8.2.3",
+    "chokidar-cli": "^3.0.0",
+    "node-sass": "^7.0.1",
+    "vue-loader": "^15.9.8",
+    "vue-template-compiler": "^2.6.14",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1"
   }
 }
