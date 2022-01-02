@@ -40,7 +40,9 @@
 
         <textarea
             v-model="input"
-            placeholder="Paste your list of QIDs here"
+placeholder="Q170486
+Q93189
+https://www.wikidata.org/wiki/Q606132"
             rows="50"></textarea>
     </div>
 </template>
