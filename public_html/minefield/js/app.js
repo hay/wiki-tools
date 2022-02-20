@@ -1,7 +1,11 @@
+if (import.meta.env.MODE !== 'development') {
+    import('vite/modulepreload-polyfill')
+}
+
 import { chunk } from 'lodash';
 import Papa from 'papaparse';
 import saveCsv from 'save-csv';
-import Vue from 'vue';
+import { createApp } from 'vue';
 
 const MAX_TITLES_PER_CALL = 50;
 
@@ -97,7 +101,7 @@ async function getPagesFromPagepile(id) {
     return results.pages;
 }
 
-new Vue({
+const app = createApp({
     el : "#app",
 
     data : {

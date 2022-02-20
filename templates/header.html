@@ -42,12 +42,27 @@
         {% endfor %}
     {% endif %}
 
-    {% if not opts.scripts is defined %}
-    <script>
-        window._scripts = [];
-    </script>
-    {% endif %}
     {{ "\n" | raw }}
+
+    {% if (not opts.scripts is defined) and default_scripts %}
+        <script>
+            window._scripts = [];
+        </script>
+    {% endif %}
+
+    {{ "\n" | raw }}
+
+    {% if opts.use_vite  %}
+        <!-- Using Vite -->
+        {% if debug %}
+            <!-- Debug mode -->
+            <script type="module" src="http://localhost:3000/@vite/client"></script>
+            <script type="module" src="http://localhost:3000/{{opts.vite_entry}}"></script>
+        {% else %}
+            <script>alert('production');</script>
+        {% endif %}
+    {% endif %}
+
     {{ before_head_close  | raw }}
 </head>
 <body>

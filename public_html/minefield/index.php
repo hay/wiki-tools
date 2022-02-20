@@ -2,8 +2,10 @@
     require '../../lib/class-hay.php';
 
     $hay = new Hay("minefield", [
-        "styles" => [ 'style.css' ],
-        "scripts" => [ 'bundle.js' ]
+        "bare" => true,
+        "default_scripts" => false,
+        "use_vite" => true,
+        "vite_entry" => "js/app.js"
     ]);
 
     $hay->header();
