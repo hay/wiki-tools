@@ -1,7 +1,8 @@
 if (import.meta.env.MODE !== 'development') {
-    import('vite/modulepreload-polyfill')
+    import('vite/modulepreload-polyfill');
 }
 
+import '../scss/style.scss';
 import { chunk } from 'lodash';
 import Papa from 'papaparse';
 import saveCsv from 'save-csv';
@@ -102,17 +103,17 @@ async function getPagesFromPagepile(id) {
 }
 
 const app = createApp({
-    el : "#app",
-
-    data : {
-        csv : '',
-        error : false,
-        loading : false,
-        pagepileInput : null,
-        results : '',
-        showPagepile : false,
-        state : 'edit',
-        titles : []
+    data() {
+        return {
+            csv : '',
+            error : false,
+            loading : false,
+            pagepileInput : null,
+            results : '',
+            showPagepile : false,
+            state : 'edit',
+            titles : []
+        };
     },
 
     methods : {
@@ -179,3 +180,5 @@ const app = createApp({
         this.parseHash();
     }
 });
+
+app.mount("#app");
