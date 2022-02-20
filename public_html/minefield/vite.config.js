@@ -1,7 +1,6 @@
-import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 
-export default defineConfig({
+export default {
     build : {
         manifest : true,
         rollupOptions : {
@@ -14,4 +13,4 @@ export default defineConfig({
             vue: 'vue/dist/vue.esm-bundler.js'
         }
     }
-});
+}

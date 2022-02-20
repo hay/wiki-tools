@@ -6,7 +6,7 @@ require_once 'class-templaterenderer.php';
 class Hay {
     const DEFAULT_TITLE = "Hay's tools";
     private $toolname, $tools, $tooldata, $title, $toolurl;
-    private $description, $titletag, $path, $opts;
+    private $description, $titletag, $path, $opts, $toolpath;
     private $version, $beforeHeadClose, $default_scripts;
 
     public function __construct($toolname = false, $opts = []) {
@@ -23,6 +23,7 @@ class Hay {
             $this->tooldata = $this->tools->$toolname;
             $this->title = $this->tooldata->title;
             $this->toolurl = ROOT . "/$toolname";
+            $this->toolpath = realpath($this->path . "/../public_html/$toolname");
             $this->description = $this->tooldata->description;
             $this->titletag = $this->title . " - " . self::DEFAULT_TITLE;
         } else {
@@ -81,7 +82,8 @@ class Hay {
             'root' => ROOT,
             'debug' => DEBUG,
             "opts" => $this->opts,
-            "before_head_close" => $this->beforeHeadClose
+            "before_head_close" => $this->beforeHeadClose,
+            "vite" => $this->getViteOpts()
         ]);
     }
 
@@ -91,5 +93,44 @@ class Hay {
 
     public function title() {
         echo $this->title;
+    }
+
+    private function getViteOpts():array {
+        if (!$this->opts["use_vite"]) {
+            return [];
+        }
+
+        if (!$this->opts["vite_manifest"]) {
+            throw new Exception("Vite is used, but no manifest available");
+        }
+
+        // Load manifest and parse js/css
+        $manifest_path = $this->toolpath . "/" . $this->opts["vite_manifest"];
+
+        // FIXME
+        $manifest_root_url = $this->toolurl . "/dist";
+
+        $manifest = json_decode(file_get_contents($manifest_path));
+        $styles = [];
+        $scripts = [];
+
+        foreach ($manifest as $key => $file) {
+            if ($file->file) {
+                $scripts[] = $manifest_root_url . "/" . $file->file;
+            }
+
+            if (isset($file->css)) {
+                foreach ($file->css as $style) {
+                    $styles[] = $manifest_root_url . "/". $style;
+                }
+            }
+        }
+
+        $opts = [
+            "scripts" => $scripts,
+            "styles" => $styles
+        ];
+
+        return $opts;
     }
 }

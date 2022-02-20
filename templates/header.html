@@ -59,7 +59,14 @@
             <script type="module" src="http://localhost:3000/@vite/client"></script>
             <script type="module" src="http://localhost:3000/{{opts.vite_entry}}"></script>
         {% else %}
-            <script>alert('production');</script>
+            {% for style in vite.styles %}
+                <link rel="stylesheet" href="{{style}}" />
+            {% endfor %}
+
+            {% for script in vite.scripts %}
+                <!-- {{script}} -->
+                <script type="module" src="{{script}}"></script>
+            {% endfor %}
         {% endif %}
     {% endif %}
 

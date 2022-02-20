@@ -11,10 +11,7 @@ class TemplateRenderer {
         ]);
 
         $this->renderer->addGlobal('root', ROOT);
-
-        if (DEBUG)  {
-            $this->renderer->addExtension(new Twig_Extension_Debug());
-        }
+        $this->renderer->addExtension(new Twig_Extension_Debug());
     }
 
     public function render($template, $data = []) {

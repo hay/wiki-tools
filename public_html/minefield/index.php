@@ -5,7 +5,8 @@
         // "bare" => true,
         "default_scripts" => false,
         "use_vite" => true,
-        "vite_entry" => "js/app.js"
+        "vite_entry" => "js/app.js",
+        "vite_manifest" => "dist/manifest.json"
     ]);
 
     $hay->header();
