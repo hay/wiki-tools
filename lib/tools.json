@@ -14,14 +14,19 @@
         "description" : "Browse and view all properties on Wikidata"
     },
 
+    "depictor" : {
+        "title" : "Depictor",
+        "description" : "Add structured data statements to Wikimedia Commons using a game-like interface"
+    },
+
     "sdsearch" : {
         "title" : "Structured Search",
         "description" : "Search media on <a href=\"https://commons.wikimedia.org\">Wikimedia Commons</a> using <a href=\"https://commons.wikimedia.org/wiki/Commons:Structured_data\">structured data</a>"
     },
 
-    "depictor" : {
-        "title" : "Depictor",
-        "description" : "Add structured data statements to Wikimedia Commons using a game-like interface"
+    "minefield" : {
+        "title" : "Minefield",
+        "description" : "Convert Commons file page titles to media ids"
     },
 
     "exturl" : {
@@ -53,11 +58,6 @@
     "tinklify" : {
         "title" : "Tinklify",
         "description" : "Get all links from a Wikimedia page and transform to Wikidata items (QIDs)"
-    },
-
-    "minefield" : {
-        "title" : "Minefield",
-        "description" : "Convert Commons file page titles to media ids"
     },
 
     "wdtranslate" : {
