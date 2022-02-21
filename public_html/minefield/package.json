@@ -11,6 +11,7 @@
     "donot": "^0.4.1",
     "lodash": "^4.17.21",
     "papaparse": "^5.3.1",
+    "regenerator-runtime": "^0.13.9",
     "save-csv": "^4.1.0",
     "valenski": "^1.4.0",
     "vue": "^3.2.31"

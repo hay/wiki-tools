@@ -17,15 +17,6 @@
     display: block;
 }
 
-#app[v-cloak] > * {
-    display: none;
-}
-
-#app[v-cloak]:before {
-    content: "Loading...";
-    font-size: 20px;
-}
-
 .loading {
     font-size: 3rem;
     color: purple;
