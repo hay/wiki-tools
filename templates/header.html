@@ -23,9 +23,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{%if title %}{{title}} - {% endif %} Hay's tools</title>
 
+    {#
+        Note that these might be used by some SPA-based tools (e.g. Minefield)
+        to display and use, not just for sharing.
+    #}
     <meta property="og:title" content="{{title}}">
     <meta property="og:description" content="{{description}}">
     <meta property="og:url" content="{{url}}">
+
     <meta property="og:site_name" content="Hay's tools">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@hayify">

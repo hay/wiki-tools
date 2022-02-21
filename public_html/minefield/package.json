@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "bootstrap": "^3.4.1",
+    "donot": "^0.4.1",
     "lodash": "^4.17.21",
     "papaparse": "^5.3.1",
     "save-csv": "^4.1.0",
