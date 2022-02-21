@@ -13,12 +13,12 @@
     "papaparse": "^5.3.1",
     "regenerator-runtime": "^0.13.9",
     "save-csv": "^4.1.0",
-    "valenski": "^1.4.0",
+    "valenski": "^1.5.0",
     "vue": "^3.2.31"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^2.1.0",
+    "@vitejs/plugin-vue": "^2.2.2",
     "sass": "^1.49.8",
-    "vite": "^2.7.13"
+    "vite": "^2.8.4"
   }
 }
