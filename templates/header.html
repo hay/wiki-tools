@@ -65,7 +65,7 @@
 
             {% for script in vite.scripts %}
                 <!-- {{script}} -->
-                <script type="module" src="{{script}}"></script>
+                <script crossorigin type="module" src="{{script}}"></script>
             {% endfor %}
         {% endif %}
     {% endif %}
