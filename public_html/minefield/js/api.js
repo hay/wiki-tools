@@ -25,6 +25,9 @@ function getCommonsFilepage(str) {
     // < https://phabricator.wikimedia.org/T238908#5684054 >
     str = str.replace('Special:FilePath/', 'File:');
 
+    // And here we have URLs directly from media viewer
+    str = str.replace(/.*#\/media\//, '');
+
     return str;
 }
 
@@ -33,8 +36,10 @@ function getApiCall(pages) {
     return `https://commons.wikimedia.org/w/api.php?action=query&origin=*&format=json&titles=${pages}`;
 }
 
-export function downloadCsv(data) {
-    return saveCsv(data);
+export function downloadCsv(data, delimiter = ',') {
+    return saveCsv(data, {
+        sep : delimiter
+    });
 }
 
 export function getMetaProperty(key) {

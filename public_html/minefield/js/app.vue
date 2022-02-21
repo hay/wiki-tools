@@ -16,6 +16,12 @@
             <p>Sorry, something went wrong. Here's an error message:</p>
 
             <p><code>{{error}}</code></p>
+
+            <button
+                class="btn btn-link"
+                v-on:click="clear">
+                Reset
+            </button>
         </div>
 
         <div class="alert" v-show="loading">
@@ -37,9 +43,9 @@
 
             <div
                 v-show="showPagepile"
-                class="pagepile-input">
+                class="pagepile-input flex-group buffer-bottom-1">
                 <input
-                    class="form-control"
+                    class="form-control flex-group__fill"
                     placeholder="Enter PagePile ID"
                     v-model="pagepileInput" />
 
@@ -73,7 +79,7 @@
         </form>
 
         <div v-show="results">
-            <menu class="buffer-bottom-2">
+            <menu class="buffer-bottom-1">
                 <button
                     type="button"
                     class="btn btn-primary"
@@ -88,6 +94,19 @@
                     Try again
                 </button>
             </menu>
+
+            <div class="flex-group buffer-bottom-1">
+                <strong>CSV Delimiter:</strong>
+
+                <label class="radio-inline"
+                       v-for="(val, label) in delimiters">
+                    <input type="radio"
+                           v-model="delimiter"
+                           v-bind:value="val" />
+
+                    {{label}} (<code>{{val}}</code>)
+                </label>
+            </div>
 
             <textarea
                 class="form-control"
@@ -110,6 +129,14 @@
         data() {
             return {
                 csv : '',
+                delimiter : ',',
+                delimiters : {
+                    'comma'     : ',',
+                    'tab'       : '\t',
+                    'semicolon' : ';',
+                    'pipe'      : '|',
+                    'colon'     : ':'
+                },
                 description : getMetaProperty("og:description"),
                 error : false,
                 loading : false,
@@ -139,7 +166,7 @@
             },
 
             download() {
-                downloadCsv(this.results);
+                downloadCsv(this.results, this.delimiter);
             },
 
             go() {
@@ -172,7 +199,16 @@
             },
 
             async populateByPagepile(id) {
-                const pages = await getPagesFromPagepile(id);
+                let pages;
+
+                try {
+                    pages = await getPagesFromPagepile(id);
+                } catch (e) {
+                    console.error(e);
+                    this.error = 'Could not get data for this Pagepile';
+                    return;
+                }
+
                 this.populate(pages);
             },
 

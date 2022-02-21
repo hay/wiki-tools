@@ -27,3 +27,13 @@
 .text-link {
     text-decoration: underline;
 }
+
+.flex-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+
+    &__fill {
+        flex: 1;
+    }
+}
