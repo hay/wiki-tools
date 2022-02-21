@@ -4,7 +4,7 @@ export default {
     build : {
         manifest : true,
         rollupOptions : {
-            input : './js/app.js'
+            input : './js/main.js'
         }
     },
     plugins: [ vue() ],
