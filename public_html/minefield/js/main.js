@@ -3,8 +3,6 @@ if (import.meta.env.MODE !== 'development') {
 }
 import '../scss/style.scss';
 import { createApp } from 'vue';
-import ScreenApp from './screen-app.vue';
+import App from './app.vue';
 
-createApp({
-    components : { ScreenApp }
-}).mount("#app");
+createApp(App).mount("#app");
