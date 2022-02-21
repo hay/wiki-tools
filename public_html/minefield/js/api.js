@@ -1,5 +1,5 @@
 import { $, getJson } from 'donot';
-import { chunk } from 'lodash';
+import chunk from 'lodash.chunk';
 import Papa from 'papaparse';
 import saveCsv from 'save-csv';
 
