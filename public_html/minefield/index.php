@@ -2,7 +2,6 @@
     require '../../lib/class-hay.php';
 
     $hay = new Hay("minefield", [
-        // "bare" => true,
         "default_scripts" => false,
         "use_vite" => true,
         "vite_entry" => "js/app.js",
