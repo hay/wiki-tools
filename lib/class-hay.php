@@ -107,7 +107,8 @@ class Hay {
         // Load manifest and parse js/css
         $manifest_path = $this->toolpath . "/" . $this->opts["vite_manifest"];
         $manifest_dir = basename(pathinfo($manifest_path)["dirname"]);
-        $manifest_root_url = $this->toolurl . "/$manifest_dir";
+        // $manifest_root_url = $this->toolurl . "/$manifest_dir";
+        $manifest_root_url = $manifest_dir;
 
         $manifest = json_decode(file_get_contents($manifest_path));
         $styles = [];
