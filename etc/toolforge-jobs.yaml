@@ -1,0 +1,27 @@
+---
+- name: hay-bootstrap-venv
+  command: /data/project/hay/etc/bootstrap-venv.sh
+  image: tf-python39
+  wait: true
+  schedule: "0 0 * * *"
+  emails: onfailure
+- name: hay-directory-crawl
+  command: php /data/project/hay/lib/crawl-tools.php
+  image: tf-php74
+  schedule: "0 * * * *"
+  emails: onfailure
+- name: hay-propbrowse-getprops
+  command: python /data/project/hay/etc/wikidata-props/get-wikidata-props.py
+  image: tf-python39
+  schedule: "0 0 * * *"
+  emails: onfailure
+- name: hay-sdsearch-locales
+  command: node /data/project/hay/public_html/sdsearch/etc/update-locales.js
+  image: tf-node12
+  schedule: "0 0 * * *"
+  emails: onfailure
+- name: hay-depictor-locales
+  command: node /data/project/hay/public_html/depictor/etc/update-locales.js
+  image: tf-node12
+  schedule: "0 0 * * *"
+  emails: onfailure
