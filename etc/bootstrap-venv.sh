@@ -1,10 +1,13 @@
 #!/bin/bash
 
+# use bash strict mode
+set -euo pipefail
+
 # create the venv
-python3 -m venv pyvenv
+python3 -m venv env
 
 # activate it
-source pyvenv/bin/activate
+source env/bin/activate
 
 # upgrade pip inside the venv and add support for the wheel package format
 pip install -U pip wheel

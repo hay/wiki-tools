@@ -5,7 +5,7 @@
   schedule: "0 * * * *"
   emails: onfailure
 - name: hay-propbrowse-getprops
-  command: /data/project/hay/etc/pyvenv/bin/python /data/project/hay/etc/wikidata-props/get-wikidata-props.py
+  command: cd $PWD && ./etc/env/bin/python ./etc/wikidata-props/get-wikidata-props.py
   image: tf-python39
   schedule: "0 0 * * *"
   emails: onfailure
