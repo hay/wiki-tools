@@ -9,16 +9,15 @@ export function buildUrlQuery(params) {
     return query;
 }
 
-// Lifted from https://bitbucket.org/magnusmanske/wikilovesmonuments-uk-2014/src/master/public_html/main_vue.js
 export function encodeWikiTitle(title) {
-    title = title.replace(/&/g,'&amp;')
-                 .replace(/</g,'&lt;')
-                 .replace(/>/g,'&gt;')
-                 .replace(/"/g,'&quot;')
-                 .replace(/'/g,'&#x27;')
-                 .replace(/\//g,'&#x2F;');
+    title = window.encodeURIComponent(title);
 
-    return window.encodeURIComponent(title);
+    title = title.replace(/%20/g, '_')
+                 .replace(/'/g, '%27')
+                 .replace(/%3A/g, ':')
+                 .replace(/%2C/g, ',');
+
+    return title;
 }
 
 export function getLocale(defaultLocale) {

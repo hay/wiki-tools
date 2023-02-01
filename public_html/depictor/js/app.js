@@ -6,6 +6,7 @@ import App from './components/app.vue';
 import WmButton from './components/wm-button.vue';
 import log from './log.js';
 import createStore from './store.js';
+import { test } from './test.js';
 
 async function createApp() {
     Vue.use(VueI18n);
@@ -72,6 +73,12 @@ async function createApp() {
                     const action = url.searchParams.get("action");
 
                     this.$store.dispatch("challenge", { id, action });
+                }
+
+                // TODO: i think we could probably think of a more elegant
+                // way to do testing
+                if (url.searchParams.has("test")) {
+                    test();
                 }
             }
         },
