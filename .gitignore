@@ -7,3 +7,4 @@ yarn*.log
 *.js.map
 bundle.js
 vendor/
+version.txt

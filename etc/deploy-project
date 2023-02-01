@@ -3,6 +3,8 @@ from pathlib import Path
 import sys
 import subprocess
 
+sys.exit("THIS DOES NOT WORK PLEASE FIX")
+
 if len(sys.argv) != 2:
     sys.exit("Invalid argument")
 
@@ -19,6 +21,7 @@ if (ROOT / "package.json").exists():
     cmd += "\nnpm run dist"
 
 cmd += """
+git rev-parse HEAD > ../version.txt
 rsync --exclude yarn* --exclude .git --exclude config.php --exclude node_modules -av --del * tools:tools/
 
 # Copy files
