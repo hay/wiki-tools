@@ -8,6 +8,7 @@ class Hay {
     private $toolname, $tools, $tooldata, $title, $toolurl;
     private $description, $titletag, $path, $opts, $toolpath;
     private $version, $beforeHeadClose, $default_scripts;
+    private TemplateRenderer $renderer;
 
     public function __construct($toolname = false, $opts = []) {
         $this->path = realpath(dirname(__FILE__));
@@ -96,7 +97,7 @@ class Hay {
     }
 
     private function getViteOpts():array {
-        if (!$this->opts["use_vite"]) {
+        if (empty($this->opts["use_vite"])) {
             return [];
         }
 
