@@ -9,15 +9,18 @@ export function buildUrlQuery(params) {
     return query;
 }
 
+// Lifted from https://github.com/wikimedia/mediawiki/blob/379b4656632befd16fcf61a3a0509b6d9be78d33/resources/src/mediawiki.base/mediawiki.base.js#L266-L276
+// Thanks Tgr!
 export function encodeWikiTitle(title) {
-    title = window.encodeURIComponent(title);
-
-    title = title.replace(/%20/g, '_')
-                 .replace(/'/g, '%27')
-                 .replace(/%3A/g, ':')
-                 .replace(/%2C/g, ',');
-
-    return title;
+    return encodeURIComponent(String(title))
+        .replace( /'/g, '%27' )
+        .replace( /%20/g, '_' )
+        .replace( /%3B/g, ';' )
+        .replace( /%40/g, '@' )
+        .replace( /%24/g, '$' )
+        .replace( /%2C/g, ',' )
+        .replace( /%2F/g, '/' )
+        .replace( /%3A/g, ':' );
 }
 
 export function getLocale(defaultLocale) {
