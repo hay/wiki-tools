@@ -1,5 +1,5 @@
 #!/bin/bash
-git rev-parse HEAD > ../version.txt
+git rev-parse HEAD > ../public_html/version.txt
 
 rsync --exclude .git --exclude config.php --exclude crawler.log --exclude node_modules --exclude cache -av --del ../* tools:tools
 
