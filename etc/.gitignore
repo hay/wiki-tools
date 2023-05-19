@@ -1,3 +1,4 @@
 *.json
 sparql.js
 *.log
+*.sql
