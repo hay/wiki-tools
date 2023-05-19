@@ -5,6 +5,7 @@ yarn.lock
 *.pyc
 yarn*.log
 *.js.map
+*.css.map
 bundle.js
 vendor/
 version.txt
