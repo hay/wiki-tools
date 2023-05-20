@@ -17,6 +17,13 @@
         visibility: hidden;
     }
 
+    &[disabled],
+    &[disabled] .icon,
+    &[is-disabled],
+    &[is-disabled] .icon {
+        opacity: .5;
+    }
+
     &--bare {
         background: none;
         border: 0;

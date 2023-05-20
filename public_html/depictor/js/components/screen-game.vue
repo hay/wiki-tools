@@ -50,12 +50,15 @@
 
                 <menu class="screen__actions">
                     <wm-button v-on:click="candidateDepicted"
+                               v-bind:disabled="lockActions"
                                icon="accept">{{$t('yes')}}</wm-button>
 
                     <wm-button v-on:click="candidateSkipped"
+                               v-bind:disabled="lockActions"
                                icon="skip">{{$t('skip')}}</wm-button>
 
                     <wm-button v-on:click="candidateNotDepicted"
+                               v-bind:disabled="lockActions"
                                icon="close">{{$t('no')}}</wm-button>
                 </menu>
 
@@ -101,12 +104,13 @@
     import { mapState } from 'vuex';
     import { encodeWikiTitle, loadImage } from '../util.js';
     import ElProgress from './el-progress.vue';
+    import log from '../log.js';
 
     export default {
         components : { ElProgress },
 
         computed : {
-            ...mapState([ 'candidate', 'item','loading']),
+            ...mapState([ 'candidate', 'item', 'loading', 'lockActions' ]),
 
             candidateImage() {
                 return this.showCandidateImage && this.$store.state.candidate ? this.$store.state.candidate.thumb : false;
@@ -202,6 +206,11 @@
             },
 
             keydown(e) {
+                if (this.lockActions) {
+                    log.debug('lockActions, ignore keypresses');
+                    return;
+                }
+
                 if (e.key === '1') {
                     this.candidateDepicted();
                 } else if (e.key === '2') {

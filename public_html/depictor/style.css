@@ -390,6 +390,9 @@ a {
 .wm-button[hidden] {
   visibility: hidden;
 }
+.wm-button[disabled], .wm-button[disabled] .icon, .wm-button[is-disabled], .wm-button[is-disabled] .icon {
+  opacity: 0.5;
+}
 .wm-button--bare {
   background: none;
   border: 0;

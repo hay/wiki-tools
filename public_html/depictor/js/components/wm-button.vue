@@ -1,4 +1,6 @@
 <script>
+    import log from '../log.js';
+
     export default {
         computed : {
             classes() {
@@ -14,11 +16,22 @@
 
         methods : {
             click() {
+                if (this.disabled) {
+                    log.debug('Button disabled');
+                    return;
+                }
+
                 this.$emit('click');
             }
         },
 
         props : {
+            disabled : {
+                default : false,
+                type : Boolean,
+                required : false
+            },
+
             flair : {
                 type : String,
                 required : false
@@ -62,6 +75,9 @@
                 this.type === 'anchor' ? 'a' : 'button',
                 {
                     class : this.classes,
+                    attrs : {
+                        'is-disabled' : this.disabled
+                    },
                     on : {
                         click : this.click
                     }

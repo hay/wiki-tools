@@ -39,6 +39,7 @@ export default function createStore(opts) {
             loading : false,
             locale : getLocale( DEFAULT_LOCALE ),
             locales : opts.locales,
+            lockActions : false,
             rootUrl: opts.rootUrl,
             query : {},
             screen : 'intro',
@@ -355,7 +356,11 @@ export default function createStore(opts) {
                     // First preload the image so we can lock the interface
                     // until the image is shown, preventing mashing the
                     // buttons and breaking the API (#127)
+                    log.debug(`Now loading candidate image '${candidate.title}`);
+                    state.lockActions = true;
                     const thumb = await api.getPreloadedImageThumb(candidate.title, IMAGE_SIZE);
+                    state.lockActions = false;
+                    log.debug(`Done '${candidate.title}`);
                     candidate.thumb = thumb;
 
                     commit('candidate', candidate);
