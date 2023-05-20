@@ -200,9 +200,14 @@
             },
 
             async handleCandidate(action) {
+                this.$store.commit('lockActions', true);
                 this.showCandidateImage = false;
                 await this.$store.dispatch('handleCandidate', action);
                 this.showAllImages();
+                // Failsafe, this is already done in handleCandidate,
+                // but we do it here again to make sure the actions
+                // don't stay locked
+                this.$store.commit('lockActions', false);
             },
 
             keydown(e) {

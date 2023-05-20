@@ -4,12 +4,15 @@ if [ $# -eq 0 ]
     echo "deploy-project <projectname>"
 fi
 
+echo "Building $1"
+npm run --prefix ../public_html/$1 dist
+
 echo "Deploying projectname '$1'"
 
 git rev-parse HEAD > ../public_html/version.txt
-rsync --exclude .git --exclude config.php --exclude crawler.log --exclude node_modules --exclude cache -av --del ../* tools:tools
+rsync --exclude .git --exclude config.php --exclude config-prod.php --exclude crawler.log --exclude node_modules --exclude cache -av --del ../* tools:tools
 
 # Copy files for the specific project
-ssh tools "cp -rv tools/public_html/$1 /data/project/hay/public_html/$1"
+ssh tools "cp -rv tools/public_html/$1/* /data/project/hay/public_html/$1/"
 
 say -v Fred "Deploy $1 complete"

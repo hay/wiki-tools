@@ -208,6 +208,10 @@ export default function createStore(opts) {
                 state.items = items;
             },
 
+            lockActions(state, lock) {
+                state.lockActions = lock;
+            },
+
             locale(state, locale) {
                 const url = new window.URL(window.location);
                 url.searchParams.set("locale", locale);

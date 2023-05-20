@@ -1,4 +1,5 @@
 crawler.log
 vendor
 config.php
+config-prod.php
 composer.lock
