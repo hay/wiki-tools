@@ -6,7 +6,7 @@ import Api from './api.js';
 import {
     DEFAULT_LOCALE, THUMB_SIZE, MAX_API_TRIES, MAX_API_CHECK_TRIES,
     IMAGE_SIZE, COMMONS_USER_PREFIX, MIN_CANDIDATES_FOR_CHALLENGE,
-    MIN_ITEMS_FOR_CHALLENGE
+    MIN_ITEMS_FOR_CHALLENGE, MAX_PRELOAD_BATCH
 } from './const.js';
 import log from './log.js';
 import { getLocale } from './util.js';
@@ -321,7 +321,12 @@ export default function createStore(opts) {
                 files = files.map((file) => {
                     file.done = status[file.mid];
                     return file;
-                })
+                });
+
+                // Let's just preload the first batch of images to speed
+                // things up
+                const titles = files.map(f => f.title).slice(0, MAX_PRELOAD_BATCH);
+                api.preloadImageBatch(titles, IMAGE_SIZE);
 
                 commit('candidates', files);
             },

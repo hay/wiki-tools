@@ -323,4 +323,10 @@ export default class Api {
         const req = await this.call('item-exists', { qid });
         return req.status;
     }
+
+    async preloadImageBatch(titles, size) {
+        for (const title of titles) {
+            await this.getPreloadedImageThumb(title, size);
+        }
+    }
 }
