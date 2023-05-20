@@ -1,3 +1,4 @@
+import { head } from 'lodash-es';
 import { randInt, sample, timeout } from 'donot';
 import Vue from 'vue'
 import Vuex from 'vuex'
@@ -338,7 +339,7 @@ export default function createStore(opts) {
                 // pick one of those, otherwise pick a new item
                 if (getters.hasRemainingCandidates) {
                     log.debug("Getting a new candidate");
-                    const candidate = sample(getters.remainingCandidates);
+                    const candidate = head(getters.remainingCandidates);
 
                     // Now get the proper thumbnail
                     const thumb = await api.getImageThumb(candidate.title, IMAGE_SIZE);
@@ -361,7 +362,7 @@ export default function createStore(opts) {
                     return;
                 }
 
-                const nextItem = sample(getters.remainingItems);
+                const nextItem = head(getters.remainingItems);
 
                 // Get more item info
                 let item;

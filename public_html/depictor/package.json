@@ -16,6 +16,7 @@
     "@babel/core": "^7.21.8",
     "chokidar-cli": "^2.1.0",
     "donot": "^0.4.1",
+    "lodash-es": "^4.17.21",
     "loglevel": "^1.8.1",
     "regenerator-runtime": "^0.13.11",
     "sass": "^1.62.1",
