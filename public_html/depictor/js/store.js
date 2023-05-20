@@ -380,9 +380,9 @@ export default function createStore(opts) {
                     return;
                 }
 
-                // #93 - switched this from 'sample' to 'head' to be
-                // able to preload images
-                const nextItem = head(getters.remainingItems);
+                // #93 - We're still making this random to prevent
+                // race conditions for multiple people using the same challenge
+                const nextItem = sample(getters.remainingItems);
 
                 // Get more item info
                 let item;

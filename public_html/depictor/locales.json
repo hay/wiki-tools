@@ -17,6 +17,10 @@
             "label": "français"
         },
         {
+            "code": "hi",
+            "label": "हिन्दी"
+        },
+        {
             "code": "mk",
             "label": "македонски јазик"
         },
@@ -325,6 +329,17 @@
             "year": "Année",
             "yes": "Oui"
         },
+        "hi": {
+            "app_description": "गेम जैसे इंटरफ़ेस का उपयोग करके विकिमीडिया कॉमन्स में संरचित डेटा विवरण जोड़ें",
+            "app_title": "डिपिक्टर ",
+            "archived": "संग्रहीत",
+            "archived_hint": "एक संग्रहीत चुनौती अभी भी करने योग्य है, लेकिन डिपिक्टर होमपेज पर नहीं दिखाई जाएगी।",
+            "back": "पीछे",
+            "birth_year": "जन्म वर्ष",
+            "challenge_lead_intro": "इस चुनौती का यह लक्ष्य है:",
+            "challenge_overview": "चुनौतियाँ",
+            "challenge_shortdescription_length": "विवरण में कम से कम {count} वर्ण होने चाहिए"
+        },
         "mk": {
             "app_description": "Додавајте искази со структурирани податоци на Ризницата користејќи игрива околина",
             "app_title": "Прикажувач",
@@ -477,7 +492,19 @@
             "yes": "Tak",
             "start": "Start",
             "optional": "Opcjonalnie",
-            "qid": "QID"
+            "qid": "QID",
+            "app_title": "Depictor",
+            "challenge_userlink": "To wyzwanie utworzył {user}.",
+            "create_challenge_not_possible": "Tworzenie wyzwania na podstawie tego zapytania nie jest możliwe.",
+            "editcount": "{count} edycji",
+            "itemcount_label": "{count} elementów",
+            "is_depicted": "Czy {label} jest przedstawiony na tym obrazie?",
+            "query_type": "Typ zapytania",
+            "query_value": "Wartość zapytania",
+            "sparql_query": "Zapytanie SPARQL",
+            "loading_images": "Ładowanie obrazów...",
+            "leaderboard": "Tablica wyników",
+            "global_leaderboard": "Globalna tablica wyników"
         },
         "pt": {
             "app_description": "Adicione declarações de dados estruturados ao Wikimedia Commons usando um interface semelhante a um jogo",
