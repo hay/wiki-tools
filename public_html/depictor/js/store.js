@@ -348,11 +348,14 @@ export default function createStore(opts) {
                     if (getters.remainingCandidates.length > 1) {
                         const nextCandidate = getters.remainingCandidates.at(1);
                         log.debug(`Preloading nextCandidate image '${nextCandidate.title}'`);
-                        api.preloadImageThumb(nextCandidate.title, IMAGE_SIZE);
+                        api.getPreloadedImageThumb(nextCandidate.title, IMAGE_SIZE);
                     }
 
                     // Now get the proper thumbnail
-                    const thumb = await api.getImageThumb(candidate.title, IMAGE_SIZE);
+                    // First preload the image so we can lock the interface
+                    // until the image is shown, preventing mashing the
+                    // buttons and breaking the API (#127)
+                    const thumb = await api.getPreloadedImageThumb(candidate.title, IMAGE_SIZE);
                     candidate.thumb = thumb;
 
                     commit('candidate', candidate);

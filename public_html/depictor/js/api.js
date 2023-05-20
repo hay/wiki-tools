@@ -144,6 +144,25 @@ export default class Api {
         return api.getImageThumb(title, width);
     }
 
+    // Same as getImageThumb, but also preloads the image
+    getPreloadedImageThumb(title, width) {
+        return new Promise((resolve, reject) => {
+            const api = new CommonsApi(this.locale);
+            api.getImageThumb(title, width).then((url) => {
+                const img = new Image();
+
+                img.addEventListener('load', () => {
+                    log.debug(`Loaded ${title}`);
+
+                    // Also return URL
+                    resolve(url);
+                });
+
+                img.src = url;
+            });
+        });
+    }
+
     // Note difference with the plural (itemS) function
     async getItemByCommonsCategory(category) {
         const sparql = `
@@ -303,12 +322,5 @@ export default class Api {
     async itemExists(qid) {
         const req = await this.call('item-exists', { qid });
         return req.status;
-    }
-
-    async preloadImageThumb(title, width) {
-        const api = new CommonsApi(this.locale);
-        const url = await api.getImageThumb(title, width);
-        const img = new Image();
-        img.src = url;
     }
 }
