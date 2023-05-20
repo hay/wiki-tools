@@ -338,8 +338,18 @@ export default function createStore(opts) {
                 // First check if there are remaining candidates, and if so,
                 // pick one of those, otherwise pick a new item
                 if (getters.hasRemainingCandidates) {
-                    log.debug("Getting a new candidate");
+                    // #93 - switched this from 'sample' to 'head' to be
+                    // able to preload images
                     const candidate = head(getters.remainingCandidates);
+                    log.debug(`Got new candidate '${candidate.title}'`);
+
+                    // Preload the next image if we have more than one
+                    // remaining candidate
+                    if (getters.remainingCandidates.length > 1) {
+                        const nextCandidate = getters.remainingCandidates.at(1);
+                        log.debug(`Preloading nextCandidate image '${nextCandidate.title}'`);
+                        api.preloadImageThumb(nextCandidate.title, IMAGE_SIZE);
+                    }
 
                     // Now get the proper thumbnail
                     const thumb = await api.getImageThumb(candidate.title, IMAGE_SIZE);
@@ -362,6 +372,8 @@ export default function createStore(opts) {
                     return;
                 }
 
+                // #93 - switched this from 'sample' to 'head' to be
+                // able to preload images
                 const nextItem = head(getters.remainingItems);
 
                 // Get more item info

@@ -304,4 +304,11 @@ export default class Api {
         const req = await this.call('item-exists', { qid });
         return req.status;
     }
+
+    async preloadImageThumb(title, width) {
+        const api = new CommonsApi(this.locale);
+        const url = await api.getImageThumb(title, width);
+        const img = new Image();
+        img.src = url;
+    }
 }
