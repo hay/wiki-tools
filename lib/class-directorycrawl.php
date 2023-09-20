@@ -77,7 +77,11 @@ class DirectoryCrawl {
                     $record->added = date("c");
                 }
 
-                $record->update($tool);
+                try {
+                    $record->update($tool);
+                } catch (Exception $e) {
+                    $this->log("Could not update $name because of a database exception");
+                }
             }
         }
 
