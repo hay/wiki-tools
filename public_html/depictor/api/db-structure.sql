@@ -1,13 +1,13 @@
 # ************************************************************
 # Sequel Ace SQL dump
-# Version 3038
+# Version 20056
 #
 # https://sequel-ace.com/
 # https://github.com/Sequel-Ace/Sequel-Ace
 #
-# Host: localhost (MySQL 5.7.32)
-# Database: wikitools
-# Generation Time: 2021-08-24 12:02:23 +0000
+# Host: tools-db (MySQL 5.5.5-10.4.29-MariaDB-log)
+# Database: s51409__hay
+# Generation Time: 2023-11-04 12:47:46 +0000
 # ************************************************************
 
 
@@ -18,6 +18,28 @@ SET NAMES utf8mb4;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE='NO_AUTO_VALUE_ON_ZERO', SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+# Dump of table depictor_challenges
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `depictor_challenges`;
+
+CREATE TABLE `depictor_challenges` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `querytype` varchar(32) DEFAULT NULL,
+  `queryvalue` text DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `short_description` varchar(150) DEFAULT '',
+  `long_description` text DEFAULT NULL,
+  `user` varchar(255) DEFAULT NULL,
+  `created` varchar(32) DEFAULT NULL,
+  `itemcount` int(11) DEFAULT NULL,
+  `archived` tinyint(1) DEFAULT NULL,
+  `last_edit` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 
 
 # Dump of table depictor_files
@@ -33,8 +55,9 @@ CREATE TABLE `depictor_files` (
   `status` enum('depicted','not-depicted','user-skipped','prominently-depicted') DEFAULT NULL,
   `timestamp` varchar(32) DEFAULT NULL,
   `user` varchar(255) DEFAULT NULL,
+  `challenge` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 
@@ -50,7 +73,7 @@ CREATE TABLE `depictor_items` (
   `timestamp` varchar(32) DEFAULT NULL,
   `user` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 
