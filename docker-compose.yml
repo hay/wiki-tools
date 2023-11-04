@@ -15,6 +15,7 @@ services:
       - ./lib:/var/www/lib
       - ./templates:/var/www/templates
       - ./cache:/var/www/cache
+      - ./.docker-compose:/var/www/.docker-compose
       - ./.docker-compose/php.ini:/usr/local/etc/php/conf.d/extras.ini
   mysql:
     image: mysql:8.0
