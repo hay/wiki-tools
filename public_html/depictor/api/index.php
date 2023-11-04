@@ -13,7 +13,7 @@
 
     $oauth = new OAuth([
         "mockLogin" => DEBUG,
-        "endpoint" => OAUTH_COMMONS_ENDPOINT,
+        "endpoint" => OAUTH_ENDPOINT,
         "apiEndpoint" => COMMONS_ENDPOINT,
         "consumer_key" => OAUTH_DEPICTOR["consumer_key"],
         "consumer_secret" => OAUTH_DEPICTOR["consumer_secret"]
