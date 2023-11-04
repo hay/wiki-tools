@@ -111,6 +111,7 @@
 
             async handleCandidate(action) {
                 this.$store.commit('lockActions');
+                this.summary = null;
                 this.showCandidateImage = false;
                 await this.$store.dispatch('handleCandidate', action);
                 this.showAllImages();
@@ -140,6 +141,7 @@
             async skipItem() {
                 this.$store.commit('lockActions');
                 this.showCandidateImage = false;
+                this.summary = null;
                 this.showItemImage = false;
                 this.$store.commit('itemDone', this.$store.state.item.qid);
                 await this.$store.dispatch("nextItem");

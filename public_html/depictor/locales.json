@@ -221,7 +221,6 @@
             "translate_this_tool": "Translate this tool",
             "yes": "Yes",
             "no": "No",
-            "is_depicted": "Is <strong>{label}</strong> depicted in this image?",
             "login_error_try_again": "Something went wrong during login. Please try again.",
             "try_again": "Try again",
             "search_deepcat_input": "Search subcategories of this category for a depth level of:",
@@ -256,7 +255,9 @@
             "challenge_shortdescription_length": "Description needs to be at least {count} characters",
             "editcount": "{count} edits",
             "show_all_challenges": "Show all {count} challenges",
-            "help": "Help"
+            "help": "Help",
+            "is_depicted": "Is <strong>{label}</strong> clearly depicted in this image?",
+            "get_summary": "Get summary"
         },
         "fr": {
             "app_description": "Ajoutez des déclarations de données structurées à Wikimedia Commons à l'aide d'une interface de type jeu",
@@ -445,7 +446,6 @@
             "start": "Start",
             "translate_this_tool": "Vertaal deze applicatie",
             "year": "Jaar",
-            "is_depicted": "Is {label} afgebeeld op deze afbeelding?",
             "login_error_try_again": "Er ging iets mis tijdens het inloggen. Probeer het nog eens.",
             "try_again": "Probeer nogmaals",
             "yes": "Ja",
@@ -454,7 +454,9 @@
             "birth_year": "Geboortejaar",
             "search_deepcat_input": "Doorzoek subcategorieën van deze categorie tot een diepte van:",
             "language": "Taal",
-            "pct_complete": "{pct}% compleet"
+            "pct_complete": "{pct}% compleet",
+            "is_depicted": "Is {label} duidelijk afgebeeld op deze afbeelding?",
+            "get_summary": "Toon samenvatting"
         },
         "pl": {
             "archived": "Zarchiwizowane",
