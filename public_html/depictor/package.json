@@ -3,14 +3,15 @@
   "version": "0.1.0",
   "main": "index.js",
   "engines": {
-    "node" : ">=16.0.0 <17.0.0"
+    "node": ">=16.0.0 <17.0.0"
   },
   "scripts": {
     "build": "npm run build:js && npm run build:css",
     "build:css": "npm run build:sass",
-    "build:js": "webpack -d",
+    "build:js": "NODE_ENV=development webpack -d",
     "build:sass": "sass scss/style.scss style.css",
-    "dist": "npm run update-locales && npm run build:css && webpack -p",
+    "dist": "npm run update-locales && npm run build:css && npm run dist:js",
+    "dist:js" : "NODE_ENV=production webpack -p",
     "postinstall": "npm run build",
     "update-locales": "node etc/update-locales.js",
     "watch": "chokidar '../common/*.scss' 'scss/*.scss' -c 'npm run build:css' & webpack -dw"
@@ -29,9 +30,11 @@
     "vuex": "^3.6.2"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.23.2",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.3.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
     "css-loader": "^3.6.0",

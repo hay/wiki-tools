@@ -1,6 +1,14 @@
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
+const plugins = [];
+
+console.log('NODE_ENV', process.env.NODE_ENV);
+
+if (process.env.NODE_ENV === 'production') {
+    plugins.push('babel-plugin-transform-remove-console');
+}
+
 module.exports = {
     entry: [
         './js/app.js'
@@ -11,7 +19,11 @@ module.exports = {
                 test : /\.js$/,
                 exclude : /node_modules/,
                 use : {
-                    loader : 'babel-loader'
+                    loader : 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env'],
+                        plugins : plugins
+                    }
                 }
             },
             {
