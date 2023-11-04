@@ -58,7 +58,14 @@ class DirectoryCrawl {
                     continue;
                 }
 
-                if ($this->api->hasToolByName($name)) {
+                try {
+                    $hasTool = $this->api->hasToolByName($name);
+                } catch (Exception $e) {
+                    $this->log("Could not update $name because of a database exception");
+                    continue;
+                }
+
+                if ($hasTool) {
                     $this->log("'$name' already in database, updating values");
 
                     $record = $this->api->getToolByName($name);
