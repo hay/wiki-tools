@@ -95,7 +95,7 @@ export default class Api {
             "action": "wbgetentities",
             "ids": qid,
             "languages": this.locale,
-            "props": "claims|descriptions|labels",
+            "props": "claims|descriptions|labels|sitelinks",
             "format": "json"
         });
 
@@ -113,12 +113,18 @@ export default class Api {
             thumb = commonsApi.getThumb(file, THUMB_SIZE);
         }
 
+        const sitelinkCode = `${this.locale}wiki`;
+        const hasSitelink = item.sitelinks && item.sitelinks[sitelinkCode];
+        const sitelinkTitle = hasSitelink ? item.sitelinks[sitelinkCode].title : null;
+
         return {
             _item : item,
             description : this.locale in item.descriptions ? item.descriptions[this.locale].value : null,
+            hasSitelink : hasSitelink,
             id : qid,
             label : this.locale in item.labels ? item.labels[this.locale].value : null,
             qid : qid,
+            sitelinkTitle : sitelinkTitle,
             thumb : thumb,
             url : `https://www.wikidata.org/wiki/${qid}`
         };
