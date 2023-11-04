@@ -1,6 +1,4 @@
 <script>
-    import log from '../log.js';
-
     export default {
         computed : {
             classes() {
@@ -17,7 +15,7 @@
         methods : {
             click() {
                 if (this.disabled) {
-                    log.debug('Button disabled');
+                    console.log('Button disabled');
                     return;
                 }
 

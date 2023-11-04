@@ -14,7 +14,7 @@
     "dist:js" : "NODE_ENV=production webpack -p",
     "postinstall": "npm run build",
     "update-locales": "node etc/update-locales.js",
-    "watch": "chokidar '../common/*.scss' 'scss/*.scss' -c 'npm run build:css' & webpack -dw"
+    "watch": "chokidar '../common/*.scss' 'scss/*.scss' -c 'npm run build:css' & NODE_ENV=development webpack -dw"
   },
   "dependencies": {
     "@babel/core": "^7.21.8",

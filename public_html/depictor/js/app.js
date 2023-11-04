@@ -4,7 +4,6 @@ import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import App from './components/app.vue';
 import WmButton from './components/wm-button.vue';
-import log from './log.js';
 import createStore from './store.js';
 import { test } from './test.js';
 
@@ -16,10 +15,7 @@ async function createApp() {
     const ctx = window.__ctx__;
 
     if (ctx.isDebug) {
-        log.setLevel("trace");
-        log.debug("In debug mode");
-    } else {
-        log.setLevel("warn");
+        console.log("In debug mode");
     }
 
     const storeOptions = Object.assign(window.__ctx__, {
@@ -37,7 +33,7 @@ async function createApp() {
     Vue.component('wm-button', WmButton);
 
     Vue.config.errorHandler = function(err) {
-        log.error(err);
+        console.error(err);
     }
 
     new Vue({

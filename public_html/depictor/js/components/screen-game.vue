@@ -104,7 +104,6 @@
     import { mapState } from 'vuex';
     import { encodeWikiTitle, loadImage } from '../util.js';
     import ElProgress from './el-progress.vue';
-    import log from '../log.js';
 
     export default {
         components : { ElProgress },
@@ -212,7 +211,7 @@
 
             keydown(e) {
                 if (this.lockActions) {
-                    log.debug('lockActions, ignore keypresses');
+                    console.log('lockActions, ignore keypresses');
                     return;
                 }
 

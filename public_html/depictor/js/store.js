@@ -8,7 +8,6 @@ import {
     IMAGE_SIZE, COMMONS_USER_PREFIX, MIN_CANDIDATES_FOR_CHALLENGE,
     MIN_ITEMS_FOR_CHALLENGE, MAX_PRELOAD_BATCH
 } from './const.js';
-import log from './log.js';
 import { getLocale } from './util.js';
 
 Vue.use(Vuex);
@@ -209,7 +208,7 @@ export default function createStore(opts) {
             },
 
             lockActions(state) {
-                log.debug('🔒 Lock actions');
+                console.log('🔒 Lock actions');
                 state.lockActions = true;
             },
 
@@ -238,14 +237,14 @@ export default function createStore(opts) {
             },
 
             unlockActions(state) {
-                log.debug('🔓 Unlock actions');
+                console.log('🔓 Unlock actions');
                 state.lockActions = false;
             }
         },
 
         actions : {
             async challenge({ commit, dispatch }, { id, action }) {
-                log.debug('challenge', { id, action });
+                console.log('challenge', { id, action });
                 const challenge = await api.getChallenge(id);
                 commit('challenge', challenge);
 
@@ -298,7 +297,7 @@ export default function createStore(opts) {
                 try {
                     await api.addFile(opts);
                 } catch (e) {
-                    log.error(e);
+                    console.error(e);
 
                     commit(
                         "errorMessage",
@@ -357,13 +356,13 @@ export default function createStore(opts) {
                     // #93 - switched this from 'sample' to 'head' to be
                     // able to preload images
                     const candidate = head(getters.remainingCandidates);
-                    log.debug(`Got new candidate '${candidate.title}'`);
+                    console.log(`Got new candidate '${candidate.title}'`);
 
                     // Preload the next image if we have more than one
                     // remaining candidate
                     if (getters.remainingCandidates.length > 1) {
                         const nextCandidate = getters.remainingCandidates.at(1);
-                        log.debug(`Preloading nextCandidate image '${nextCandidate.title}'`);
+                        console.log(`Preloading nextCandidate image '${nextCandidate.title}'`);
                         api.getPreloadedImageThumb(nextCandidate.title, IMAGE_SIZE);
                     }
 
@@ -371,16 +370,16 @@ export default function createStore(opts) {
                     // First preload the image so we can lock the interface
                     // until the image is shown, preventing mashing the
                     // buttons and breaking the API (#127)
-                    log.debug(`Now loading candidate image '${candidate.title}`);
+                    console.log(`Now loading candidate image '${candidate.title}`);
                     commit('lockActions');
                     const thumb = await api.getPreloadedImageThumb(candidate.title, IMAGE_SIZE);
                     commit('unlockActions');
-                    log.debug(`Done '${candidate.title}`);
+                    console.log(`Done '${candidate.title}`);
                     candidate.thumb = thumb;
 
                     commit('candidate', candidate);
                 } else {
-                    log.debug('No more candidates, getting new item');
+                    console.log('No more candidates, getting new item');
 
                     // Set item to done
                     commit('lockActions');
@@ -392,7 +391,7 @@ export default function createStore(opts) {
 
             async nextItem({ commit, getters, dispatch }) {
                 if (!getters.hasRemainingItems) {
-                    log.debug('No more remaining items');
+                    console.log('No more remaining items');
                     commit('errorMessage', 'Seems there are no more items to process. Try again with a different query.');
                     return;
                 }
@@ -407,12 +406,12 @@ export default function createStore(opts) {
                 try {
                     item = await api.getCandidateItem(nextItem.qid);
                 } catch (e) {
-                    log.debug(e);
+                    console.log(e);
                     return;
                 }
 
                 if (!api.isValidItem(item)) {
-                    log.debug(`Item ${item.qid} is invalid, skipping`);
+                    console.log(`Item ${item.qid} is invalid, skipping`);
 
                     // Note how we only commit, not dispatch, so that the
                     // DB doesn't get cluttered with items without labels and the like
@@ -428,7 +427,7 @@ export default function createStore(opts) {
                         nextItem.qid, nextItem.category
                     );
                 } catch (e) {
-                    log.debug(`Could not get candidates for ${nextItem.qid}`);
+                    console.log(`Could not get candidates for ${nextItem.qid}`);
                     await dispatch('itemDone', nextItem.qid);
                     dispatch('nextItem');
                     return;
@@ -439,12 +438,12 @@ export default function createStore(opts) {
                 commit('category', nextItem.category);
 
                 // All went well, let's get out of the loop
-                log.debug('Got candidates and item');
+                console.log('Got candidates and item');
                 await dispatch("nextCandidate");
             },
 
             async query({ commit, dispatch }, query) {
-                log.debug('query', query);
+                console.log('query', query);
                 const { type, value } = query;
                 commit('isLoading');
 
@@ -452,7 +451,7 @@ export default function createStore(opts) {
 
                 if (type === 'year') {
                     items = await api.getPeopleByBirthyear(value).catch((err) => {
-                        log.error(err);
+                        console.error(err);
                         commit('errorMessage', 'Invalid birth year');
                     });
                 } else if (type === 'category') {
@@ -463,14 +462,14 @@ export default function createStore(opts) {
                         items = await api
                             .getItemsByCommonsCategory(value, parseInt(depth))
                             .catch((err) => {
-                                log.error(err);
+                                console.error(err);
                                 commit("errorMessage", "Invalid category or depth");
                             });
                     } else {
                         items = await api
                             .getItemByCommonsCategory(value)
                             .catch((err) => {
-                                log.error(err);
+                                console.error(err);
                                 commit('errorMessage', 'Invalid category');
                             });
                     }
@@ -478,16 +477,16 @@ export default function createStore(opts) {
                     // This is mainly used for debugging and testing purposes,
                     // hence it's not available in the main interface
                     items = await api.getItemByQid(value).catch((err) => {
-                        log.error(err);
+                        console.error(err);
                         commit('errorMessage', 'Invalid QID');
                     });;
                 } else if (type === 'sparql') {
                     items = await api.getItemsWithSparql(value).catch((err) => {
-                        log.error(err);
+                        console.error(err);
                         commit('errorMessage', 'The SPARQL query was invalid.');
                     });
                 } else {
-                    log.error('No valid query options');
+                    console.error('No valid query options');
                     commit("errorMessage", "No valid query options");
                     return;
                 }

@@ -1,6 +1,5 @@
 import { getJson } from 'donot';
 import { IMAGE_SIZE, LOCAL_API_ENDPOINT, THUMB_SIZE} from './const.js';
-import log from './log.js';
 import { buildUrlQuery, postJson } from './util.js';
 import CommonsApi from './mwapi/commons.js';
 import WikidataApi from './mwapi/wikidata.js';
@@ -101,7 +100,7 @@ export default class Api {
         });
 
         if (req.error) {
-            log.error(req.error);
+            console.error(req.error);
             return null;
         }
 
@@ -152,7 +151,7 @@ export default class Api {
                 const img = new Image();
 
                 img.addEventListener('load', () => {
-                    log.debug(`Loaded ${title}`);
+                    console.log(`Loaded ${title}`);
 
                     // Also return URL
                     resolve(url);
@@ -279,19 +278,19 @@ export default class Api {
     // and are not a category themselves
     isValidItem(item) {
         if (!item.thumb) {
-            log.debug(`candidateItem ${item.qid} has no thumb`);
+            console.log(`candidateItem ${item.qid} has no thumb`);
             return false;
         }
 
         if (!item.label) {
-            log.debug(`candidateItem ${item.qid} has no label in the given language`);
+            console.log(`candidateItem ${item.qid} has no label in the given language`);
             return false;
         }
 
         const claims = item._item.claims;
 
         if (!("P373" in claims)) {
-            log.debug(`candidateItem ${item.qid} has no category`);
+            console.log(`candidateItem ${item.qid} has no category`);
             return false;
         }
 
@@ -299,7 +298,7 @@ export default class Api {
             for (const claim of claims.P31) {
                 // Item should not be a category!
                 if (claim.mainsnak.datavalue.value.id === "Q4167836") {
-                    log.debug(`candidateItem ${item.qid} is a category`);
+                    console.log(`candidateItem ${item.qid} is a category`);
                     return false;
                 }
             }
