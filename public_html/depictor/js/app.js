@@ -34,7 +34,6 @@ async function createApp() {
         silentTranslationWarn : !store.state.isDebug
     });
 
-
     Vue.component('wm-button', WmButton);
 
     Vue.config.errorHandler = function(err) {

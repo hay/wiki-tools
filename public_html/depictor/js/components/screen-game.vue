@@ -200,14 +200,14 @@
             },
 
             async handleCandidate(action) {
-                this.$store.commit('lockActions', true);
+                this.$store.commit('lockActions');
                 this.showCandidateImage = false;
                 await this.$store.dispatch('handleCandidate', action);
                 this.showAllImages();
                 // Failsafe, this is already done in handleCandidate,
                 // but we do it here again to make sure the actions
                 // don't stay locked
-                this.$store.commit('lockActions', false);
+                this.$store.commit('unlockActions');
             },
 
             keydown(e) {
@@ -228,11 +228,13 @@
             },
 
             async skipItem() {
+                this.$store.commit('lockActions');
                 this.showCandidateImage = false;
                 this.showItemImage = false;
                 this.$store.commit('itemDone', this.$store.state.item.qid);
                 await this.$store.dispatch("nextItem");
                 this.showAllImages();
+                this.$store.commit('unlockActions');
             },
 
             async showAllImages() {

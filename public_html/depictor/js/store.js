@@ -208,8 +208,9 @@ export default function createStore(opts) {
                 state.items = items;
             },
 
-            lockActions(state, lock) {
-                state.lockActions = lock;
+            lockActions(state) {
+                log.debug('🔒 Lock actions');
+                state.lockActions = true;
             },
 
             locale(state, locale) {
@@ -234,6 +235,11 @@ export default function createStore(opts) {
 
             screen(state, screen) {
                 state.screen = screen;
+            },
+
+            unlockActions(state) {
+                log.debug('🔓 Unlock actions');
+                state.lockActions = false;
             }
         },
 
@@ -366,9 +372,9 @@ export default function createStore(opts) {
                     // until the image is shown, preventing mashing the
                     // buttons and breaking the API (#127)
                     log.debug(`Now loading candidate image '${candidate.title}`);
-                    state.lockActions = true;
+                    commit('lockActions');
                     const thumb = await api.getPreloadedImageThumb(candidate.title, IMAGE_SIZE);
-                    state.lockActions = false;
+                    commit('unlockActions');
                     log.debug(`Done '${candidate.title}`);
                     candidate.thumb = thumb;
 
@@ -377,8 +383,10 @@ export default function createStore(opts) {
                     log.debug('No more candidates, getting new item');
 
                     // Set item to done
+                    commit('lockActions');
                     await dispatch('itemDone', state.item.id);
                     await dispatch("nextItem");
+                    commit('unlockActions');
                 }
             },
 
