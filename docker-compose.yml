@@ -1,0 +1,33 @@
+version: '3'
+
+# Requires define('ROOT', '//localhost:4080/');
+
+services:
+  web:
+    build:
+      context: ./.docker-compose
+      dockerfile: Dockerfile-web
+    ports:
+      - "4080:80"
+    user: "1000:1000"
+    volumes:
+      - ./public_html:/var/www/html
+      - ./lib:/var/www/lib
+      - ./templates:/var/www/templates
+      - ./cache:/var/www/cache
+      - ./.docker-compose:/var/www/.docker-compose
+      - ./.docker-compose/php.ini:/usr/local/etc/php/conf.d/extras.ini
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./public_html/directory/dbstructure.sql:/docker-entrypoint-initdb.d/01-main.sql
+      - ./public_html/depictor/api/db-structure.sql:/docker-entrypoint-initdb.d/02-depictor.sql
+
+volumes:
+  mysql-data:

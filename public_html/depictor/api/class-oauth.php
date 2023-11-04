@@ -33,8 +33,8 @@
             $this->mockLogin = $opts["mockLogin"] ?? false;
 
             $this->endpoint = $opts["endpoint"];
-            $this->oauthEndpoint = $this->endpoint . "/w/index.php?title=Special:OAuth";
-            $this->apiEndpoint = $this->endpoint . "/w/api.php";
+            $this->oauthEndpoint = ( $opts["oauthEndpoint"] ?? $this->endpoint ) . "/w/index.php?title=Special:OAuth";
+            $this->apiEndpoint = ( $opts["apiEndpoint"] ?? $this->endpoint ) . "/w/api.php";
             $this->setupClient($opts);
             $this->userState = $this->getUserState();
 
@@ -77,7 +77,6 @@
             $this->assertLogin();
             $req = $this->requestGet("action=query&meta=tokens&format=json");
             $data = json_decode($req);
-
             return $data->query->tokens->csrftoken;
         }
 
