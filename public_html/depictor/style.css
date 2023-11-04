@@ -369,6 +369,9 @@ a {
 .icon[data-icon=help] {
   background-image: url("img/icon-help.svg");
 }
+.icon[data-icon=info] {
+  background-image: url("img/icon-info.svg");
+}
 
 .wm-button {
   --c-1: #36c;
@@ -591,6 +594,12 @@ html.has-mouse .wm-button--dark:hover, html.has-mouse .wm-button--darklink:hover
 }
 .reference__description {
   font-size: 1.6rem;
+}
+.reference__summary {
+  font-size: 1.4rem;
+  padding: 1rem;
+  background: var(--c-2);
+  margin: 1rem 0;
 }
 @media (min-width: 768px) {
   .reference {

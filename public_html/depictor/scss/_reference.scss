@@ -26,6 +26,13 @@
         font-size: 1.6rem;
     }
 
+    &__summary {
+        font-size: 1.4rem;
+        padding: 1rem;
+        background: var(--c-2);
+        margin: 1rem 0;
+    }
+
     @include respond-from($screen-sm) {
         // Bigger ref image on desktop
         grid-template-columns: 25rem 1fr;

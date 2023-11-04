@@ -194,14 +194,15 @@
                         <em>{{ref.description}}</em>
                     </p>
 
-                    <button
+                    <wm-button
                         v-if="ref.hasSitelink && !summary"
-                        v-on:click="getSummary(ref.sitelinkTitle)">
-                        Get Summary
-                    </button>
+                        v-on:click="getSummary(ref.sitelinkTitle)"
+                        flair="bare"
+                        icon="info">{{$t('get_summary')}}</wm-button>
 
-                    <p v-if="summary"
-                       v-html="summary" />
+                    <div v-if="summary"
+                         class="reference__summary"
+                         v-html="summary" />
 
                     <wm-button v-on:click="skipItem"
                                class="reference__skipbutton"
