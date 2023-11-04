@@ -7,11 +7,11 @@
 
         <wm-button
             v-on:click="start"
-            flair="primary">{{$t("start")}}</wm-button>
+            flair="default,primary">{{$t("start")}}</wm-button>
 
         <wm-button
             icon="cog"
-            flair="bare"
+            flair="default,bare"
             v-on:click="toggleAdvancedOptions">
             <span v-if="showAdvancedOptions">{{$t("hide_advanced_options")}}</span>
             <span v-if="!showAdvancedOptions">{{$t("show_advanced_options")}}</span>
