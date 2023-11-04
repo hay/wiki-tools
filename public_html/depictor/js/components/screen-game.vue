@@ -194,7 +194,8 @@
 
                     <p class="reference__description">
                         <em>
-                            {{ref.description}}.
+                            {{ref.description}}
+                            <span v-if="ref.description">.</span>
                             <button
                                 v-if="ref.hasSitelink && !summary"
                                 class="reference__summary-btn"
