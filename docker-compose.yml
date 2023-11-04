@@ -1,0 +1,15 @@
+version: '3'
+
+# Requires define('ROOT', '//localhost:4080/');
+
+services:
+  web:
+    image: php:8.1-apache
+    ports:
+      - "4080:80"
+    user: "1000:1000"
+    volumes:
+      - ./public_html:/var/www/html
+      - ./lib:/var/www/lib
+      - ./templates:/var/www/templates
+      - ./cache:/var/www/cache
