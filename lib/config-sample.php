@@ -17,4 +17,8 @@
         "consumer_key" => "xxx",
         "consumer_secret" => "xxx"
     ]);
-    define('OAUTH_COMMONS_ENDPOINT', "https://commons.wikimedia.org");
+
+    // These two should probably be the same, except if you want to
+    // use a different server for authentication
+    define('OAUTH_ENDPOINT', "https://commons.wikimedia.org");
+    define('COMMONS_ENDPOINT', "https://commons.wikimedia.org");
