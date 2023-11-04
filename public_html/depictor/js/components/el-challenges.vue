@@ -39,7 +39,7 @@
             v-show="!showAll && challenges.length > maxItems"
             class="leaderboard__button"
             icon="eye"
-            flair="bare"
+            flair="default,bare"
             v-on:click="showAll = true">
             {{$t('show_all_challenges', { count : challenges.length })}}</wm-button>
     </div>

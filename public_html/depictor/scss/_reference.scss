@@ -33,6 +33,13 @@
         margin: 1rem 0;
     }
 
+    &__summary-btn {
+        display: contents;
+        color: var(--c-1);
+        text-decoration: underline;
+        font-style: normal;
+    }
+
     @include respond-from($screen-sm) {
         // Bigger ref image on desktop
         grid-template-columns: 25rem 1fr;

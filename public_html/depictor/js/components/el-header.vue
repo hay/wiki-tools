@@ -6,7 +6,7 @@
                 v-show="!showLangselect"
                 v-bind:href="homeLink"
                 type="anchor"
-                flair="bare"
+                flair="default,bare"
                 icon="arrow-left">{{$t('start')}}</wm-button>
 
             <el-language-selector
@@ -21,7 +21,7 @@
                 v-if="isLoggedIn"
                 v-show="!showLangselect"
                 type="anchor"
-                flair="bare"
+                flair="default,bare"
                 class="el-header__username"
                 v-bind:href="userPage"
                 target="_blank"
@@ -30,7 +30,7 @@
             <wm-button
                 v-show="!showLangselect"
                 icon="help"
-                flair="bare"
+                flair="default,bare"
                 type="anchor"
                 href="https://commons.wikimedia.org/wiki/Commons:Depictor">
                 {{$t("help")}}
@@ -40,7 +40,7 @@
                 v-if="isLoggedIn"
                 v-show="!showLangselect"
                 icon="logout"
-                flair="bare"
+                flair="default,bare"
                 type="anchor"
                 href="index.php?logout=1">{{$t("log_out")}}</wm-button>
         </menu>
@@ -65,7 +65,7 @@
                 <wm-button
                     href="index.php"
                     type="anchor"
-                    flair="primary">{{$t('proceed')}}</wm-button>
+                    flair="default,primary">{{$t('proceed')}}</wm-button>
             </template>
 
             <template v-else-if="isLoggedOut">
@@ -76,7 +76,7 @@
                 <wm-button
                    v-bind:href="authUrl"
                    type="anchor"
-                   flair="primary">{{$t('log_in')}}</wm-button>
+                   flair="default,primary">{{$t('log_in')}}</wm-button>
             </template>
 
             <template v-else>
@@ -86,7 +86,7 @@
                 </p>
 
                 <wm-button
-                    flair="primary"
+                    flair="default,primary"
                     type="anchor"
                     href="index.php?logout=1">{{$t("try_again")}}</wm-button>
             </template>

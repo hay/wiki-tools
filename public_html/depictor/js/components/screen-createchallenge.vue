@@ -2,7 +2,7 @@
     <div class="screen screen--challenge">
         <wm-button
             v-on:click="back"
-            flair="bare"
+            flair="default,bare"
             icon="arrow-left">
             {{$t('back')}}
         </wm-button>

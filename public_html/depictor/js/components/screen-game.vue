@@ -193,14 +193,15 @@
                     </p>
 
                     <p class="reference__description">
-                        <em>{{ref.description}}</em>
+                        <em>
+                            {{ref.description}}.
+                            <button
+                                v-if="ref.hasSitelink && !summary"
+                                class="reference__summary-btn"
+                                v-on:click="getSummary(ref.sitelinkTitle)">
+                                {{$t('get_summary')}}</button>
+                        </em>
                     </p>
-
-                    <wm-button
-                        v-if="ref.hasSitelink && !summary"
-                        v-on:click="getSummary(ref.sitelinkTitle)"
-                        flair="bare"
-                        icon="info">{{$t('get_summary')}}</wm-button>
 
                     <div v-if="summary"
                          class="reference__summary"
@@ -209,7 +210,7 @@
                     <wm-button v-on:click="skipItem"
                                class="reference__skipbutton"
                                icon="skip"
-                               flair="bare">{{$t('skip_item')}}</wm-button>
+                               flair="default,bare">{{$t('skip_item')}}</wm-button>
                 </figcaption>
             </figure>
 

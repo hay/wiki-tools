@@ -5,7 +5,9 @@
                 const classes = ['wm-button'];
 
                 if (this.flair) {
-                    classes.push(`wm-button--${this.flair}`);
+                    this.flair.split(',').forEach((flair) => {
+                        classes.push(`wm-button--${flair}`);
+                    });
                 }
 
                 return classes;
@@ -31,6 +33,7 @@
             },
 
             flair : {
+                default : 'default',
                 type : String,
                 required : false
             },

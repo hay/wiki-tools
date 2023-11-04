@@ -379,6 +379,8 @@ a {
   --c-3: #eaf3ff;
   --c-4: #202122;
   --button-height: 4rem;
+}
+.wm-button--default {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -395,6 +397,9 @@ a {
 }
 .wm-button[disabled], .wm-button[disabled] .icon, .wm-button[is-disabled], .wm-button[is-disabled] .icon {
   opacity: 0.5;
+}
+.wm-button--inline-link {
+  font-size: 1.6rem;
 }
 .wm-button--bare {
   background: none;
@@ -600,6 +605,12 @@ html.has-mouse .wm-button--dark:hover, html.has-mouse .wm-button--darklink:hover
   padding: 1rem;
   background: var(--c-2);
   margin: 1rem 0;
+}
+.reference__summary-btn {
+  display: contents;
+  color: var(--c-1);
+  text-decoration: underline;
+  font-style: normal;
 }
 @media (min-width: 768px) {
   .reference {

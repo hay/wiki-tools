@@ -34,7 +34,7 @@
                 v-show="!showAll && data.stats.length > maxRows"
                 class="leaderboard__button"
                 icon="eye"
-                flair="bare"
+                flair="default,bare"
                 v-on:click="showAll = true">
                 {{$t('show_all_rows')}}</wm-button>
         </template>

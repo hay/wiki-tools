@@ -257,7 +257,7 @@
             "show_all_challenges": "Show all {count} challenges",
             "help": "Help",
             "is_depicted": "Is <strong>{label}</strong> clearly depicted in this image?",
-            "get_summary": "Get summary"
+            "get_summary": "Show Wikipedia summary"
         },
         "fr": {
             "app_description": "Ajoutez des déclarations de données structurées à Wikimedia Commons à l'aide d'une interface de type jeu",
@@ -456,7 +456,7 @@
             "language": "Taal",
             "pct_complete": "{pct}% compleet",
             "is_depicted": "Is {label} duidelijk afgebeeld op deze afbeelding?",
-            "get_summary": "Toon samenvatting"
+            "get_summary": "Toon samenvatting van Wikipedia"
         },
         "pl": {
             "archived": "Zarchiwizowane",

@@ -3,7 +3,7 @@
         <wm-button
             type="anchor"
             v-bind:href="rootUrl"
-            flair="bare"
+            flair="default,bare"
             icon="arrow-left">
             {{$t('app_title')}}
         </wm-button>
@@ -23,11 +23,11 @@
         <wm-button
             v-bind:href="startLink"
             type="anchor"
-            flair="primary">{{$t("start")}}</wm-button>
+            flair="default,primary">{{$t("start")}}</wm-button>
 
         <wm-button
             v-if="isEditable"
-            flair="bare"
+            flair="default,bare"
             icon="edit"
             v-on:click="editChallenge">{{$t('edit_challenge')}}</wm-button>
 
