@@ -2,6 +2,9 @@
   "private": true,
   "version": "0.1.0",
   "main": "index.js",
+  "engines": {
+    "npm": ">=16.0.0 <20.0.0"
+  },
   "scripts": {
     "build": "npm run build:js && npm run build:css",
     "build:css": "npm run build:sass",
