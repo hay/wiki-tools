@@ -6,3 +6,15 @@
     define('DB_PASS', 'root');
     define('DB_TOOLSDIRECTORY', 'toolsdirectory');
     define('DEBUG', false);
+    define('DB_TOOL_DATABASE', 'wikitools');
+    define('TBL_DEPICTOR_CHALLENGES', 'depictor_challenges');
+    define('TBL_DEPICTOR_FILES', 'depictor_files');
+    define('TBL_DEPICTOR_ITEMS', 'depictor_items');
+    define('DEBUG', true);
+
+    // This is used for Depictor
+    define('OAUTH_DEPICTOR', [
+        "consumer_key" => "xxx",
+        "consumer_secret" => "xxx"
+    ]);
+    define('OAUTH_COMMONS_ENDPOINT', "https://commons.wikimedia.org");
