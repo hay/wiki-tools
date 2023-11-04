@@ -12,3 +12,7 @@
     // TODO there should be a default of these set somewhere, so users don't need to set it
     define('TBL_DEPICTOR_ITEMS', 'depictor_items');
     define('TBL_DEPICTOR_FILES', 'depictor_files');
+    define('TBL_DEPICTOR_CHALLENGES', 'depictor_challenges');
+
+    // TODO this can probably be hard coded
+    define('COMMONS_ENDPOINT', 'https://commons.wikimedia.org');
