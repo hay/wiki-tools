@@ -111,7 +111,6 @@
 
             async handleCandidate(action) {
                 this.$store.commit('lockActions');
-                this.summary = null;
                 this.showCandidateImage = false;
                 await this.$store.dispatch('handleCandidate', action);
                 this.showAllImages();
@@ -159,6 +158,13 @@
 
         mounted() {
             window.addEventListener('keydown', this.keydown);
+        },
+
+        watch : {
+            item() {
+                console.log('Item changed');
+                this.summary = null;
+            }
         }
     }
 </script>
