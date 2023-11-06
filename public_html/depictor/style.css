@@ -594,9 +594,6 @@ html.has-mouse .wm-button--dark:hover, html.has-mouse .wm-button--darklink:hover
   flex-direction: column;
   padding: 1rem 0;
 }
-.reference__skipbutton {
-  margin-top: auto;
-}
 .reference__description {
   font-size: 1.6rem;
 }
@@ -606,11 +603,10 @@ html.has-mouse .wm-button--dark:hover, html.has-mouse .wm-button--darklink:hover
   background: var(--c-2);
   margin: 1rem 0;
 }
-.reference__summary-btn {
-  display: contents;
-  color: var(--c-1);
-  text-decoration: underline;
-  font-style: normal;
+.reference__buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
 }
 @media (min-width: 768px) {
   .reference {
@@ -623,6 +619,9 @@ html.has-mouse .wm-button--dark:hover, html.has-mouse .wm-button--darklink:hover
 @media (max-width: 991px) {
   .reference__progress {
     grid-column: 1/-1;
+  }
+  .reference__buttons {
+    flex-direction: column;
   }
 }
 @media (min-width: 992px) {

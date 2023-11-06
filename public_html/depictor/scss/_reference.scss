@@ -18,10 +18,6 @@
         padding: 1rem 0;
     }
 
-    &__skipbutton {
-        margin-top: auto;
-    }
-
     &__description {
         font-size: 1.6rem;
     }
@@ -33,11 +29,10 @@
         margin: 1rem 0;
     }
 
-    &__summary-btn {
-        display: contents;
-        color: var(--c-1);
-        text-decoration: underline;
-        font-style: normal;
+    &__buttons {
+        display: flex;
+        justify-content: center;
+        margin-top: auto;
     }
 
     @include respond-from($screen-sm) {
@@ -52,6 +47,10 @@
     @include respond-until($screen-md) {
         &__progress {
             grid-column: 1 / -1;
+        }
+
+        &__buttons {
+            flex-direction: column;
         }
     }
 
