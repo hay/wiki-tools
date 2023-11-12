@@ -260,7 +260,7 @@
                 </small>
 
                 <span>
-                    {{$t("keyboard_shortcuts")}}: <b>(1)</b> {{$t("depicted")}}, <b>(2)</b> {{$t("skip")}}, <b>(3)</b> {{$t("not_depicted")}}, <b>(s)</b> {{$t("skip_item")}}
+                    {{$t("keyboard_shortcuts")}}: <kbd>1</kbd> → {{$t("depicted")}}; <kbd>2</kbd> → {{$t("skip")}}; <kbd>3</kbd> → {{$t("not_depicted")}}; <kbd>s</kbd> → {{$t("skip_item")}}.
                 </span>
 
                 <span v-show="!isPossibleChallenge">
