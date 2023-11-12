@@ -25,6 +25,14 @@ a {
     text-decoration: none;
 }
 
+kbd {
+    border: 1px solid #999;
+    border-radius: 3px;
+    padding: 0.1em 0.3em;
+    background-color: #eee;
+    box-shadow: 1px 1px black;
+}
+
 .container {
     min-height: 100vh;
     display: flex;
