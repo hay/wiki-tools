@@ -196,7 +196,7 @@ export default class Api {
             "doit": "1"
         };
 
-        const req = await getJson("https://petscan.wmflabs.org/", opts);
+        const req = await getJson("https://petscan.wmcloud.org/", opts);
 
         if (req.error) {
             return [];
