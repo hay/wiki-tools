@@ -8,7 +8,8 @@
     if (!empty($_GET['q'])) {
         $q = $_GET['q'];
         $sites = $_GET['site'];
-        $api = new ExternalLinkSearch($sites);
+        $only_main_namespace = isset($_GET["namespace"]) && $_GET['namespace'] == "on";
+        $api = new ExternalLinkSearch($sites, $only_main_namespace);
         $results = $api->query($q);
 
         if (!empty($_GET['format'])) {
@@ -47,7 +48,7 @@
 
             <div class="form-group">
                 <label for="q">Search pattern</label>
-                <input type="text" class="form-control" id="q" name="q" placeholder="kranten.kb.nl" />
+                <input type="text" class="form-control" id="q" name="q" placeholder="delpher.nl" />
             </div>
 
             <div class="checkbox">

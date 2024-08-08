@@ -3,10 +3,13 @@ use \Httpful\Request as Request;
 
 class ExternalLinkSearch {
     const QUERY = "?action=query&list=exturlusage&euquery=%s&format=json&eulimit=500";
-    private $sites = array();
 
-    function __construct($sites) {
+    private bool $only_main_namespace = false;
+    private array $sites = [];
+
+    function __construct($sites, bool $only_main_namespace = false) {
         $sites = explode(",",$sites);
+        $this->only_main_namespace = $only_main_namespace;
 
         foreach ($sites as $site) {
             # Make sure .org is cut off from the site to make old urls work
@@ -16,11 +19,16 @@ class ExternalLinkSearch {
 
     private function getLinks($q, $site) {
         $endpoint = sprintf("https://%s.org/w/api.php", $site);
+
         $results = array();
         $continue = false;
 
         do {
             $url = $endpoint . sprintf(self::QUERY, urlencode($q));
+
+            if ($this->only_main_namespace) {
+                $url = $url . "&eunamespace=0";
+            }
 
             if ($continue) {
                 $url = $url . "&euoffset=$continue";
