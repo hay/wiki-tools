@@ -149,7 +149,7 @@
 
     "gtaa" : {
         "title" : "GTAA Reasonator",
-        "description" : "The <a href=\"tools.wmflabs.org/reasonator/\">Reasonator</a> is an awesome tool for viewing <a href=\"http://www.wikidata.org\">Wikidata</a> items. This tool tries to provide the same view for items in the <a href=\"https://sites.google.com/a/beeldengeluid.nl/gtaa/\">GTAA</a>."
+        "description" : "The <a href=\"https://tools.wmflabs.org/reasonator/\">Reasonator</a> is an awesome tool for viewing <a href=\"http://www.wikidata.org\">Wikidata</a> items. This tool tries to provide the same view for items in the <a href=\"https://sites.google.com/a/beeldengeluid.nl/gtaa/\">GTAA</a>."
     },
 
     "kbpermalink" : {
