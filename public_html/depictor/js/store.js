@@ -319,9 +319,9 @@ export default function createStore(opts) {
                 commit('itemDone', qid);
             },
 
-            async newFiles({ commit }, files) {
+            async newFiles({ commit }, { files, qid }) {
                 // Pass an API call and see if the items have already been done
-                const status = await api.filesExist(files.map(f => f.mid));
+                const status = await api.filesExist(files.map(f => f.mid), qid);
 
                 files = files.map((file) => {
                     file.done = status[file.mid];
@@ -434,7 +434,7 @@ export default function createStore(opts) {
                 }
 
                 commit('item', item);
-                await dispatch("newFiles", candidates);
+                await dispatch("newFiles", { files: candidates, qid: nextItem.qid });
                 commit('category', nextItem.category);
 
                 // All went well, let's get out of the loop

@@ -56,13 +56,13 @@ export default class Api {
         return req.id;
     }
 
-    async fileExists(mid) {
-        const req = await this.call('file-exists', { mid });
+    async fileExists(mid, qid) {
+        const req = await this.call('file-exists', { mid, qid });
         return req.status;
     }
 
-    async filesExist(mids) {
-        const req = await this.post('files-exists', { mids });
+    async filesExist(mids, qid) {
+        const req = await this.post('files-exists', { mids, qid });
         return req;
     }
 
