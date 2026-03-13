@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4b42f1ef853097b8c050efddd2f13c36",
+    "content-hash": "26d4ce24001e4e678de7a1a92f2c9443",
     "packages": [
         {
             "name": "j4mie/idiorm",
@@ -189,7 +189,9 @@
     "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": {},
+    "platform": {
+        "php": ">=8.4"
+    },
     "platform-dev": {},
     "plugin-api-version": "2.9.0"
 }

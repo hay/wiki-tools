@@ -1,6 +1,7 @@
 {
     "require": {
         "j4mie/idiorm": "^1.5",
-        "mediawiki/oauthclient": "^1.1"
+        "mediawiki/oauthclient": "^1.1",
+        "php" : ">=8.4"
     }
 }
