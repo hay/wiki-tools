@@ -48,7 +48,7 @@
 </template>
 
 <script>
-    import { numberWithCommas } from '../util.js';
+    import { numberWithCommas } from '../util';
 
     export default {
         computed : {

@@ -139,7 +139,7 @@
     import { mapState } from 'vuex';
     import {
         MIN_CHALLENGE_TITLE_LENGTH, MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH
-    } from '../const.js';
+    } from '../const';
 
     export default {
         computed : {
