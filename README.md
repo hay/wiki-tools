@@ -3,7 +3,6 @@ Source code for all of my [wiki tools](http://tools.wmflabs.org/hay/)
 
 ## Setup
 * Create a `config.php` file (use `config-sample.php` as an example) in the `lib` directory.
-    * If you plan on using docker-compose you can `require_once __DIR__ . '/../.docker-compose/config.php';`, which defines many things automatically.
 * Do a `composer install` in the lib/ directory. For this you need [Composer](http://getcomposer.org).
 * Do a `bower install` in the root directory. For this you need Bower `npm install -g bower`.
 * Some tools (like VizQuery, or Depictor) need an `npm install` or `composer install` in their root as well.
