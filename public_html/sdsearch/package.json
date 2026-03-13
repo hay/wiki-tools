@@ -16,7 +16,7 @@
     "donot": "^0.2.0",
     "regenerator-runtime": "^0.13.5",
     "valenski": "^1.4.0",
-    "vue": "^2.6.11",
+    "vue": "^3.0.0",
     "vue-i18n": "^8.17.7",
     "vue-simple-suggest": "^1.10.1"
   },
