@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "main": "index.js",
   "engines": {
-    "node": ">=16.0.0 <17.0.0"
+    "node": ">=22.0.0 <23.0.0"
   },
   "scripts": {
     "build": "npm run build:js && npm run build:css",
@@ -11,7 +11,7 @@
     "build:js": "NODE_ENV=development webpack -d",
     "build:sass": "sass scss/style.scss style.css",
     "dist": "npm run update-locales && npm run build:css && npm run dist:js",
-    "dist:js" : "NODE_ENV=production webpack -p",
+    "dist:js": "NODE_ENV=production webpack -p",
     "postinstall": "npm run build",
     "update-locales": "node etc/update-locales.js",
     "watch": "chokidar '../common/*.scss' 'scss/*.scss' -c 'npm run build:css' & NODE_ENV=development webpack -dw"
@@ -21,7 +21,6 @@
     "chokidar-cli": "^2.1.0",
     "donot": "^0.4.1",
     "lodash-es": "^4.17.21",
-    "loglevel": "^1.8.1",
     "regenerator-runtime": "^0.13.11",
     "sass": "^1.62.1",
     "valenski": "^1.5.0",
@@ -31,14 +30,9 @@
   },
   "devDependencies": {
     "@babel/preset-env": "^7.23.2",
-    "babel-core": "^6.26.3",
     "babel-loader": "^8.3.0",
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-plugin-transform-remove-console": "^6.9.4",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.7.0",
     "css-loader": "^3.6.0",
-    "http-server": "^0.13.0",
     "node-fetch": "^2.6.11",
     "vue-loader": "^15.10.1",
     "vue-template-compiler": "^2.7.14",

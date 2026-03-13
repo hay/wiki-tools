@@ -103,7 +103,7 @@ select ?item ?instance ?image ?cat where {
 </template>
 
 <script>
-    import { randInt, sample } from 'donot';
+    import { randInt } from 'donot';
     import {
         MIN_BIRTH_YEAR, MAX_BIRTH_YEAR
     } from '../const.js';

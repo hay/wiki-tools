@@ -1,12 +1,11 @@
 import { head } from 'lodash-es';
-import { randInt, sample, timeout } from 'donot';
+import { sample } from 'donot';
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Api from './api.js';
 import {
-    DEFAULT_LOCALE, THUMB_SIZE, MAX_API_TRIES, MAX_API_CHECK_TRIES,
-    IMAGE_SIZE, COMMONS_USER_PREFIX, MIN_CANDIDATES_FOR_CHALLENGE,
-    MIN_ITEMS_FOR_CHALLENGE, MAX_PRELOAD_BATCH
+    DEFAULT_LOCALE, THUMB_SIZE, IMAGE_SIZE, COMMONS_USER_PREFIX,
+    MIN_CANDIDATES_FOR_CHALLENGE, MIN_ITEMS_FOR_CHALLENGE, MAX_PRELOAD_BATCH
 } from './const.js';
 import { getLocale } from './util.js';
 
