@@ -8,7 +8,7 @@ $icons: locale, cross, user, logout, arrow-left, accept, skip, close, cog,
 
     @each $icon in $icons {
         &[data-icon="#{$icon}"] {
-            background-image: url('img/icon-#{$icon}.svg');
+            background-image: url('../img/icon-#{$icon}.svg');
         }
     }
 }

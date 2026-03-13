@@ -36,8 +36,8 @@
 
     $hay = new Hay(basename(dirname(__FILE__)), [
         "bare" => true,
-        "scripts" => [ 'bundle.js' ],
-        "styles" => [ 'style.css' ]
+        "scripts" => [ 'dist/bundle.js' ],
+        "styles" => [ 'dist/app.css' ]
     ]);
 
     $ctx = json_encode([

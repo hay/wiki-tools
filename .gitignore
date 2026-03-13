@@ -7,5 +7,6 @@ yarn*.log
 *.js.map
 *.css.map
 bundle.js
+public_html/depictor/dist
 vendor/
 version.txt

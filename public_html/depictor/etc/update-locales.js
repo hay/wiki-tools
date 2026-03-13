@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 const fs = require('fs');
 const path = require('path');
 const ENDPOINT = 'https://tools-static.wmflabs.org/tooltranslate/data';
