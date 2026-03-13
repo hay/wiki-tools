@@ -300,7 +300,7 @@ export default function createStore(opts) {
 
                     commit(
                         "errorMessage",
-                        "Could not add the depicts statement. There might be an issue with Wikimedia Commons. Try again later."
+                        e.message || "Could not add the depicts statement. There might be an issue with Wikimedia Commons. Try again later."
                     );
                 }
 
