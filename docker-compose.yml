@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 # Requires define('ROOT', '//localhost:4080/');
 
@@ -10,6 +10,8 @@ services:
     ports:
       - "4080:80"
     user: "1000:1000"
+    environment:
+      DB_HOST: mysql
     volumes:
       - ./public_html:/var/www/html
       - ./lib:/var/www/lib
@@ -21,7 +23,7 @@ services:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: test
+      MYSQL_DATABASE: wikitools
       MYSQL_USER: test
       MYSQL_PASSWORD: test
     volumes:
