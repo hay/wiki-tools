@@ -1,0 +1,14 @@
+$buffer-base: 10px;
+
+@for $i from 0 through 10 {
+  .buffer-#{$i} {
+    margin-top: calc(#{$buffer-base} / 2 * #{$i}) !important;
+    margin-bottom: calc(#{$buffer-base} / 2 * #{$i}) !important;
+  }
+  .buffer-top-#{$i} {
+    margin-top: #{$i * 10}px !important;
+  }
+  .buffer-bottom-#{$i} {
+    margin-bottom: #{$i * 10}px !important;
+  }
+}
