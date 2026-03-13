@@ -106,7 +106,7 @@ select ?item ?instance ?image ?cat where {
     import { randInt } from 'donot';
     import {
         MIN_BIRTH_YEAR, MAX_BIRTH_YEAR
-    } from '../const.js';
+    } from '../const';
     import ElChallenges from './el-challenges.vue';
     import ElLeaderboard from './el-leaderboard.vue';
     import ElNotice from './el-notice.vue';

@@ -1,8 +1,8 @@
 <script>
     import { mapState } from 'vuex';
-    import { encodeWikiTitle, loadImage } from '../util.js';
+    import { encodeWikiTitle, loadImage } from '../util';
     import ElProgress from './el-progress.vue';
-    import { WikipediaApi } from '../mwapi/wikipedia.js';
+    import { WikipediaApi } from '../mwapi/wikipedia';
 
     export default {
         components : { ElProgress },
