@@ -1,17 +1,21 @@
 <?php
+use Twig\Loader\FilesystemLoader;
+use Twig\Environment;
+use Twig\Extension\DebugExtension;
+
 class TemplateRenderer {
     private $renderer;
 
     function __construct() {
-        $loader = new Twig_Loader_Filesystem(PATH . "../templates");
+        $loader = new FilesystemLoader(PATH . "../templates");
 
-        $this->renderer = new Twig_Environment($loader, [
+        $this->renderer = new Environment($loader, [
             "cache" => PATH . "../cache",
             "debug" => DEBUG
         ]);
 
         $this->renderer->addGlobal('root', ROOT);
-        $this->renderer->addExtension(new Twig_Extension_Debug());
+        $this->renderer->addExtension(new DebugExtension());
     }
 
     public function render($template, $data = []) {
