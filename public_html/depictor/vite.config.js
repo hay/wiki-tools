@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     rollupOptions: {
-      input: 'js/app.js',
+      input: 'js/app.ts',
       output: {
         entryFileNames: 'bundle.js',
         chunkFileNames: '[name].js',

@@ -51,7 +51,7 @@
 </template>
 
 <script>
-    import { COMMONS_USER_PREFIX } from '../const.js';
+    import { COMMONS_USER_PREFIX } from '../const';
     import ElLeaderboard from './el-leaderboard.vue';
 
     export default {

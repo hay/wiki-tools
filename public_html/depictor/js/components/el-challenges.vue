@@ -46,7 +46,7 @@
 </template>
 
 <script>
-    import { MAX_CHALLENGE_OVERVIEW_COUNT } from '../const.js';
+    import { MAX_CHALLENGE_OVERVIEW_COUNT } from '../const';
 
     export default {
         data() {

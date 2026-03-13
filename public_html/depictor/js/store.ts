@@ -1,16 +1,77 @@
 import { sample } from 'donot';
-import Vue from 'vue'
-import Vuex from 'vuex'
-import Api from './api.js';
+import Vue from 'vue';
+import Vuex from 'vuex';
+import Api from './api';
 import {
     DEFAULT_LOCALE, THUMB_SIZE, IMAGE_SIZE, COMMONS_USER_PREFIX,
     MIN_CANDIDATES_FOR_CHALLENGE, MIN_ITEMS_FOR_CHALLENGE, MAX_PRELOAD_BATCH
-} from './const.js';
-import { getLocale } from './util.js';
+} from './const';
+import { getLocale } from './util';
 
-Vue.use(Vuex);
+interface StoreOptions {
+    authUrl?: string;
+    isAccessTokenRequest?: boolean;
+    isDebug?: boolean;
+    isInvalidAccessTokenRequest?: boolean;
+    isLoggedIn?: boolean;
+    isLoggedOut?: boolean;
+    rootUrl?: string;
+    userName?: string;
+    locales?: { messages?: Record<string, Record<string, string>> };
+}
 
-export default function createStore(opts) {
+interface Candidate {
+    mid: string;
+    title: string;
+    thumb?: string;
+    done?: boolean;
+}
+
+interface Item {
+    qid: string;
+    category?: string;
+    image?: string;
+    thumb?: string;
+    done?: boolean;
+}
+
+interface Challenge {
+    id: string;
+    querytype?: string;
+    queryvalue?: string;
+    user?: string;
+}
+
+interface State {
+    api: Api;
+    authUrl?: string;
+    birthYear: number | null;
+    candidate: Candidate | null;
+    candidates: Candidate[];
+    category: string | null;
+    challenge: Challenge | null;
+    defaultLocale: string;
+    errorMessage: string | null;
+    initLocale: string;
+    isAccessTokenRequest?: boolean;
+    isDebug?: boolean;
+    isInvalidAccessTokenRequest?: boolean;
+    isLoggedIn?: boolean;
+    isLoggedOut?: boolean;
+    item: unknown | null;
+    items: Item[];
+    loading: boolean;
+    locale: string;
+    locales?: { messages?: Record<string, Record<string, string>> };
+    lockActions: boolean;
+    rootUrl?: string;
+    query: { type?: string; value?: string };
+    screen: string;
+    userName?: string;
+    userPage?: string;
+}
+
+export default function createStore(opts: StoreOptions) {
     const locale = getLocale( DEFAULT_LOCALE );
     const api = new Api(locale);
 
@@ -25,7 +86,7 @@ export default function createStore(opts) {
             challenge : null,
             defaultLocale : DEFAULT_LOCALE,
             errorMessage : null,
-            initLocale : getLocale( DEFAULT_LOCALE ),
+            initLocale : getLocale(DEFAULT_LOCALE),
             isAccessTokenRequest: opts.isAccessTokenRequest,
             isDebug: opts.isDebug,
             isInvalidAccessTokenRequest : opts.isInvalidAccessTokenRequest,
@@ -34,14 +95,14 @@ export default function createStore(opts) {
             item : null,
             items : [],
             loading : false,
-            locale : getLocale( DEFAULT_LOCALE ),
+            locale : getLocale(DEFAULT_LOCALE),
             locales : opts.locales,
             lockActions : false,
             rootUrl: opts.rootUrl,
             query : {},
             screen : 'intro',
             userName: opts.userName,
-            userPage: COMMONS_USER_PREFIX + opts.userName
+            userPage: opts.userName ? COMMONS_USER_PREFIX + opts.userName : undefined
         };
     }
 
@@ -157,29 +218,22 @@ export default function createStore(opts) {
                 state.errorMessage = message;
             },
 
-            hash(state, opts) {
-                // Transform opts to a URL and set the hash, after that
-                // a hashchange will trigger start
+            hash(state, opts: { type: string; catdeep?: boolean; catdepth?: number; [key: string]: unknown }) {
                 const queryType = window.encodeURIComponent(opts.type);
 
-                // For some reason, using newlines in GET requests give a HTTP 400
-                // on Toolforge, so let's replace newlines with spaces in values,
-                // especially needed on SPARQL queries
                 let value = opts[opts.type];
 
                 if (typeof value === 'string') {
                     value = value.trim().replace(/\n/g, ' ').replace(/ +/g, ' ');
                 }
 
-                let queryValue = window.encodeURIComponent(value);
+                let queryValue = window.encodeURIComponent(String(value ?? ''));
 
-                // If we have 'deep' categories we also need to add the depth level
                 if (queryType === 'category' && opts.catdeep) {
-                    queryValue = `${queryValue}|${opts.catdepth}`;
+                    queryValue = `${queryValue}|${opts.catdepth ?? 0}`;
                 }
 
-                let search = `queryType=${queryType}&queryValue=${queryValue}`;
-
+                const search = `queryType=${queryType}&queryValue=${queryValue}`;
                 window.location.search = search;
             },
 
@@ -210,8 +264,8 @@ export default function createStore(opts) {
                 state.lockActions = true;
             },
 
-            locale(state, locale) {
-                const url = new window.URL(window.location);
+            locale(state, locale: string) {
+                const url = new window.URL(window.location.href);
                 url.searchParams.set("locale", locale);
                 window.location.search = url.searchParams.toString();
             },
@@ -241,9 +295,9 @@ export default function createStore(opts) {
         },
 
         actions : {
-            async challenge({ commit, dispatch }, { id, action }) {
+            async challenge({ commit, dispatch }, { id, action }: { id: string; action: string }) {
                 console.log('challenge', { id, action });
-                const challenge = await api.getChallenge(id);
+                const challenge = await api.getChallenge(id) as Challenge;
                 commit('challenge', challenge);
 
                 if (action === 'start') {
@@ -270,6 +324,7 @@ export default function createStore(opts) {
             },
 
             async editChallenge({state, getters}, payload) {
+                if (!state.challenge) return;
                 return await api.editChallenge(state.challenge.id, {
                     title : payload.title,
                     short_description : payload.shortDescription,
@@ -278,17 +333,16 @@ export default function createStore(opts) {
                 });
             },
 
-            async handleCandidate({ commit, dispatch, state }, status) {
-                const opts = {
-                    mid : state.candidate.mid,
-                    qid : state.item.qid,
+            async handleCandidate({ commit, dispatch, state }, status: string) {
+                const opts: Record<string, unknown> = {
+                    mid : state.candidate?.mid,
+                    qid : (state.item as { qid?: string })?.qid,
                     category : state.category,
                     user : state.userName,
                     status : status
                 };
 
-                // If there is a challenge, add the id
-                if (state.challenge && state.challenge.id) {
+                if (state.challenge?.id) {
                     opts.challenge = state.challenge.id;
                 }
 
@@ -296,10 +350,9 @@ export default function createStore(opts) {
                     await api.addFile(opts);
                 } catch (e) {
                     console.error(e);
-
                     commit(
                         "errorMessage",
-                        e.message || "Could not add the depicts statement. There might be an issue with Wikimedia Commons. Try again later."
+                        (e as Error).message || "Could not add the depicts statement. There might be an issue with Wikimedia Commons. Try again later."
                     );
                 }
 
@@ -334,17 +387,18 @@ export default function createStore(opts) {
                 commit('candidates', files);
             },
 
-            async newItems({ commit }, items) {
-                // Pass an API call and see if the items have already been done
+            async newItems({ commit }, items: { qid: string; category?: string; image?: string }[]) {
                 const status = await api.itemsExist(items.map(i => i.qid));
 
-                items = items.map((item) => {
-                    item.thumb = `${item.image}?width=${THUMB_SIZE}`;
-                    item.done = status[item.qid];
-                    return item;
-                })
+                const mappedItems: Item[] = items.map((item) => {
+                    return {
+                        ...item,
+                        thumb: item.image ? `${item.image}?width=${THUMB_SIZE}` : undefined,
+                        done: status[item.qid]
+                    };
+                });
 
-                commit('items', items);
+                commit('items', mappedItems);
             },
 
             async nextCandidate({ state, commit, getters, dispatch }) {
@@ -440,28 +494,29 @@ export default function createStore(opts) {
                 await dispatch("nextCandidate");
             },
 
-            async query({ commit, dispatch }, query) {
+            async query({ commit, dispatch }, query: { type: string; value: string }) {
                 console.log('query', query);
                 const { type, value } = query;
                 commit('isLoading');
 
-                let items = null;
+                let items: { category?: string; image?: string | null; qid: string }[] | null = null;
 
                 if (type === 'year') {
                     items = await api.getPeopleByBirthyear(value).catch((err) => {
                         console.error(err);
                         commit('errorMessage', 'Invalid birth year');
+                        return [];
                     });
                 } else if (type === 'category') {
-                    // Check if this is a deep search (indicated by a pipe|)
                     if (value.includes('|')) {
-                        const [category, depth] = value.split('|');
+                        const [, depth] = value.split('|');
 
                         items = await api
                             .getItemsByCommonsCategory(value, parseInt(depth))
                             .catch((err) => {
                                 console.error(err);
                                 commit("errorMessage", "Invalid category or depth");
+                                return [];
                             });
                     } else {
                         items = await api
@@ -469,19 +524,20 @@ export default function createStore(opts) {
                             .catch((err) => {
                                 console.error(err);
                                 commit('errorMessage', 'Invalid category');
+                                return [];
                             });
                     }
-                } else if (type == 'qid') {
-                    // This is mainly used for debugging and testing purposes,
-                    // hence it's not available in the main interface
+                } else if (type === 'qid') {
                     items = await api.getItemByQid(value).catch((err) => {
                         console.error(err);
                         commit('errorMessage', 'Invalid QID');
-                    });;
+                        return [];
+                    });
                 } else if (type === 'sparql') {
                     items = await api.getItemsWithSparql(value).catch((err) => {
                         console.error(err);
                         commit('errorMessage', 'The SPARQL query was invalid.');
+                        return [];
                     });
                 } else {
                     console.error('No valid query options');
@@ -489,12 +545,12 @@ export default function createStore(opts) {
                     return;
                 }
 
-                if (!items.length) {
+                if (!items?.length) {
                     commit('errorMessage', 'No items for this query. Try another query.');
                     return;
                 }
 
-                await dispatch('newItems', items);
+                await dispatch('newItems', items.map(i => ({ qid: i.qid, category: i.category, image: i.image ?? undefined })));
                 await dispatch("nextItem");
                 commit('query', query); // Save for use later in challenges
                 commit('screen', 'game');

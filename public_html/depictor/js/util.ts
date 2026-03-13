@@ -1,4 +1,4 @@
-export async function getJson(url, params = null) {
+export async function getJson(url: string, params: Record<string, string> | null = null) {
     if (params) {
         const urlObj = new URL(url, window.location.href);
         Object.keys(params).forEach((k) => urlObj.searchParams.append(k, params[k]));
@@ -8,11 +8,11 @@ export async function getJson(url, params = null) {
     return res.json();
 }
 
-export function buildUrlQuery(params) {
+export function buildUrlQuery(params: Record<string, string | number | boolean | undefined>) {
     let query = '';
 
     for (const key in params) {
-        const val = window.encodeURIComponent(params[key]);
+        const val = window.encodeURIComponent(String(params[key] ?? ''));
         query += `${key}=${val}&`;
     }
 
@@ -21,7 +21,7 @@ export function buildUrlQuery(params) {
 
 // Lifted from https://github.com/wikimedia/mediawiki/blob/379b4656632befd16fcf61a3a0509b6d9be78d33/resources/src/mediawiki.base/mediawiki.base.js#L266-L276
 // Thanks Tgr!
-export function encodeWikiTitle(title) {
+export function encodeWikiTitle(title: string) {
     return encodeURIComponent(String(title))
         .replace( /'/g, '%27' )
         .replace( /%20/g, '_' )
@@ -33,7 +33,7 @@ export function encodeWikiTitle(title) {
         .replace( /%3A/g, ':' );
 }
 
-export function getLocale(defaultLocale) {
+export function getLocale(defaultLocale: string) {
     const search = window.location.search;
 
     if (search.includes('locale')) {
@@ -50,12 +50,12 @@ export function getLocale(defaultLocale) {
 }
 
 // Lifted from https://stackoverflow.com/a/2901298/152809
-export function numberWithCommas(x = 0, separator = ",") {
+export function numberWithCommas(x: number = 0, separator: string = ",") {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator);
 }
 
-export async function loadImage(src) {
-    return new Promise((resolve) => {
+export async function loadImage(src: string) {
+    return new Promise<void>((resolve) => {
         const img = new Image();
 
         img.onload = function() {
@@ -66,9 +66,9 @@ export async function loadImage(src) {
     });
 }
 
-export function postJson(url, body) {
+export function postJson<T = unknown>(url: string, body: unknown) {
     return new Promise((resolve, reject) => {
-        const options = {
+        const options: RequestInit = {
             body: JSON.stringify(body),
             headers : {
                 'Content-Type' : 'application/json'
@@ -78,7 +78,7 @@ export function postJson(url, body) {
 
         window.fetch(url, options)
             .then((res) => res.json())
-            .then((res) => resolve(res))
+            .then((res) => resolve(res as T))
             .catch((err) => reject(err));
     });
 }

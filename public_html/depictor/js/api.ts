@@ -1,17 +1,34 @@
-import { getJson } from './util.js';
-import { IMAGE_SIZE, LOCAL_API_ENDPOINT, THUMB_SIZE} from './const.js';
-import { buildUrlQuery, postJson } from './util.js';
-import CommonsApi from './mwapi/commons.js';
-import WikidataApi from './mwapi/wikidata.js';
-import WikidataQuery from './mwapi/query.js';
+import { getJson } from './util';
+import { IMAGE_SIZE, LOCAL_API_ENDPOINT, THUMB_SIZE } from './const';
+import { buildUrlQuery, postJson } from './util';
+import CommonsApi from './mwapi/commons';
+import WikidataApi from './mwapi/wikidata';
+import WikidataQuery from './mwapi/query';
+import type { SparqlBinding } from './types';
+
+interface CandidateItem {
+    mid: string;
+    title: string;
+    thumb?: string;
+    done?: boolean;
+}
+
+interface ItemWithClaims {
+    claims?: Record<string, { mainsnak: { datavalue?: { value: { id?: string } } } }[]>;
+    descriptions?: Record<string, { value: string }>;
+    labels?: Record<string, { value: string }>;
+    sitelinks?: Record<string, { title: string }>;
+}
 
 export default class Api {
-    constructor(locale) {
+    locale: string;
+
+    constructor(locale: string) {
         this.locale = locale;
     }
 
-    async addFile(file) {
-        const req = await this.call('add-file', file);
+    async addFile(file: unknown) {
+        const req = await this.call('add-file', file as Record<string, unknown>) as { error?: string; ok?: boolean };
 
         if (req.error || !req.ok) {
             throw new Error(req.error || "Could not add depicts statement");
@@ -20,53 +37,53 @@ export default class Api {
         return req;
     }
 
-    async call(action, opts = {}) {
+    async call(action: string, opts: Record<string, unknown> = {}) {
         opts.action = action;
-        const query = buildUrlQuery(opts);
+        const query = buildUrlQuery(opts as Record<string, string | number | boolean | undefined>);
         const url = `${LOCAL_API_ENDPOINT}?${query}`;
         const req = await getJson(url);
         return req;
     }
 
-    async post(action, opts = {}) {
+    async post(action: string, opts: Record<string, unknown> = {}) {
         opts.action = action;
         const req = await postJson(LOCAL_API_ENDPOINT, opts);
         return req;
     }
 
-    async createChallenge(data) {
-        const req = await this.post('create-challenge', data);
+    async createChallenge(data: Record<string, unknown>) {
+        const req = await this.post('create-challenge', data) as { error?: { info?: string }; id?: string };
 
         if (req.error || !req.id) {
-            throw new Error(req.error.info);
+            throw new Error((req.error as { info?: string })?.info ?? 'Unknown error');
         }
 
         return req.id;
     }
 
-    async editChallenge(id, data) {
+    async editChallenge(id: string, data: Record<string, unknown>) {
         data.id = id;
 
-        const req = await this.post('edit-challenge', data);
+        const req = await this.post('edit-challenge', data) as { error?: { info?: string }; id?: string };
 
         if (req.error || !req.id) {
-            throw new Error(req.error.info);
+            throw new Error((req.error as { info?: string })?.info ?? 'Unknown error');
         }
 
         return req.id;
     }
 
-    async fileExists(mid) {
-        const req = await this.call('file-exists', { mid });
-        return req.status;
+    async fileExists(mid: string) {
+        const req = await this.call('file-exists', { mid }) as { status?: boolean };
+        return req.status ?? false;
     }
 
-    async filesExist(mids) {
-        const req = await this.post('files-exists', { mids });
+    async filesExist(mids: string[]) {
+        const req = await this.post('files-exists', { mids }) as Record<string, boolean>;
         return req;
     }
 
-    async getCandidates(qid, category) {
+    async getCandidates(qid: string, category: string) {
         const api = new CommonsApi(this.locale, {
             thumbSize : IMAGE_SIZE
         });
@@ -75,10 +92,10 @@ export default class Api {
         const query = `-haswbstatement:P180=${qid} incategory:"${category}" filetype:bitmap`;
         const req = await api.search(query, {
             'namespace' : 6 // Only get the File: namespace
-        });
+        }) as { error?: { info?: string }; items: CandidateItem[] };
 
         if (req.error) {
-            throw new Error(req.error.info);
+            throw new Error((req.error as { info?: string })?.info);
         }
 
         if (!req.items.length) {
@@ -88,7 +105,7 @@ export default class Api {
         return req.items;
     }
 
-    async getCandidateItem(qid) {
+    async getCandidateItem(qid: string) {
         const api = new WikidataApi(this.locale);
 
         const req = await api.call({
@@ -97,32 +114,36 @@ export default class Api {
             "languages": this.locale,
             "props": "claims|descriptions|labels|sitelinks",
             "format": "json"
-        });
+        }) as { error?: unknown; entities?: Record<string, ItemWithClaims> };
 
         if (req.error) {
             console.error(req.error);
             return null;
         }
 
-        const item = req.entities[qid];
-        let thumb;
+        const item = req.entities?.[qid];
+        if (!item) return null;
 
-        if ("P18" in item.claims) {
-            const file = item.claims.P18[0].mainsnak.datavalue.value;
-            const commonsApi = new CommonsApi(this.locale);
-            thumb = commonsApi.getThumb(file, THUMB_SIZE);
+        let thumb: string | undefined;
+
+        if (item.claims && "P18" in item.claims) {
+            const file = (item.claims.P18[0] as { mainsnak: { datavalue?: { value: string } } }).mainsnak.datavalue?.value;
+            if (file) {
+                const commonsApi = new CommonsApi(this.locale);
+                thumb = commonsApi.getThumb(file, THUMB_SIZE);
+            }
         }
 
         const sitelinkCode = `${this.locale}wiki`;
-        const hasSitelink = item.sitelinks && item.sitelinks[sitelinkCode];
-        const sitelinkTitle = hasSitelink ? item.sitelinks[sitelinkCode].title : null;
+        const hasSitelink = !!(item.sitelinks && item.sitelinks[sitelinkCode]);
+        const sitelinkTitle = hasSitelink && item.sitelinks?.[sitelinkCode] ? item.sitelinks[sitelinkCode].title : null;
 
         return {
             _item : item,
-            description : this.locale in item.descriptions ? item.descriptions[this.locale].value : null,
+            description : this.locale in (item.descriptions ?? {}) ? item.descriptions![this.locale].value : null,
             hasSitelink : hasSitelink,
             id : qid,
-            label : this.locale in item.labels ? item.labels[this.locale].value : null,
+            label : this.locale in (item.labels ?? {}) ? item.labels![this.locale].value : null,
             qid : qid,
             sitelinkTitle : sitelinkTitle,
             thumb : thumb,
@@ -130,11 +151,11 @@ export default class Api {
         };
     }
 
-    async getChallenge(id) {
+    async getChallenge(id: string) {
         const req = await this.call('challenge', { id });
 
-        if (req.error) {
-            throw new Error(req.error);
+        if ((req as { error?: string }).error) {
+            throw new Error((req as { error: string }).error);
         }
 
         return req;
@@ -144,32 +165,30 @@ export default class Api {
         return await this.call('challenges');
     }
 
-    async getImageThumb(title, width) {
+    async getImageThumb(title: string, width: number) {
         const api = new CommonsApi(this.locale);
         return api.getImageThumb(title, width);
     }
 
     // Same as getImageThumb, but also preloads the image
-    getPreloadedImageThumb(title, width) {
-        return new Promise((resolve, reject) => {
+    getPreloadedImageThumb(title: string, width: number) {
+        return new Promise((resolve) => {
             const api = new CommonsApi(this.locale);
             api.getImageThumb(title, width).then((url) => {
                 const img = new Image();
 
                 img.addEventListener('load', () => {
                     console.log(`Loaded ${title}`);
-
-                    // Also return URL
                     resolve(url);
                 });
 
-                img.src = url;
+                img.src = url ?? '';
             });
         });
     }
 
     // Note difference with the plural (itemS) function
-    async getItemByCommonsCategory(category) {
+    async getItemByCommonsCategory(category: string) {
         const sparql = `
             select ?item ?image ?cat where {
               ?item wdt:P18 ?image;
@@ -183,8 +202,8 @@ export default class Api {
     }
 
     // This uses PetScan instead of SPARQL, as with the single api call above
-    async getItemsByCommonsCategory(category, depth = 0) {
-        const opts = {
+    async getItemsByCommonsCategory(category: string, depth: number = 0) {
+        const opts: Record<string, string | number> = {
             "categories": category,
             "depth": depth,
             "wikidata_item": "with",
@@ -196,18 +215,18 @@ export default class Api {
             "doit": "1"
         };
 
-        const req = await getJson("https://petscan.wmcloud.org/", opts);
+        const req = await getJson("https://petscan.wmcloud.org/", opts as Record<string, string>) as { error?: unknown; "*"?: { a?: { "*"?: { title: string; q: string }[] } }[] };
 
         if (req.error) {
             return [];
         }
 
-        let results;
+        let results: { title: string; q: string }[];
 
         try {
             // The PetScan JSON definitely leaves something to be desired
-            results = req["*"][0]["a"]["*"];
-        } catch (e) {
+            results = req["*"]?.[0]?.["a"]?.["*"] ?? [];
+        } catch {
             return [];
         }
 
@@ -221,7 +240,7 @@ export default class Api {
     }
 
     // Only used for debugging purposes, not exposed in the main interface
-    async getItemByQid(qid) {
+    async getItemByQid(qid: string) {
         const sparql = `
           select ?item ?image ?cat where {
             wd:${qid} wdt:P373 ?cat;
@@ -233,38 +252,35 @@ export default class Api {
         return await this.getItemsWithSparql(sparql);
     }
 
-    async getItemsWithSparql(sparql) {
+    async getItemsWithSparql(sparql: string) {
         const wdQuery = new WikidataQuery();
-        const query = await wdQuery.call(sparql);
+        const query = await wdQuery.call(sparql) as { results?: { bindings: SparqlBinding[] } };
 
         if (!query.results) {
             throw new Error('Did not get any results');
         }
 
         // Throw out anything that doesn't have a category or image
-        // (even though those shouldn't appear here in the first place)
         const results = query.results.bindings.filter((binding) => {
             return binding.cat && binding.image && binding.item;
         });
 
         return results.map((binding) => {
             return {
-                'category' : binding.cat.value,
-                // The Wikidata query service returns http links instead of https
-                // for images
-                'image' : binding.image.value.replace('http://', 'https://'),
-                'qid' : binding.item.value.replace('http://www.wikidata.org/entity/', '')
+                'category' : binding.cat!.value,
+                'image' : binding.image!.value.replace('http://', 'https://'),
+                'qid' : binding.item!.value.replace('http://www.wikidata.org/entity/', '')
             };
         });
     }
 
-    async getLeaderboard(challenge = null) {
+    async getLeaderboard(challenge: string | null = null) {
         const opts = !!challenge ? { id : challenge } : {};
         return await this.call('leaderboard', opts);
     }
 
-    async getPeopleByBirthyear(birthYear) {
-        birthYear = parseInt(birthYear);
+    async getPeopleByBirthyear(birthYear: number | string) {
+        birthYear = parseInt(String(birthYear));
 
         const sparql = `
           select ?item ?image ?cat where {
@@ -282,7 +298,7 @@ export default class Api {
 
     // We can only use items that have an image, a category
     // and are not a category themselves
-    isValidItem(item) {
+    isValidItem(item: { qid: string; thumb?: string; label?: string | null; _item: ItemWithClaims }) {
         if (!item.thumb) {
             console.log(`candidateItem ${item.qid} has no thumb`);
             return false;
@@ -295,15 +311,15 @@ export default class Api {
 
         const claims = item._item.claims;
 
-        if (!("P373" in claims)) {
+        if (!claims || !("P373" in claims)) {
             console.log(`candidateItem ${item.qid} has no category`);
             return false;
         }
 
         if ("P31" in claims) {
             for (const claim of claims.P31) {
-                // Item should not be a category!
-                if (claim.mainsnak.datavalue.value.id === "Q4167836") {
+                const value = (claim as { mainsnak?: { datavalue?: { value?: { id?: string } } } }).mainsnak?.datavalue?.value;
+                if (value?.id === "Q4167836") {
                     console.log(`candidateItem ${item.qid} is a category`);
                     return false;
                 }
@@ -313,23 +329,22 @@ export default class Api {
         return true;
     }
 
-
-    async itemDone(opts) {
+    async itemDone(opts: Record<string, unknown>) {
         const req = await this.call('item-done', opts);
         return req;
     }
 
-    async itemsExist(qids) {
-        const req = await this.post('items-done', { qids : qids });
+    async itemsExist(qids: string[]) {
+        const req = await this.post('items-done', { qids : qids }) as Record<string, boolean>;
         return req;
     }
 
-    async itemExists(qid) {
-        const req = await this.call('item-exists', { qid });
-        return req.status;
+    async itemExists(qid: string) {
+        const req = await this.call('item-exists', { qid }) as { status?: boolean };
+        return req.status ?? false;
     }
 
-    async preloadImageBatch(titles, size) {
+    async preloadImageBatch(titles: string[], size: number) {
         for (const title of titles) {
             await this.getPreloadedImageThumb(title, size);
         }
