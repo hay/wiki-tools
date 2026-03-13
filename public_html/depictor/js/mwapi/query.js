@@ -1,4 +1,4 @@
-import { getJson } from 'donot';
+import { getJson } from '../util.js';
 
 export default class WikidataQuery {
     constructor() {

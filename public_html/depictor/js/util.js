@@ -1,3 +1,13 @@
+export async function getJson(url, params = null) {
+    if (params) {
+        const urlObj = new URL(url, window.location.href);
+        Object.keys(params).forEach((k) => urlObj.searchParams.append(k, params[k]));
+        url = urlObj.toString();
+    }
+    const res = await fetch(url);
+    return res.json();
+}
+
 export function buildUrlQuery(params) {
     let query = '';
 
@@ -54,20 +64,6 @@ export async function loadImage(src) {
 
         img.src = src;
     });
-}
-
-export function objectHasFilledProperties(properties, object) {
-    for (const prop of properties) {
-        if (!prop in object) {
-            return false;
-        }
-
-        if (object[prop] === null) {
-            return false;
-        }
-    }
-
-    return true;
 }
 
 export function postJson(url, body) {

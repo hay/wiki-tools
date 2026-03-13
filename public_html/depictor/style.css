@@ -11,8 +11,8 @@
 }
 
 .buffer-0 {
-  margin-top: calc( (10px / 2) * 0) !important;
-  margin-bottom: calc( (10px / 2) * 0) !important;
+  margin-top: calc(10px / 2 * 0) !important;
+  margin-bottom: calc(10px / 2 * 0) !important;
 }
 
 .buffer-top-0 {
@@ -24,8 +24,8 @@
 }
 
 .buffer-1 {
-  margin-top: calc( (10px / 2) * 1) !important;
-  margin-bottom: calc( (10px / 2) * 1) !important;
+  margin-top: calc(10px / 2 * 1) !important;
+  margin-bottom: calc(10px / 2 * 1) !important;
 }
 
 .buffer-top-1 {
@@ -37,8 +37,8 @@
 }
 
 .buffer-2 {
-  margin-top: calc( (10px / 2) * 2) !important;
-  margin-bottom: calc( (10px / 2) * 2) !important;
+  margin-top: calc(10px / 2 * 2) !important;
+  margin-bottom: calc(10px / 2 * 2) !important;
 }
 
 .buffer-top-2 {
@@ -50,8 +50,8 @@
 }
 
 .buffer-3 {
-  margin-top: calc( (10px / 2) * 3) !important;
-  margin-bottom: calc( (10px / 2) * 3) !important;
+  margin-top: calc(10px / 2 * 3) !important;
+  margin-bottom: calc(10px / 2 * 3) !important;
 }
 
 .buffer-top-3 {
@@ -63,8 +63,8 @@
 }
 
 .buffer-4 {
-  margin-top: calc( (10px / 2) * 4) !important;
-  margin-bottom: calc( (10px / 2) * 4) !important;
+  margin-top: calc(10px / 2 * 4) !important;
+  margin-bottom: calc(10px / 2 * 4) !important;
 }
 
 .buffer-top-4 {
@@ -76,8 +76,8 @@
 }
 
 .buffer-5 {
-  margin-top: calc( (10px / 2) * 5) !important;
-  margin-bottom: calc( (10px / 2) * 5) !important;
+  margin-top: calc(10px / 2 * 5) !important;
+  margin-bottom: calc(10px / 2 * 5) !important;
 }
 
 .buffer-top-5 {
@@ -89,8 +89,8 @@
 }
 
 .buffer-6 {
-  margin-top: calc( (10px / 2) * 6) !important;
-  margin-bottom: calc( (10px / 2) * 6) !important;
+  margin-top: calc(10px / 2 * 6) !important;
+  margin-bottom: calc(10px / 2 * 6) !important;
 }
 
 .buffer-top-6 {
@@ -102,8 +102,8 @@
 }
 
 .buffer-7 {
-  margin-top: calc( (10px / 2) * 7) !important;
-  margin-bottom: calc( (10px / 2) * 7) !important;
+  margin-top: calc(10px / 2 * 7) !important;
+  margin-bottom: calc(10px / 2 * 7) !important;
 }
 
 .buffer-top-7 {
@@ -115,8 +115,8 @@
 }
 
 .buffer-8 {
-  margin-top: calc( (10px / 2) * 8) !important;
-  margin-bottom: calc( (10px / 2) * 8) !important;
+  margin-top: calc(10px / 2 * 8) !important;
+  margin-bottom: calc(10px / 2 * 8) !important;
 }
 
 .buffer-top-8 {
@@ -128,8 +128,8 @@
 }
 
 .buffer-9 {
-  margin-top: calc( (10px / 2) * 9) !important;
-  margin-bottom: calc( (10px / 2) * 9) !important;
+  margin-top: calc(10px / 2 * 9) !important;
+  margin-bottom: calc(10px / 2 * 9) !important;
 }
 
 .buffer-top-9 {
@@ -141,8 +141,8 @@
 }
 
 .buffer-10 {
-  margin-top: calc( (10px / 2) * 10) !important;
-  margin-bottom: calc( (10px / 2) * 10) !important;
+  margin-top: calc(10px / 2 * 10) !important;
+  margin-bottom: calc(10px / 2 * 10) !important;
 }
 
 .buffer-top-10 {
@@ -212,7 +212,7 @@ input, select, textarea, button {
   --c-2: #eee;
   --c-3: #333;
   --spacing: 1.5rem;
-  --font-monospace: "Menlo", "Courier New", Courier, monospace;
+  --font-monospace: 'Menlo', 'Courier New', Courier, monospace;
 }
 
 html {
@@ -454,13 +454,15 @@ html.has-mouse .wm-button--dark:hover, html.has-mouse .wm-button--darklink:hover
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+.screen > * + * {
+  margin-top: var(--spacing);
+}
+.screen {
   font-size: 2rem;
   max-width: 80rem;
   margin-left: auto;
   margin-right: auto;
-}
-.screen > * + * {
-  margin-top: var(--spacing);
 }
 .screen--challenge {
   font-size: 1.6rem;
@@ -515,10 +517,12 @@ html.has-mouse .wm-button--dark:hover, html.has-mouse .wm-button--darklink:hover
 }
 .screen__content {
   margin-top: 1rem;
-  width: 100%;
 }
 .screen__content > * + * {
   margin-top: 1rem;
+}
+.screen__content {
+  width: 100%;
 }
 .screen__actions {
   display: flex;
@@ -767,11 +771,13 @@ html.has-mouse .wm-button--dark:hover, html.has-mouse .wm-button--darklink:hover
 }
 .challenges__list {
   list-style: none;
-  display: flex;
-  flex-direction: column;
 }
 .challenges__list > * + * {
   margin-top: 1rem;
+}
+.challenges__list {
+  display: flex;
+  flex-direction: column;
 }
 .challenges__item {
   padding: 1rem;

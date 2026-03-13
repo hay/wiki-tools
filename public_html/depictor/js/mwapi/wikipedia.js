@@ -1,4 +1,4 @@
-import { getJson } from 'donot';
+import { getJson } from '../util.js';
 import { encodeWikiTitle } from '../util.js';
 
 export class WikipediaApi {

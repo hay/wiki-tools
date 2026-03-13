@@ -1,4 +1,3 @@
-import { head } from 'lodash-es';
 import { sample } from 'donot';
 import Vue from 'vue'
 import Vuex from 'vuex'
@@ -354,7 +353,7 @@ export default function createStore(opts) {
                 if (getters.hasRemainingCandidates) {
                     // #93 - switched this from 'sample' to 'head' to be
                     // able to preload images
-                    const candidate = head(getters.remainingCandidates);
+                    const candidate = getters.remainingCandidates[0];
                     console.log(`Got new candidate '${candidate.title}'`);
 
                     // Preload the next image if we have more than one
