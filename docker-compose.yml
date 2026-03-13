@@ -1,5 +1,3 @@
-version: "3"
-
 # Requires define('ROOT', '//localhost:4080/');
 
 services:
