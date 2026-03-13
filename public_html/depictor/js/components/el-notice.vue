@@ -13,16 +13,8 @@
     </div>
 </template>
 
-<script>
-    export default {
-        props : {
-            notice : {
-                type : String,
-                required : true,
-                validator: (val) => {
-                    return ['common-errors'].includes(val);
-                }
-            }
-        }
-    }
+<script setup lang="ts">
+const { notice } = defineProps<{
+    notice: 'common-errors';
+}>();
 </script>

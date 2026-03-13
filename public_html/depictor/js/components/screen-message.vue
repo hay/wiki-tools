@@ -6,23 +6,17 @@
             v-if="showReloadButton"
             type="anchor"
             v-bind:href="homeLink"
-            flair="primary">{{$t('reload_app')}}</wm-button>
+            flair="primary">{{ $t('reload_app') }}</wm-button>
     </div>
 </template>
 
-<script>
-    export default {
-        computed: {
-            homeLink() {
-                return this.$store.getters.homeLink;
-            }
-        },
+<script setup lang="ts">
+import { storeToRefs } from 'pinia';
+import { useDepictorStore } from '../store';
 
-        props : {
-            showReloadButton : {
-                type : Boolean,
-                default : false
-            }
-        }
-    }
+const { showReloadButton } = defineProps<{
+    showReloadButton?: boolean;
+}>();
+
+const { homeLink } = storeToRefs(useDepictorStore());
 </script>

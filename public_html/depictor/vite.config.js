@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue2';
+import vue from '@vitejs/plugin-vue';
 
 export default defineConfig(({ mode }) => ({
   plugins: [vue()],
@@ -11,26 +11,25 @@ export default defineConfig(({ mode }) => ({
       },
     },
   },
-  resolve: {
-    alias: {
-      vue: 'vue/dist/vue.esm.js',
-    },
-  },
   build: {
-    rollupOptions: {
+    rolldownOptions: {
       input: 'js/app.ts',
       output: {
         entryFileNames: 'bundle.js',
         chunkFileNames: '[name].js',
         assetFileNames: '[name][extname]',
+        ...(mode === 'production' && {
+          minify: {
+            compress: {
+              dropConsole: true,
+              dropDebugger: true,
+            },
+          },
+        }),
       },
     },
     outDir: 'dist',
     sourcemap: mode === 'development',
-    minify: mode === 'production' ? 'terser' : false,
-    terserOptions:
-      mode === 'production'
-        ? { compress: { drop_console: true, drop_debugger: true } }
-        : undefined,
+    minify: mode === 'production' ? 'oxc' : false,
   },
 }));

@@ -1,184 +1,152 @@
-<script>
-    import { mapState } from 'vuex';
-    import { encodeWikiTitle, loadImage } from '../util';
-    import ElProgress from './el-progress.vue';
-    import { WikipediaApi } from '../mwapi/wikipedia';
+<script setup lang="ts">
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useI18n } from 'vue-i18n';
+import { useDepictorStore } from '../store';
+import { encodeWikiTitle, loadImage } from '../util';
+import { WikipediaApi } from '../mwapi/wikipedia';
+import ElProgress from './el-progress.vue';
 
-    export default {
-        components : { ElProgress },
+const store = useDepictorStore();
+const {
+    candidate,
+    category,
+    candidates,
+    item: currentItem,
+    isPossibleChallenge,
+    items,
+    lockActions,
+    locale,
+    remainingCandidates,
+    remainingItems,
+    screen
+} = storeToRefs(store);
+const { t } = useI18n();
 
-        computed : {
-            ...mapState([ 'candidate', 'item', 'loading', 'lockActions' ]),
+const showCandidateImage = ref(true);
+const showItemImage = ref(true);
+const summary = ref<string | false>(false);
 
-            candidateImage() {
-                return this.showCandidateImage && this.$store.state.candidate ? this.$store.state.candidate.thumb : false;
-            },
+const candidateImage = computed(() =>
+    showCandidateImage.value && candidate.value ? candidate.value.thumb : undefined
+);
 
-            categoryUrl() {
-                return 'https://commons.wikimedia.org/wiki/Category:' + encodeWikiTitle(this.$store.state.category);
-            },
+const categoryUrl = computed(() =>
+    'https://commons.wikimedia.org/wiki/Category:' + encodeWikiTitle(category.value ?? '')
+);
 
-            imageProcess() {
-                return this.$t('image_process', {
-                    x : this.remainingCandidates,
-                    y : this.totalCandidates,
-                    categoryUrl : this.categoryUrl
-                });
-            },
+const totalCandidates = computed(() => candidates.value.length);
 
-            isPossibleChallenge() {
-                return this.$store.getters.isPossibleChallenge;
-            },
+const remainingCandidatesDisplay = computed(() => {
+    const count = totalCandidates.value - remainingCandidates.value.length + 1;
+    return count > totalCandidates.value ? totalCandidates.value : count;
+});
 
-            itemImage() {
-                return this.showItemImage && this.$store.state.item ? this.$store.state.item.thumb : false;
-            },
+const imageProcess = computed(() =>
+    t('image_process', {
+        x: remainingCandidatesDisplay.value,
+        y: totalCandidates.value,
+        categoryUrl: categoryUrl.value
+    })
+);
 
-            progress() {
-                const total = this.$store.state.items.length;
-                const remain = this.$store.getters.remainingItems.length;
+const itemImage = computed(() =>
+    showItemImage.value && currentItem.value ? (currentItem.value as { thumb?: string }).thumb : undefined
+);
 
-                return {
-                    total : total,
-                    value : total - remain,
-                };
-            },
+const progress = computed(() => ({
+    total: items.value.length,
+    value: items.value.length - remainingItems.value.length
+}));
 
-            remainingCandidates() {
-                const count = this.totalCandidates - this.$store.getters.remainingCandidates.length + 1;
+const refData = computed(() => {
+    const i = currentItem.value as { description?: string; url?: string; hasSitelink?: boolean; thumb?: string; label?: string; sitelinkTitle?: string };
+    return {
+        description: i?.description,
+        href: i?.url,
+        hasSitelink: i?.hasSitelink,
+        img: i?.thumb,
+        label: i?.label,
+        sitelinkTitle: i?.sitelinkTitle
+    };
+});
 
-                // Make sure we never show totalCandidates + 1 :)
-                return count > this.totalCandidates ? this.totalCandidates : count;
-            },
+const candidateDepicted = () => handleCandidate('depicted');
 
-            ref() {
-                return {
-                    description : this.item.description,
-                    href : this.item.url,
-                    hasSitelink : this.item.hasSitelink,
-                    img : this.item.thumb,
-                    label : this.item.label,
-                    sitelinkTitle : this.item.sitelinkTitle
-                };
-            },
+const candidateNotDepicted = () => handleCandidate('not-depicted');
 
-            totalCandidates() {
-                return this.$store.state.candidates.length;
-            }
-        },
+const candidateProminentlyDepicted = () => handleCandidate('prominently-depicted');
 
-        data() {
-            return {
-                showCandidateImage : true,
-                showItemImage : true,
-                summary : false
-            };
-        },
+const candidateSkipped = () => handleCandidate('user-skipped');
 
-        destroyed() {
-            window.removeEventListener('keydown', this.keydown);
-        },
+const createChallenge = () => (screen.value = 'create-challenge');
 
-        methods : {
-            candidateDepicted() {
-                this.handleCandidate('depicted');
-            },
-
-            candidateNotDepicted() {
-                this.handleCandidate('not-depicted');
-            },
-
-            candidatePromintentlyDepicted() {
-                this.handleCandidate('prominently-depicted');
-            },
-
-            candidateSkipped() {
-                this.handleCandidate('user-skipped');
-            },
-
-            createChallenge() {
-                this.$store.commit('screen', 'create-challenge');
-            },
-
-            async getSummary(title) {
-                const api = new WikipediaApi(this.$store.state.locale);
-                const summary = await api.getSummary(title);
-
-                if (summary.extract_html) {
-                    this.summary = summary.extract_html;
-                }
-            },
-
-            async handleCandidate(action) {
-                this.$store.commit('lockActions');
-                this.showCandidateImage = false;
-                await this.$store.dispatch('handleCandidate', action);
-                this.showAllImages();
-                // Failsafe, this is already done in handleCandidate,
-                // but we do it here again to make sure the actions
-                // don't stay locked
-                this.$store.commit('unlockActions');
-            },
-
-            keydown(e) {
-                if (this.lockActions) {
-                    console.log('lockActions, ignore keypresses');
-                    return;
-                }
-
-                if (e.key === '1') {
-                    this.candidateDepicted();
-                } else if (e.key === '2') {
-                    this.candidateSkipped();
-                } else if (e.key === '3') {
-                    this.candidateNotDepicted();
-                } else if (e.key === 's') {
-                    this.skipItem();
-                }
-            },
-
-            async skipItem() {
-                this.$store.commit('lockActions');
-                this.showCandidateImage = false;
-                this.summary = null;
-                this.showItemImage = false;
-                this.$store.commit('itemDone', this.$store.state.item.qid);
-                await this.$store.dispatch("nextItem");
-                this.showAllImages();
-                this.$store.commit('unlockActions');
-            },
-
-            async showAllImages() {
-                // Make sure the image is loaded before display
-                await loadImage(this.$store.state.candidate.thumb);
-                this.showCandidateImage = true;
-                this.showItemImage = true;
-            }
-        },
-
-        mounted() {
-            window.addEventListener('keydown', this.keydown);
-        },
-
-        watch : {
-            item() {
-                console.log('Item changed');
-                this.summary = null;
-            }
-        }
+const getSummary = async (title: string) => {
+    const api = new WikipediaApi(locale.value);
+    const result = await api.getSummary(title);
+    if (result.extract_html) {
+        summary.value = result.extract_html;
     }
+};
+
+const handleCandidate = async (action: string) => {
+    store.setLockActions();
+    showCandidateImage.value = false;
+    await store.handleCandidate(action);
+    await showAllImages();
+    store.setUnlockActions();
+};
+
+const keydown = (e: KeyboardEvent) => {
+    if (lockActions.value) {
+        console.log('lockActions, ignore keypresses');
+        return;
+    }
+    if (e.key === '1') candidateDepicted();
+    else if (e.key === '2') candidateSkipped();
+    else if (e.key === '3') candidateNotDepicted();
+    else if (e.key === 's') skipItem();
+};
+
+const skipItem = async () => {
+    store.setLockActions();
+    showCandidateImage.value = false;
+    summary.value = false;
+    showItemImage.value = false;
+    store.setItemDone((currentItem.value as { qid: string }).qid);
+    await store.nextItem();
+    await showAllImages();
+    store.setUnlockActions();
+};
+
+const showAllImages = async () => {
+    if (candidate.value?.thumb) {
+        await loadImage(candidate.value.thumb);
+    }
+    showCandidateImage.value = true;
+    showItemImage.value = true;
+};
+
+onMounted(() => window.addEventListener('keydown', keydown));
+
+onUnmounted(() => window.removeEventListener('keydown', keydown));
+
+watch(currentItem, () => {
+    console.log('Item changed');
+    summary.value = false;
+});
 </script>
 
 <template>
     <div>
         <div class="screen" v-if="!candidate">
             <p class="screen__instruction">
-               {{$t('fetching_candidates')}}
+               {{ $t('fetching_candidates') }}
             </p>
         </div>
 
         <div class="screen screen--game"
-             v-if="!!candidate && !!item">
+             v-if="!!candidate && !!currentItem">
             <figure class="reference"
                     v-show="showItemImage">
                 <el-progress
@@ -192,34 +160,34 @@
 
                 <figcaption class="reference__caption">
                     <p>
-                        <a v-bind:href="ref.href"
+                        <a v-bind:href="refData.href"
                            target="_blank">
-                            {{ref.label}}
+                            {{ refData.label }}
                         </a>
                     </p>
 
                     <p class="reference__description">
                         <em>
-                            {{ref.description}}
+                            {{ refData.description }}
                         </em>
                     </p>
 
                     <div v-if="summary"
                          class="reference__summary"
-                         v-html="summary" />
+                         v-html="typeof summary === 'string' ? summary : ''" />
 
                     <menu class="reference__buttons">
                         <wm-button
-                            v-if="ref.hasSitelink && !summary"
+                            v-if="refData.hasSitelink && !summary"
                             flair="default,bare"
                             icon="info"
-                            v-on:click="getSummary(ref.sitelinkTitle)">
-                            {{$t('get_summary')}}</wm-button>
+                            v-on:click="getSummary(refData.sitelinkTitle!)">
+                            {{ $t('get_summary') }}</wm-button>
 
                         <wm-button
                             v-on:click="skipItem"
                             icon="skip"
-                            flair="default,bare">{{$t('skip_item')}}</wm-button>
+                            flair="default,bare">{{ $t('skip_item') }}</wm-button>
                     </menu>
                 </figcaption>
             </figure>
@@ -227,28 +195,28 @@
             <div class="screen__content">
                 <p class="screen__instruction"
                    v-if="!showCandidateImage || !showItemImage">
-                    {{$t('loading_images')}}
+                    {{ $t('loading_images') }}
                 </p>
 
                 <p v-else
                    class="screen__instruction"
-                   v-html="$t('is_depicted', { label : ref.label })"></p>
+                   v-html="$t('is_depicted', { label: refData.label })"></p>
 
                 <menu class="screen__actions">
                     <wm-button v-on:click="candidateDepicted"
                                v-bind:disabled="lockActions"
-                               icon="accept">{{$t('yes')}}</wm-button>
+                               icon="accept">{{ $t('yes') }}</wm-button>
 
                     <wm-button v-on:click="candidateSkipped"
                                v-bind:disabled="lockActions"
-                               icon="skip">{{$t('skip')}}</wm-button>
+                               icon="skip">{{ $t('skip') }}</wm-button>
 
                     <wm-button v-on:click="candidateNotDepicted"
                                v-bind:disabled="lockActions"
-                               icon="close">{{$t('no')}}</wm-button>
+                               icon="close">{{ $t('no') }}</wm-button>
                 </menu>
 
-                <a v-bind:href="candidate.url"
+                <a v-bind:href="candidate?.url ?? (candidate ? `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(candidate.title)}` : undefined)"
                    class="screen__candidateimage"
                    target="_blank">
                     <img v-bind:src="candidateImage"
@@ -262,18 +230,18 @@
                 <span v-html="imageProcess"></span>
 
                 <small class="screen__small">
-                    <a v-bind:href="candidate.url"
+                    <a v-bind:href="candidate?.url ?? (candidate ? `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(candidate.title)}` : undefined)"
                        target="_blank">
-                       {{candidate.title}} ({{candidate.mid}})
+                       {{ candidate?.title }} ({{ candidate?.mid }})
                     </a>
                 </small>
 
                 <span>
-                    {{$t("keyboard_shortcuts")}}: <b>(1)</b> {{$t("depicted")}}, <b>(2)</b> {{$t("skip")}}, <b>(3)</b> {{$t("not_depicted")}}, <b>(s)</b> {{$t("skip_item")}}
+                    {{ $t('keyboard_shortcuts') }}: <b>(1)</b> {{ $t('depicted') }}, <b>(2)</b> {{ $t('skip') }}, <b>(3)</b> {{ $t('not_depicted') }}, <b>(s)</b> {{ $t('skip_item') }}
                 </span>
 
                 <span v-show="!isPossibleChallenge">
-                    {{$t('create_challenge_not_possible')}}
+                    {{ $t('create_challenge_not_possible') }}
                 </span>
             </p>
 
@@ -281,7 +249,7 @@
                 class="screen__challenge"
                 v-show="isPossibleChallenge"
                 v-on:click="createChallenge"
-                icon="challenge">{{$t('create_challenge')}}</wm-button>
+                icon="challenge">{{ $t('create_challenge') }}</wm-button>
         </div>
     </div>
 </template>

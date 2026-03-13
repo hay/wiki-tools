@@ -1,19 +1,19 @@
-import '../scss/style.scss';
-import { $ } from 'donot';
-import { getJson } from './util';
-import Vue from 'vue';
-import VueI18n from 'vue-i18n';
-import Vuex from 'vuex';
-import App from './components/app.vue';
-import WmButton from './components/wm-button.vue';
-import createStore from './store';
-import { test } from './test';
+import "../scss/style.scss";
+import { $ } from "donot";
+import { getJson } from "./util";
+import { createApp, watch } from "vue";
+import { createI18n } from "vue-i18n";
+import { createPinia } from "pinia";
+import App from "./components/app.vue";
+import WmButton from "./components/wm-button.vue";
+import { initStore, useDepictorStore } from "./store";
+import { test } from "./test";
 
-async function createApp() {
-    Vue.use(Vuex);
-    Vue.use(VueI18n);
-
-    const locales = await getJson('./locales.json') as { messages?: Record<string, Record<string, string>> };
+const createAppInstance = async () => {
+    const locales = await getJson("./locales.json") as {
+        messages?: Record<string, Record<string, string>>;
+        languages?: { code: string; label: string }[];
+    };
     const ctx = window.__ctx__;
 
     if (ctx?.isDebug) {
@@ -21,92 +21,82 @@ async function createApp() {
     }
 
     const storeOptions = Object.assign({}, window.__ctx__, {
-        locales : locales
+        locales,
     });
-    const store = createStore(storeOptions);
+    initStore(storeOptions);
 
-    const i18n = new VueI18n({
-        fallbackLocale: store.state.defaultLocale,
-        locale : store.state.locale,
-        messages : store.state.locales?.messages ?? {},
-        silentTranslationWarn : !store.state.isDebug
+    const app = createApp(App);
+    const pinia = createPinia();
+    app.use(pinia);
+
+    const store = useDepictorStore();
+
+    const i18n = createI18n({
+        legacy: false,
+        fallbackLocale: store.defaultLocale,
+        locale: store.locale,
+        messages: store.locales?.messages ?? {},
+        silentTranslationWarn: !store.isDebug,
     });
 
-    Vue.component('wm-button', WmButton);
+    app.use(i18n);
+    app.component("wm-button", WmButton);
 
-    Vue.config.errorHandler = function(err: Error) {
-        console.error(err);
+    app.config.errorHandler = (err: unknown) => console.error(err);
+
+    app.mount("#app");
+
+    // URL parsing (previously in root component mounted)
+    const parseSearch = () => {
+        const url = new window.URL(window.location.href);
+        const depictorStore = useDepictorStore();
+
+        if (
+            url.searchParams.has("queryType") &&
+            url.searchParams.has("queryValue")
+        ) {
+            depictorStore.runQuery({
+                type: url.searchParams.get("queryType")!,
+                value: url.searchParams.get("queryValue")!,
+            });
+        }
+
+        if (url.searchParams.has("challenge")) {
+            const id = url.searchParams.get("challenge")!;
+            const action = url.searchParams.get("action") ?? "";
+            depictorStore.loadChallenge({ id, action });
+        }
+
+        if (url.searchParams.has("test")) {
+            test();
+        }
     };
 
-    new Vue({
-        el : "#app",
+    parseSearch();
 
-        components : { App },
-
-        computed : {
-            screen() {
-                return (this as unknown as { $store: typeof store }).$store.state.screen;
-            }
-        },
-
-        i18n : i18n,
-
-        methods : {
-            parseSearch() {
-                const url = new window.URL(window.location.href);
-                const $store = (this as unknown as { $store: typeof store }).$store;
-
-                if (
-                    url.searchParams.has("queryType") &&
-                    url.searchParams.has("queryValue")
-                ) {
-                    $store.dispatch('query', {
-                        type : url.searchParams.get('queryType')!,
-                        value : url.searchParams.get('queryValue')!
-                    });
-                }
-
-                if (url.searchParams.has("challenge")) {
-                    const id = url.searchParams.get("challenge")!;
-                    const action = url.searchParams.get("action")!;
-
-                    $store.dispatch("challenge", { id, action });
-                }
-
-                if (url.searchParams.has("test")) {
-                    test();
+    // Screen watcher for fullscreen (previously in root component)
+    watch(
+        () => useDepictorStore().screenState,
+        (screen) => {
+            const wrapper = $("#wrapper");
+            if (wrapper) {
+                if (screen === "game") {
+                    wrapper.setAttribute("is-fullscreen", "");
+                } else {
+                    wrapper.removeAttribute("is-fullscreen");
                 }
             }
         },
+    );
+};
 
-        mounted() {
-            this.parseSearch();
-        },
-
-        store,
-
-        watch : {
-            screen(screen: string) {
-                const wrapper = $("#wrapper");
-                if (wrapper) {
-                    if (screen === 'game') {
-                        wrapper.setAttribute('is-fullscreen', '');
-                    } else {
-                        wrapper.removeAttribute('is-fullscreen');
-                    }
-                }
-            }
-        }
-    } as any);
-}
-
-function addTouchClasses() {
-    const inputDevice = 'ontouchend' in window ? 'touch' : 'mouse';
-    const html = $('html');
+const addTouchClasses = () => {
+    const inputDevice = "ontouchend" in window ? "touch" : "mouse";
+    const html = $("html");
     if (html) {
-        html.classList.add('has-' + inputDevice);
+        html.classList.add("has-" + inputDevice);
     }
-}
+};
 
 addTouchClasses();
-createApp();
+createAppInstance();

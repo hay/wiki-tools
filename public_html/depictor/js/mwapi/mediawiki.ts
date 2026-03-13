@@ -9,7 +9,7 @@ export default class MediawikiApi {
         this.language = language;
     }
 
-    async call(params: Record<string, unknown>) {
+    async call<T>(params: Record<string, unknown>): Promise<T> {
         params = Object.assign(params, {
             origin : '*',
             format : 'json'

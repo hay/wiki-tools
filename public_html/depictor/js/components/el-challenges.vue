@@ -1,70 +1,91 @@
 <template>
-    <div class="challenges">
-        <h2 class="screen__title">
-            {{$t('challenge_overview')}}
-        </h2>
+  <div class="challenges">
+    <h2 class="screen__title">
+      {{ $t("challenge_overview") }}
+    </h2>
 
-        <p class="screen__subtitle">
-            {{$t('challenge_subtitle')}}
-        </p>
+    <p class="screen__subtitle">
+      {{ $t("challenge_subtitle") }}
+    </p>
 
-        <p class="screen__subtitle buffer-bottom-2">
-            <em>
-                <a href="https://commons.wikimedia.org/wiki/Commons:Depictor#Challenges">How do i create my own challenge?</a>
-            </em>
-        </p>
+    <p class="screen__subtitle buffer-bottom-2">
+      <em>
+        <a href="https://commons.wikimedia.org/wiki/Commons:Depictor#Challenges"
+          >How do i create my own challenge?</a
+        >
+      </em>
+    </p>
 
-        <ul class="challenges__list">
-            <li v-for="(challenge, index) in challenges"
-                v-show="index < maxItems || showAll">
-                <a v-bind:href="challenge.link"
-                   class="challenges__item">
-                    <h3 class="challenges__title">
-                        <span>{{challenge.title}}</span>
+    <ul class="challenges__list">
+      <li
+        v-for="(challenge, index) in challenges"
+        v-show="index < maxItems || showAll"
+      >
+        <a v-bind:href="challenge.link" class="challenges__item">
+          <h3 class="challenges__title">
+            <span>{{ challenge.title }}</span>
 
-                        <span class="challenges__itemcount"
-                              v-if="challenge.edits > 0">
-                            {{ $t('editcount', { count : challenge.edits }) }}
-                        </span>
-                    </h3>
+            <span
+              class="challenges__itemcount"
+              v-if="(challenge.edits ?? 0) > 0"
+            >
+              {{ $t("editcount", { count: challenge.edits }) }}
+            </span>
+          </h3>
 
-                    <p class="challenges__description">
-                        {{challenge.short_description}}
-                    </p>
-                </a>
-            </li>
-        </ul>
+          <p class="challenges__description">
+            {{ challenge.short_description }}
+          </p>
+        </a>
+      </li>
+    </ul>
 
-        <wm-button
-            v-show="!showAll && challenges.length > maxItems"
-            class="leaderboard__button"
-            icon="eye"
-            flair="default,bare"
-            v-on:click="showAll = true">
-            {{$t('show_all_challenges', { count : challenges.length })}}</wm-button>
-    </div>
+    <wm-button
+      v-show="!showAll && challenges.length > maxItems"
+      class="leaderboard__button"
+      icon="eye"
+      flair="default,bare"
+      v-on:click="showAll = true"
+    >
+      {{ $t("show_all_challenges", { count: challenges.length }) }}</wm-button
+    >
+  </div>
 </template>
 
-<script>
-    import { MAX_CHALLENGE_OVERVIEW_COUNT } from '../const';
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
+import { storeToRefs } from "pinia";
+import { useDepictorStore } from "../store";
+import { MAX_CHALLENGE_OVERVIEW_COUNT } from "../const";
 
-    export default {
-        data() {
-            return {
-                challenges : [],
-                maxItems : MAX_CHALLENGE_OVERVIEW_COUNT,
-                showAll : false
-            }
-        },
+const store = useDepictorStore();
+const { rootUrl } = storeToRefs(store);
 
-        async mounted() {
-            const state = this.$store.state;
-            const challenges = await state.api.getChallenges();
+const challenges = ref<
+  Array<{
+    id: string;
+    title?: string;
+    short_description?: string;
+    edits?: number;
+    link?: string;
+  }>
+>([]);
+const maxItems = MAX_CHALLENGE_OVERVIEW_COUNT;
+const showAll = ref(false);
 
-            this.challenges = challenges.map((challenge) => {
-                challenge.link = `${state.rootUrl}/?challenge=${challenge.id}`;
-                return challenge;
-            });
-        }
-    }
+onMounted(async () => {
+  const data =
+    await store.api.getChallenges<
+      Array<{
+        id: string;
+        title?: string;
+        short_description?: string;
+        edits?: number;
+      }>
+    >();
+  challenges.value = data.map((challenge) => ({
+    ...challenge,
+    link: `${rootUrl.value}/?challenge=${challenge.id}`,
+  }));
+});
 </script>

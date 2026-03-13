@@ -2,19 +2,19 @@
     <div class="screen">
         <p class="screen__lead"
             v-show="opts.type === 'year'">
-            {{$t("intro_start_birthyear", { year : opts.year })}}
+            {{ $t('intro_start_birthyear', { year: opts.year }) }}
         </p>
 
         <wm-button
             v-on:click="start"
-            flair="default,primary">{{$t("start")}}</wm-button>
+            flair="default,primary">{{ $t('start') }}</wm-button>
 
         <wm-button
             icon="cog"
             flair="default,bare"
             v-on:click="toggleAdvancedOptions">
-            <span v-if="showAdvancedOptions">{{$t("hide_advanced_options")}}</span>
-            <span v-if="!showAdvancedOptions">{{$t("show_advanced_options")}}</span>
+            <span v-if="showAdvancedOptions">{{ $t('hide_advanced_options') }}</span>
+            <span v-if="!showAdvancedOptions">{{ $t('show_advanced_options') }}</span>
         </wm-button>
 
         <div class="options__wrapper"
@@ -26,7 +26,7 @@
                            id="opt-year"
                            value="year"
                            v-model="opts.type" />
-                    {{$t("birth_year")}}
+                    {{ $t('birth_year') }}
                 </label>
 
                 <input type="number"
@@ -38,7 +38,7 @@
                            id="opt-category"
                            value="category"
                            v-model="opts.type" />
-                    {{$t("commons_category")}}
+                    {{ $t('commons_category') }}
                 </label>
                 <input type="text"
                         v-on:click="opts.type = 'category'"
@@ -49,7 +49,7 @@
                         <input type="checkbox"
                                v-model="opts.catdeep"
                                id="opt-catdeep" />
-                        {{$t("search_deepcat_input")}}
+                        {{ $t('search_deepcat_input') }}
                         <input type="number"
                                v-bind:disabled="!opts.catdeep"
                                v-model="opts.catdepth"
@@ -63,7 +63,7 @@
                            id="opt-sparql"
                            value="sparql"
                            v-model="opts.type" />
-                    {{$t("sparql_query")}}
+                    {{ $t('sparql_query') }}
                 </label>
                 <textarea
                     rows="4"
@@ -87,7 +87,7 @@ select ?item ?instance ?image ?cat where {
                     notice="common-errors"
                     class="options__instruction"></el-notice>
             </div>
-        </div> <!-- options-wrapper -->
+        </div>
 
         <p class="screen__subtitle">
             <strong>
@@ -102,44 +102,30 @@ select ?item ?instance ?image ?cat where {
     </div>
 </template>
 
-<script>
-    import { randInt } from 'donot';
-    import {
-        MIN_BIRTH_YEAR, MAX_BIRTH_YEAR
-    } from '../const';
-    import ElChallenges from './el-challenges.vue';
-    import ElLeaderboard from './el-leaderboard.vue';
-    import ElNotice from './el-notice.vue';
+<script setup lang="ts">
+import { ref, reactive } from 'vue';
+import { randInt } from 'donot';
+import { MIN_BIRTH_YEAR, MAX_BIRTH_YEAR } from '../const';
+import { useDepictorStore } from '../store';
+import ElChallenges from './el-challenges.vue';
+import ElLeaderboard from './el-leaderboard.vue';
+import ElNotice from './el-notice.vue';
 
-    function getRandomBirthYear() {
-        return randInt(MIN_BIRTH_YEAR, MAX_BIRTH_YEAR);
-    }
+const getRandomBirthYear = () => randInt(MIN_BIRTH_YEAR, MAX_BIRTH_YEAR);
 
-    export default {
-        components : { ElChallenges, ElLeaderboard, ElNotice },
+const store = useDepictorStore();
 
-        data() {
-            return {
-                opts : {
-                    category : null,
-                    catdeep : false,
-                    catdepth : 0,
-                    sparql : null,
-                    type : 'year',
-                    year : getRandomBirthYear()
-                },
-                showAdvancedOptions : false
-            };
-        },
+const opts = reactive({
+    category: null as string | null,
+    catdeep: false,
+    catdepth: 0,
+    sparql: null as string | null,
+    type: 'year' as string,
+    year: getRandomBirthYear()
+});
+const showAdvancedOptions = ref(false);
 
-        methods : {
-            async start() {
-                this.$store.commit('hash', this.opts);
-            },
+const start = () => store.setHash(opts);
 
-            toggleAdvancedOptions() {
-                this.showAdvancedOptions = !this.showAdvancedOptions;
-            }
-        }
-    }
+const toggleAdvancedOptions = () => (showAdvancedOptions.value = !showAdvancedOptions.value);
 </script>

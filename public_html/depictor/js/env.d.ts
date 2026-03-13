@@ -11,11 +11,5 @@ declare module 'donot' {
   export function sample<T>(arr: T[]): T;
 }
 
-declare module 'vue/types/vue' {
-  interface Vue {
-    $store: import('vuex').Store<unknown>;
-  }
-}
-
 export {};
 

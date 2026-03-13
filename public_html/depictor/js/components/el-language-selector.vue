@@ -7,24 +7,24 @@
         <span class="language-selector__link"
               v-show="!isShowSelect"
               v-on:click="clickSelect">
-            {{$t('language')}}
+            {{ $t('language') }}
         </span>
 
         <select
             v-show="isShowSelect"
-            v-on:change="change($event.target.value)"
+            v-on:change="change(($event.target as HTMLSelectElement).value)"
             class="language-selector__select">
             <option
                 v-if="link"
                 value="external-link">
-                {{link.label}}
+                {{ link.label }}
             </option>
 
             <option
                 v-for="l in languages"
                 v-bind:selected="l.code === lang"
                 v-bind:value="l.code">
-                {{l.label}}
+                {{ l.label }}
             </option>
         </select>
 
@@ -35,59 +35,45 @@
     </div>
 </template>
 
-<script>
-    export default {
-        data() {
-            return {
-                isShowSelect : false,
-                lang : this.value,
-                showCustomLanguage : false,
-            }
-        },
+<script setup lang="ts">
+import { ref, watch } from 'vue';
 
-        methods : {
-            blurSelect() {
-                this.$emit('blur-select');
-            },
+const { languages, link, modelValue } = defineProps<{
+    languages: Array<{ code: string; label: string }>;
+    link?: { link: string; label: string };
+    modelValue: string;
+}>();
 
-            change(lang) {
-                if (lang === 'external-link') {
-                    window.location = this.link.link;
-                } else {
-                    this.$emit('input', lang);
-                }
+const emit = defineEmits<{
+    'update:modelValue': [value: string];
+    'blur-select': [];
+    'click-select': [];
+}>();
 
-                this.isShowSelect = false;
-            },
+const isShowSelect = ref(false);
+const lang = ref(modelValue);
 
-            clickSelect() {
-                this.$emit('click-select');
-            },
+watch(() => modelValue, (val) => (lang.value = val));
 
-            hideSelect() {
-                this.isShowSelect = false;
-            },
+const blurSelect = () => emit('blur-select');
 
-            showSelect() {
-                this.isShowSelect = true;
-            }
-        },
-
-        props : {
-            languages : {
-                type : Array,
-                required : true
-            },
-
-            link : {
-                type : Object,
-                required : false
-            },
-
-            value : {
-                type : String,
-                required : true
-            }
-        }
+const change = (newLang: string) => {
+    if (newLang === 'external-link' && link) {
+        window.location.href = link.link;
+    } else {
+        emit('update:modelValue', newLang);
     }
+    isShowSelect.value = false;
+};
+
+const clickSelect = () => emit('click-select');
+
+const showSelect = () => (isShowSelect.value = true);
+
+const hideSelect = () => (isShowSelect.value = false);
+
+defineExpose({
+    showSelect,
+    hideSelect
+});
 </script>

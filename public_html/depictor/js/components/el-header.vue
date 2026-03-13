@@ -7,14 +7,14 @@
                 v-bind:href="homeLink"
                 type="anchor"
                 flair="default,bare"
-                icon="arrow-left">{{$t('start')}}</wm-button>
+                icon="arrow-left">{{ $t('start') }}</wm-button>
 
             <el-language-selector
-                ref="langSelect"
+                ref="langSelectRef"
                 v-on:blur-select="langSelect(false)"
                 v-on:click-select="langSelect(true)"
                 v-bind:languages="languages"
-                v-bind:link="transateLink"
+                v-bind:link="translateLink"
                 v-model="locale"></el-language-selector>
 
             <wm-button
@@ -25,7 +25,7 @@
                 class="el-header__username"
                 v-bind:href="userPage"
                 target="_blank"
-                icon="user">{{userName}}</wm-button>
+                icon="user">{{ userName }}</wm-button>
 
             <wm-button
                 v-show="!showLangselect"
@@ -33,7 +33,7 @@
                 flair="default,bare"
                 type="anchor"
                 href="https://commons.wikimedia.org/wiki/Commons:Depictor">
-                {{$t("help")}}
+                {{ $t('help') }}
             </wm-button>
 
             <wm-button
@@ -42,114 +42,103 @@
                 icon="logout"
                 flair="default,bare"
                 type="anchor"
-                href="index.php?logout=1">{{$t("log_out")}}</wm-button>
+                href="index.php?logout=1">{{ $t('log_out') }}</wm-button>
         </menu>
 
         <h1 class="app-title"
             v-show="screen === 'intro'">
-            <a v-bind:href="rootUrl">{{$t('app_title')}}</a>
+            <a v-bind:href="rootUrl">{{ $t('app_title') }}</a>
         </h1>
 
         <p class="app-lead"
             v-show="screen === 'intro'">
-            {{$t('app_description')}}
+            {{ $t('app_description') }}
         </p>
 
         <div class="screen"
              v-if="!isLoggedIn">
             <template v-if="isAccessTokenRequest">
                 <p class="screen__lead">
-                   {{$t('logged_in_proceed')}}
+                   {{ $t('logged_in_proceed') }}
                 </p>
 
                 <wm-button
                     href="index.php"
                     type="anchor"
-                    flair="default,primary">{{$t('proceed')}}</wm-button>
+                    flair="default,primary">{{ $t('proceed') }}</wm-button>
             </template>
 
             <template v-else-if="isLoggedOut">
                 <p class="screen__lead">
-                    {{$t('please_log_in')}}
+                    {{ $t('please_log_in') }}
                 </p>
 
                 <wm-button
                    v-bind:href="authUrl"
                    type="anchor"
-                   flair="default,primary">{{$t('log_in')}}</wm-button>
+                   flair="default,primary">{{ $t('log_in') }}</wm-button>
             </template>
 
             <template v-else>
-                <!-- invalidAccessTokenRequest and anything else weird -->
                 <p class="screen__lead">
-                    {{$t('login_error_try_again')}}
+                    {{ $t('login_error_try_again') }}
                 </p>
 
                 <wm-button
                     flair="default,primary"
                     type="anchor"
-                    href="index.php?logout=1">{{$t("try_again")}}</wm-button>
+                    href="index.php?logout=1">{{ $t('try_again') }}</wm-button>
             </template>
         </div>
     </div>
 </template>
 
-<script>
-    import ElLanguageSelector from './el-language-selector.vue';
-    import { mapState } from 'vuex';
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useI18n } from 'vue-i18n';
+import { useDepictorStore } from '../store';
+import ElLanguageSelector from './el-language-selector.vue';
 
-    export default {
-        components : { ElLanguageSelector },
+const store = useDepictorStore();
+const {
+    authUrl,
+    homeLink,
+    isAccessTokenRequest,
+    isLoggedIn,
+    isLoggedOut,
+    locale: storeLocale,
+    locales,
+    rootUrl,
+    screenState: screen,
+    userPage,
+    userName
+} = storeToRefs(store);
 
-        computed: {
-            homeLink() {
-                return this.$store.getters.homeLink;
-            },
+const { t, locale: i18nLocale } = useI18n();
 
-            locale: {
-                get() {
-                    return this.$store.state.locale;
-                },
+const langSelectRef = ref<InstanceType<typeof ElLanguageSelector> | null>(null);
+const showLangselect = ref(false);
 
-                set(locale) {
-                    this.$store.commit('locale', locale);
-                }
-            },
+const locale = computed({
+    get: () => storeLocale.value,
+    set: (val: string) => store.setLocale(val)
+});
 
-            ...mapState([
-                'authUrl', 'rootUrl', 'isDebug', 'userPage', 'userName',
-                'isAccessTokenRequest', 'isLoggedIn', 'isLoggedOut', 'screen',
-                'isInvalidAccessTokenRequest'
-            ])
-        },
+const languages = computed(() => locales.value?.languages ?? []);
+const translateLink = computed(() => ({
+    link: 'https://tools.wmflabs.org/tooltranslate/#tool=59',
+    label: t('translate_this_tool')
+}));
 
-        data() {
-            return {
-                languages : this.$store.state.locales.languages,
-                showLangselect : false,
-                transateLink : {
-                    link : 'https://tools.wmflabs.org/tooltranslate/#tool=59',
-                    label : this.$t('translate_this_tool')
-                }
-            };
-        },
+const langSelect = (select: boolean) => {
+    if (select) {
+        langSelectRef.value?.showSelect();
+    } else {
+        langSelectRef.value?.hideSelect();
+    }
+    showLangselect.value = select;
+};
 
-        methods : {
-            langSelect(select) {
-                if (select) {
-                    this.$refs.langSelect.showSelect();
-                } else {
-                    this.$refs.langSelect.hideSelect();
-                }
-
-                this.showLangselect = select;
-            }
-        },
-
-        watch : {
-            locale() {
-                this.$i18n.locale = this.locale;
-            }
-        }
-    };
+watch(locale, (val) => (i18nLocale.value = val));
 </script>

@@ -1,100 +1,95 @@
 <template>
-    <div class="leaderboard__wrapper">
-        <h2 class="screen__title">
-            {{leaderboardLabel}}
-        </h2>
+  <div class="leaderboard__wrapper">
+    <h2 class="screen__title">
+      {{ leaderboardLabel }}
+    </h2>
 
-        <template v-if="hasItems">
-            <p class="screen__subtitle"
-               v-html="subtitle"></p>
+    <template v-if="hasItems">
+      <p class="screen__subtitle" v-html="subtitle"></p>
 
-            <table class="leaderboard">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>{{$t('name')}}</th>
-                        <th>{{$t('edits')}}</th>
-                    </tr>
-                </thead>
+      <table class="leaderboard">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>{{ $t("name") }}</th>
+            <th>{{ $t("edits") }}</th>
+          </tr>
+        </thead>
 
-                <tbody>
-                    <tr v-for="(row, index) in data.stats"
-                        v-show="index < maxRows || showAll">
-                        <td>{{index + 1}}</td>
-                        <td>
-                            <a v-bind:href="row.userLink"
-                               target="_blank">{{row.user}}</a>
-                        </td>
-                        <td>{{numberWithCommas( row.edits )}}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <tbody>
+          <tr
+            v-for="(row, index) in data.stats"
+            v-show="index < maxRows || showAll"
+          >
+            <td>{{ index + 1 }}</td>
+            <td>
+              <a v-bind:href="row.userLink" target="_blank">{{ row.user }}</a>
+            </td>
+            <td>{{ numberWithCommas(row.edits) }}</td>
+          </tr>
+        </tbody>
+      </table>
 
-            <wm-button
-                v-show="!showAll && data.stats.length > maxRows"
-                class="leaderboard__button"
-                icon="eye"
-                flair="default,bare"
-                v-on:click="showAll = true">
-                {{$t('show_all_rows')}}</wm-button>
-        </template>
+      <wm-button
+        v-show="!showAll && data.stats.length > maxRows"
+        class="leaderboard__button"
+        icon="eye"
+        flair="default,bare"
+        v-on:click="showAll = true"
+      >
+        {{ $t("show_all_rows") }}</wm-button
+      >
+    </template>
 
-        <template v-if="!hasItems">
-            <p class="screen__subtitle">
-                {{$t('empty_leaderboard')}}
-            </p>
-        </template>
-    </div>
+    <template v-if="!hasItems">
+      <p class="screen__subtitle">
+        {{ $t("empty_leaderboard") }}
+      </p>
+    </template>
+  </div>
 </template>
 
-<script>
-    import { numberWithCommas } from '../util';
+<script setup lang="ts">
+import { ref, computed, onMounted } from "vue";
+import { useI18n } from "vue-i18n";
+import { useDepictorStore } from "../store";
+import { numberWithCommas } from "../util";
 
-    export default {
-        computed : {
-            hasItems() {
-                return this.data.total > 0;
-            },
+const { challenge } = defineProps<{
+  challenge?: string;
+}>();
 
-            leaderboardLabel() {
-                return this.challenge ? this.$t('leaderboard') : this.$t('global_leaderboard');
-            },
+const store = useDepictorStore();
+const { t } = useI18n();
 
-            subtitle() {
-                const total = this.numberWithCommas(this.data.total);
-                return this.$t('leaderboard_total', { total });
-            }
-        },
+const data = ref<{
+  total: number;
+  stats: Array<{ user: string; edits: number; userLink?: string }>;
+}>({
+  total: 0,
+  stats: [],
+});
+const maxRows = 10;
+const showAll = ref(false);
 
-        data() {
-            return {
-                data : [],
-                maxRows : 10,
-                showAll : false
-            }
-        },
+const hasItems = computed(() => data.value.total > 0);
 
-        methods : {
-            numberWithCommas(val) {
-                return numberWithCommas(val);
-            }
-        },
+const leaderboardLabel = computed(() =>
+  challenge ? t("leaderboard") : t("global_leaderboard"),
+);
 
-        async mounted() {
-            const data = await this.$store.state.api.getLeaderboard(this.challenge);
+const subtitle = computed(() =>
+  t("leaderboard_total", { total: numberWithCommas(data.value.total) }),
+);
 
-            data.stats = data.stats.map((row) => {
-                row.userLink = `https://commons.wikimedia.org/wiki/User:${row.user}`;
-                return row;
-            });
-
-            this.data = data;
-        },
-
-        props : {
-            challenge : {
-                required : false
-            }
-        }
-    }
+onMounted(async () => {
+  const result = await store.api.getLeaderboard(challenge ?? null);
+  data.value = {
+    ...result,
+    stats: result.stats.map((row) => ({
+      ...row,
+      userLink: `https://commons.wikimedia.org/wiki/User:${row.user}`,
+    })),
+  };
+});
 </script>

@@ -1,10 +1,21 @@
-import { getJson } from './util';
-import { IMAGE_SIZE, LOCAL_API_ENDPOINT, THUMB_SIZE } from './const';
-import { buildUrlQuery, postJson } from './util';
-import CommonsApi from './mwapi/commons';
-import WikidataApi from './mwapi/wikidata';
-import WikidataQuery from './mwapi/query';
-import type { SparqlBinding } from './types';
+import { getJson } from "./util";
+import { IMAGE_SIZE, LOCAL_API_ENDPOINT, THUMB_SIZE } from "./const";
+import { buildUrlQuery, postJson } from "./util";
+import CommonsApi from "./mwapi/commons";
+import WikidataApi from "./mwapi/wikidata";
+import WikidataQuery, { SparqlBinding } from "./mwapi/query";
+
+export interface Challenge {
+    id: string;
+    querytype?: string;
+    queryvalue?: string;
+    user?: string;
+    title?: string;
+    short_description?: string;
+    long_description?: string;
+    archived?: string;
+    itemcount?: string;
+}
 
 interface CandidateItem {
     mid: string;
@@ -14,7 +25,10 @@ interface CandidateItem {
 }
 
 interface ItemWithClaims {
-    claims?: Record<string, { mainsnak: { datavalue?: { value: { id?: string } } } }[]>;
+    claims?: Record<
+        string,
+        { mainsnak: { datavalue?: { value: { id?: string } } } }[]
+    >;
     descriptions?: Record<string, { value: string }>;
     labels?: Record<string, { value: string }>;
     sitelinks?: Record<string, { title: string }>;
@@ -28,7 +42,10 @@ export default class Api {
     }
 
     async addFile(file: unknown) {
-        const req = await this.call('add-file', file as Record<string, unknown>) as { error?: string; ok?: boolean };
+        const req = await this.call<{ error?: string; ok?: boolean }>(
+            "add-file",
+            file as Record<string, unknown>,
+        );
 
         if (req.error || !req.ok) {
             throw new Error(req.error || "Could not add depicts statement");
@@ -37,25 +54,38 @@ export default class Api {
         return req;
     }
 
-    async call(action: string, opts: Record<string, unknown> = {}) {
+    async call<T>(
+        action: string,
+        opts: Record<string, unknown> = {},
+    ): Promise<T> {
         opts.action = action;
-        const query = buildUrlQuery(opts as Record<string, string | number | boolean | undefined>);
+        const query = buildUrlQuery(
+            opts as Record<string, string | number | boolean | undefined>,
+        );
         const url = `${LOCAL_API_ENDPOINT}?${query}`;
         const req = await getJson(url);
         return req;
     }
 
-    async post(action: string, opts: Record<string, unknown> = {}) {
+    async post<T>(
+        action: string,
+        opts: Record<string, unknown> = {},
+    ): Promise<T> {
         opts.action = action;
         const req = await postJson(LOCAL_API_ENDPOINT, opts);
-        return req;
+        return req as T;
     }
 
     async createChallenge(data: Record<string, unknown>) {
-        const req = await this.post('create-challenge', data) as { error?: { info?: string }; id?: string };
+        const req = await this.post("create-challenge", data) as {
+            error?: { info?: string };
+            id?: string;
+        };
 
         if (req.error || !req.id) {
-            throw new Error((req.error as { info?: string })?.info ?? 'Unknown error');
+            throw new Error(
+                (req.error as { info?: string })?.info ?? "Unknown error",
+            );
         }
 
         return req.id;
@@ -64,34 +94,45 @@ export default class Api {
     async editChallenge(id: string, data: Record<string, unknown>) {
         data.id = id;
 
-        const req = await this.post('edit-challenge', data) as { error?: { info?: string }; id?: string };
+        const req = await this.post("edit-challenge", data) as {
+            error?: { info?: string };
+            id?: string;
+        };
 
         if (req.error || !req.id) {
-            throw new Error((req.error as { info?: string })?.info ?? 'Unknown error');
+            throw new Error(
+                (req.error as { info?: string })?.info ?? "Unknown error",
+            );
         }
 
         return req.id;
     }
 
     async fileExists(mid: string) {
-        const req = await this.call('file-exists', { mid }) as { status?: boolean };
+        const req = await this.call<{ status?: boolean }>("file-exists", {
+            mid,
+        });
         return req.status ?? false;
     }
 
     async filesExist(mids: string[]) {
-        const req = await this.post('files-exists', { mids }) as Record<string, boolean>;
+        const req = await this.post("files-exists", { mids }) as Record<
+            string,
+            boolean
+        >;
         return req;
     }
 
     async getCandidates(qid: string, category: string) {
         const api = new CommonsApi(this.locale, {
-            thumbSize : IMAGE_SIZE
+            thumbSize: IMAGE_SIZE,
         });
 
         // Find only bitmaps that don't have a P180 statement for the person in the stated category
-        const query = `-haswbstatement:P180=${qid} incategory:"${category}" filetype:bitmap`;
+        const query =
+            `-haswbstatement:P180=${qid} incategory:"${category}" filetype:bitmap`;
         const req = await api.search(query, {
-            'namespace' : 6 // Only get the File: namespace
+            "namespace": 6, // Only get the File: namespace
         }) as { error?: { info?: string }; items: CandidateItem[] };
 
         if (req.error) {
@@ -108,13 +149,15 @@ export default class Api {
     async getCandidateItem(qid: string) {
         const api = new WikidataApi(this.locale);
 
-        const req = await api.call({
+        const req = await api.call<
+            { error?: unknown; entities?: Record<string, ItemWithClaims> }
+        >({
             "action": "wbgetentities",
             "ids": qid,
             "languages": this.locale,
             "props": "claims|descriptions|labels|sitelinks",
-            "format": "json"
-        }) as { error?: unknown; entities?: Record<string, ItemWithClaims> };
+            "format": "json",
+        });
 
         if (req.error) {
             console.error(req.error);
@@ -127,7 +170,10 @@ export default class Api {
         let thumb: string | undefined;
 
         if (item.claims && "P18" in item.claims) {
-            const file = (item.claims.P18[0] as { mainsnak: { datavalue?: { value: string } } }).mainsnak.datavalue?.value;
+            const file =
+                (item.claims.P18[0] as {
+                    mainsnak: { datavalue?: { value: string } };
+                }).mainsnak.datavalue?.value;
             if (file) {
                 const commonsApi = new CommonsApi(this.locale);
                 thumb = commonsApi.getThumb(file, THUMB_SIZE);
@@ -136,33 +182,42 @@ export default class Api {
 
         const sitelinkCode = `${this.locale}wiki`;
         const hasSitelink = !!(item.sitelinks && item.sitelinks[sitelinkCode]);
-        const sitelinkTitle = hasSitelink && item.sitelinks?.[sitelinkCode] ? item.sitelinks[sitelinkCode].title : null;
+        const sitelinkTitle = hasSitelink && item.sitelinks?.[sitelinkCode]
+            ? item.sitelinks[sitelinkCode].title
+            : null;
 
         return {
-            _item : item,
-            description : this.locale in (item.descriptions ?? {}) ? item.descriptions![this.locale].value : null,
-            hasSitelink : hasSitelink,
-            id : qid,
-            label : this.locale in (item.labels ?? {}) ? item.labels![this.locale].value : null,
-            qid : qid,
-            sitelinkTitle : sitelinkTitle,
-            thumb : thumb,
-            url : `https://www.wikidata.org/wiki/${qid}`
+            _item: item,
+            description: this.locale in (item.descriptions ?? {})
+                ? item.descriptions![this.locale].value
+                : null,
+            hasSitelink: hasSitelink,
+            id: qid,
+            label: this.locale in (item.labels ?? {})
+                ? item.labels![this.locale].value
+                : null,
+            qid: qid,
+            sitelinkTitle: sitelinkTitle,
+            thumb: thumb,
+            url: `https://www.wikidata.org/wiki/${qid}`,
         };
     }
 
     async getChallenge(id: string) {
-        const req = await this.call('challenge', { id });
+        const req = await this.call<Challenge & { error?: string }>(
+            "challenge",
+            { id },
+        );
 
         if ((req as { error?: string }).error) {
-            throw new Error((req as { error: string }).error);
+            throw new Error(req.error);
         }
 
         return req;
     }
 
-    async getChallenges() {
-        return await this.call('challenges');
+    async getChallenges<T>() {
+        return await this.call<T & { error?: string }>("challenges");
     }
 
     async getImageThumb(title: string, width: number) {
@@ -172,17 +227,17 @@ export default class Api {
 
     // Same as getImageThumb, but also preloads the image
     getPreloadedImageThumb(title: string, width: number) {
-        return new Promise((resolve) => {
+        return new Promise<string | null>((resolve) => {
             const api = new CommonsApi(this.locale);
             api.getImageThumb(title, width).then((url) => {
                 const img = new Image();
 
-                img.addEventListener('load', () => {
+                img.addEventListener("load", () => {
                     console.log(`Loaded ${title}`);
                     resolve(url);
                 });
 
-                img.src = url ?? '';
+                img.src = url ?? "";
             });
         });
     }
@@ -212,10 +267,16 @@ export default class Api {
             "format": "json",
             "ns[14]": "1",
             "search_max_results": "500",
-            "doit": "1"
+            "doit": "1",
         };
 
-        const req = await getJson("https://petscan.wmcloud.org/", opts as Record<string, string>) as { error?: unknown; "*"?: { a?: { "*"?: { title: string; q: string }[] } }[] };
+        const req = await getJson(
+            "https://petscan.wmcloud.org/",
+            opts as Record<string, string>,
+        ) as {
+            error?: unknown;
+            "*"?: { a?: { "*"?: { title: string; q: string }[] } }[];
+        };
 
         if (req.error) {
             return [];
@@ -232,9 +293,9 @@ export default class Api {
 
         return results.map((item) => {
             return {
-                "category" : item.title,
-                "image" : null,
-                "qid" : item.q
+                "category": item.title,
+                "image": null,
+                "qid": item.q,
             };
         });
     }
@@ -254,10 +315,12 @@ export default class Api {
 
     async getItemsWithSparql(sparql: string) {
         const wdQuery = new WikidataQuery();
-        const query = await wdQuery.call(sparql) as { results?: { bindings: SparqlBinding[] } };
+        const query = await wdQuery.call<
+            { results?: { bindings: SparqlBinding[] } }
+        >(sparql);
 
         if (!query.results) {
-            throw new Error('Did not get any results');
+            throw new Error("Did not get any results");
         }
 
         // Throw out anything that doesn't have a category or image
@@ -267,16 +330,22 @@ export default class Api {
 
         return results.map((binding) => {
             return {
-                'category' : binding.cat!.value,
-                'image' : binding.image!.value.replace('http://', 'https://'),
-                'qid' : binding.item!.value.replace('http://www.wikidata.org/entity/', '')
+                "category": binding.cat!.value,
+                "image": binding.image!.value.replace("http://", "https://"),
+                "qid": binding.item!.value.replace(
+                    "http://www.wikidata.org/entity/",
+                    "",
+                ),
             };
         });
     }
 
     async getLeaderboard(challenge: string | null = null) {
-        const opts = !!challenge ? { id : challenge } : {};
-        return await this.call('leaderboard', opts);
+        const opts = !!challenge ? { id: challenge } : {};
+        return await this.call<{
+            total: number;
+            stats: Array<{ user: string; edits: number }>;
+        }>("leaderboard", opts);
     }
 
     async getPeopleByBirthyear(birthYear: number | string) {
@@ -298,14 +367,23 @@ export default class Api {
 
     // We can only use items that have an image, a category
     // and are not a category themselves
-    isValidItem(item: { qid: string; thumb?: string; label?: string | null; _item: ItemWithClaims }) {
+    isValidItem(
+        item: {
+            qid: string;
+            thumb?: string;
+            label?: string | null;
+            _item: ItemWithClaims;
+        },
+    ) {
         if (!item.thumb) {
             console.log(`candidateItem ${item.qid} has no thumb`);
             return false;
         }
 
         if (!item.label) {
-            console.log(`candidateItem ${item.qid} has no label in the given language`);
+            console.log(
+                `candidateItem ${item.qid} has no label in the given language`,
+            );
             return false;
         }
 
@@ -318,7 +396,10 @@ export default class Api {
 
         if ("P31" in claims) {
             for (const claim of claims.P31) {
-                const value = (claim as { mainsnak?: { datavalue?: { value?: { id?: string } } } }).mainsnak?.datavalue?.value;
+                const value =
+                    (claim as {
+                        mainsnak?: { datavalue?: { value?: { id?: string } } };
+                    }).mainsnak?.datavalue?.value;
                 if (value?.id === "Q4167836") {
                     console.log(`candidateItem ${item.qid} is a category`);
                     return false;
@@ -330,17 +411,21 @@ export default class Api {
     }
 
     async itemDone(opts: Record<string, unknown>) {
-        const req = await this.call('item-done', opts);
+        const req = await this.call<{ error?: string }>("item-done", opts);
         return req;
     }
 
     async itemsExist(qids: string[]) {
-        const req = await this.post('items-done', { qids : qids }) as Record<string, boolean>;
+        const req = await this.post<Record<string, boolean>>("items-done", {
+            qids: qids,
+        });
         return req;
     }
 
     async itemExists(qid: string) {
-        const req = await this.call('item-exists', { qid }) as { status?: boolean };
+        const req = await this.call<{ status?: boolean }>("item-exists", {
+            qid,
+        });
         return req.status ?? false;
     }
 

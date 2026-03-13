@@ -1,90 +1,52 @@
-<script>
-    export default {
-        computed : {
-            classes() {
-                const classes = ['wm-button'];
+<template>
+  <component
+    :is="tag"
+    :class="classes"
+    :href="tag === 'a' ? href : undefined"
+    :disabled="tag === 'button' ? disabled : undefined"
+    :is-disabled="disabled"
+    v-bind="$attrs"
+    @click="click"
+  >
+    <span v-if="icon" class="wm-button__icon icon" :data-icon="icon"></span>
+    <span class="wm-button__content">
+      <slot></slot>
+    </span>
+  </component>
+</template>
 
-                if (this.flair) {
-                    this.flair.split(',').forEach((flair) => {
-                        classes.push(`wm-button--${flair}`);
-                    });
-                }
+<script setup lang="ts">
+import { computed } from "vue";
 
-                return classes;
-            }
-        },
+const { type, flair = "default", href, icon, disabled = false } = defineProps<{
+  flair?: string;
+  href?: string;
+  icon?: string;
+  type?: string;
+  disabled?: boolean;
+}>();
 
-        methods : {
-            click() {
-                if (this.disabled) {
-                    console.log('Button disabled');
-                    return;
-                }
+const emit = defineEmits<{
+  (e: "click", event?: Event): void;
+}>();
 
-                this.$emit('click');
-            }
-        },
+const tag = computed(() => (type === "anchor" ? "a" : "button"));
 
-        props : {
-            disabled : {
-                default : false,
-                type : Boolean,
-                required : false
-            },
+const classes = computed(() => {
+  const list: string[] = ["wm-button"];
+  if (flair) {
+    flair.split(",").forEach((f) => {
+      list.push(`wm-button--${f.trim()}`);
+    });
+  }
+  return list;
+});
 
-            flair : {
-                default : 'default',
-                type : String,
-                required : false
-            },
-
-            icon : {
-                type : String,
-                required : false
-            },
-
-            type : {
-                type : String
-            }
-        },
-
-        render(h) {
-            const children = [];
-
-            if (this.icon) {
-                children.push(h(
-                    'span',
-                    {
-                        class : 'wm-button__icon icon',
-                        attrs : {
-                            'data-icon' : this.icon
-                        }
-                    }
-                ));
-            }
-
-            children.push(h(
-                'span',
-                {
-                    class : 'wm-button__content'
-                },
-                this.$slots.default
-
-            ));
-
-            return h(
-                this.type === 'anchor' ? 'a' : 'button',
-                {
-                    class : this.classes,
-                    attrs : {
-                        'is-disabled' : this.disabled
-                    },
-                    on : {
-                        click : this.click
-                    }
-                },
-                children
-            );
-        }
-    }
+const click = (e: Event) => {
+  if (disabled) {
+    console.log("Button disabled");
+    return;
+  }
+  emit("click");
+};
 </script>

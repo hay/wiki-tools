@@ -4,7 +4,7 @@
             v-on:click="back"
             flair="default,bare"
             icon="arrow-left">
-            {{$t('back')}}
+            {{ $t('back') }}
         </wm-button>
 
         <template v-if="mode === 'create'">
@@ -39,7 +39,7 @@
             </p>
 
             <label>
-                {{$t("query_type")}}
+                {{ $t('query_type') }}
             </label>
 
             <input type="text"
@@ -47,7 +47,7 @@
                    disabled />
 
             <label>
-                {{$t("query_value")}}
+                {{ $t('query_value') }}
             </label>
 
             <input type="text"
@@ -55,7 +55,7 @@
                    disabled />
 
             <label>
-                {{$t('username')}}
+                {{ $t('username') }}
             </label>
 
             <input type="text"
@@ -63,7 +63,7 @@
                    disabled />
 
             <label>
-                {{$t('itemcount')}}
+                {{ $t('itemcount') }}
             </label>
 
             <input type="text"
@@ -75,18 +75,18 @@
             </p>
 
             <label for="opt-title">
-                {{$t('title')}}
+                {{ $t('title') }}
             </label>
 
             <input type="text"
                    v-model="title" />
 
             <p class="options__input">
-                {{$t("challenge_title_length", { count : this.MIN_CHALLENGE_TITLE_LENGTH })}}
+                {{ $t('challenge_title_length', { count: MIN_CHALLENGE_TITLE_LENGTH }) }}
             </p>
 
             <label for="opt-shortdescription">
-                {{$t('short_description')}}
+                {{ $t('short_description') }}
             </label>
 
             <input type="text"
@@ -96,11 +96,11 @@
                    max="150" />
 
             <p class="options__input">
-                {{$t("challenge_shortdescription_length", { count : this.MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH })}}
+                {{ $t('challenge_shortdescription_length', { count: MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH }) }}
             </p>
 
             <label for="opt-longdescription">
-                {{$t('long_description')}}
+                {{ $t('long_description') }}
             </label>
 
             <textarea
@@ -108,14 +108,14 @@
                 v-model="longDescription"></textarea>
 
             <label for="opt-archive">
-                {{$t('archived')}}
+                {{ $t('archived') }}
             </label>
 
             <p class="options__input">
                 <input type="checkbox"
                        v-model="archived" />
 
-                {{$t('archived_hint')}}
+                {{ $t('archived_hint') }}
             </p>
 
             <wm-button
@@ -123,127 +123,90 @@
                 class="options__input"
                 icon="challenge"
                 v-bind:disabled="loading || !hasNeededFields"
-                v-on:click="create">{{$t('create_challenge')}}</wm-button>
+                v-on:click="create">{{ $t('create_challenge') }}</wm-button>
 
             <wm-button
                 v-if="mode === 'edit'"
                 class="options__input"
                 icon="edit"
                 v-bind:disabled="loading || !hasNeededFields"
-                v-on:click="edit">{{$t('edit_challenge')}}</wm-button>
+                v-on:click="edit">{{ $t('edit_challenge') }}</wm-button>
         </div>
     </div>
 </template>
 
-<script>
-    import { mapState } from 'vuex';
-    import {
-        MIN_CHALLENGE_TITLE_LENGTH, MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH
-    } from '../const';
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useDepictorStore } from '../store';
+import { MIN_CHALLENGE_TITLE_LENGTH, MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH } from '../const';
 
-    export default {
-        computed : {
-            editableValues() {
-                return {
-                    archived : this.archived,
-                    longDescription : this.longDescription,
-                    shortDescription : this.shortDescription,
-                    title : this.title
-                }
-            },
+const { isEditable } = defineProps<{
+    isEditable?: boolean;
+}>();
 
-            hasNeededFields() {
-                return this.title.length >= MIN_CHALLENGE_TITLE_LENGTH &&
-                       this.shortDescription.length > MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH;
-            },
+const store = useDepictorStore();
+const { challenge, query: storeQuery, remainingItems, rootUrl, screen, userName: storeUserName } = storeToRefs(store);
 
-            mode() {
-                return this.isEditable ? 'edit' : 'create';
-            }
-        },
+const archived = ref(false);
+const itemCount = ref(0);
+const loading = ref(false);
+const longDescription = ref('');
+const shortDescription = ref('');
+const title = ref('');
+const query = ref<{ type?: string; value?: string }>({});
+const userName = ref<string | null>(null);
 
-        data() {
-            return {
-                archived : false,
-                itemCount : 0,
-                loading : false,
-                longDescription : '',
-                MIN_CHALLENGE_TITLE_LENGTH : MIN_CHALLENGE_TITLE_LENGTH,
-                MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH : MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH,
-                query : {},
-                shortDescription : '',
-                title : '',
-                userName : null
-            };
-        },
+const editableValues = computed(() => ({
+    archived: archived.value,
+    longDescription: longDescription.value,
+    shortDescription: shortDescription.value,
+    title: title.value
+}));
 
-        methods : {
-            back() {
-                if (this.mode === 'create') {
-                    this.$store.commit('screen', 'game');
-                } else {
-                    this.$store.commit('screen', 'challenge');
-                }
-            },
+const hasNeededFields = computed(() =>
+    title.value.length >= MIN_CHALLENGE_TITLE_LENGTH &&
+    shortDescription.value.length > MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH
+);
 
-            async create() {
-                if (this.loading) {
-                    return;
-                }
+const mode = computed(() => (isEditable ? 'edit' : 'create'));
 
-                const id = await this.$store.dispatch(
-                    "createChallenge", this.editableValues
-                );
-
-                // Redirect to the new challenge
-                window.location = `${this.$store.state.rootUrl}/?challenge=${id}`
-            },
-
-            async edit() {
-                if (this.loading) {
-                    return;
-                }
-
-                const id = await this.$store.dispatch(
-                    "editChallenge", this.editableValues
-                );
-
-                // Redirect to the new challenge
-                window.location = `${this.$store.state.rootUrl}/?challenge=${id}`
-            }
-        },
-
-        mounted() {
-            const { getters, state } = this.$store;
-
-            if (this.mode === 'edit') {
-                const challenge = state.challenge;
-
-                this.query = {
-                    type : challenge.querytype,
-                    value : challenge.queryvalue
-                };
-
-                this.archived = challenge.archived === "1";
-                this.itemCount = challenge.itemcount ? parseInt(challenge.itemcount) : null;
-                this.longDescription = challenge.long_description;
-                this.shortDescription = challenge.short_description;
-                this.title = challenge.title;
-                this.userName = state.userName;
-            }
-
-            if (this.mode === 'create') {
-                this.itemCount = getters.remainingItems.length;
-                this.query = state.query;
-                this.userName = state.userName;
-            }
-        },
-
-        props : {
-            isEditable : {
-                type : Boolean,
-                required : false
-            }
-        }
+const back = () => {
+    if (mode.value === 'create') {
+        screen.value = 'game';
+    } else {
+        screen.value = 'challenge';
     }
+};
+
+const create = async () => {
+    if (loading.value) return;
+    const id = await store.createChallenge(editableValues.value);
+    window.location.href = `${rootUrl.value}/?challenge=${id}`;
+};
+
+const edit = async () => {
+    if (loading.value) return;
+    const id = await store.editChallenge(editableValues.value);
+    window.location.href = `${rootUrl.value}/?challenge=${id}`;
+};
+
+onMounted(() => {
+    if (mode.value === 'edit') {
+        const ch = challenge.value;
+        if (ch) {
+            query.value = { type: ch.querytype, value: ch.queryvalue };
+            archived.value = ch.archived === '1';
+            itemCount.value = ch.itemcount ? parseInt(ch.itemcount) : 0;
+            longDescription.value = ch.long_description ?? '';
+            shortDescription.value = ch.short_description ?? '';
+            title.value = ch.title ?? '';
+            userName.value = storeUserName.value ?? null;
+        }
+    } else {
+        itemCount.value = remainingItems.value.length;
+        query.value = { ...storeQuery.value };
+        userName.value = storeUserName.value ?? null;
+    }
+});
 </script>

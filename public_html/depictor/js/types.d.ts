@@ -1,6 +1,6 @@
 declare global {
   interface Window {
-    __ctx__: {
+    __ctx__?: {
       authUrl?: string;
       isAccessTokenRequest?: boolean;
       isDebug?: boolean;
@@ -13,20 +13,4 @@ declare global {
   }
 }
 
-export interface ApiResponse {
-  error?: { info?: string };
-  ok?: boolean;
-  id?: string;
-  status?: boolean;
-}
-
-export interface PetScanResult {
-  title: string;
-  q: string;
-}
-
-export interface SparqlBinding {
-  item?: { value: string };
-  image?: { value: string };
-  cat?: { value: string };
-}
+export {};

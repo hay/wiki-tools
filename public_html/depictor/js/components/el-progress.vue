@@ -4,40 +4,28 @@
              v-bind:style="style"></div>
 
         <div class="el-progress__values">
-            <span class="el-progress__value">{{percentLabel}}</span>
-            <span class="el-progress__value">{{value}} / {{total}}</span>
+            <span class="el-progress__value">{{ percentLabel }}</span>
+            <span class="el-progress__value">{{ value }} / {{ total }}</span>
         </div>
     </div>
 </template>
 
-<script>
-    export default {
-        computed : {
-            percent() {
-                return Math.ceil((this.value / this.total) * 100);
-            },
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-            percentLabel() {
-                return this.$t('pct_complete', { pct : this.percent });
-            },
+const { value, total } = defineProps<{
+    value: number;
+    total: number;
+}>();
 
-            style() {
-                return {
-                    width : this.percent + '%'
-                }
-            }
-        },
+const { t } = useI18n();
 
-        props : {
-            total : {
-                required : true,
-                type : Number
-            },
+const percent = computed(() => Math.ceil((value / total) * 100));
 
-            value : {
-                type : Number,
-                required : true
-            }
-        }
-    }
+const percentLabel = computed(() => t('pct_complete', { pct: percent.value }));
+
+const style = computed(() => ({
+    width: percent.value + '%'
+}));
 </script>

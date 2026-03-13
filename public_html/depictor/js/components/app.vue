@@ -20,13 +20,13 @@
             v-bind:is-editable="true"></screen-create-challenge>
 
         <screen-message v-if="screen === 'loading'">
-            <p class="screen__notice">{{$t('loading')}}</p>
+            <p class="screen__notice">{{ $t('loading') }}</p>
         </screen-message>
 
         <screen-message
             v-if="screen === 'error'"
             v-bind:showReloadButton="true">
-            <p class="screen__notice">{{errorMessage}}</p>
+            <p class="screen__notice">{{ errorMessage }}</p>
 
             <el-notice
                 notice="common-errors"
@@ -35,36 +35,19 @@
     </div>
 </template>
 
-<script>
-    import ElHeader from './el-header.vue';
-    import ElNotice from './el-notice.vue';
-    import ScreenChallenge from './screen-challenge.vue';
-    import ScreenCreateChallenge from './screen-createchallenge.vue';
-    import ScreenGame from './screen-game.vue';
-    import ScreenIntro from './screen-intro.vue';
-    import ScreenMessage from './screen-message.vue';
+<script setup lang="ts">
+import { watch } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useDepictorStore } from '../store';
+import ElHeader from './el-header.vue';
+import ElNotice from './el-notice.vue';
+import ScreenChallenge from './screen-challenge.vue';
+import ScreenCreateChallenge from './screen-createchallenge.vue';
+import ScreenGame from './screen-game.vue';
+import ScreenIntro from './screen-intro.vue';
+import ScreenMessage from './screen-message.vue';
 
-    export default {
-        components : {
-            ElHeader, ElNotice, ScreenChallenge, ScreenIntro,
-            ScreenGame, ScreenMessage, ScreenCreateChallenge
-        },
+const { errorMessage, screenState: screen } = storeToRefs(useDepictorStore());
 
-        computed : {
-            errorMessage() {
-                return this.$store.state.errorMessage;
-            },
-
-            screen() {
-                return this.$store.getters.screenState;
-            }
-        },
-
-        watch : {
-            screen() {
-                // Make sure we go back to the top of screen
-                window.scrollTo(0, 0);
-            }
-        }
-    }
+watch(screen, () => window.scrollTo(0, 0));
 </script>
