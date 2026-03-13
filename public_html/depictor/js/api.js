@@ -1,4 +1,4 @@
-import { getJson } from 'donot';
+import { getJson } from './util.js';
 import { IMAGE_SIZE, LOCAL_API_ENDPOINT, THUMB_SIZE} from './const.js';
 import { buildUrlQuery, postJson } from './util.js';
 import CommonsApi from './mwapi/commons.js';

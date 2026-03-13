@@ -10,149 +10,6 @@
   --valenski-use-small-font-size: true;
 }
 
-.buffer-0 {
-  margin-top: calc( (10px / 2) * 0) !important;
-  margin-bottom: calc( (10px / 2) * 0) !important;
-}
-
-.buffer-top-0 {
-  margin-top: 0px !important;
-}
-
-.buffer-bottom-0 {
-  margin-bottom: 0px !important;
-}
-
-.buffer-1 {
-  margin-top: calc( (10px / 2) * 1) !important;
-  margin-bottom: calc( (10px / 2) * 1) !important;
-}
-
-.buffer-top-1 {
-  margin-top: 10px !important;
-}
-
-.buffer-bottom-1 {
-  margin-bottom: 10px !important;
-}
-
-.buffer-2 {
-  margin-top: calc( (10px / 2) * 2) !important;
-  margin-bottom: calc( (10px / 2) * 2) !important;
-}
-
-.buffer-top-2 {
-  margin-top: 20px !important;
-}
-
-.buffer-bottom-2 {
-  margin-bottom: 20px !important;
-}
-
-.buffer-3 {
-  margin-top: calc( (10px / 2) * 3) !important;
-  margin-bottom: calc( (10px / 2) * 3) !important;
-}
-
-.buffer-top-3 {
-  margin-top: 30px !important;
-}
-
-.buffer-bottom-3 {
-  margin-bottom: 30px !important;
-}
-
-.buffer-4 {
-  margin-top: calc( (10px / 2) * 4) !important;
-  margin-bottom: calc( (10px / 2) * 4) !important;
-}
-
-.buffer-top-4 {
-  margin-top: 40px !important;
-}
-
-.buffer-bottom-4 {
-  margin-bottom: 40px !important;
-}
-
-.buffer-5 {
-  margin-top: calc( (10px / 2) * 5) !important;
-  margin-bottom: calc( (10px / 2) * 5) !important;
-}
-
-.buffer-top-5 {
-  margin-top: 50px !important;
-}
-
-.buffer-bottom-5 {
-  margin-bottom: 50px !important;
-}
-
-.buffer-6 {
-  margin-top: calc( (10px / 2) * 6) !important;
-  margin-bottom: calc( (10px / 2) * 6) !important;
-}
-
-.buffer-top-6 {
-  margin-top: 60px !important;
-}
-
-.buffer-bottom-6 {
-  margin-bottom: 60px !important;
-}
-
-.buffer-7 {
-  margin-top: calc( (10px / 2) * 7) !important;
-  margin-bottom: calc( (10px / 2) * 7) !important;
-}
-
-.buffer-top-7 {
-  margin-top: 70px !important;
-}
-
-.buffer-bottom-7 {
-  margin-bottom: 70px !important;
-}
-
-.buffer-8 {
-  margin-top: calc( (10px / 2) * 8) !important;
-  margin-bottom: calc( (10px / 2) * 8) !important;
-}
-
-.buffer-top-8 {
-  margin-top: 80px !important;
-}
-
-.buffer-bottom-8 {
-  margin-bottom: 80px !important;
-}
-
-.buffer-9 {
-  margin-top: calc( (10px / 2) * 9) !important;
-  margin-bottom: calc( (10px / 2) * 9) !important;
-}
-
-.buffer-top-9 {
-  margin-top: 90px !important;
-}
-
-.buffer-bottom-9 {
-  margin-bottom: 90px !important;
-}
-
-.buffer-10 {
-  margin-top: calc( (10px / 2) * 10) !important;
-  margin-bottom: calc( (10px / 2) * 10) !important;
-}
-
-.buffer-top-10 {
-  margin-top: 100px !important;
-}
-
-.buffer-bottom-10 {
-  margin-bottom: 100px !important;
-}
-
 .sr-only {
   position: absolute !important;
   width: 1px !important;
@@ -212,7 +69,7 @@ input, select, textarea, button {
   --c-2: #eee;
   --c-3: #333;
   --spacing: 1.5rem;
-  --font-monospace: "Menlo", "Courier New", Courier, monospace;
+  --font-monospace: 'Menlo', 'Courier New', Courier, monospace;
 }
 
 html {
@@ -454,13 +311,15 @@ html.has-mouse .wm-button--dark:hover, html.has-mouse .wm-button--darklink:hover
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+.screen > * + * {
+  margin-top: var(--spacing);
+}
+.screen {
   font-size: 2rem;
   max-width: 80rem;
   margin-left: auto;
   margin-right: auto;
-}
-.screen > * + * {
-  margin-top: var(--spacing);
 }
 .screen--challenge {
   font-size: 1.6rem;
@@ -515,10 +374,12 @@ html.has-mouse .wm-button--dark:hover, html.has-mouse .wm-button--darklink:hover
 }
 .screen__content {
   margin-top: 1rem;
-  width: 100%;
 }
 .screen__content > * + * {
   margin-top: 1rem;
+}
+.screen__content {
+  width: 100%;
 }
 .screen__actions {
   display: flex;
@@ -767,11 +628,13 @@ html.has-mouse .wm-button--dark:hover, html.has-mouse .wm-button--darklink:hover
 }
 .challenges__list {
   list-style: none;
-  display: flex;
-  flex-direction: column;
 }
 .challenges__list > * + * {
   margin-top: 1rem;
+}
+.challenges__list {
+  display: flex;
+  flex-direction: column;
 }
 .challenges__item {
   padding: 1rem;

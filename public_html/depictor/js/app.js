@@ -1,5 +1,6 @@
-import "regenerator-runtime/runtime.js";
-import { $, getJson } from 'donot';
+import '../scss/style.scss';
+import { $ } from 'donot';
+import { getJson } from './util.js';
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import App from './components/app.vue';

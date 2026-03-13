@@ -6,22 +6,14 @@
     "node": ">=22.0.0 <23.0.0"
   },
   "scripts": {
-    "build": "npm run build:js && npm run build:css",
-    "build:css": "npm run build:sass",
-    "build:js": "NODE_ENV=development webpack -d",
-    "build:sass": "sass scss/style.scss style.css",
-    "dist": "npm run update-locales && npm run build:css && npm run dist:js",
-    "dist:js": "NODE_ENV=production webpack -p",
+    "build": "vite build --mode development",
+    "dist": "npm run update-locales && vite build --mode production",
     "postinstall": "npm run build",
     "update-locales": "node etc/update-locales.js",
-    "watch": "chokidar '../common/*.scss' 'scss/*.scss' -c 'npm run build:css' & NODE_ENV=development webpack -dw"
+    "watch": "vite build --mode development --watch"
   },
   "dependencies": {
-    "@babel/core": "^7.21.8",
-    "chokidar-cli": "^2.1.0",
     "donot": "^0.4.1",
-    "lodash-es": "^4.17.21",
-    "regenerator-runtime": "^0.13.11",
     "sass": "^1.62.1",
     "valenski": "^1.5.0",
     "vue": "^2.7.14",
@@ -29,14 +21,8 @@
     "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.23.2",
-    "babel-loader": "^8.3.0",
-    "babel-plugin-transform-remove-console": "^6.9.4",
-    "css-loader": "^3.6.0",
-    "node-fetch": "^2.6.11",
-    "vue-loader": "^15.10.1",
-    "vue-template-compiler": "^2.7.14",
-    "webpack": "^4.46.0",
-    "webpack-cli": "^3.3.12"
+    "@vitejs/plugin-vue2": "^2.3.4",
+    "terser": "^5.36.0",
+    "vite": "^6.0.0"
   }
 }
