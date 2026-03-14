@@ -1,6 +1,18 @@
-<script>
-    import { h } from 'vue';
+<template>
+    <component
+        :is="type === 'anchor' ? 'a' : 'button'"
+        :class="classes"
+        :is-disabled="disabled"
+        @click="click"
+    >
+        <span v-if="icon" class="wm-button__icon icon" :data-icon="icon"></span>
+        <span class="wm-button__content">
+            <slot></slot>
+        </span>
+    </component>
+</template>
 
+<script>
     export default {
         emits: ['click'],
 
@@ -50,38 +62,6 @@
             type : {
                 type : String
             }
-        },
-
-        render() {
-            const children = [];
-
-            if (this.icon) {
-                children.push(h(
-                    'span',
-                    {
-                        class : 'wm-button__icon icon',
-                        'data-icon' : this.icon
-                    }
-                ));
-            }
-
-            children.push(h(
-                'span',
-                {
-                    class : 'wm-button__content'
-                },
-                this.$slots.default ? this.$slots.default() : []
-            ));
-
-            return h(
-                this.type === 'anchor' ? 'a' : 'button',
-                {
-                    class : this.classes,
-                    'is-disabled' : this.disabled,
-                    onClick : this.click
-                },
-                children
-            );
         }
     }
 </script>
