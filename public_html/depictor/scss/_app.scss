@@ -33,4 +33,10 @@
     border: 1px solid black;
     width: calc(100% - 4rem);
     max-width: 60rem;
+
+    html.dark & {
+        background: black;
+        color: rgb(255, 207, 207);
+        border: 1px solid red;
+    }
 }
