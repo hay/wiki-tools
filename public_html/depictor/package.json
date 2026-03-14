@@ -11,7 +11,7 @@
     "dist": "npm run update-locales && vite build --mode production",
     "postinstall": "npm run build",
     "update-locales": "node etc/update-locales.js",
-    "watch": "vite build --mode development --watch"
+    "watch": "vite"
   },
   "dependencies": {
     "@vueuse/core": "^14.0.0",

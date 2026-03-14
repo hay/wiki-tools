@@ -60,9 +60,9 @@
     {% if opts.use_vite  %}
         <!-- Using Vite -->
         {% if debug %}
-            <!-- Debug mode -->
-            <script type="module" src="http://localhost:3000/@vite/client"></script>
-            <script type="module" src="http://localhost:3000/{{opts.vite_entry}}"></script>
+            <!-- Debug mode: HMR via Vite dev server (port 5173) -->
+            <script type="module" src="http://localhost:5173/@vite/client"></script>
+            <script type="module" src="http://localhost:5173/{{opts.vite_entry}}"></script>
         {% else %}
             {% for style in vite.styles %}
                 <link rel="stylesheet" href="{{style}}" />

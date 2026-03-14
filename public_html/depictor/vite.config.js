@@ -11,7 +11,14 @@ export default defineConfig(({ mode }) => ({
       },
     },
   },
+  server: {
+    port: 5173,
+    strictPort: true,
+    origin: 'http://localhost:5173',
+    cors: true,
+  },
   build: {
+    manifest: 'manifest.json',
     rollupOptions: {
       input: 'js/app.ts',
       output: {
