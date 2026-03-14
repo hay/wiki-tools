@@ -12,7 +12,7 @@
 
         <select
             v-show="isShowSelect"
-            v-on:change="change($event.target.value)"
+            v-on:change="onChange"
             class="language-selector__select">
             <option
                 v-if="link"
@@ -35,67 +35,56 @@
     </div>
 </template>
 
-<script>
-    export default {
-        emits: ['blur-select', 'click-select', 'update:modelValue'],
+<script lang="ts" setup>
+import { ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-        data() {
-            return {
-                isShowSelect : false,
-                lang : this.modelValue,
-                showCustomLanguage : false,
-            }
-        },
+const { t: $t } = useI18n();
 
-        methods : {
-            blurSelect() {
-                this.$emit('blur-select');
-            },
+interface Language {
+    code: string;
+    label: string;
+}
 
-            change(lang) {
-                if (lang === 'external-link' && this.link) {
-                    window.location = this.link.link;
-                } else {
-                    this.$emit('update:modelValue', lang);
-                }
+interface LinkInfo {
+    link: string;
+    label: string;
+}
 
-                this.isShowSelect = false;
-            },
+const {languages, link, modelValue: lang} = defineProps<{
+    languages: Language[];
+    link?: LinkInfo;
+    modelValue: string;
+}>();
 
-            clickSelect() {
-                this.$emit('click-select');
-            },
+const emit = defineEmits<{
+    'blur-select': [];
+    'click-select': [];
+    'update:modelValue': [value: string];
+}>();
 
-            hideSelect() {
-                this.isShowSelect = false;
-            },
+const isShowSelect = ref(false);
 
-            showSelect() {
-                this.isShowSelect = true;
-            }
-        },
+const blurSelect = () => emit('blur-select');
 
-        props : {
-            languages : {
-                type : Array,
-                required : true
-            },
-
-            link : {
-                type : Object,
-                required : false
-            },
-
-            modelValue : {
-                type : String,
-                required : true
-            }
-        },
-
-        watch: {
-            modelValue(val) {
-                this.lang = val;
-            }
-        }
+const onChange = (e: Event) => {
+    const newLang = (e.target as HTMLSelectElement).value;
+    if (newLang === 'external-link' && link) {
+        window.location.href = link.link;
+    } else {
+        emit('update:modelValue', newLang);
     }
+    isShowSelect.value = false;
+};
+
+const clickSelect = () => emit('click-select');
+
+const hideSelect = () => { isShowSelect.value = false; };
+
+const showSelect = () => { isShowSelect.value = true; };
+
+defineExpose({
+    hideSelect,
+    showSelect,
+});
 </script>

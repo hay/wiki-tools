@@ -82,7 +82,7 @@
                    v-model="title" />
 
             <p class="options__input">
-                {{$t("challenge_title_length", { count : this.MIN_CHALLENGE_TITLE_LENGTH })}}
+                {{$t("challenge_title_length", { count : MIN_CHALLENGE_TITLE_LENGTH })}}
             </p>
 
             <label for="opt-shortdescription">
@@ -96,7 +96,7 @@
                    max="150" />
 
             <p class="options__input">
-                {{$t("challenge_shortdescription_length", { count : this.MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH })}}
+                {{$t("challenge_shortdescription_length", { count : MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH })}}
             </p>
 
             <label for="opt-longdescription">
@@ -135,115 +135,95 @@
     </div>
 </template>
 
-<script>
-    import { mapState } from 'vuex';
-    import {
-        MIN_CHALLENGE_TITLE_LENGTH, MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH
-    } from '../const';
+<script lang="ts" setup>
+import { ref, computed, onMounted } from 'vue';
+import {
+    MIN_CHALLENGE_TITLE_LENGTH,
+    MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH,
+} from '../const';
+import { useI18n } from 'vue-i18n';
 
-    export default {
-        computed : {
-            editableValues() {
-                return {
-                    archived : this.archived,
-                    longDescription : this.longDescription,
-                    shortDescription : this.shortDescription,
-                    title : this.title
-                }
-            },
+const { t: $t } = useI18n();
+import { useDepictorStore } from '../store';
 
-            hasNeededFields() {
-                return this.title.length >= MIN_CHALLENGE_TITLE_LENGTH &&
-                       this.shortDescription.length > MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH;
-            },
+const props = withDefaults(
+    defineProps<{
+        isEditable?: boolean;
+    }>(),
+    { isEditable: false }
+);
 
-            mode() {
-                return this.isEditable ? 'edit' : 'create';
-            }
-        },
+const store = useDepictorStore();
 
-        data() {
-            return {
-                archived : false,
-                itemCount : 0,
-                loading : false,
-                longDescription : '',
-                MIN_CHALLENGE_TITLE_LENGTH : MIN_CHALLENGE_TITLE_LENGTH,
-                MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH : MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH,
-                query : {},
-                shortDescription : '',
-                title : '',
-                userName : null
-            };
-        },
+const archived = ref(false);
+const itemCount = ref(0);
+const loading = ref(false);
+const longDescription = ref('');
+const query = ref<{ type?: string; value?: string }>({});
+const shortDescription = ref('');
+const title = ref('');
+const userName = ref<string | null>(null);
 
-        methods : {
-            back() {
-                if (this.mode === 'create') {
-                    this.$store.commit('screen', 'game');
-                } else {
-                    this.$store.commit('screen', 'challenge');
-                }
-            },
+const mode = computed(() => (props.isEditable ? 'edit' : 'create'));
 
-            async create() {
-                if (this.loading) {
-                    return;
-                }
+const editableValues = computed(() => ({
+    archived: archived.value,
+    longDescription: longDescription.value,
+    shortDescription: shortDescription.value,
+    title: title.value,
+}));
 
-                const id = await this.$store.dispatch(
-                    "createChallenge", this.editableValues
-                );
+const hasNeededFields = computed(
+    () =>
+        title.value.length >= MIN_CHALLENGE_TITLE_LENGTH &&
+        shortDescription.value.length > MIN_CHALLENGE_SHORTDESCRIPTION_LENGTH
+);
 
-                // Redirect to the new challenge
-                window.location = `${this.$store.state.rootUrl}/?challenge=${id}`
-            },
-
-            async edit() {
-                if (this.loading) {
-                    return;
-                }
-
-                const id = await this.$store.dispatch(
-                    "editChallenge", this.editableValues
-                );
-
-                // Redirect to the new challenge
-                window.location = `${this.$store.state.rootUrl}/?challenge=${id}`
-            }
-        },
-
-        mounted() {
-            const { getters, state } = this.$store;
-
-            if (this.mode === 'edit') {
-                const challenge = state.challenge;
-
-                this.query = {
-                    type : challenge.querytype,
-                    value : challenge.queryvalue
-                };
-
-                this.archived = challenge.archived === "1";
-                this.itemCount = challenge.itemcount ? parseInt(challenge.itemcount) : null;
-                this.longDescription = challenge.long_description;
-                this.shortDescription = challenge.short_description;
-                this.title = challenge.title;
-                this.userName = state.userName;
-            }
-
-            if (this.mode === 'create') {
-                this.itemCount = getters.remainingItems.length;
-                this.query = state.query;
-                this.userName = state.userName;
-            }
-        },
-
-        props : {
-            isEditable : {
-                type : Boolean,
-                required : false
-            }
-        }
+const back = () => {
+    if (mode.value === 'create') {
+        store.screen = 'game';
+    } else {
+        store.screen = 'challenge';
     }
+};
+
+const create = async () => {
+    if (loading.value) return;
+
+    const id = await store.createChallenge(editableValues.value);
+    window.location.href = `${store.rootUrl}/?challenge=${id}`;
+};
+
+const edit = async () => {
+    if (loading.value) return;
+
+    const id = await store.editChallenge(editableValues.value);
+    window.location.href = `${store.rootUrl}/?challenge=${id}`;
+};
+
+onMounted(() => {
+    if (mode.value === 'edit') {
+        const challenge = store.challenge;
+        if (!challenge) return;
+
+        query.value = {
+            type: challenge.querytype,
+            value: challenge.queryvalue,
+        };
+        archived.value = challenge.archived === '1';
+        itemCount.value = challenge.itemcount
+            ? parseInt(String(challenge.itemcount))
+            : 0;
+        longDescription.value = challenge.long_description ?? '';
+        shortDescription.value = challenge.short_description ?? '';
+        title.value = challenge.title ?? '';
+        userName.value = store.userName ?? null;
+    }
+
+    if (mode.value === 'create') {
+        itemCount.value = store.remainingItems.length;
+        query.value = store.query;
+        userName.value = store.userName ?? null;
+    }
+});
 </script>

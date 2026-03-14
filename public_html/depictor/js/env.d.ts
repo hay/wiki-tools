@@ -8,7 +8,7 @@ declare module "*.vue" {
 
 declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
-    $store: import("vuex").Store<unknown>;
+    $store: ReturnType<typeof import("./store").useDepictorStore>;
   }
 }
 

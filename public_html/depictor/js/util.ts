@@ -1,4 +1,4 @@
-export async function getJson(url: string, params: Record<string, string> | null = null) {
+export const getJson = async (url: string, params: Record<string, string> | null = null) => {
     if (params) {
         const urlObj = new URL(url, window.location.href);
         Object.keys(params).forEach((k) => urlObj.searchParams.append(k, params[k]));
@@ -6,9 +6,9 @@ export async function getJson(url: string, params: Record<string, string> | null
     }
     const res = await fetch(url);
     return res.json();
-}
+};
 
-export function buildUrlQuery(params: Record<string, string | number | boolean | undefined>) {
+export const buildUrlQuery = (params: Record<string, string | number | boolean | undefined>) => {
     let query = '';
 
     for (const key in params) {
@@ -17,23 +17,22 @@ export function buildUrlQuery(params: Record<string, string | number | boolean |
     }
 
     return query;
-}
+};
 
 // Lifted from https://github.com/wikimedia/mediawiki/blob/379b4656632befd16fcf61a3a0509b6d9be78d33/resources/src/mediawiki.base/mediawiki.base.js#L266-L276
 // Thanks Tgr!
-export function encodeWikiTitle(title: string) {
-    return encodeURIComponent(String(title))
-        .replace( /'/g, '%27' )
-        .replace( /%20/g, '_' )
-        .replace( /%3B/g, ';' )
-        .replace( /%40/g, '@' )
-        .replace( /%24/g, '$' )
-        .replace( /%2C/g, ',' )
-        .replace( /%2F/g, '/' )
-        .replace( /%3A/g, ':' );
-}
+export const encodeWikiTitle = (title: string) =>
+    encodeURIComponent(String(title))
+        .replace(/'/g, '%27')
+        .replace(/%20/g, '_')
+        .replace(/%3B/g, ';')
+        .replace(/%40/g, '@')
+        .replace(/%24/g, '$')
+        .replace(/%2C/g, ',')
+        .replace(/%2F/g, '/')
+        .replace(/%3A/g, ':');
 
-export function getLocale(defaultLocale: string) {
+export const getLocale = (defaultLocale: string) => {
     const search = window.location.search;
 
     if (search.includes('locale')) {
@@ -47,26 +46,23 @@ export function getLocale(defaultLocale: string) {
     } else {
         return defaultLocale;
     }
-}
+};
 
 // Lifted from https://stackoverflow.com/a/2901298/152809
-export function numberWithCommas(x: number = 0, separator: string = ",") {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator);
-}
+export const numberWithCommas = (x: number = 0, separator: string = ",") =>
+    x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator);
 
-export async function loadImage(src: string) {
+export const loadImage = async (src: string) => {
     return new Promise<void>((resolve) => {
         const img = new Image();
 
-        img.onload = function() {
-            resolve();
-        }
+        img.onload = () => resolve();
 
         img.src = src;
     });
-}
+};
 
-export function postJson<T = unknown>(url: string, body: unknown) {
+export const postJson = <T = unknown>(url: string, body: unknown) => {
     return new Promise((resolve, reject) => {
         const options: RequestInit = {
             body: JSON.stringify(body),
@@ -81,4 +77,4 @@ export function postJson<T = unknown>(url: string, body: unknown) {
             .then((res) => resolve(res as T))
             .catch((err) => reject(err));
     });
-}
+};

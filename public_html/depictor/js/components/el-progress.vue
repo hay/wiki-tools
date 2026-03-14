@@ -10,34 +10,26 @@
     </div>
 </template>
 
-<script>
-    export default {
-        computed : {
-            percent() {
-                return Math.ceil((this.value / this.total) * 100);
-            },
+<script lang="ts" setup>
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-            percentLabel() {
-                return this.$t('pct_complete', { pct : this.percent });
-            },
+const props = defineProps<{
+    total: number;
+    value: number;
+}>();
 
-            style() {
-                return {
-                    width : this.percent + '%'
-                }
-            }
-        },
+const { t: $t } = useI18n();
 
-        props : {
-            total : {
-                required : true,
-                type : Number
-            },
+const percent = computed(() =>
+    Math.ceil((props.value / props.total) * 100)
+);
 
-            value : {
-                type : Number,
-                required : true
-            }
-        }
-    }
+const percentLabel = computed(() =>
+    $t('pct_complete', { pct: percent.value })
+);
+
+const style = computed(() => ({
+    width: percent.value + '%',
+}));
 </script>

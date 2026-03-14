@@ -1,172 +1,171 @@
-<script>
-    import { mapState } from 'vuex';
-    import { encodeWikiTitle, loadImage } from '../util';
-    import ElProgress from './el-progress.vue';
-    import { WikipediaApi } from '../mwapi/wikipedia';
+<script lang="ts" setup>
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useI18n } from 'vue-i18n';
+import { useDepictorStore } from '../store';
+import { encodeWikiTitle, loadImage } from '../util';
 
-    export default {
-        components : { ElProgress },
+const COMMONS_FILE_PREFIX = 'https://commons.wikimedia.org/wiki/';
+import { WikipediaApi } from '../mwapi/wikipedia';
+import ElProgress from './el-progress.vue';
 
-        computed : {
-            ...mapState([ 'candidate', 'item', 'loading', 'lockActions' ]),
+const store = useDepictorStore();
+const {
+    candidate,
+    item,
+    lockActions,
+    category,
+    candidates,
+    remainingCandidates,
+    remainingItems,
+    items,
+    isPossibleChallenge,
+} = storeToRefs(store);
+const { t: $t } = useI18n();
 
-            candidateImage() {
-                return this.showCandidateImage && this.$store.state.candidate ? this.$store.state.candidate.thumb : false;
-            },
+const showCandidateImage = ref(true);
+const showItemImage = ref(true);
+const summary = ref<string | false | null>(false);
 
-            categoryUrl() {
-                return 'https://commons.wikimedia.org/wiki/Category:' + encodeWikiTitle(this.$store.state.category);
-            },
+const candidateImage = computed(
+    () =>
+        showCandidateImage.value && candidate.value
+            ? candidate.value.thumb
+            : undefined
+);
 
-            imageProcess() {
-                return this.$t('image_process', {
-                    x : this.remainingCandidates,
-                    y : this.totalCandidates,
-                    categoryUrl : this.categoryUrl
-                });
-            },
+const categoryUrl = computed(
+    () =>
+        'https://commons.wikimedia.org/wiki/Category:' +
+        encodeWikiTitle(category.value ?? '')
+);
 
-            isPossibleChallenge() {
-                return this.$store.getters.isPossibleChallenge;
-            },
+const totalCandidates = computed(() => candidates.value.length);
 
-            itemImage() {
-                return this.showItemImage && this.$store.state.item ? this.$store.state.item.thumb : false;
-            },
+const remainingCandidatesCount = computed(() => {
+    const count =
+        totalCandidates.value - remainingCandidates.value.length + 1;
+    return count > totalCandidates.value ? totalCandidates.value : count;
+});
 
-            progress() {
-                const total = this.$store.state.items.length;
-                const remain = this.$store.getters.remainingItems.length;
+const imageProcess = computed(() =>
+    $t('image_process', {
+        x: remainingCandidatesCount.value,
+        y: totalCandidates.value,
+        categoryUrl: categoryUrl.value,
+    })
+);
 
-                return {
-                    total : total,
-                    value : total - remain,
-                };
-            },
+const itemImage = computed(
+    () =>
+        showItemImage.value && item.value
+            ? (item.value as { thumb?: string }).thumb
+            : undefined
+);
 
-            remainingCandidates() {
-                const count = this.totalCandidates - this.$store.getters.remainingCandidates.length + 1;
+const progress = computed(() => {
+    const total = items.value.length;
+    const remain = remainingItems.value.length;
+    return { total, value: total - remain };
+});
 
-                // Make sure we never show totalCandidates + 1 :)
-                return count > this.totalCandidates ? this.totalCandidates : count;
-            },
+const candidateUrl = computed(
+    () =>
+        candidate.value
+            ? `${COMMONS_FILE_PREFIX}${encodeWikiTitle(candidate.value.title)}`
+            : ''
+);
 
-            itemRef() {
-                return {
-                    description : this.item.description,
-                    href : this.item.url,
-                    hasSitelink : this.item.hasSitelink,
-                    img : this.item.thumb,
-                    label : this.item.label,
-                    sitelinkTitle : this.item.sitelinkTitle
-                };
-            },
+const itemRef = computed(() => {
+    const i = item.value as {
+        description?: string;
+        url?: string;
+        hasSitelink?: boolean;
+        thumb?: string;
+        label?: string;
+        sitelinkTitle?: string;
+    };
+    return {
+        description: i?.description,
+        href: i?.url,
+        hasSitelink: i?.hasSitelink,
+        img: i?.thumb,
+        label: i?.label,
+        sitelinkTitle: i?.sitelinkTitle,
+    };
+});
 
-            totalCandidates() {
-                return this.$store.state.candidates.length;
-            }
-        },
+const candidateDepicted = () => handleCandidate('depicted');
 
-        data() {
-            return {
-                showCandidateImage : true,
-                showItemImage : true,
-                summary : false
-            };
-        },
+const candidateNotDepicted = () => handleCandidate('not-depicted');
 
-        methods : {
-            candidateDepicted() {
-                this.handleCandidate('depicted');
-            },
+const candidateSkipped = () => handleCandidate('user-skipped');
 
-            candidateNotDepicted() {
-                this.handleCandidate('not-depicted');
-            },
+const createChallenge = () => { store.screen = 'create-challenge'; };
 
-            candidatePromintentlyDepicted() {
-                this.handleCandidate('prominently-depicted');
-            },
-
-            candidateSkipped() {
-                this.handleCandidate('user-skipped');
-            },
-
-            createChallenge() {
-                this.$store.commit('screen', 'create-challenge');
-            },
-
-            async getSummary(title) {
-                const api = new WikipediaApi(this.$store.state.locale);
-                const summary = await api.getSummary(title);
-
-                if (summary.extract_html) {
-                    this.summary = summary.extract_html;
-                }
-            },
-
-            async handleCandidate(action) {
-                this.$store.commit('lockActions');
-                this.showCandidateImage = false;
-                await this.$store.dispatch('handleCandidate', action);
-                this.showAllImages();
-                // Failsafe, this is already done in handleCandidate,
-                // but we do it here again to make sure the actions
-                // don't stay locked
-                this.$store.commit('unlockActions');
-            },
-
-            handleKeydown(e) {
-                if (this.lockActions) {
-                    console.log('lockActions, ignore keypresses');
-                    return;
-                }
-
-                if (e.key === '1') {
-                    this.candidateDepicted();
-                } else if (e.key === '2') {
-                    this.candidateSkipped();
-                } else if (e.key === '3') {
-                    this.candidateNotDepicted();
-                } else if (e.key === 's') {
-                    this.skipItem();
-                }
-            },
-
-            async skipItem() {
-                this.$store.commit('lockActions');
-                this.showCandidateImage = false;
-                this.summary = null;
-                this.showItemImage = false;
-                this.$store.commit('itemDone', this.$store.state.item.qid);
-                await this.$store.dispatch("nextItem");
-                this.showAllImages();
-                this.$store.commit('unlockActions');
-            },
-
-            async showAllImages() {
-                // Make sure the image is loaded before display
-                await loadImage(this.$store.state.candidate.thumb);
-                this.showCandidateImage = true;
-                this.showItemImage = true;
-            }
-        },
-
-        mounted() {
-            document.body.addEventListener('keydown', this.handleKeydown);
-        },
-
-        unmounted() {
-            document.body.removeEventListener('keydown', this.handleKeydown);
-        },
-
-        watch : {
-            item() {
-                console.log('Item changed');
-                this.summary = null;
-            }
-        }
+const getSummary = async (title: string) => {
+    const api = new WikipediaApi(store.locale);
+    const result = await api.getSummary(title);
+    if (result.extract_html) {
+        summary.value = result.extract_html;
     }
+};
+
+const handleCandidate = async (action: string) => {
+    store.lockActions = true;
+    showCandidateImage.value = false;
+    await store.handleCandidate(action);
+    await showAllImages();
+    store.lockActions = false;
+};
+
+const handleKeydown = (e: KeyboardEvent) => {
+    if (lockActions.value) {
+        console.log('lockActions, ignore keypresses');
+        return;
+    }
+    if (e.key === '1') {
+        candidateDepicted();
+    } else if (e.key === '2') {
+        candidateSkipped();
+    } else if (e.key === '3') {
+        candidateNotDepicted();
+    } else if (e.key === 's') {
+        skipItem();
+    }
+};
+
+const skipItem = async () => {
+    store.lockActions = true;
+    showCandidateImage.value = false;
+    summary.value = false;
+    showItemImage.value = false;
+    store.setItemDone((item.value as { qid: string }).qid);
+    await store.nextItem();
+    await showAllImages();
+    store.lockActions = false;
+};
+
+const showAllImages = async () => {
+    if (candidate.value?.thumb) {
+        await loadImage(candidate.value.thumb);
+    }
+    showCandidateImage.value = true;
+    showItemImage.value = true;
+};
+
+onMounted(() => {
+    document.body.addEventListener('keydown', handleKeydown);
+});
+
+onUnmounted(() => {
+    document.body.removeEventListener('keydown', handleKeydown);
+});
+
+watch(item, () => {
+    console.log('Item changed');
+    summary.value = false;
+});
 </script>
 
 <template>
@@ -213,7 +212,7 @@
                             v-if="itemRef.hasSitelink && !summary"
                             flair="default,bare"
                             icon="info"
-                            v-on:click="getSummary(itemRef.sitelinkTitle)">
+                            v-on:click="() => itemRef.sitelinkTitle && getSummary(itemRef.sitelinkTitle)">
                             {{ $t('get_summary') }}</wm-button>
 
                         <wm-button
@@ -248,7 +247,7 @@
                                icon="close">{{ $t('no') }}</wm-button>
                 </menu>
 
-                <a v-bind:href="candidate.url"
+                <a :href="candidateUrl"
                    class="screen__candidateimage"
                    target="_blank">
                     <img v-bind:src="candidateImage"
@@ -262,7 +261,7 @@
                 <span v-html="imageProcess"></span>
 
                 <small class="screen__small">
-                    <a v-bind:href="candidate.url"
+                    <a :href="candidateUrl"
                        target="_blank">
                        {{candidate.title}} ({{candidate.mid}})
                     </a>

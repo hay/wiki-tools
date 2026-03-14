@@ -12,56 +12,43 @@
     </component>
 </template>
 
-<script>
-    export default {
-        emits: ['click'],
+<script lang="ts" setup>
+import { computed } from 'vue';
 
-        computed : {
-            classes() {
-                const classes = ['wm-button'];
-
-                if (this.flair) {
-                    this.flair.split(',').forEach((flair) => {
-                        classes.push(`wm-button--${flair}`);
-                    });
-                }
-
-                return classes;
-            }
-        },
-
-        methods : {
-            click() {
-                if (this.disabled) {
-                    console.log('Button disabled');
-                    return;
-                }
-
-                this.$emit('click');
-            }
-        },
-
-        props : {
-            disabled : {
-                default : false,
-                type : Boolean,
-                required : false
-            },
-
-            flair : {
-                default : 'default',
-                type : String,
-                required : false
-            },
-
-            icon : {
-                type : String,
-                required : false
-            },
-
-            type : {
-                type : String
-            }
-        }
+const props = withDefaults(
+    defineProps<{
+        disabled?: boolean;
+        flair?: string;
+        icon?: string;
+        type?: string;
+    }>(),
+    {
+        disabled: false,
+        flair: 'default',
     }
+);
+
+const emit = defineEmits<{
+    click: [];
+}>();
+
+const classes = computed(() => {
+    const classList = ['wm-button'];
+
+    if (props.flair) {
+        props.flair.split(',').forEach((flair) => {
+            classList.push(`wm-button--${flair}`);
+        });
+    }
+
+    return classList;
+});
+
+const click = () => {
+    if (props.disabled) {
+        console.log('Button disabled');
+        return;
+    }
+    emit('click');
+};
 </script>

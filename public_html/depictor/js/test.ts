@@ -1,6 +1,6 @@
 import { encodeWikiTitle } from './util';
 
-function testWikiTitles() {
+const testWikiTitles = () => {
     // Key is input, value is what it should look like
     const data: Record<string, string> = {
         "Cimetière d'Abscon" : "Cimeti%C3%A8re_d%27Abscon",
@@ -18,8 +18,8 @@ function testWikiTitles() {
             console.log(`❌ '${input}' => '${output}', expected '${expected}'`)
         }
     }
-}
+};
 
-export function test() {
+export const test = () => {
     testWikiTitles();
-}
+};
