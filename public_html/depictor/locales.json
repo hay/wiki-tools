@@ -53,6 +53,10 @@
             "label": "svenska"
         },
         {
+            "code": "tr",
+            "label": "türkçe"
+        },
+        {
             "code": "tt",
             "label": "Татар теле"
         },
@@ -318,8 +322,6 @@
             "challenge_subtitle": "Work together with other people on completing these depicting challenges!",
             "itemcount_label": "{count} items",
             "create_challenge": "Create challenge",
-            "dark_mode_on": "Dark mode",
-            "dark_mode_off": "Light mode",
             "back": "Back",
             "challenge_title_length": "Title needs to be at least {count} characters",
             "challenge_shortdescription_length": "Description needs to be at least {count} characters",
@@ -327,7 +329,9 @@
             "show_all_challenges": "Show all {count} challenges",
             "help": "Help",
             "get_summary": "Show summary",
-            "is_depicted": "Is <strong>{label}</strong> clearly depicted in the image below?"
+            "is_depicted": "Is <strong>{label}</strong> clearly depicted in the image below?",
+            "dark_mode_on": "Dark mode",
+            "dark_mode_off": "Light mode"
         },
         "es": {
             "back": "Atrás",
@@ -700,7 +704,9 @@
             "try_again": "Probeer opnieuw",
             "app_title": "Depictor",
             "app_description": "Een speelse manier om gestructureerde data toe te voegen aan Wikimedia Commons",
-            "archived": "Gearchiveerd"
+            "archived": "Gearchiveerd",
+            "dark_mode_on": "Donkere modus",
+            "dark_mode_off": "Lichte modus"
         },
         "pl": {
             "archived": "Zarchiwizowane",
@@ -870,6 +876,34 @@
             "is_depicted": "Föreställer den här bilden <strong>{label}</strong>?",
             "depicted": "Det gör den",
             "not_depicted": "Nej det gör den inte"
+        },
+        "tr": {
+            "app_description": "Oyunlaştırıılmış bir arayüz kullanarak Wikimedia Commons'a yapılandırılmış veri ifadeleri ekleyin.",
+            "app_title": "Depictor",
+            "archived": "Arşivlenmiş",
+            "archived_hint": "Arşivlenmiş bir meydan okuma hâlâ oynanabilir durumdadır, ancak Depictor ana sayfasında gösterilmeyecektir.",
+            "back": "Geri",
+            "birth_year": "Doğum yılı",
+            "challenge_overview": "Meydan okumalar",
+            "challenge_lead_intro": "Bu meydan okumanın amacı:",
+            "challenge_shortdescription_length": "Açıklamanın en az {count} karakter olması gerekiyor.",
+            "create_challenge": "Meydan okuma oluştur",
+            "create_challenge_not_possible": "Bu sorgu için meydan okuma oluşturmak mümkün değil",
+            "challenge_subtitle": "Bu betimleme meydan okumalarını tamamlamak için diğer insanlarla birlikte çalışın!",
+            "depicted": "Tasvir edilir",
+            "get_summary": "Özet göster",
+            "yes": "Evet",
+            "year": "Yıl",
+            "username": "Kullanıcı adı",
+            "try_again": "Yeniden dene",
+            "title": "Başlık",
+            "start": "Başla",
+            "translate_this_tool": "Bu aracı çevir",
+            "skip": "Atla",
+            "skip_item": "Maddeyi atla",
+            "sparql_query": "SPARQL sorgusu",
+            "help": "Yardım",
+            "challenge_title_length": "Başlığın en az {count} karakter olması gerekiyor."
         },
         "tt": {
             "app_description": "Уенсыман интерфейс кулланып, Викиҗыентыктагы файлларга структураланган мәгълүмат өстәгез",
