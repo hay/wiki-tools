@@ -19,6 +19,8 @@ export default class MediawikiApi {
         return await getJson(
             this.endpoint,
             params as Record<string, string>,
+            // #179: hopefully this might fix an issue with getting HTTP 429
+            // errors. See < https://www.mediawiki.org/wiki/API:Etiquette#The_User-Agent_header >
             {
                 'Api-User-Agent' : API_USER_AGENT
             }
