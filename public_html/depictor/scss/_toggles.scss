@@ -1,8 +1,15 @@
-.language-selector {
+.language-selector,
+.dark-toggle {
     display: flex;
     align-items: center;
-    padding: .5rem;
+    padding: .5rem 0;
     width: min-content;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.8;
+    }
 
     &__select {
         margin-left: 1rem;

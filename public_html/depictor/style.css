@@ -229,6 +229,12 @@ a {
 .icon[data-icon=info] {
   background-image: url("img/icon-info.svg");
 }
+.icon[data-icon=sun] {
+  background-image: url("img/icon-sun.svg");
+}
+.icon[data-icon=moon] {
+  background-image: url("img/icon-moon.svg");
+}
 
 .wm-button {
   --c-1: #36c;
@@ -586,11 +592,6 @@ html.has-mouse .wm-button--dark:hover, html.has-mouse .wm-button--darklink:hover
 }
 .el-header__menu :last-child {
   padding-right: 0;
-}
-@media (max-width: 767px) {
-  .el-header__username {
-    display: none;
-  }
 }
 
 .el-progress {

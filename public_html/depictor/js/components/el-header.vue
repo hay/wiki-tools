@@ -9,14 +9,16 @@
                 flair="default,bare"
                 icon="arrow-left">{{$t('start')}}</wm-button>
 
-            <el-language-selector
-                ref="langSelectRef"
-                v-on:blur-select="langSelectRef!.hideSelect()"
-                v-on:click-select="langSelectRef!.showSelect()"
-                v-bind:languages="languages"
-                v-bind:link="transateLink"
-                v-model="locale"
-            ></el-language-selector>
+            <div>
+                <el-language-selector
+                    ref="langSelectRef"
+                    v-on:blur-select="langSelectRef!.hideSelect()"
+                    v-on:click-select="langSelectRef!.showSelect()"
+                    v-bind:languages="languages"
+                    v-bind:link="transateLink"
+                    v-model="locale" />
+                <el-dark-toggle  />
+            </div>
 
             <wm-button
                 v-if="isLoggedIn"
@@ -96,6 +98,7 @@
 </template>
 
 <script lang="ts" setup>
+import ElDarkToggle from './el-dark-toggle.vue';
 import ElLanguageSelector from './el-language-selector.vue';
 import { storeToRefs } from 'pinia';
 import { useDepictorStore } from '../store';
