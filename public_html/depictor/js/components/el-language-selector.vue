@@ -1,12 +1,11 @@
 <template>
-    <div class="language-selector">
+    <div class="language-selector"
+              v-on:click="clickSelect">
         <span class="icon"
-              v-on:click="clickSelect"
               data-icon="locale"></span>
 
         <span class="language-selector__link"
-              v-show="!isShowSelect"
-              v-on:click="clickSelect">
+              v-show="!isShowSelect">
             {{$t('language')}}
         </span>
 
@@ -30,7 +29,7 @@
 
         <span class="icon language-selector__close"
               v-show="isShowSelect"
-              v-on:click="blurSelect"
+              v-on:click.stop="blurSelect"
               data-icon="close"></span>
     </div>
 </template>
