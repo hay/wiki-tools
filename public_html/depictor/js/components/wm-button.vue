@@ -2,7 +2,7 @@
     <component
         :is="type === 'anchor' ? 'a' : 'button'"
         :class="classes"
-        :is-disabled="disabled"
+        :disabled="disabled ? '' : undefined"
         @click="click"
     >
         <span v-if="icon" class="wm-button__icon icon" :data-icon="icon"></span>
