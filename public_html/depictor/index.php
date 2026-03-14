@@ -36,8 +36,10 @@
 
     $hay = new Hay(basename(dirname(__FILE__)), [
         "bare" => true,
-        "scripts" => [ 'dist/bundle.js' ],
-        "styles" => [ 'dist/app.css' ]
+        "default_scripts" => false,
+        "use_vite" => true,
+        "vite_entry" => "js/app.ts",
+        "vite_manifest" => "dist/manifest.json",
     ]);
 
     $ctx = json_encode([

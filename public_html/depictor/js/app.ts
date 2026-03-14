@@ -31,6 +31,7 @@ const initApp = async () => {
     app.config.globalProperties.$store = store;
 
     const i18n = createI18n({
+        legacy: false,
         fallbackLocale: store.defaultLocale,
         locale: store.locale,
         messages: store.locales?.messages ?? {},
