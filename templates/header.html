@@ -92,4 +92,13 @@
     <hr />
     {% endif %}
 
+    {% if is_test_mode %}
+    <div class="alert alert-danger"
+        role="alert">
+        <strong>Warning:</strong> you're looking at the <strong>test version</strong> of this application.
+        Many applications might not work.
+        Please visit <a href="https://hay.toolforge.org/">hay.toolforge.org</a> for the production version.
+    </div>
+    {% endif %}
+
     <main>

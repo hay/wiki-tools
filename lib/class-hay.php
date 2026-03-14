@@ -82,6 +82,8 @@ class Hay {
             'url' => $this->toolurl,
             'root' => ROOT,
             'debug' => DEBUG,
+            'env_mode' => ENV_MODE,
+            'is_test_mode' => ENV_MODE == 'test',
             "opts" => $this->opts,
             "before_head_close" => $this->beforeHeadClose,
             "vite" => $this->getViteOpts()

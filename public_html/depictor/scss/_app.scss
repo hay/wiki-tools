@@ -24,3 +24,13 @@
 .container {
     overflow-x: hidden;
 }
+
+.alert {
+    font-size: 1.6rem;
+    padding: 1rem;
+    margin: 2rem auto;
+    background: rgb(255, 207, 207);
+    border: 1px solid black;
+    width: calc(100% - 4rem);
+    max-width: 60rem;
+}
