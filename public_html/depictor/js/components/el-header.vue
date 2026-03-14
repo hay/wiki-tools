@@ -10,9 +10,9 @@
                 icon="arrow-left">{{$t('start')}}</wm-button>
 
             <el-language-selector
-                ref="langSelect"
-                v-on:blur-select="langSelect(false)"
-                v-on:click-select="langSelect(true)"
+                ref="langSelectRef"
+                v-on:blur-select="langSelectRef!.hideSelect()"
+                v-on:click-select="langSelectRef!.showSelect()"
                 v-bind:languages="languages"
                 v-bind:link="transateLink"
                 v-model="locale"
@@ -95,62 +95,38 @@
     </div>
 </template>
 
-<script>
-    import ElLanguageSelector from './el-language-selector.vue';
-    import { mapState } from 'vuex';
+<script lang="ts" setup>
+import ElLanguageSelector from './el-language-selector.vue';
+import { storeToRefs } from 'pinia';
+import { useDepictorStore } from '../store';
+import { computed, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-    export default {
-        components : { ElLanguageSelector },
+const store = useDepictorStore();
+const { authUrl, rootUrl, homeLink, locales, userPage, userName, isAccessTokenRequest, isLoggedIn, isLoggedOut, screen } = storeToRefs(store);
 
-        computed: {
-            homeLink() {
-                return this.$store.getters.homeLink;
-            },
+const { t: $t, locale: i18nLocale } = useI18n();
 
-            locale: {
-                get() {
-                    return this.$store.state.locale;
-                },
+const langSelectRef = ref<InstanceType<typeof ElLanguageSelector> >();
 
-                set(locale) {
-                    this.$store.commit('locale', locale);
-                }
-            },
+const locale = computed({
+    get() {
+        return store.locale;
+    },
+    set(locale) {
+        store.setLocale(locale);
+    }
+});
 
-            ...mapState([
-                'authUrl', 'rootUrl', 'isDebug', 'userPage', 'userName',
-                'isAccessTokenRequest', 'isLoggedIn', 'isLoggedOut', 'screen',
-                'isInvalidAccessTokenRequest'
-            ])
-        },
+const languages = computed(() => locales.value?.languages ?? []);
 
-        data() {
-            return {
-                languages : this.$store.state.locales?.languages ?? [],
-                showLangselect : false,
-                transateLink : {
-                    link : 'https://tools.wmflabs.org/tooltranslate/#tool=59',
-                    label : this.$t('translate_this_tool')
-                }
-            };
-        },
-
-        methods : {
-            langSelect(select) {
-                if (select) {
-                    this.$refs.langSelect.showSelect();
-                } else {
-                    this.$refs.langSelect.hideSelect();
-                }
-
-                this.showLangselect = select;
-            }
-        },
-
-        watch : {
-            locale() {
-                this.$i18n.locale = this.locale;
-            }
-        }
-    };
+const showLangselect = ref(false);
+const transateLink = ref({
+    link : 'https://tools.wmflabs.org/tooltranslate/#tool=59',
+    label : $t('translate_this_tool')
+});
+        
+watch(locale, (newLocale) => {
+    i18nLocale.value = newLocale;
+});
 </script>

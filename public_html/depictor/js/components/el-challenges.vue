@@ -23,8 +23,8 @@
                         <span>{{challenge.title}}</span>
 
                         <span class="challenges__itemcount"
-                              v-if="challenge.edits > 0">
-                            {{ $t('editcount', { count : challenge.edits }) }}
+                              v-if="(challenge.edits ?? 0) > 0">
+                            {{ $t('editcount', { count : challenge.edits ?? 0 }) }}
                         </span>
                     </h3>
 
@@ -45,26 +45,33 @@
     </div>
 </template>
 
-<script>
-    import { MAX_CHALLENGE_OVERVIEW_COUNT } from '../const';
+<script lang="ts" setup>
+import { ref, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { MAX_CHALLENGE_OVERVIEW_COUNT } from '../const';
+import { useDepictorStore } from '../store';
 
-    export default {
-        data() {
-            return {
-                challenges : [],
-                maxItems : MAX_CHALLENGE_OVERVIEW_COUNT,
-                showAll : false
-            }
-        },
+const { t: $t } = useI18n();
 
-        async mounted() {
-            const state = this.$store.state;
-            const challenges = await state.api.getChallenges();
+interface Challenge {
+    id: string;
+    title?: string;
+    short_description?: string;
+    edits?: number;
+    link?: string;
+}
 
-            this.challenges = challenges.map((challenge) => {
-                challenge.link = `${state.rootUrl}/?challenge=${challenge.id}`;
-                return challenge;
-            });
-        }
-    }
+const store = useDepictorStore();
+
+const challenges = ref<Challenge[]>([]);
+const maxItems = MAX_CHALLENGE_OVERVIEW_COUNT;
+const showAll = ref(false);
+
+onMounted(async () => {
+    const data = await store.api.getChallenges();
+    challenges.value = data.map((challenge: Challenge) => ({
+        ...challenge,
+        link: `${store.rootUrl}/?challenge=${challenge.id}`,
+    }));
+});
 </script>

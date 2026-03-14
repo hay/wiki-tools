@@ -9,31 +9,31 @@
         </wm-button>
 
         <h1 class="app-title">
-            {{challenge.title}}
+            {{challenge?.title}}
         </h1>
 
         <p class="app-lead">
             {{$t('challenge_lead_intro')}}
 
             <blockquote class="screen__quote">
-                {{challenge.short_description}}
+                {{challenge?.short_description}}
             </blockquote>
         </p>
 
         <wm-button
-            v-bind:href="startLink"
+            :href="startLink"
             type="anchor"
             flair="default,primary">{{$t("start")}}</wm-button>
 
         <wm-button
-            v-if="isEditable"
+            v-if="isEditableChallenge"
             flair="default,bare"
             icon="edit"
             v-on:click="editChallenge">{{$t('edit_challenge')}}</wm-button>
 
-        <p v-if="challenge.long_description"
+        <p v-if="challenge?.long_description"
            class="screen__subtitle">
-            {{challenge.long_description}}
+            {{challenge?.long_description}}
         </p>
 
         <p class="screen__subtitle"
@@ -46,47 +46,32 @@
         </p>
 
         <el-leaderboard
-            v-bind:challenge="challenge.id"></el-leaderboard>
+            :challenge="challenge?.id"></el-leaderboard>
     </div>
 </template>
 
-<script>
-    import { COMMONS_USER_PREFIX } from '../const';
-    import ElLeaderboard from './el-leaderboard.vue';
+<script lang="ts" setup>
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { storeToRefs } from 'pinia';
+import { COMMONS_USER_PREFIX } from '../const';
+import { useDepictorStore } from '../store';
+import ElLeaderboard from './el-leaderboard.vue';
 
-    export default {
-        components : { ElLeaderboard },
+const store = useDepictorStore();
+const { challenge, isEditableChallenge, rootUrl } = storeToRefs(store);
+const { t: $t } = useI18n();
 
-        computed : {
-            challenge() {
-                return this.$store.state.challenge;
-            },
+const startLink = computed(() =>
+    `${rootUrl.value}/?challenge=${challenge.value?.id}&action=start`
+);
 
-            isEditable() {
-                return this.$store.getters.isEditableChallenge;
-            },
+const userLink = computed(() =>
+    $t('challenge_userlink', {
+        link: `${COMMONS_USER_PREFIX}${challenge.value?.user}`,
+        user: challenge.value?.user,
+    })
+);
 
-            rootUrl() {
-                return this.$store.state.rootUrl;
-            },
-
-            startLink() {
-                const root = this.$store.state.rootUrl;
-                return `${root}/?challenge=${this.challenge.id}&action=start`;
-            },
-
-            userLink() {
-                return this.$t('challenge_userlink', {
-                    link : `${COMMONS_USER_PREFIX}${this.challenge.user}`,
-                    user : this.challenge.user
-                });
-            }
-        },
-
-        methods : {
-            editChallenge() {
-                this.$store.commit('screen', 'edit-challenge');
-            }
-        }
-    }
+const editChallenge = () => { store.screen = 'edit-challenge'; };
 </script>

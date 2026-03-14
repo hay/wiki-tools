@@ -102,43 +102,36 @@ select ?item ?instance ?image ?cat where {
     </div>
 </template>
 
-<script>
-    import {
-        MIN_BIRTH_YEAR, MAX_BIRTH_YEAR
-    } from '../const';
-    import ElChallenges from './el-challenges.vue';
-    import ElLeaderboard from './el-leaderboard.vue';
-    import ElNotice from './el-notice.vue';
+<script lang="ts" setup>
+import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { MIN_BIRTH_YEAR, MAX_BIRTH_YEAR } from '../const';
+import { useDepictorStore } from '../store';
 
-    function getRandomBirthYear() {
-        return Math.floor(Math.random() * (MAX_BIRTH_YEAR - MIN_BIRTH_YEAR + 1)) + MIN_BIRTH_YEAR;
-    }
+const { t: $t } = useI18n();
+import ElChallenges from './el-challenges.vue';
+import ElLeaderboard from './el-leaderboard.vue';
+import ElNotice from './el-notice.vue';
 
-    export default {
-        components : { ElChallenges, ElLeaderboard, ElNotice },
+const getRandomBirthYear = () =>
+    Math.floor(Math.random() * (MAX_BIRTH_YEAR - MIN_BIRTH_YEAR + 1)) +
+    MIN_BIRTH_YEAR;
 
-        data() {
-            return {
-                opts : {
-                    category : null,
-                    catdeep : false,
-                    catdepth : 0,
-                    sparql : null,
-                    type : 'year',
-                    year : getRandomBirthYear()
-                },
-                showAdvancedOptions : false
-            };
-        },
+const store = useDepictorStore();
 
-        methods : {
-            async start() {
-                this.$store.commit('hash', this.opts);
-            },
+const opts = ref({
+    category: null as string | null,
+    catdeep: false,
+    catdepth: 0,
+    sparql: null as string | null,
+    type: 'year' as 'year' | 'category' | 'sparql',
+    year: getRandomBirthYear(),
+});
+const showAdvancedOptions = ref(false);
 
-            toggleAdvancedOptions() {
-                this.showAdvancedOptions = !this.showAdvancedOptions;
-            }
-        }
-    }
+const start = async () => { store.hash(opts.value); };
+
+const toggleAdvancedOptions = () => {
+    showAdvancedOptions.value = !showAdvancedOptions.value;
+};
 </script>

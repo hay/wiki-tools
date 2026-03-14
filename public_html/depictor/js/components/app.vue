@@ -3,29 +3,29 @@
         <el-header></el-header>
 
         <screen-intro
-            v-if="screen === 'intro'"></screen-intro>
+            v-if="screenState === 'intro'"></screen-intro>
 
         <screen-game
-            v-if="screen === 'game'"></screen-game>
+            v-if="screenState === 'game'"></screen-game>
 
         <screen-challenge
-            v-if="screen === 'challenge'"></screen-challenge>
+            v-if="screenState === 'challenge'"></screen-challenge>
 
         <screen-create-challenge
-            v-if="screen === 'create-challenge'"
-            v-bind:is-editable="false"></screen-create-challenge>
+            v-if="screenState === 'create-challenge'"
+            :is-editable="false"></screen-create-challenge>
 
         <screen-create-challenge
-            v-if="screen === 'edit-challenge'"
-            v-bind:is-editable="true"></screen-create-challenge>
+            v-if="screenState === 'edit-challenge'"
+            :is-editable="true"></screen-create-challenge>
 
-        <screen-message v-if="screen === 'loading'">
+        <screen-message v-if="screenState === 'loading'">
             <p class="screen__notice">{{ $t('loading') }}</p>
         </screen-message>
 
         <screen-message
-            v-if="screen === 'error'"
-            v-bind:showReloadButton="true">
+            v-if="screenState === 'error'"
+            :showReloadButton="true">
             <p class="screen__notice">{{errorMessage}}</p>
 
             <el-notice
@@ -35,77 +35,63 @@
     </div>
 </template>
 
-<script>
-    import { test } from '../test';
-    import ElHeader from './el-header.vue';
-    import ElNotice from './el-notice.vue';
-    import ScreenChallenge from './screen-challenge.vue';
-    import ScreenCreateChallenge from './screen-createchallenge.vue';
-    import ScreenGame from './screen-game.vue';
-    import ScreenIntro from './screen-intro.vue';
-    import ScreenMessage from './screen-message.vue';
+<script lang="ts" setup>
+import { onMounted, watch } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useI18n } from 'vue-i18n';
+import { test } from '../test';
+import { useDepictorStore } from '../store';
 
-    export default {
-        components : {
-            ElHeader, ElNotice, ScreenChallenge, ScreenIntro,
-            ScreenGame, ScreenMessage, ScreenCreateChallenge
-        },
+const { t: $t } = useI18n();
+import ElHeader from './el-header.vue';
+import ElNotice from './el-notice.vue';
+import ScreenChallenge from './screen-challenge.vue';
+import ScreenCreateChallenge from './screen-createchallenge.vue';
+import ScreenGame from './screen-game.vue';
+import ScreenIntro from './screen-intro.vue';
+import ScreenMessage from './screen-message.vue';
 
-        computed : {
-            errorMessage() {
-                return this.$store.state.errorMessage;
-            },
+const store = useDepictorStore();
+const { errorMessage, screenState } = storeToRefs(store);
 
-            screen() {
-                return this.$store.getters.screenState;
-            }
-        },
+const parseSearch = () => {
+    const url = new window.URL(window.location.href);
 
-        mounted() {
-            this.parseSearch();
-        },
+    if (
+        url.searchParams.has('queryType') &&
+        url.searchParams.has('queryValue')
+    ) {
+        store.runQuery({
+            type: url.searchParams.get('queryType') ?? '',
+            value: url.searchParams.get('queryValue') ?? '',
+        });
+    }
 
-        methods : {
-            parseSearch() {
-                const url = new window.URL(window.location.href);
+    if (url.searchParams.has('challenge')) {
+        const id = url.searchParams.get('challenge') ?? '';
+        const action = url.searchParams.get('action') ?? '';
+        store.loadChallenge({ id, action });
+    }
 
-                if (
-                    url.searchParams.has("queryType") &&
-                    url.searchParams.has("queryValue")
-                ) {
-                    this.$store.dispatch("query", {
-                        type: url.searchParams.get("queryType"),
-                        value: url.searchParams.get("queryValue")
-                    });
-                }
+    if (url.searchParams.has('test')) {
+        test();
+    }
+};
 
-                if (url.searchParams.has("challenge")) {
-                    const id = url.searchParams.get("challenge") ?? "";
-                    const action = url.searchParams.get("action") ?? "";
+onMounted(() => {
+    parseSearch();
+});
 
-                    this.$store.dispatch("challenge", { id, action });
-                }
+watch(screenState, (newScreen) => {
+    window.scrollTo(0, 0);
 
-                if (url.searchParams.has("test")) {
-                    test();
-                }
-            }
-        },
-
-        watch : {
-            screen(newScreen) {
-                // Make sure we go back to the top of screen
-                window.scrollTo(0, 0);
-
-                const wrapper = document.getElementById("wrapper");
-                if (wrapper) {
-                    if (newScreen === "game") {
-                        wrapper.setAttribute("is-fullscreen", "");
-                    } else {
-                        wrapper.removeAttribute("is-fullscreen");
-                    }
-                }
-            }
+    const wrapper = document.getElementById('wrapper');
+    if (wrapper) {
+        if (newScreen === 'game') {
+            wrapper.setAttribute('is-fullscreen', '');
+        } else {
+            wrapper.removeAttribute('is-fullscreen');
         }
     }
+});
 </script>

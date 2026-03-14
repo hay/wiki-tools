@@ -1,12 +1,13 @@
 import "../scss/style.scss";
 import { getJson } from "./util";
 import { createApp } from "vue";
+import { createPinia } from "pinia";
 import { createI18n } from "vue-i18n";
 import App from "./components/app.vue";
 import WmButton from "./components/wm-button.vue";
-import createStore from "./store";
+import { setDepictorStoreOptions, useDepictorStore } from "./store";
 
-async function initApp() {
+const initApp = async () => {
     const locales = await getJson("./locales.json") as {
         messages: Record<string, Record<string, string>>;
         languages?: { code: string; label: string }[];
@@ -20,18 +21,21 @@ async function initApp() {
     const storeOptions = Object.assign({}, window.__ctx__, {
         locales,
     });
-    const store = createStore(storeOptions);
+    setDepictorStoreOptions(storeOptions);
+
+    const pinia = createPinia();
+    const app = createApp(App);
+    app.use(pinia);
+
+    const store = useDepictorStore();
+    app.config.globalProperties.$store = store;
 
     const i18n = createI18n({
-        legacy: true,
-        fallbackLocale: store.state.defaultLocale,
-        locale: store.state.locale,
-        messages: store.state.locales?.messages ?? {},
-        silentTranslationWarn: !store.state.isDebug,
+        fallbackLocale: store.defaultLocale,
+        locale: store.locale,
+        messages: store.locales?.messages ?? {},
+        silentTranslationWarn: !store.isDebug,
     });
-
-    const app = createApp(App);
-    app.use(store);
     app.use(i18n);
     app.component("wm-button", WmButton);
 
@@ -40,12 +44,12 @@ async function initApp() {
     };
 
     app.mount("#app");
-}
+};
 
-function addTouchClasses() {
+const addTouchClasses = () => {
     const inputDevice = "ontouchend" in window ? "touch" : "mouse";
     window.document.documentElement.classList.add("has-" + inputDevice);
-}
+};
 
 addTouchClasses();
 initApp();

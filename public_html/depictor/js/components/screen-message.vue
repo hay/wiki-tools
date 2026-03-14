@@ -10,19 +10,16 @@
     </div>
 </template>
 
-<script>
-    export default {
-        computed: {
-            homeLink() {
-                return this.$store.getters.homeLink;
-            }
-        },
+<script lang="ts" setup>
+import { storeToRefs } from 'pinia';
+import { useI18n } from 'vue-i18n';
+import { useDepictorStore } from '../store';
 
-        props : {
-            showReloadButton : {
-                type : Boolean,
-                default : false
-            }
-        }
-    }
+const { t: $t } = useI18n();
+
+const { showReloadButton = false } = defineProps<{
+    showReloadButton?: boolean;
+}>();
+
+const { homeLink } = storeToRefs(useDepictorStore());
 </script>

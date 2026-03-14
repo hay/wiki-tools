@@ -47,54 +47,52 @@
     </div>
 </template>
 
-<script>
-    import { numberWithCommas } from '../util';
+<script lang="ts" setup>
+import { ref, computed, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { numberWithCommas } from '../util';
+import { useDepictorStore } from '../store';
 
-    export default {
-        computed : {
-            hasItems() {
-                return this.data.total > 0;
-            },
+interface LeaderboardRow {
+    user: string;
+    edits: number;
+    userLink?: string;
+}
 
-            leaderboardLabel() {
-                return this.challenge ? this.$t('leaderboard') : this.$t('global_leaderboard');
-            },
+interface LeaderboardData {
+    total: number;
+    stats: LeaderboardRow[];
+}
 
-            subtitle() {
-                const total = this.numberWithCommas(this.data.total);
-                return this.$t('leaderboard_total', { total });
-            }
-        },
+const { challenge } = defineProps<{
+    challenge?: string | null;
+}>();
 
-        data() {
-            return {
-                data : [],
-                maxRows : 10,
-                showAll : false
-            }
-        },
+const store = useDepictorStore();
+const { t: $t } = useI18n();
 
-        methods : {
-            numberWithCommas(val) {
-                return numberWithCommas(val);
-            }
-        },
+const data = ref<LeaderboardData>({ total: 0, stats: [] });
+const maxRows = 10;
+const showAll = ref(false);
 
-        async mounted() {
-            const data = await this.$store.state.api.getLeaderboard(this.challenge);
+const hasItems = computed(() => data.value.total > 0);
 
-            data.stats = data.stats.map((row) => {
-                row.userLink = `https://commons.wikimedia.org/wiki/User:${row.user}`;
-                return row;
-            });
+const leaderboardLabel = computed(() =>
+    challenge ? $t('leaderboard') : $t('global_leaderboard')
+);
 
-            this.data = data;
-        },
+const subtitle = computed(() => 
+    $t('leaderboard_total', { 
+        total: numberWithCommas(data.value.total)
+     })
+);
 
-        props : {
-            challenge : {
-                required : false
-            }
-        }
-    }
+onMounted(async () => {
+    const result = await store.api.getLeaderboard(challenge ?? null);
+    result.stats = result.stats.map((row: LeaderboardRow) => ({
+        ...row,
+        userLink: `https://commons.wikimedia.org/wiki/User:${row.user}`,
+    }));
+    data.value = result;
+});
 </script>
