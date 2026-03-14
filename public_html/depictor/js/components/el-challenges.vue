@@ -41,7 +41,7 @@
             icon="eye"
             flair="default,bare"
             v-on:click="showAll = true">
-            {{$t('show_all_challenges', { count : challenges.length })}}</wm-button>
+            {{ $t('show_all_challenges', { count : challenges.length }) }}</wm-button>
     </div>
 </template>
 

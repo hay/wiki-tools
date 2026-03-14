@@ -51,7 +51,7 @@
                 return count > this.totalCandidates ? this.totalCandidates : count;
             },
 
-            ref() {
+            itemRef() {
                 return {
                     description : this.item.description,
                     href : this.item.url,
@@ -73,10 +73,6 @@
                 showItemImage : true,
                 summary : false
             };
-        },
-
-        destroyed() {
-            window.removeEventListener('keydown', this.keydown);
         },
 
         methods : {
@@ -120,7 +116,7 @@
                 this.$store.commit('unlockActions');
             },
 
-            keydown(e) {
+            handleKeydown(e) {
                 if (this.lockActions) {
                     console.log('lockActions, ignore keypresses');
                     return;
@@ -157,7 +153,11 @@
         },
 
         mounted() {
-            window.addEventListener('keydown', this.keydown);
+            document.body.addEventListener('keydown', this.handleKeydown);
+        },
+
+        unmounted() {
+            document.body.removeEventListener('keydown', this.handleKeydown);
         },
 
         watch : {
@@ -192,15 +192,15 @@
 
                 <figcaption class="reference__caption">
                     <p>
-                        <a v-bind:href="ref.href"
+                        <a v-bind:href="itemRef.href"
                            target="_blank">
-                            {{ref.label}}
+                            {{itemRef.label}}
                         </a>
                     </p>
 
                     <p class="reference__description">
                         <em>
-                            {{ref.description}}
+                            {{itemRef.description}}
                         </em>
                     </p>
 
@@ -210,11 +210,11 @@
 
                     <menu class="reference__buttons">
                         <wm-button
-                            v-if="ref.hasSitelink && !summary"
+                            v-if="itemRef.hasSitelink && !summary"
                             flair="default,bare"
                             icon="info"
-                            v-on:click="getSummary(ref.sitelinkTitle)">
-                            {{$t('get_summary')}}</wm-button>
+                            v-on:click="getSummary(itemRef.sitelinkTitle)">
+                            {{ $t('get_summary') }}</wm-button>
 
                         <wm-button
                             v-on:click="skipItem"
@@ -232,20 +232,20 @@
 
                 <p v-else
                    class="screen__instruction"
-                   v-html="$t('is_depicted', { label : ref.label })"></p>
+                   v-html="$t('is_depicted', { label : itemRef.label })"></p>
 
                 <menu class="screen__actions">
                     <wm-button v-on:click="candidateDepicted"
                                v-bind:disabled="lockActions"
-                               icon="accept">{{$t('yes')}}</wm-button>
+                               icon="accept">{{ $t('yes') }}</wm-button>
 
                     <wm-button v-on:click="candidateSkipped"
                                v-bind:disabled="lockActions"
-                               icon="skip">{{$t('skip')}}</wm-button>
+                               icon="skip">{{ $t('skip') }}</wm-button>
 
                     <wm-button v-on:click="candidateNotDepicted"
                                v-bind:disabled="lockActions"
-                               icon="close">{{$t('no')}}</wm-button>
+                               icon="close">{{ $t('no') }}</wm-button>
                 </menu>
 
                 <a v-bind:href="candidate.url"
@@ -281,7 +281,7 @@
                 class="screen__challenge"
                 v-show="isPossibleChallenge"
                 v-on:click="createChallenge"
-                icon="challenge">{{$t('create_challenge')}}</wm-button>
+                icon="challenge">{{ $t('create_challenge') }}</wm-button>
         </div>
     </div>
 </template>

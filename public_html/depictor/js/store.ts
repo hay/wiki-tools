@@ -1,6 +1,4 @@
-import { sample } from 'donot';
-import Vue from 'vue';
-import Vuex from 'vuex';
+import { createStore as createVuexStore } from 'vuex';
 import Api from './api';
 import {
     DEFAULT_LOCALE, THUMB_SIZE, IMAGE_SIZE, COMMONS_USER_PREFIX,
@@ -8,7 +6,7 @@ import {
 } from './const';
 import { getLocale } from './util';
 
-interface StoreOptions {
+interface DepictorStoreOptions {
     authUrl?: string;
     isAccessTokenRequest?: boolean;
     isDebug?: boolean;
@@ -17,7 +15,10 @@ interface StoreOptions {
     isLoggedOut?: boolean;
     rootUrl?: string;
     userName?: string;
-    locales?: { messages?: Record<string, Record<string, string>> };
+    locales?: {
+        messages?: Record<string, Record<string, string>>;
+        languages?: { code: string; label: string }[];
+    };
 }
 
 interface Candidate {
@@ -62,7 +63,10 @@ interface State {
     items: Item[];
     loading: boolean;
     locale: string;
-    locales?: { messages?: Record<string, Record<string, string>> };
+    locales?: {
+        messages?: Record<string, Record<string, string>>;
+        languages?: { code: string; label: string }[];
+    };
     lockActions: boolean;
     rootUrl?: string;
     query: { type?: string; value?: string };
@@ -71,7 +75,7 @@ interface State {
     userPage?: string;
 }
 
-export default function createStore(opts: StoreOptions) {
+export default function createStore(opts: DepictorStoreOptions) {
     const locale = getLocale( DEFAULT_LOCALE );
     const api = new Api(locale);
 
@@ -106,7 +110,7 @@ export default function createStore(opts: StoreOptions) {
         };
     }
 
-    return new Vuex.Store({
+    return createVuexStore<State>({
         state : getInitialState(),
 
         getters : {
@@ -435,7 +439,7 @@ export default function createStore(opts: StoreOptions) {
 
                     // Set item to done
                     commit('lockActions');
-                    await dispatch('itemDone', state.item.id);
+                    await dispatch('itemDone', (state.item as { qid: string }).qid);
                     await dispatch("nextItem");
                     commit('unlockActions');
                 }
@@ -450,7 +454,8 @@ export default function createStore(opts: StoreOptions) {
 
                 // #93 - We're still making this random to prevent
                 // race conditions for multiple people using the same challenge
-                const nextItem = sample(getters.remainingItems);
+                const items = getters.remainingItems;
+                const nextItem = items[Math.floor(Math.random() * items.length)];
 
                 // Get more item info
                 let item;

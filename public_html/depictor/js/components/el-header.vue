@@ -15,7 +15,8 @@
                 v-on:click-select="langSelect(true)"
                 v-bind:languages="languages"
                 v-bind:link="transateLink"
-                v-model="locale"></el-language-selector>
+                v-model="locale"
+            ></el-language-selector>
 
             <wm-button
                 v-if="isLoggedIn"
@@ -47,7 +48,7 @@
 
         <h1 class="app-title"
             v-show="screen === 'intro'">
-            <a v-bind:href="rootUrl">{{$t('app_title')}}</a>
+            <a v-bind:href="rootUrl">{{ $t('app_title') }}</a>
         </h1>
 
         <p class="app-lead"
@@ -125,7 +126,7 @@
 
         data() {
             return {
-                languages : this.$store.state.locales.languages,
+                languages : this.$store.state.locales?.languages ?? [],
                 showLangselect : false,
                 transateLink : {
                     link : 'https://tools.wmflabs.org/tooltranslate/#tool=59',

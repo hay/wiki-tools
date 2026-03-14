@@ -37,10 +37,12 @@
 
 <script>
     export default {
+        emits: ['blur-select', 'click-select', 'update:modelValue'],
+
         data() {
             return {
                 isShowSelect : false,
-                lang : this.value,
+                lang : this.modelValue,
                 showCustomLanguage : false,
             }
         },
@@ -51,10 +53,10 @@
             },
 
             change(lang) {
-                if (lang === 'external-link') {
+                if (lang === 'external-link' && this.link) {
                     window.location = this.link.link;
                 } else {
-                    this.$emit('input', lang);
+                    this.$emit('update:modelValue', lang);
                 }
 
                 this.isShowSelect = false;
@@ -84,9 +86,15 @@
                 required : false
             },
 
-            value : {
+            modelValue : {
                 type : String,
                 required : true
+            }
+        },
+
+        watch: {
+            modelValue(val) {
+                this.lang = val;
             }
         }
     }

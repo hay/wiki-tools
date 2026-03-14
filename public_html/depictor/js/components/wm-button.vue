@@ -1,5 +1,21 @@
+<template>
+    <component
+        :is="type === 'anchor' ? 'a' : 'button'"
+        :class="classes"
+        :is-disabled="disabled"
+        @click="click"
+    >
+        <span v-if="icon" class="wm-button__icon icon" :data-icon="icon"></span>
+        <span class="wm-button__content">
+            <slot></slot>
+        </span>
+    </component>
+</template>
+
 <script>
     export default {
+        emits: ['click'],
+
         computed : {
             classes() {
                 const classes = ['wm-button'];
@@ -46,45 +62,6 @@
             type : {
                 type : String
             }
-        },
-
-        render(h) {
-            const children = [];
-
-            if (this.icon) {
-                children.push(h(
-                    'span',
-                    {
-                        class : 'wm-button__icon icon',
-                        attrs : {
-                            'data-icon' : this.icon
-                        }
-                    }
-                ));
-            }
-
-            children.push(h(
-                'span',
-                {
-                    class : 'wm-button__content'
-                },
-                this.$slots.default
-
-            ));
-
-            return h(
-                this.type === 'anchor' ? 'a' : 'button',
-                {
-                    class : this.classes,
-                    attrs : {
-                        'is-disabled' : this.disabled
-                    },
-                    on : {
-                        click : this.click
-                    }
-                },
-                children
-            );
         }
     }
 </script>

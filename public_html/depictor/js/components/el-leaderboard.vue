@@ -12,8 +12,8 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>{{$t('name')}}</th>
-                        <th>{{$t('edits')}}</th>
+                        <th>{{ $t('name') }}</th>
+                        <th>{{ $t('edits') }}</th>
                     </tr>
                 </thead>
 
@@ -25,7 +25,7 @@
                             <a v-bind:href="row.userLink"
                                target="_blank">{{row.user}}</a>
                         </td>
-                        <td>{{numberWithCommas( row.edits )}}</td>
+                        <td>{{ numberWithCommas(row.edits) }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -36,7 +36,7 @@
                 icon="eye"
                 flair="default,bare"
                 v-on:click="showAll = true">
-                {{$t('show_all_rows')}}</wm-button>
+                {{ $t('show_all_rows') }}</wm-button>
         </template>
 
         <template v-if="!hasItems">
