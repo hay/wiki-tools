@@ -318,6 +318,8 @@
             "challenge_subtitle": "Work together with other people on completing these depicting challenges!",
             "itemcount_label": "{count} items",
             "create_challenge": "Create challenge",
+            "dark_mode_on": "Dark mode",
+            "dark_mode_off": "Light mode",
             "back": "Back",
             "challenge_title_length": "Title needs to be at least {count} characters",
             "challenge_shortdescription_length": "Description needs to be at least {count} characters",

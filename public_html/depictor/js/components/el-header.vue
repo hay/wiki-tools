@@ -15,8 +15,8 @@
                 v-on:click-select="langSelectRef!.showSelect()"
                 v-bind:languages="languages"
                 v-bind:link="transateLink"
-                v-model="locale"
-            ></el-language-selector>
+                v-model="locale" />
+            <el-dark-toggle  />
 
             <wm-button
                 v-if="isLoggedIn"
@@ -96,6 +96,7 @@
 </template>
 
 <script lang="ts" setup>
+import ElDarkToggle from './el-dark-toggle.vue';
 import ElLanguageSelector from './el-language-selector.vue';
 import { storeToRefs } from 'pinia';
 import { useDepictorStore } from '../store';

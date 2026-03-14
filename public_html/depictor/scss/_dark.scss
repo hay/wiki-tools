@@ -1,0 +1,74 @@
+// Dark mode styles – applied when html.dark (via VueUse useDark)
+html.dark {
+    --c-1: #6b9fff;
+    --c-2: #2d3748;
+    --c-3: #e2e8f0;
+    --c-4: #4a5568;
+
+    color-scheme: dark;
+
+    body {
+        background: #1a1d23;
+        color: #e2e8f0;
+    }
+
+    a {
+        color: #6b9fff;
+    }
+
+    .tools-header {
+        border-bottom-color: #2d3748;
+    }
+
+    .footer {
+        border-top-color: #2d3748;
+    }
+
+    .screen__small,
+    .screen__small a {
+        color: #a0aec0;
+    }
+
+    .challenges__itemcount {
+        color: #718096;
+    }
+
+    // wm-button overrides for dark mode
+    .wm-button {
+        --c-1: #6b9fff;
+        --c-2: #4a7fd4;
+        --c-3: #2d3748;
+        --c-4: #4a5568;
+
+        &--default {
+            background: var(--c-3);
+            border-color: var(--c-4);
+            color: var(--c-1);
+        }
+
+        &--bare {
+            color: var(--c-1);
+        }
+
+        html.has-mouse &:hover {
+            background: #374151;
+        }
+    }
+
+    input,
+    select,
+    textarea {
+        background: #2d3748;
+        border-color: #4a5568;
+        color: #e2e8f0;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        color: #718096;
+    }
+
+    .icon {
+        filter: invert(1);
+    }
+}
