@@ -7,7 +7,7 @@
     "dependencies" : {
         "bootstrap" : "~3.3.5",
         "fastclick" : "~1.0.6",
-        "jquery" : "~2.1.4",
+        "jquery" : "~4.0.0",
         "stupid-table-plugin" : "^1.1.3"
     }
 }
