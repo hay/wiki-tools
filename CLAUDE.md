@@ -8,7 +8,7 @@ A collection of Wikimedia-related web tools (Wikipedia, Wikidata, Wikimedia Comm
 ## Setup
 1. Copy `lib/config-sample.php` to `lib/config.php` and fill in credentials
 2. Run `composer install` in `lib/`
-3. Run `bower install` in root
+3. Run `npm install` in root (copies shared vendor JS/CSS to `public_html/vendor/`)
 4. Start with Docker: `docker-compose up -d` → `http://localhost:4080/`
 
 Individual Node-based tools (e.g. Depictor) also require `npm install` inside their directory.
@@ -52,6 +52,6 @@ npm run dist       # optimized production output
 
 ## Stack
 - **Backend:** PHP 8.1, MySQL 8.0, Slim 2.x, Twig ~1.0, Composer
-- **Frontend (legacy tools):** jQuery 2.x, Bootstrap 3.x, Handlebars, Bower
+- **Frontend (legacy tools):** jQuery 2.x, Bootstrap 3.x, npm (for shared vendor assets)
 - **Frontend (modern tools):** Vue.js 2.x, Vuex, Vue-i18n, webpack/Vite, SCSS
 - **Runtime:** Docker Compose (php:8.1-apache + mysql:8.0), Node 16.x

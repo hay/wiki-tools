@@ -1,0 +1,13 @@
+{
+    "name" : "wiki-tools",
+    "private" : true,
+    "scripts" : {
+        "postinstall" : "node scripts/copy-vendor.js"
+    },
+    "dependencies" : {
+        "bootstrap" : "~3.3.5",
+        "fastclick" : "~1.0.6",
+        "jquery" : "~2.1.4",
+        "stupid-table-plugin" : "^1.1.3"
+    }
+}
