@@ -14,7 +14,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-const props = defineProps<{
+const { total, value } = defineProps<{
     total: number;
     value: number;
 }>();
@@ -22,7 +22,7 @@ const props = defineProps<{
 const { t: $t } = useI18n();
 
 const percent = computed(() =>
-    Math.ceil((props.value / props.total) * 100)
+    Math.ceil((value / total) * 100)
 );
 
 const percentLabel = computed(() =>

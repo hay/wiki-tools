@@ -64,7 +64,7 @@ interface LeaderboardData {
     stats: LeaderboardRow[];
 }
 
-const props = defineProps<{
+const { challenge } = defineProps<{
     challenge?: string | null;
 }>();
 
@@ -78,16 +78,17 @@ const showAll = ref(false);
 const hasItems = computed(() => data.value.total > 0);
 
 const leaderboardLabel = computed(() =>
-    props.challenge ? $t('leaderboard') : $t('global_leaderboard')
+    challenge ? $t('leaderboard') : $t('global_leaderboard')
 );
 
-const subtitle = computed(() => {
-    const total = numberWithCommas(data.value.total);
-    return $t('leaderboard_total', { total });
-});
+const subtitle = computed(() => 
+    $t('leaderboard_total', { 
+        total: numberWithCommas(data.value.total)
+     })
+);
 
 onMounted(async () => {
-    const result = await store.api.getLeaderboard(props.challenge ?? null);
+    const result = await store.api.getLeaderboard(challenge ?? null);
     result.stats = result.stats.map((row: LeaderboardRow) => ({
         ...row,
         userLink: `https://commons.wikimedia.org/wiki/User:${row.user}`,

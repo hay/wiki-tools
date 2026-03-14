@@ -15,18 +15,12 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 
-const props = withDefaults(
-    defineProps<{
-        disabled?: boolean;
-        flair?: string;
-        icon?: string;
-        type?: string;
-    }>(),
-    {
-        disabled: false,
-        flair: 'default',
-    }
-);
+const { disabled = false, flair = 'default', icon, type } = defineProps<{
+    disabled?: boolean;
+    flair?: string;
+    icon?: string;
+    type?: string;
+}>();
 
 const emit = defineEmits<{
     click: [];
@@ -35,17 +29,19 @@ const emit = defineEmits<{
 const classes = computed(() => {
     const classList = ['wm-button'];
 
-    if (props.flair) {
-        props.flair.split(',').forEach((flair) => {
-            classList.push(`wm-button--${flair}`);
-        });
+    if (flair) {
+        classList
+            .push(...flair
+                .split(',')
+                .map((f) => `wm-button--${f}`)
+            );
     }
 
     return classList;
 });
 
 const click = () => {
-    if (props.disabled) {
+    if (disabled) {
         console.log('Button disabled');
         return;
     }

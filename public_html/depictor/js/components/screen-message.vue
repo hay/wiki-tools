@@ -17,13 +17,9 @@ import { useDepictorStore } from '../store';
 
 const { t: $t } = useI18n();
 
-const props = withDefaults(
-    defineProps<{
-        showReloadButton?: boolean;
-    }>(),
-    { showReloadButton: false }
-);
+const { showReloadButton = false } = defineProps<{
+    showReloadButton?: boolean;
+}>();
 
-const store = useDepictorStore();
-const { homeLink } = storeToRefs(store);
+const { homeLink } = storeToRefs(useDepictorStore());
 </script>

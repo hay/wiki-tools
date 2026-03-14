@@ -146,14 +146,12 @@ import { useI18n } from 'vue-i18n';
 const { t: $t } = useI18n();
 import { useDepictorStore } from '../store';
 
-const props = withDefaults(
-    defineProps<{
-        isEditable?: boolean;
-    }>(),
-    { isEditable: false }
-);
+const { isEditable = false } = defineProps<{
+    isEditable?: boolean;
+}>();
 
 const store = useDepictorStore();
+
 
 const archived = ref(false);
 const itemCount = ref(0);
@@ -164,7 +162,7 @@ const shortDescription = ref('');
 const title = ref('');
 const userName = ref<string | null>(null);
 
-const mode = computed(() => (props.isEditable ? 'edit' : 'create'));
+const mode = computed(() => (isEditable ? 'edit' : 'create'));
 
 const editableValues = computed(() => ({
     archived: archived.value,

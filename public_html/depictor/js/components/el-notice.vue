@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-defineProps<{
-    notice: 'common-errors';
+const { notice } = defineProps<{
+    notice: string;
 }>();
 </script>
