@@ -1,5 +1,9 @@
 <script>
+    import { h } from 'vue';
+
     export default {
+        emits: ['click'],
+
         computed : {
             classes() {
                 const classes = ['wm-button'];
@@ -48,7 +52,7 @@
             }
         },
 
-        render(h) {
+        render() {
             const children = [];
 
             if (this.icon) {
@@ -56,9 +60,7 @@
                     'span',
                     {
                         class : 'wm-button__icon icon',
-                        attrs : {
-                            'data-icon' : this.icon
-                        }
+                        'data-icon' : this.icon
                     }
                 ));
             }
@@ -68,20 +70,15 @@
                 {
                     class : 'wm-button__content'
                 },
-                this.$slots.default
-
+                this.$slots.default ? this.$slots.default() : []
             ));
 
             return h(
                 this.type === 'anchor' ? 'a' : 'button',
                 {
                     class : this.classes,
-                    attrs : {
-                        'is-disabled' : this.disabled
-                    },
-                    on : {
-                        click : this.click
-                    }
+                    'is-disabled' : this.disabled,
+                    onClick : this.click
                 },
                 children
             );

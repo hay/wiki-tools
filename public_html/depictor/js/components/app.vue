@@ -20,7 +20,7 @@
             v-bind:is-editable="true"></screen-create-challenge>
 
         <screen-message v-if="screen === 'loading'">
-            <p class="screen__notice">{{$t('loading')}}</p>
+            <p class="screen__notice">{{ $t('loading') }}</p>
         </screen-message>
 
         <screen-message
@@ -36,6 +36,7 @@
 </template>
 
 <script>
+    import { test } from '../test';
     import ElHeader from './el-header.vue';
     import ElNotice from './el-notice.vue';
     import ScreenChallenge from './screen-challenge.vue';
@@ -60,10 +61,50 @@
             }
         },
 
+        mounted() {
+            this.parseSearch();
+        },
+
+        methods : {
+            parseSearch() {
+                const url = new window.URL(window.location.href);
+
+                if (
+                    url.searchParams.has("queryType") &&
+                    url.searchParams.has("queryValue")
+                ) {
+                    this.$store.dispatch("query", {
+                        type: url.searchParams.get("queryType"),
+                        value: url.searchParams.get("queryValue")
+                    });
+                }
+
+                if (url.searchParams.has("challenge")) {
+                    const id = url.searchParams.get("challenge") ?? "";
+                    const action = url.searchParams.get("action") ?? "";
+
+                    this.$store.dispatch("challenge", { id, action });
+                }
+
+                if (url.searchParams.has("test")) {
+                    test();
+                }
+            }
+        },
+
         watch : {
-            screen() {
+            screen(newScreen) {
                 // Make sure we go back to the top of screen
                 window.scrollTo(0, 0);
+
+                const wrapper = document.getElementById("wrapper");
+                if (wrapper) {
+                    if (newScreen === "game") {
+                        wrapper.setAttribute("is-fullscreen", "");
+                    } else {
+                        wrapper.removeAttribute("is-fullscreen");
+                    }
+                }
             }
         }
     }

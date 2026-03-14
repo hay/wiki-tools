@@ -103,7 +103,6 @@ select ?item ?instance ?image ?cat where {
 </template>
 
 <script>
-    import { randInt } from 'donot';
     import {
         MIN_BIRTH_YEAR, MAX_BIRTH_YEAR
     } from '../const';
@@ -112,7 +111,7 @@ select ?item ?instance ?image ?cat where {
     import ElNotice from './el-notice.vue';
 
     function getRandomBirthYear() {
-        return randInt(MIN_BIRTH_YEAR, MAX_BIRTH_YEAR);
+        return Math.floor(Math.random() * (MAX_BIRTH_YEAR - MIN_BIRTH_YEAR + 1)) + MIN_BIRTH_YEAR;
     }
 
     export default {
