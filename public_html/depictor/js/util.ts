@@ -1,10 +1,17 @@
-export const getJson = async (url: string, params: Record<string, string> | null = null) => {
+export const getJson = async (
+    url: string,
+    params: Record<string, string> | null = null,
+    headers: Record<string, string> | null = null
+) => {
     if (params) {
         const urlObj = new URL(url, window.location.href);
         Object.keys(params).forEach((k) => urlObj.searchParams.append(k, params[k]));
         url = urlObj.toString();
     }
-    const res = await fetch(url);
+
+    const options = headers ? { headers : headers } : undefined;
+    const res = await fetch(url, options);
+
     return res.json();
 };
 

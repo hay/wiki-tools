@@ -1,4 +1,5 @@
-export const COMMONS_USER_PREFIX = 'https://commons.wikimedia.org/wiki/User:';
+export const API_USER_AGENT:string = 'Depictor/1.0 (https://hay.toolforge.org/depictor/; hay@haykranen.nl)';
+export const COMMONS_USER_PREFIX:string = 'https://commons.wikimedia.org/wiki/User:';
 export const DEFAULT_LOCALE = 'en';
 export const IMAGE_SIZE = 640;
 export const LOCAL_API_ENDPOINT = './api/index.php';

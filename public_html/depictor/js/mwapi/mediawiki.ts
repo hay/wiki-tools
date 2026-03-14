@@ -1,3 +1,4 @@
+import { API_USER_AGENT } from '../const';
 import { getJson } from '../util';
 
 export default class MediawikiApi {
@@ -15,6 +16,12 @@ export default class MediawikiApi {
             format : 'json'
         });
 
-        return await getJson(this.endpoint, params as Record<string, string>);
+        return await getJson(
+            this.endpoint,
+            params as Record<string, string>,
+            {
+                'Api-User-Agent' : API_USER_AGENT
+            }
+        );
     }
 }
