@@ -9,16 +9,14 @@
                 flair="default,bare"
                 icon="arrow-left">{{$t('start')}}</wm-button>
 
-            <div>
-                <el-language-selector
-                    ref="langSelectRef"
-                    v-on:blur-select="langSelectRef!.hideSelect()"
-                    v-on:click-select="langSelectRef!.showSelect()"
-                    v-bind:languages="languages"
-                    v-bind:link="transateLink"
-                    v-model="locale" />
-                <el-dark-toggle  />
-            </div>
+            <el-language-selector
+                ref="langSelectRef"
+                v-on:blur-select="langSelectRef!.hideSelect()"
+                v-on:click-select="langSelectRef!.showSelect()"
+                v-bind:languages="languages"
+                v-bind:link="transateLink"
+                v-model="locale" />
+            <el-dark-toggle  />
 
             <wm-button
                 v-if="isLoggedIn"
