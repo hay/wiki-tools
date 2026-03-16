@@ -103,35 +103,36 @@ select ?item ?instance ?image ?cat where {
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { MIN_BIRTH_YEAR, MAX_BIRTH_YEAR } from '../const';
-import { useDepictorStore } from '../store';
+    import { ref } from 'vue';
+    import { useI18n } from 'vue-i18n';
+    import { MIN_BIRTH_YEAR, MAX_BIRTH_YEAR } from '../const';
+    import { useDepictorStore } from '../store';
+    import ElChallenges from './el-challenges.vue';
+    import ElLeaderboard from './el-leaderboard.vue';
+    import ElNotice from './el-notice.vue';
 
-const { t: $t } = useI18n();
-import ElChallenges from './el-challenges.vue';
-import ElLeaderboard from './el-leaderboard.vue';
-import ElNotice from './el-notice.vue';
+    const { t: $t } = useI18n();
 
-const getRandomBirthYear = () =>
-    Math.floor(Math.random() * (MAX_BIRTH_YEAR - MIN_BIRTH_YEAR + 1)) +
-    MIN_BIRTH_YEAR;
+    const getRandomBirthYear = () => {
+        return Math.floor(Math.random() * (MAX_BIRTH_YEAR - MIN_BIRTH_YEAR + 1)) + MIN_BIRTH_YEAR;
+    }
 
-const store = useDepictorStore();
+    const store = useDepictorStore();
 
-const opts = ref({
-    category: null as string | null,
-    catdeep: false,
-    catdepth: 0,
-    sparql: null as string | null,
-    type: 'year' as 'year' | 'category' | 'sparql',
-    year: getRandomBirthYear(),
-});
-const showAdvancedOptions = ref(false);
+    const opts = ref({
+        category: null as string | null,
+        catdeep: false,
+        catdepth: 0,
+        sparql: null as string | null,
+        type: 'year' as 'year' | 'category' | 'sparql',
+        year: getRandomBirthYear(),
+    });
 
-const start = async () => { store.hash(opts.value); };
+    const showAdvancedOptions = ref(false);
 
-const toggleAdvancedOptions = () => {
-    showAdvancedOptions.value = !showAdvancedOptions.value;
-};
+    const start = async () => { store.hash(opts.value); };
+
+    const toggleAdvancedOptions = () => {
+        showAdvancedOptions.value = !showAdvancedOptions.value;
+    };
 </script>
