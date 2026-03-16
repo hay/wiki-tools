@@ -5,14 +5,15 @@
   "scripts": {
     "build": "npm run build:js && npm run build:css",
     "build:css": "npm run build:sass",
-    "build:js": "webpack -d",
-    "build:sass": "node-sass scss/style.scss style.css",
+    "build:js": "NODE_OPTIONS=--openssl-legacy-provider webpack -d",
+    "build:sass": "sass scss/style.scss style.css",
     "dist": "webpack -p",
     "postinstall": "npm run build",
-    "watch": "chokidar '../common/*.scss' 'scss/*.scss' -c 'npm run build:css' & webpack -dw"
+    "watch": "chokidar '../common/*.scss' 'scss/*.scss' -c 'npm run build:css' & NODE_OPTIONS=--openssl-legacy-provider webpack -dw"
   },
   "dependencies": {
     "@babel/core": "^7.9.0",
+    "axios": "^1.13.6",
     "chokidar-cli": "^2.1.0",
     "regenerator-runtime": "^0.13.5",
     "valenski": "^1.4.0",
@@ -26,7 +27,7 @@
     "babel-preset-env": "^1.7.0",
     "css-loader": "^3.5.3",
     "http-server": "^0.12.1",
-    "node-sass": "^4.14.0",
+    "sass": "^1.98.0",
     "vue-loader": "^15.9.1",
     "vue-template-compiler": "^2.6.11",
     "webpack": "^4.43.0",
