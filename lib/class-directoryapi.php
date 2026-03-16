@@ -32,6 +32,7 @@ class Tool extends Model {
     }
 }
 
+#[AllowDynamicProperties]
 class CsvTool {
     // Really...
     public function as_array() {

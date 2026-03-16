@@ -17,7 +17,7 @@ class Category {
         foreach ($query as $id => $page) {
             $page->url = "http://$this->site.org/wiki/" . $page->title;
             $date = strtotime($page->touched);
-            $page->date = strftime("%a %e %b %Y, at %H:%M", $date);
+            $page->date = date("D j M Y, \a\t H:i", $date);
             $pages[] = $page;
         }
 

@@ -1,6 +1,7 @@
 <?php
 use \Httpful\Request as Request;
 
+#[AllowDynamicProperties]
 class WikidataSkim {
     const LINKSHERE = "https://www.wikidata.org/w/api.php?action=query&prop=linkshere&titles=%s&lhnamespace=0&lhshow=!redirect&format=json&lhlimit=500";
     const ENTITIES = "https://www.wikidata.org/w/api.php?action=wbgetentities&ids=%s&languages=%s&format=json&languagefallback=1";

@@ -113,7 +113,8 @@ class Util {
             foreach ($xml->children($namespace) as $childXml) {
                 //recurse into child nodes
                 $childArray = self::xmlToArray($childXml, $options);
-                list($childTagName, $childProperties) = each($childArray);
+                $childTagName = array_key_first($childArray);
+                $childProperties = $childArray[$childTagName];
 
                 //replace characters in tag name
                 if ($options['keySearch']) $childTagName =
