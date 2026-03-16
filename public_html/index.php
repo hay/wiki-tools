@@ -8,7 +8,7 @@
 
         <p>Hello. I'm <a href="http://www.haykranen.nl">Hay Kranen</a> and this is a list of some tools i've made.</p>
 
-        <p>If you want to get in contact send me a <a href="mailto:hay@bykr.org">mail</a> or leave a message on my <a href="https://en.wikipedia.org/wiki/User_talk:Husky">Talk page</a>. I'm also on <a href="http://www.twitter.com/hayify">Twitter</a>.</p>
+        <p>If you want to get in contact send me a <a href="mailto:hay@haykranen.nl">mail</a> or leave a message on my <a href="https://en.wikipedia.org/wiki/User_talk:Husky">Talk page</a>. Other ways of contacting me can be found on my <a href="https://www.haykranen.nl/me/">website</a>.
 
         <p>Note: on Wikipedia i'm also known as <a href="http://en.wikipedia.org/wiki/User:Husky">Husky</a>.</p>
 

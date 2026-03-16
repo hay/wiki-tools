@@ -28,7 +28,7 @@ You can setup your own local development consumer by following these steps:
 You will then be provided a key and secret that you need to define in `OAUTH_DEPICTOR` in your `config.php` file.
 
 ## Running it (Docker)
-* Run `docker-compose up -d` to start the containers.
+* Run `docker-compose up` to start the containers.
 * Navigate to http://localhost:4080/ to see the tools.
 
 ## Running it (Classic)
