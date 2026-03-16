@@ -1,7 +1,7 @@
 <?php
     require '../lib/class-hay.php';
 
-    $hay = new Hay();
+    $hay = new Hay("index");
     $hay->header();
 ?>
         <h1>Hay's tools</h1>

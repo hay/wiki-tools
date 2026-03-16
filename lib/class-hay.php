@@ -10,7 +10,7 @@ class Hay {
     private $beforeHeadClose, $default_scripts, $titletag;
     private TemplateRenderer $renderer;
 
-    public function __construct($toolname = false, $opts = []) {
+    public function __construct(string $toolname, array $opts = []) {
         $this->path = realpath(dirname(__FILE__));
         $this->logPath = dirname($this->path) . "/tools-access.log";
         $toolpath = $this->path . "/tools.json";
