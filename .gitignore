@@ -5,7 +5,7 @@
 *.pyc
 bundle.js
 node_modules
-npm*.log
+*.log
 public_html/depictor/dist
 vendor/
 version.txt

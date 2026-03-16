@@ -6,12 +6,13 @@ require_once 'class-templaterenderer.php';
 class Hay {
     const DEFAULT_TITLE = "Hay's tools";
     private $toolname, $tools, $tooldata, $title, $toolurl;
-    private $description, $titletag, $path, $opts, $toolpath;
-    private $version, $beforeHeadClose, $default_scripts;
+    private $description, $path, $logPath, $opts, $toolpath;
+    private $beforeHeadClose, $default_scripts, $titletag;
     private TemplateRenderer $renderer;
 
     public function __construct($toolname = false, $opts = []) {
         $this->path = realpath(dirname(__FILE__));
+        $this->logPath = dirname($this->path) . "/tools-access.log";
         $toolpath = $this->path . "/tools.json";
         $this->tools = json_decode(file_get_contents($toolpath));
         $this->renderer = new TemplateRenderer();
@@ -32,6 +33,8 @@ class Hay {
             $this->titletag = self::DEFAULT_TITLE;
             $this->toolurl = ROOT . "/$toolname";
         }
+
+        $this->logVisit();
     }
 
     public function description() {
@@ -138,5 +141,12 @@ class Hay {
         ];
 
         return $opts;
+    }
+
+    // Some super rudimentary logging of visits so we know at least
+    // which tools get the most vists
+    private function logVisit() {
+        $log = sprintf("[%s] - %s\n", date("c"), $this->toolname);
+        @file_put_contents($this->logPath, $log, FILE_APPEND);
     }
 }
