@@ -52,9 +52,6 @@ Translations live in `locales.json` (generated, not hand-edited). Run `npm run u
 ### Build Output
 Vite outputs `bundle.js` and `style.css` (plus chunks) to the project root. The PHP `index.php` loads these via the Vite manifest when `"use_vite": true` in tool config.
 
-## Key Constants (`js/const.ts`)
-`IMAGE_SIZE` (500), `THUMB_SIZE` (330), `MIN_CANDIDATES_FOR_CHALLENGE` (100), `MIN_ITEMS_FOR_CHALLENGE` (10), birth year bounds for people queries.
-
 ## TypeScript Notes
 - Path alias `@/*` resolves to `js/*`
 - Global types (including `window.__ctx__`) are in `js/types.d.ts`
