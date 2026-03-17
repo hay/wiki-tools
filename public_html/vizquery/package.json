@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "build": "npm run build:js",
-    "build:js": "webpack -d",
-    "dist": "webpack -p",
-    "watch": "webpack -dw"
+    "build:js": "NODE_OPTIONS=--openssl-legacy-provider webpack -d",
+    "dist": "NODE_OPTIONS=--openssl-legacy-provider webpack -p",
+    "watch": "NODE_OPTIONS=--openssl-legacy-provider webpack -dw"
   },
   "babel": {
     "presets": [
