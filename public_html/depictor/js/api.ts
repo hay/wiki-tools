@@ -91,18 +91,20 @@ export default class Api {
         return req.id;
     }
 
-    async fileExists(mid: string) {
-        const req = await this.call("file-exists", { mid }) as {
+    async fileExists(mid: string, qid:string) {
+        const req = await this.call("file-exists", { mid, qid }) as {
             status?: boolean;
         };
+
         return req.status ?? false;
     }
 
-    async filesExist(mids: string[]) {
-        const req = await this.post("files-exists", { mids }) as Record<
+    async filesExist(mids: string[], qid:string) {
+        const req = await this.post("files-exists", { mids, qid }) as Record<
             string,
             boolean
         >;
+
         return req;
     }
 

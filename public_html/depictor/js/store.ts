@@ -253,8 +253,9 @@ export const useDepictorStore = defineStore("depictor", () => {
 
     const newFiles = async (
         files: { mid: string; title: string; done?: boolean }[],
+        qid: string,
     ) => {
-        const status = await state.api.filesExist(files.map((f) => f.mid));
+        const status = await state.api.filesExist(files.map((f) => f.mid), qid);
         const withStatus = files.map((f) => ({
             ...f,
             done: status[f.mid],
@@ -354,7 +355,7 @@ export const useDepictorStore = defineStore("depictor", () => {
             );
 
             state.item = item;
-            await newFiles(candidates);
+            await newFiles(candidates, selectedItem.qid);
         } catch (e) {
             console.log(`Could not get candidates for ${selectedItem.qid}`);
             await itemDone(selectedItem.qid);
