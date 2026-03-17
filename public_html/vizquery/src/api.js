@@ -1,5 +1,7 @@
 import { fetchJson } from "./util.js";
-import { LANGUAGE, WIKIDATA_PROPERTY, SPARQL_ENDPOINT, USES_COMMONS } from "./conf.js";
+import {
+    LANGUAGE, WIKIDATA_PROPERTY, SPARQL_ENDPOINT, USES_COMMONS, THUMB_IMAGE_SIZE
+} from "./conf.js";
 
 // Should probably replace fetchJson sometime later
 async function getJson(url) {
@@ -15,7 +17,7 @@ async function getMidData(mid) {
     const jsonUrl = `${url}.json`;
     const data = await getJson(jsonUrl);
     const title = data.entities[mid].title.replace("File:", "");
-    const thumb = `https://commons.wikimedia.org/wiki/Special:FilePath/${title}?width=300`;
+    const thumb = `https://commons.wikimedia.org/wiki/Special:FilePath/${title}?width=${THUMB_IMAGE_SIZE}`;
 
     return { url, mid, title, thumb };
 }
@@ -56,7 +58,7 @@ export async function query(query) {
 
     for (let d of results.results.bindings) {
         if (d.image) {
-            d.thumb = d.image.value + '?width=300';
+            d.thumb = d.image.value + `?width=${THUMB_IMAGE_SIZE}`;
 
             // For some reason WD Query gives back http links to
             // Commons, let's convert those to https

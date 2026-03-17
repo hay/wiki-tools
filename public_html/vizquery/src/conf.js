@@ -19,6 +19,7 @@ export const MIN_INPUT_LENGTH = 10;
 export const WC_SPARQL_ENDPOINT = "https://sdcquery.wmflabs.org/sparql?format=json&query=%s";
 export const WD_SPARQL_ENDPOINT = "https://query.wikidata.org/sparql?format=json&query=%s";
 export const STRING_REGEX = /".+"/g
+export const THUMB_IMAGE_SIZE = 330; // https://www.mediawiki.org/wiki/Common_thumbnail_sizes
 export const VALID_DATATYPES = ['string', 'external-id', 'wikibase-item'];
 export const VARIABLE_REGEX = /\?[\w|\d]+/g;
 export const WIKIDATA_ITEM = 'http://www.wikidata.org/entity/';
