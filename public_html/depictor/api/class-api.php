@@ -27,10 +27,10 @@
             if ($action == "add-file") {
                 return $this->addFile($args);
             } else if ($action == "file-exists") {
-                $has = $this->hasFile($args["mid"]);
+                $has = $this->hasFile($args["mid"], $args["qid"]);
                 return ["status" => $has];
             } else if ($action == "files-exists") {
-                return $this->hasFiles($args["mids"] ?? []);
+                return $this->hasFiles($args["mids"] ?? [], $args["qid"] ?? '');
             } else if ($action == "item-exists") {
                 $has = $this->hasItem($args["qid"]);
                 return ["status" => $has];
@@ -109,7 +109,7 @@
             $this->assertChallengeId($args["challenge"] ?? null);
 
             // First check if maybe this pair of mid/qid is already in the db
-            if ($this->hasFile($args["mid"])) {
+            if ($this->hasFile($args["mid"], $args["qid"])) {
                 throw new Exception("Item already in database");
             }
 
@@ -183,17 +183,19 @@
             return $this->db->getChallenges();
         }
 
-        private function hasFile(string $mid):bool {
+        private function hasFile(string $mid, string $qid):bool {
             $this->assertItemid($mid);
-            return $this->db->fileExists($mid);
+            $this->assertItemid($qid);
+            return $this->db->fileExists($mid, $qid);
         }
 
-        private function hasFiles(array $mids):array {
+        private function hasFiles(array $mids, string $qid):array {
+            $this->assertItemid($qid);
             foreach ($mids as $mid) {
                 $this->assertItemid($mid);
             }
 
-            return $this->db->filesExist($mids, $this->userName);
+            return $this->db->filesExist($mids, $this->userName, $qid);
         }
 
         private function hasItem(string $qid):bool {

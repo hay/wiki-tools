@@ -97,10 +97,10 @@
             return $id;
         }
 
-        public function fileExists(string $mid):bool {
-            $sql = "select exists(select * from "  . TBL_DEPICTOR_FILES . " where mid = :mid and status != 'user-skipped')";
+        public function fileExists(string $mid, string $qid):bool {
+            $sql = "select exists(select * from "  . TBL_DEPICTOR_FILES . " where mid = :mid and qid = :qid and status != 'user-skipped')";
             $exists = ORM::for_table(TBL_DEPICTOR_FILES)
-                ->raw_query($sql, [ "mid" => $mid ])
+                ->raw_query($sql, [ "mid" => $mid, "qid" => $qid ])
                 ->find_array();
 
             // FIXME
@@ -113,11 +113,13 @@
         // 1) The MID is in the 'files' table and has the status of 'depicted' or 'not-depicted'
         // 2) The MID is in the 'files' table and has the status of 'user-skipped' AND the given
         //    userName is the same as the user in the table
-        public function filesExist(array $mids, string $userName):array {
+        // Consider only whether the files depict a given QID
+        public function filesExist(array $mids, string $userName, string $qid):array {
             // First do a query for all files with the given MIDS
             $files = ORM::for_table(TBL_DEPICTOR_FILES)
                 ->select(["mid", "status", "user"])
                 ->where_in("mid", $mids)
+                ->where("qid", $qid)
                 ->find_array();
 
             $exists = [];
