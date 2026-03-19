@@ -25,7 +25,7 @@ class Hay {
             $this->tooldata = $this->tools->$toolname;
             $this->title = $this->tooldata->title;
             $this->toolurl = ROOT . "/$toolname";
-            $this->toolpath = realpath($this->path . "/../public_html/$toolname");
+            $this->toolpath = realpath($this->path . "/../" . PUBLIC_HTML_PATH . "/$toolname");
             $this->description = $this->tooldata->description;
             $this->titletag = $this->title . " - " . self::DEFAULT_TITLE;
         } else {
@@ -112,11 +112,12 @@ class Hay {
 
         // Load manifest and parse js/css
         $manifest_path = $this->toolpath . "/" . $this->opts["vite_manifest"];
+
         if (!file_exists($manifest_path)) {
             return ["scripts" => [], "styles" => []];
         }
+
         $manifest_dir = basename(pathinfo($manifest_path)["dirname"]);
-        // $manifest_root_url = $this->toolurl . "/$manifest_dir";
         $manifest_root_url = $manifest_dir;
 
         $manifest = json_decode(file_get_contents($manifest_path));

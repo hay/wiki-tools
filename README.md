@@ -30,6 +30,7 @@ You will then be provided a key and secret that you need to define in `OAUTH_DEP
 ## Running it (Docker)
 * Run `docker-compose up` to start the containers.
 * Navigate to http://localhost:4080/ to see the tools.
+* Make sure `PUBLIC_HTML_PATH` in `config.php` is set to `html` instead of `public_html`
 
 ## Running it (Classic)
 * Get a webserver with PHP, and host the needed files
