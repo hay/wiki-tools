@@ -1,6 +1,6 @@
 #!/bin/bash
 git rev-parse HEAD > ../public_html/version.txt
 
-rsync --verbose --delay-updates -F --compress --archive --no-owner --no-group --exclude .git --exclude config.php --exclude config-prod.php --exclude crawler.log --exclude node_modules --exclude cache --exclude .DS_Store --exclude __pycache__ --rsh='/usr/bin/ssh -S none -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' --rsync-path='sudo -u tools.hay-test rsync' --chmod=Dug=rwx,Dg+s,Do=rx,Fug=rw,Fo=r ../* login.toolforge.org:/data/project/hay-test/
+rsync --verbose --delay-updates -F --compress --archive --no-owner --no-group --exclude-from="rsync-exclude.txt" --rsh='/usr/bin/ssh -S none -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' --rsync-path='sudo -u tools.hay-test rsync' --chmod=Dug=rwx,Dg+s,Do=rx,Fug=rw,Fo=r ../* login.toolforge.org:/data/project/hay-test/
 
 say -v Fred "Deploy complete"

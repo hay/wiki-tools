@@ -1,0 +1,9 @@
+__pycache__
+.DS_Store
+.git
+*.log
+cache
+config-prod.php
+config.php
+etc/db-backups
+**/node_modules/
