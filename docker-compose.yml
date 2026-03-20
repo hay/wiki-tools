@@ -18,6 +18,8 @@ services:
       - ./.docker-compose/php.ini:/usr/local/etc/php/conf.d/extras.ini
   mysql:
     image: mysql:8.0
+    ports:
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: wikitools
