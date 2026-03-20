@@ -3,7 +3,7 @@ use \Httpful\Request as Request;
 
 class DirectoryCrawl {
     const API_ENDPOINT = 'https://wikitech.wikimedia.org/w/api.php';
-    const TOOLS_PAGE = 'User:Hay/directory';
+    const TOOLS_PAGE = 'User:Husky/directory';
     const LOG_FILE = "crawler.log";
     const TOOL_REGEX = "/<!-- START_TOOL_LIST -->(.*)<!-- END_TOOL_LIST -->/ms";
     const ERR_INVALID_JSON = 1;
@@ -61,6 +61,7 @@ class DirectoryCrawl {
                 try {
                     $hasTool = $this->api->hasToolByName($name);
                 } catch (Exception $e) {
+                    $this->log($e->getMessage());
                     $this->log("Could not update $name because of a database exception");
                     continue;
                 }
@@ -87,6 +88,7 @@ class DirectoryCrawl {
                 try {
                     $record->update($tool);
                 } catch (Exception $e) {
+                    $this->log($e->getMessage());
                     $this->log("Could not update $name because of a database exception");
                 }
             }
@@ -129,10 +131,13 @@ class DirectoryCrawl {
 
     private function log($line) {
         $msg = sprintf("[%s] %s\n", date("c"), $line);
-        error_log($msg, 3, self::LOG_FILE);
+        echo $msg;
+        file_put_contents(self::LOG_FILE, $msg, FILE_APPEND);
     }
 
     private function getCrawlList() {
+        $this->log("Trying to get crawl list");
+
         $params = http_build_query(array(
             "format" => "json",
             "action" => "query",
@@ -142,13 +147,14 @@ class DirectoryCrawl {
         ));
 
         $url = self::API_ENDPOINT . "?" . $params;
-        $res = Request::get(self::API_ENDPOINT . "?" . $params)->send();
+        $res = Request::get($url)->send();
 
         // Note the awful use of 'reset' here, because of MW api's strange
         // tendency to give back the page as the first item
         $source = trim(reset($res->body->query->pages)->revisions[0]->{'*'});
 
         preg_match_all(self::TOOL_REGEX, $source, $matches);
+
         $tools = $matches[1][0];
 
         // Parse the <source> tag and get out the actual URLs
@@ -162,12 +168,16 @@ class DirectoryCrawl {
             return substr($tool, 0, 4) == "http";
         });
 
+        $this->log("Done, have a list of tools to crawl");
+
         return $tools;
     }
 
     // Check if all the jsonurls in the database are in the the crawllist, if
     // not, set them as 'deleted' in the db
     private function checkDeletedTools() {
+        $this->log("Checking for deleted tools");
+
         foreach ($this->api->getAllToolsRaw() as $tool) {
             $tool->deleted = !in_array($tool->jsonurl, $this->crawllist);
             $tool->save();
