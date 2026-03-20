@@ -1,22 +1,22 @@
 # ************************************************************
-# Sequel Pro SQL dump
-# Version 4541
+# Sequel Ace SQL dump
+# Version 20096
 #
-# http://www.sequelpro.com/
-# https://github.com/sequelpro/sequelpro
+# https://sequel-ace.com/
+# https://github.com/Sequel-Ace/Sequel-Ace
 #
-# Host: tools-db (MySQL 5.5.5-10.1.39-MariaDB)
+# Host: tools-db (MySQL 5.5.5-10.6.22-MariaDB-log)
 # Database: s51409__toolsdirectory
-# Generation Time: 2019-11-23 23:27:42 +0000
+# Generation Time: 2026-03-20 10:22:20 +0000
 # ************************************************************
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+SET NAMES utf8mb4;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40101 SET @OLD_SQL_MODE='NO_AUTO_VALUE_ON_ZERO', SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
@@ -27,20 +27,20 @@ DROP TABLE IF EXISTS `tools`;
 
 CREATE TABLE `tools` (
   `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` text,
+  `name` text DEFAULT NULL,
   `title` text NOT NULL,
-  `jsonurl` text,
-  `description` text,
-  `url` text,
-  `added` text,
-  `keywords` text,
-  `author` text,
-  `repository` text,
-  `unavailable` tinyint(1) NOT NULL,
-  `deleted` tinyint(1) NOT NULL,
-  `redirects` int(11) NOT NULL DEFAULT '0',
+  `jsonurl` text DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `url` text DEFAULT NULL,
+  `added` text DEFAULT NULL,
+  `keywords` text DEFAULT NULL,
+  `author` text DEFAULT NULL,
+  `repository` text DEFAULT NULL,
+  `unavailable` tinyint(1) NOT NULL DEFAULT 0,
+  `deleted` tinyint(1) NOT NULL DEFAULT 0,
+  `redirects` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 
 
