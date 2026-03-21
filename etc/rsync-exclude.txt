@@ -7,3 +7,4 @@ config-prod.php
 config.php
 etc/db-backups
 **/node_modules/
+**/.venv/
