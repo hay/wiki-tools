@@ -1,13 +1,20 @@
-from math import ceil
 from dictquery import DictQuery
-from wikidatatypes import TYPES
+from loguru import logger
+from math import ceil
 from operator import itemgetter
-import requests, json, pdb, jinja2, os
+from wikidatatypes import TYPES
+import jinja2
+import json
+import os
+import requests
 
 ENDPOINT = "https://www.wikidata.org/w/api.php"
+HEADERS = {
+    "User-Agent" : "Propbrowse scraper/1.0 (https://hay.toolforge.org/propbrowse/;hay@haykranen.nl)"
+}
+PATH = os.path.dirname(os.path.realpath(__file__))
 PROP_NAMESPACE = 120
 QUERY_LIMIT = 50
-PATH = os.path.dirname(os.path.realpath(__file__))
 SAVE_DIRECTORY = PATH + "/../../public_html/propbrowse/"
 
 def render(data):
@@ -43,35 +50,51 @@ def parseprop(item):
     return data
 
 def get_prop_info(ids):
-    print("get_prop_info %s" % ",".join(ids))
+    logger.debug("get_prop_info %s" % ",".join(ids))
 
     params = {
         "action" : "wbgetentities",
-        "ids" : "|".join(ids),
-        "languages" : "en",
         "format" : "json",
-        "props" : "info|aliases|labels|descriptions|claims|datatype",
-        "languagefallback" : 1
+        "ids" : "|".join(ids),
+        "languagefallback" : 1,
+        "languages" : "en",
+        "props" : "info|aliases|labels|descriptions|claims|datatype"
     }
 
-    r = requests.get(ENDPOINT, params = params)
+    r = requests.get(
+        ENDPOINT,
+        params = params,
+        headers = HEADERS
+    )
+
+    if not r.ok:
+        raise Exception(f"Could not fetch data: {r.status_code} / {r.text}")
+
     return list(r.json()["entities"].values())
 
 def get_prop_ids(cont = None):
-    print("get_prop_ids %s" % cont)
+    logger.debug("get_prop_ids %s" % cont)
 
     params = {
         "action" : "query",
-        "list" : "allpages",
-        "apnamespace" : PROP_NAMESPACE,
         "aplimit" : 500,
-        "format" : "json"
+        "apnamespace" : PROP_NAMESPACE,
+        "format" : "json",
+        "list" : "allpages"
     }
 
     if cont:
         params["apcontinue"] = cont
 
-    r = requests.get(ENDPOINT, params = params)
+    r = requests.get(
+        ENDPOINT,
+        params = params,
+        headers = HEADERS
+    )
+
+    if not r.ok:
+        raise Exception(f"Could not fetch data: {r.status_code} / {r.text}")
+
     return r.json()
 
 
@@ -96,7 +119,7 @@ def get_all_prop_ids():
 def main():
     props = []
 
-    print("Getting all property ids")
+    logger.debug("Getting all property ids")
     propids = get_all_prop_ids()
 
     maxrange = ceil( len(propids) / float(QUERY_LIMIT) )
@@ -112,7 +135,7 @@ def main():
     props = sorted(props, key = itemgetter("label"))
 
     jsonpath = SAVE_DIRECTORY + "props.json"
-    print(("Saving to " + jsonpath))
+    logger.debug(("Saving to " + jsonpath))
 
     with open(jsonpath, "w") as jsonprops:
         jsonprops.write(json.dumps(props))
