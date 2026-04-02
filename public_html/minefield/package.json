@@ -9,7 +9,7 @@
   "dependencies": {
     "bootstrap": "^3.4.1",
     "donot": "^0.4.1",
-    "lodash-es": "^4.17.21",
+    "lodash-es": "^4.18.1",
     "papaparse": "^5.3.1",
     "regenerator-runtime": "^0.13.9",
     "save-csv": "^4.1.0",
