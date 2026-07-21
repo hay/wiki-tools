@@ -1,12 +1,15 @@
-.DS_Store
 .claude
+.DS_Store
 *.css.map
 *.js.map
+*.log
 *.pyc
 bundle.js
+etc/parse-tools-access/*.png
+etc/parse-tools-access/*.csv
 node_modules
-*.log
 public_html/depictor/dist
+public_html/stats/*
 vendor/
 version.txt
 yarn.lock

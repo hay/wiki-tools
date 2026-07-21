@@ -93,6 +93,11 @@ class Hay {
         ]);
     }
 
+    public function hasStats():bool {
+        $statsPath = realpath($this->path . "/../" . PUBLIC_HTML_PATH . "/stats/tools-access.png");
+        return file_exists($statsPath);
+    }
+
     public function setBeforeHeadClose(string $html) {
         $this->beforeHeadClose = $html;
     }

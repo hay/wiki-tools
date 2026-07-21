@@ -50,6 +50,19 @@
         <h2>Source</h2>
 
         <p>Code for all of these tools is on <a href="https://github.com/hay/wiki-tools">Github</a>. Please report any issues there.</p>
+
+        <?php if($hay->hasStats()): ?>
+        <h2>Stats</h2>
+        <p>Here is a bar chart of the pageviews of my tools of the last ten days:</p>
+        <img
+            class="img-fullwidth"
+            src="./stats/tools-access.png"
+            alt="A bar chart of the pageviews of my tools" />
+        <?php endif; ?>
+        <p>
+            You can also download the <a href="./stats/tools-access-totals.csv" download>total pageviews</a> and
+            the <a href="./stats/tools-access.csv" download>pageviews per day</a> (both CSV)
+        </p>
 <?php
     $hay->footer();
 ?>

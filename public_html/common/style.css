@@ -6,6 +6,10 @@ a:hover {
     max-width: 700px;
 }
 
+.img-fullwidth {
+    width: 100%;
+}
+
 .dl-horizontal {
     margin-top: 20px;
 }
