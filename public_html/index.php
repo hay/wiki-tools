@@ -58,11 +58,11 @@
             class="img-fullwidth"
             src="./stats/tools-access.png"
             alt="A bar chart of the pageviews of my tools" />
-        <?php endif; ?>
         <p>
             You can also download the <a href="./stats/tools-access-totals.csv" download>total pageviews</a> and
             the <a href="./stats/tools-access.csv" download>pageviews per day</a> (both CSV)
         </p>
+        <?php endif; ?>
 <?php
     $hay->footer();
 ?>
