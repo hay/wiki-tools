@@ -20,7 +20,7 @@
   schedule: "@daily"
   emails: onfailure
 - name: hay-parse-access-log
-  command: uv run $HOME/etc/parse.py $HOME/tools-access.log --csv $HOME/public_html/stats/tools-access.csv --totals-csv $HOME/public_html/stats/tools-access-totals.csv --chart $HOME/public_html/stats/tools-access.png
+  command: cd $HOME/etc/parse-tools-access && $HOME/.local/bin/uv run $HOME/etc/parse-tools-access/parse.py $HOME/tools-access.log --csv $HOME/public_html/stats/tools-access.csv --totals-csv $HOME/public_html/stats/tools-access-totals.csv --chart $HOME/public_html/stats/tools-access.png
   image: python3.11
   schedule: "@daily"
   mem: 512Mi
