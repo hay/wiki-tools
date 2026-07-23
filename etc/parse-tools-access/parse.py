@@ -12,7 +12,6 @@ import matplotlib.pyplot as plt
 
 LINE_RE = re.compile(r"^\[(?P<ts>[^\]]+)\]\s*-\s*(?P<tool>.+?)\s*$")
 
-
 def parse(path):
     counts = defaultdict(int)  # (date, tool) -> count
     with open(path, encoding="utf-8") as f:
@@ -27,7 +26,6 @@ def parse(path):
             counts[(day, m["tool"])] += 1
     return counts
 
-
 def write_csv(counts, path):
     days = sorted({d for d, _ in counts})
     totals = defaultdict(int)
@@ -41,7 +39,6 @@ def write_csv(counts, path):
             w.writerow([day] + [counts.get((day, t), 0) for t in tools])
     return days, tools
 
-
 def write_totals_csv(counts, tools, path):
     totals = defaultdict(int)
     for (_, tool), c in counts.items():
@@ -52,9 +49,10 @@ def write_totals_csv(counts, tools, path):
         for tool in tools:
             w.writerow([tool, totals[tool]])
 
-
-def plot(counts, days, tools, path):
-    days = days[-10:]
+def plot(counts, days, tools, path, render_days):
+    start = (render_days + 1) * -1
+    end = -1
+    days = days[start:end]
     height = max(5, 0.35 * len(tools) + 1.5)
     fig, ax = plt.subplots(figsize=(max(8, len(days) * 1.2), height))
     x = range(len(days))
@@ -72,26 +70,26 @@ def plot(counts, days, tools, path):
     fig.tight_layout()
     fig.savefig(path, dpi=150)
 
-
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("logfile")
     p.add_argument("--csv", default=None)
     p.add_argument("--totals-csv", default=None)
     p.add_argument("--chart", default=None)
+    p.add_argument("--days", default = 10)
     args = p.parse_args()
 
     stem = os.path.splitext(os.path.basename(args.logfile))[0]
     csv_path = args.csv or f"{stem}.csv"
     totals_path = args.totals_csv or f"{stem}-totals.csv"
     chart_path = args.chart or f"{stem}.png"
+    render_days = args.days
 
     counts = parse(args.logfile)
     days, tools = write_csv(counts, csv_path)
     write_totals_csv(counts, tools, totals_path)
-    plot(counts, days, tools, chart_path)
+    plot(counts, days, tools, chart_path, render_days)
     print(f"Wrote {csv_path}, {totals_path} and {chart_path}")
-
 
 if __name__ == "__main__":
     main()
