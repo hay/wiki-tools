@@ -83,6 +83,7 @@ export default class CommonsApi extends MediawikiApi {
             list: "search",
             srnamespace: COMMONS_NAMESPACE,
             srsearch: query,
+            srlimit: LIMIT,
         }) as ImageSearchResults;
 
         if (results.error) {
