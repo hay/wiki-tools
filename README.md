@@ -8,7 +8,19 @@ Source code for all of my [wiki tools](http://tools.wmflabs.org/hay/)
 * Some tools (like VizQuery, or Depictor) need an `npm install` or `composer install` in their root as well.
     * VizQuery also needs a 'npm run build' to build the bundle.
 
-### Setting up your own OAuth consumer for Depictor
+### Running it (Docker)
+* Run `docker-compose up` to start the containers.
+* Navigate to http://localhost:4080/ to see the tools.
+* Make sure `PUBLIC_HTML_PATH` in `config.php` is set to `html` instead of `public_html`
+
+### Running it (Classic)
+* Get a webserver with PHP, and host the needed files
+* Configure the `config.php` file to reflect where these files will be served
+* Setup MySQL, inclusing creating the tables you can find in various `.sql` files
+
+## Remarks per application
+### Depictor
+#### Setting up your own OAuth consumer
 Here are some OAuth consumer references to help you during setup: [Depictor production on Commons](https://commons.wikimedia.org/w/index.php?title=Special:OAuthListConsumers/view/835a3d29eaa9b09690603b9898320b86&name=Depictor&publisher=&stage=1), [Addshores local development on meta](https://meta.wikimedia.org/wiki/Special:OAuthListConsumers/view/41d2d900ec9f6a20be76994a0eae1ecf).
 
 You can setup your own local development consumer by following these steps:
@@ -27,20 +39,12 @@ You can setup your own local development consumer by following these steps:
 
 You will then be provided a key and secret that you need to define in `OAUTH_DEPICTOR` in your `config.php` file.
 
-## Running it (Docker)
-* Run `docker-compose up` to start the containers.
-* Navigate to http://localhost:4080/ to see the tools.
-* Make sure `PUBLIC_HTML_PATH` in `config.php` is set to `html` instead of `public_html`
+Alternatively, you can also set DEBUG in `config.php` to true, this will bypass the OAuth check. Obviously, you can't do edits then.
 
-## Running it (Classic)
-* Get a webserver with PHP, and host the needed files
-* Configure the `config.php` file to reflect where these files will be served
-* Setup MySQL, inclusing creating the tables you can find in various `.sql` files
-
-## Remarks
-* To generate the `props.html` file that is used in the Wikidata Property browser, either:
-    * Run the `get-wikidata-props.py` script located in `etc/wikidata-props`
-    * Or if you're lazy simply download it from the live site: http://tools.wmflabs.org/hay/propbrowse/props.html
+### Propbrowse
+To generate the `props.html` file that is used in the Wikidata Property browser, either:
+* Run the `get-wikidata-props.py` script located in `etc/wikidata-props`
+* Or if you're lazy simply download it from the live site: http://tools.wmflabs.org/hay/propbrowse/props.html
 
 ## License
 All code is licensed under the terms of the [MIT / X11](http://opensource.org/licenses/MIT) license.
