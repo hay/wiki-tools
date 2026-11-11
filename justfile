@@ -5,9 +5,9 @@ rsync_opts := "--verbose --delay-updates -F --compress --archive --no-owner --no
 _default:
     @just --list
 
-_deploy account source target *flags: git-stamp
-    rsync {{rsync_opts}} {{flags}} --rsync-path='sudo -u {{account}} rsync' {{source}} login.toolforge.org:{{target}}
-    say -v Fred "Deploy complete"
+_deploy account source target *flags:
+    just git-stamp
+    rsync {{rsync_opts}} {{flags}} --rsync-path='sudo -u {{account}} rsync' {{source}} toolforge:{{target}}
 
 # Build a single project
 build-project project:
