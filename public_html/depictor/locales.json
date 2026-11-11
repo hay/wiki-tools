@@ -29,6 +29,10 @@
             "label": "हिन्दी"
         },
         {
+            "code": "id",
+            "label": "Indonesia"
+        },
+        {
             "code": "ja",
             "label": "日本語"
         },
@@ -490,6 +494,20 @@
             "challenge_lead_intro": "इस चुनौती का यह लक्ष्य है:",
             "challenge_overview": "चुनौतियाँ",
             "challenge_shortdescription_length": "विवरण में कम से कम {count} वर्ण होने चाहिए"
+        },
+        "id": {
+            "app_description": "Tambahkan pernyataan data terstruktur ke Wikimedia Commons menggunakan antarmuka seperti permainan",
+            "app_title": "Depictor",
+            "archived": "Diarsipkan",
+            "archived_hint": "Tantangan yang diarsipkan masih dapat dimainkan, tetapi tidak diperlihatkan di halaman beranda Depictor.",
+            "back": "Kembali",
+            "birth_year": "Tahun lahir",
+            "challenge_lead_intro": "Tantangan ini memiliki sasaran berikut:",
+            "challenge_overview": "Tantangan",
+            "challenge_shortdescription_length": "Deskripsi harus memiliki setidaknya {count} karakter",
+            "challenge_subtitle": "Bekerja bersama dengan orang lain dalam menyelesaikan tantangan menggambarkan berikut!",
+            "challenge_title_length": "Judul harus memiliki setidaknya {count} karakter",
+            "challenge_userlink": "Tantangan ini dijalankan oleh {user}."
         },
         "ja": {
             "app_description": "単純なゲームでウィキメディア・コモンズに構造化への声援を贈る",
