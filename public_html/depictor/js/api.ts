@@ -252,7 +252,7 @@ export default class Api {
         };
 
         const req = await getJson(
-            "https://petscan.wmcloud.org/",
+            "https://petscan.toolforge.org/",
             opts as Record<string, string>,
         ) as {
             error?: unknown;

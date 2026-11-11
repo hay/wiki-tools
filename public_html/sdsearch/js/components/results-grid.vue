@@ -97,7 +97,7 @@
                 return [
                     {
                         label : 'Petscan',
-                        link : `https://petscan.wmcloud.org/?search_query=${this.queryStringEncoded}&search_wiki=commonswiki&ns[6]=1`
+                        link : `https://petscan.toolforge.org/?search_query=${this.queryStringEncoded}&search_wiki=commonswiki&ns[6]=1`
                     }
                 ];
             }
